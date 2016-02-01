@@ -3,18 +3,18 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>cc.protea.hyperwallet</groupId>
-	<artifactId>hyperwallet</artifactId>
-	<version>0.0.1</version>
+	<groupId>com.hyperwallet</groupId>
+	<artifactId>rest-r3-java-sdk</artifactId>
+	<version>0.1.0</version>
 	<packaging>jar</packaging>
 
 	<name>hyperwallet</name>
-	<description>Java SDK around the Hyperwallet RESTful API</description>
+	<description>Java SDK around the Hyperwallet RESTful API r3</description>
 
-	<url>https://github.com/protea/hyperwallet-java</url>
+	<url>https://github.com/hyperwallet/rest-v3-java-sdk</url>
 
 	<issueManagement>
-		<url>https://github.com/protea/hyperwallet-java/issues</url>
+		<url>https://github.com/hyperwallet/rest-v3-java-sdk/issues</url>
 		<system>GitHub Issues</system>
 	</issueManagement>
 
@@ -27,9 +27,9 @@
 	</licenses>
 
 	<scm>
-		<url>https://github.com/protea/hyperwallet-java</url>
-		<connection>scm:git:git://github.com/protea/hyperwallet-java.git</connection>
-		<developerConnection>scm:git:git@github.com:protea/hyperwallet-java.git</developerConnection>
+		<url>https://github.com/hyperwallet/rest-v3-java-sdk</url>
+		<connection>scm:git:git://github.com/hyperwallet/rest-v3-java-sdk.git</connection>
+		<developerConnection>scm:git:git@github.com:hyperwallet/rest-v3-java-sdk.git</developerConnection>
 	</scm>
 
 	<developers>
