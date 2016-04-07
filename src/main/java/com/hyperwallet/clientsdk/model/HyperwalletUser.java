@@ -36,11 +36,12 @@ public class HyperwalletUser {
 	public String countryOfNationality;
 	public Gender gender;
 	public String phoneNumber;
-	public String mobileNmber;
+	public String mobileNumber;
 	public String email;
 	public String governmentId;
 	public String passportId;
 	public String driversLicenseId;
+	public String employerId;
 	public String addressLine1;
 	public String addressLine2;
 	public String city;
@@ -221,12 +222,12 @@ public class HyperwalletUser {
 		return this;
 	}
 
-	public String getMobileNmber() {
-		return mobileNmber;
+	public String getMobileNumber() {
+		return mobileNumber;
 	}
 
-	public HyperwalletUser setMobileNmber(String mobileNmber) {
-		this.mobileNmber = mobileNmber;
+	public HyperwalletUser setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
 		return this;
 	}
 
@@ -263,6 +264,15 @@ public class HyperwalletUser {
 
 	public HyperwalletUser setDriversLicenseId(String driversLicenseId) {
 		this.driversLicenseId = driversLicenseId;
+		return this;
+	}
+
+	public String getEmployerId() {
+		return employerId;
+	}
+
+	public HyperwalletUser setEmployerId(String employerId) {
+		this.employerId = employerId;
 		return this;
 	}
 

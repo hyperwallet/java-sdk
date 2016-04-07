@@ -12,7 +12,7 @@ import java.util.TimeZone;
 public class Hyperwallet {
 
 	private final HyperwalletUtil util;
-	private final String version = "0.0.1";
+	private final String version = "0.0.2";
 	private final String url;
 
 	public Hyperwallet(final String username, final String password, final String programToken, final String url) {
@@ -70,87 +70,300 @@ public class Hyperwallet {
 		return util.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {});
 	}
 
-	// Transfer Methods
+	// Transfer Methods - Prepaid Card
 
-	public HyperwalletTransferMethod createUserTransferMethod(HyperwalletTransferMethod method) {
-		if (method == null) {
-			throw new HyperwalletException("Transfer Method is required");
+	public HyperwalletPrepaidCard createPrepaidCard(HyperwalletPrepaidCard prepaidCard) {
+		if (prepaidCard == null) {
+			throw new HyperwalletException("Card is required");
 		}
-		if (method.token != null) {
-			throw new HyperwalletException("Transfer Method token may not be present");
+		if (prepaidCard.token != null) {
+			throw new HyperwalletException("Card token may not be present");
 		}
-		if (method.userToken == null) {
+		if (prepaidCard.userToken == null) {
 			throw new HyperwalletException("User token is required");
 		}
-		method = util.clean(method);
-		method.createdOn = null;
-		method.status = null;
-		method.cardType = null;
-		return util.post(url + "/user/" + method.userToken + "/transfer-methods", method, HyperwalletTransferMethod.class);
+		prepaidCard = util.clean(prepaidCard);
+		prepaidCard.createdOn = null;
+		prepaidCard.status = null;
+		prepaidCard.cardType = null;
+		return util.post(url + "/user/" + prepaidCard.userToken + "/prepaid-cards", prepaidCard, HyperwalletPrepaidCard.class);
 	}
 
-	public HyperwalletTransferMethod getUserTransferMethod(HyperwalletUser user, String transferMethodToken) {
+	public HyperwalletPrepaidCard getPrepaidCard(HyperwalletUser user, String transferMethodToken) {
 		if (user == null) {
 			throw new HyperwalletException("User is required");
 		}
-		return getUserTransferMethod(user.token, transferMethodToken);
+		return getPrepaidCard(user.token, transferMethodToken);
 	}
 
-	public HyperwalletTransferMethod getUserTransferMethod(String userToken, String transferMethodToken) {
+	public HyperwalletPrepaidCard getPrepaidCard(String userToken, String transferMethodToken) {
 		if (userToken == null) {
 			throw new HyperwalletException("User token is required");
 		}
 		if (transferMethodToken == null) {
-			throw new HyperwalletException("Transfer Method token is required");
+			throw new HyperwalletException("Card token is required");
 		}
-		return util.get(url + "/users/" + userToken + "/transfer-methods/" + transferMethodToken, HyperwalletTransferMethod.class);
+		return util.get(url + "/users/" + userToken + "/prepaid-cards/" + transferMethodToken, HyperwalletPrepaidCard.class);
 	}
 
-	public HyperwalletTransferMethod updateUserTransferMethod(HyperwalletTransferMethod method) {
-		if (method == null) {
-			throw new HyperwalletException("Transfer Method is required");
-		}
-		if (method.token == null) {
-			throw new HyperwalletException("Transfer Method token is required");
-		}
-		if (method.userToken == null) {
-			throw new HyperwalletException("User token is required");
-		}
-		method = util.clean(method);
-		method.type = null;
-		method.status = null;
-		method.createdOn = null;
-		method.transferMethodCountry = null;
-		method.transferMethodCurrency = null;
-		method.cardType = null;
-		method.cardPackage = null;
-		return util.put(url + "/users/" + method.userToken + "/transfer-methods/" + method.token, method, HyperwalletTransferMethod.class);
-	}
-
-	public HyperwalletList<HyperwalletTransferMethod> listUserTransferMethods(HyperwalletUser user, HyperwalletPaginationOptions options) {
+	public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(HyperwalletUser user, HyperwalletPaginationOptions options) {
 		if (user == null) {
 			throw new HyperwalletException("User is required");
 		}
-		return listUserTransferMethods(user.token, options);
+		return listPrepaidCards(user.token, options);
 	}
 
-	public HyperwalletList<HyperwalletTransferMethod> listUserTransferMethods(HyperwalletUser user) {
+	public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(HyperwalletUser user) {
 		if (user == null) {
 			throw new HyperwalletException("User is required");
 		}
-		return listUserTransferMethods(user.token, null);
+		return listPrepaidCards(user.token, null);
 	}
 
-	public HyperwalletList<HyperwalletTransferMethod> listUserTransferMethods(String userToken) {
-		return listUserTransferMethods(userToken, null);
+	public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(String userToken) {
+		return listPrepaidCards(userToken, null);
 	}
 
-	public HyperwalletList<HyperwalletTransferMethod> listUserTransferMethods(String userToken, HyperwalletPaginationOptions options) {
+	public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(String userToken, HyperwalletPaginationOptions options) {
 		if (userToken == null) {
 			throw new HyperwalletException("User token is required");
 		}
-		String url = paginate(this.url + "/users/" + userToken + "/transfer-methods", options);
-		return util.get(url, new TypeReference<HyperwalletList<HyperwalletTransferMethod>>() {});
+		String url = paginate(this.url + "/users/" + userToken + "/prepaid-cards", options);
+		return util.get(url, new TypeReference<HyperwalletList<HyperwalletPrepaidCard>>() {});
+	}
+
+	// Transfer Methods - Bank Account
+
+	public HyperwalletBankAccount createUserBankAccount(HyperwalletBankAccount bankAccount) {
+		if (bankAccount == null) {
+			throw new HyperwalletException("Transfer Method is required");
+		}
+		if (bankAccount.token != null) {
+			throw new HyperwalletException("Transfer Method token may not be present");
+		}
+		if (bankAccount.userToken == null) {
+			throw new HyperwalletException("User token is required");
+		}
+		bankAccount = util.clean(bankAccount);
+		bankAccount.createdOn = null;
+		bankAccount.status = null;
+		return util.post(url + "/user/" + bankAccount.userToken + "/bank-accounts", bankAccount, HyperwalletBankAccount.class);
+	}
+
+	public HyperwalletBankAccount getUserBankAccount(HyperwalletUser user, String transferMethodToken) {
+		if (user == null) {
+			throw new HyperwalletException("User is required");
+		}
+		return getUserBankAccount(user.token, transferMethodToken);
+	}
+
+	public HyperwalletBankAccount getUserBankAccount(String userToken, String transferMethodToken) {
+		if (userToken == null) {
+			throw new HyperwalletException("User token is required");
+		}
+		if (transferMethodToken == null) {
+			throw new HyperwalletException("Bank account token is required");
+		}
+		return util.get(url + "/users/" + userToken + "/bank-accounts/" + transferMethodToken, HyperwalletBankAccount.class);
+	}
+
+	public HyperwalletBankAccount updateUserBankAccount(HyperwalletBankAccount bankAccount) {
+		if (bankAccount == null) {
+			throw new HyperwalletException("Bank account is required");
+		}
+		if (bankAccount.token == null) {
+			throw new HyperwalletException("Bank account token is required");
+		}
+		if (bankAccount.userToken == null) {
+			throw new HyperwalletException("User token is required");
+		}
+		bankAccount = util.clean(bankAccount);
+		bankAccount.type = null;
+		bankAccount.status = null;
+		bankAccount.createdOn = null;
+		bankAccount.transferMethodCountry = null;
+		bankAccount.transferMethodCurrency = null;
+		return util.put(url + "/users/" + bankAccount.userToken + "/bank-accounts/" + bankAccount.token, bankAccount, HyperwalletBankAccount.class);
+	}
+
+	public HyperwalletList<HyperwalletBankAccount> listUserBankAccounts(HyperwalletUser user, HyperwalletPaginationOptions options) {
+		if (user == null) {
+			throw new HyperwalletException("User is required");
+		}
+		return listUserBankAccounts(user.token, options);
+	}
+
+	public HyperwalletList<HyperwalletBankAccount> listUserBankAccounts(HyperwalletUser user) {
+		if (user == null) {
+			throw new HyperwalletException("User is required");
+		}
+		return listUserBankAccounts(user.token, null);
+	}
+
+	public HyperwalletList<HyperwalletBankAccount> listUserBankAccounts(String userToken) {
+		return listUserBankAccounts(userToken, null);
+	}
+
+	public HyperwalletList<HyperwalletBankAccount> listUserBankAccounts(String userToken, HyperwalletPaginationOptions options) {
+		if (userToken == null) {
+			throw new HyperwalletException("User token is required");
+		}
+		String url = paginate(this.url + "/users/" + userToken + "/bank-accounts", options);
+		return util.get(url, new TypeReference<HyperwalletList<HyperwalletBankAccount>>() {});
+	}
+
+	// Status transitions
+
+	public HyperwalletStatusTransition createStatusTransition(String userToken, HyperwalletPrepaidCard prepaidCard, HyperwalletStatusTransition transition) {
+		return createPrepaidCardStatusTransition(userToken, prepaidCard, transition);
+	}
+
+	public HyperwalletStatusTransition createStatusTransition(String userToken, HyperwalletPrepaidCard prepaidCard, HyperwalletStatusTransition.Status status) {
+		return createPrepaidCardStatusTransition(userToken, prepaidCard, new HyperwalletStatusTransition(status));
+	}
+
+	public HyperwalletStatusTransition createPrepaidCardStatusTransition(String userToken, HyperwalletPrepaidCard prepaidCard, HyperwalletStatusTransition transition) {
+		if (prepaidCard == null) {
+			throw new HyperwalletException("Card is required");
+		}
+		return createPrepaidCardStatusTransition(userToken, prepaidCard.token, transition);
+	}
+
+	public HyperwalletStatusTransition createPrepaidCardStatusTransition(String userToken, String prepaidCardToken, HyperwalletStatusTransition transition) {
+		if (prepaidCardToken == null) {
+			throw new HyperwalletException("Card token is required");
+		}
+		if (userToken == null) {
+			throw new HyperwalletException("User token is required");
+		}
+		if (transition == null) {
+			throw new HyperwalletException("Transition is required");
+		}
+		return util.post(url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+	}
+
+	public HyperwalletStatusTransition getPrepaidCardStatusTransition(HyperwalletUser user, HyperwalletPrepaidCard card, String statusTransitionToken) {
+		if (user == null) {
+			throw new HyperwalletException("User is required");
+		}
+		if (card == null) {
+			throw new HyperwalletException("Card is required");
+		}
+		return getPrepaidCardStatusTransition(user.token, card.token, statusTransitionToken);
+	}
+
+	public HyperwalletStatusTransition getPrepaidCardStatusTransition(String userToken, String prepaidCardToken, String statusTransitionToken) {
+		if (prepaidCardToken == null) {
+			throw new HyperwalletException("Card token is required");
+		}
+		if (userToken == null) {
+			throw new HyperwalletException("User token is required");
+		}
+		if (statusTransitionToken == null) {
+			throw new HyperwalletException("Transition token is required");
+		}
+		return util.get(url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/status-transitions" + statusTransitionToken, HyperwalletStatusTransition.class);
+	}
+
+	public HyperwalletList<HyperwalletStatusTransition> listPrepaidCardStatusTransitions(HyperwalletUser user, HyperwalletPrepaidCard card, HyperwalletPaginationOptions options) {
+		if (user == null) {
+			throw new HyperwalletException("User is required");
+		}
+		if (card == null) {
+			throw new HyperwalletException("Card is required");
+		}
+		return listPrepaidCardStatusTransitions(user.token, card.token, options);
+	}
+
+	public HyperwalletList<HyperwalletStatusTransition> listPrepaidCardStatusTransitions(String userToken, String prepaidCardToken, HyperwalletPaginationOptions options) {
+		if (prepaidCardToken == null) {
+			throw new HyperwalletException("Card token is required");
+		}
+		if (userToken == null) {
+			throw new HyperwalletException("User token is required");
+		}
+		String url = paginate(this.url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/status-transitions", options);
+		return util.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {});
+	}
+
+	public HyperwalletStatusTransition deactivate(String userToken, HyperwalletBankAccount bankAccount) {
+		return createStatusTransition(userToken, bankAccount, HyperwalletStatusTransition.Status.DE_ACTIVATED);
+	}
+
+	public HyperwalletStatusTransition activate(String userToken, HyperwalletBankAccount bankAccount) {
+		return createStatusTransition(userToken, bankAccount, HyperwalletStatusTransition.Status.ACTIVATED);
+	}
+
+	public HyperwalletStatusTransition createStatusTransition(String userToken, HyperwalletBankAccount bankAccount, HyperwalletStatusTransition transition) {
+		return createBankAccountStatusTransition(userToken, bankAccount, transition);
+	}
+
+	public HyperwalletStatusTransition createStatusTransition(String userToken, HyperwalletBankAccount bankAccount, HyperwalletStatusTransition.Status status) {
+		return createBankAccountStatusTransition(userToken, bankAccount, new HyperwalletStatusTransition(status));
+	}
+
+	public HyperwalletStatusTransition createBankAccountStatusTransition(String userToken, HyperwalletBankAccount bankAccount, HyperwalletStatusTransition transition) {
+		if (bankAccount == null) {
+			throw new HyperwalletException("Account is required");
+		}
+		return createBankAccountStatusTransition(userToken, bankAccount.token, transition);
+	}
+
+	public HyperwalletStatusTransition createBankAccountStatusTransition(String userToken, String bankAccountToken, HyperwalletStatusTransition transition) {
+		if (bankAccountToken == null) {
+			throw new HyperwalletException("Account token is required");
+		}
+		if (userToken == null) {
+			throw new HyperwalletException("User token is required");
+		}
+		if (transition == null) {
+			throw new HyperwalletException("Transition is required");
+		}
+		return util.post(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+	}
+
+	public HyperwalletStatusTransition getBankAccountStatusTransition(HyperwalletUser user, HyperwalletBankAccount card, String statusTransitionToken) {
+		if (user == null) {
+			throw new HyperwalletException("User is required");
+		}
+		if (card == null) {
+			throw new HyperwalletException("Account is required");
+		}
+		return getBankAccountStatusTransition(user.token, card.token, statusTransitionToken);
+	}
+
+	public HyperwalletStatusTransition getBankAccountStatusTransition(String userToken, String bankAccountToken, String statusTransitionToken) {
+		if (bankAccountToken == null) {
+			throw new HyperwalletException("Account token is required");
+		}
+		if (userToken == null) {
+			throw new HyperwalletException("User token is required");
+		}
+		if (statusTransitionToken == null) {
+			throw new HyperwalletException("Transition token is required");
+		}
+		return util.get(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions" + statusTransitionToken, HyperwalletStatusTransition.class);
+	}
+
+	public HyperwalletList<HyperwalletStatusTransition> listBankAccountStatusTransitions(HyperwalletUser user, HyperwalletBankAccount card, HyperwalletPaginationOptions options) {
+		if (user == null) {
+			throw new HyperwalletException("User is required");
+		}
+		if (card == null) {
+			throw new HyperwalletException("Account is required");
+		}
+		return listBankAccountStatusTransitions(user.token, card.token, options);
+	}
+
+	public HyperwalletList<HyperwalletStatusTransition> listBankAccountStatusTransitions(String userToken, String bankAccountToken, HyperwalletPaginationOptions options) {
+		if (bankAccountToken == null) {
+			throw new HyperwalletException("Account token is required");
+		}
+		if (userToken == null) {
+			throw new HyperwalletException("User token is required");
+		}
+		String url = paginate(this.url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", options);
+		return util.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {});
 	}
 
 	// Payments

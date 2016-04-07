@@ -7,12 +7,11 @@ import java.util.Date;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HyperwalletTransferMethod {
+public abstract class HyperwalletBankAccount {
 
-	public static enum Type { BANK_ACCOUNT, WIRE_ACCOUNT, PREPAID_CARD }
-	public static enum Status { ACTIVATED, INVALID, DE_ACTIVATED, PRE_ACTIVATED, SUSPENDED, LOST_OR_STOLEN }
-	public static enum BankAccountRelationship { SELF, JOINT_ACCOUNT, SPOUSE, RELATIVE, BUSINESS_PARTNER, UPLINE, DOWNLINE, OTHER, OWN_COMPANY, BILL_PAYMENT }
-	public static enum CardType { PERSONALIZED, INSTANT_ISSUE, VIRTUAL }
+	public static enum Type { BANK_ACCOUNT, WIRE_ACCOUNT }
+	public static enum Status { ACTIVATED, INVALID, DE_ACTIVATED }
+	public static enum Relationship { SELF, JOINT_ACCOUNT, SPOUSE, RELATIVE, BUSINESS_PARTNER, UPLINE, DOWNLINE, OTHER, OWN_COMPANY, BILL_PAYMENT }
 
 	public String token;
 
@@ -21,21 +20,22 @@ public class HyperwalletTransferMethod {
 	public Date createdOn;
 	public String transferMethodCountry;
 	public String transferMethodCurrency;
+
 	public String bankName;
 	public String bankId;
 	public String branchName;
 	public String branchId;
 	public String bankAccountId;
-	public BankAccountRelationship bankAccountRelationship;
+	public Relationship bankAccountRelationship;
 	public String bankAccountPurpose;
-	public String taxId;
-	public String taxReasonId;
+
 	public String branchAddressLine1;
 	public String branchAddressLine2;
 	public String branchCity;
 	public String branchStateProvince;
 	public String branchCountry;
 	public String branchPostalCode;
+
 	public String wireInstructions;
 	public String intermediaryBankId;
 	public String intermediaryBankName;
@@ -46,12 +46,11 @@ public class HyperwalletTransferMethod {
 	public String intermediaryBankStateProvince;
 	public String intermediaryBankCountry;
 	public String intermediaryBankPostalCode;
-	public CardType cardType;
-	public String cardPackage;
+
 	public String userToken;
 
 	public HyperwalletUser.ProfileType profileType;
-	public HyperwalletUser.BusinessType businessType;
+
 	public String businessName;
 	public String businessRegistrationId;
 	public String businessRegistrationStateProvince;
@@ -81,7 +80,7 @@ public class HyperwalletTransferMethod {
 		return token;
 	}
 
-	public HyperwalletTransferMethod setToken(String token) {
+	public HyperwalletBankAccount setToken(String token) {
 		this.token = token;
 		return this;
 	}
@@ -90,7 +89,7 @@ public class HyperwalletTransferMethod {
 		return type;
 	}
 
-	public HyperwalletTransferMethod setType(Type type) {
+	public HyperwalletBankAccount setType(Type type) {
 		this.type = type;
 		return this;
 	}
@@ -99,7 +98,7 @@ public class HyperwalletTransferMethod {
 		return status;
 	}
 
-	public HyperwalletTransferMethod setStatus(Status status) {
+	public HyperwalletBankAccount setStatus(Status status) {
 		this.status = status;
 		return this;
 	}
@@ -108,7 +107,7 @@ public class HyperwalletTransferMethod {
 		return createdOn;
 	}
 
-	public HyperwalletTransferMethod setCreatedOn(Date createdOn) {
+	public HyperwalletBankAccount setCreatedOn(Date createdOn) {
 		this.createdOn = createdOn;
 		return this;
 	}
@@ -117,7 +116,7 @@ public class HyperwalletTransferMethod {
 		return transferMethodCountry;
 	}
 
-	public HyperwalletTransferMethod setTransferMethodCountry(String transferMethodCountry) {
+	public HyperwalletBankAccount setTransferMethodCountry(String transferMethodCountry) {
 		this.transferMethodCountry = transferMethodCountry;
 		return this;
 	}
@@ -126,7 +125,7 @@ public class HyperwalletTransferMethod {
 		return transferMethodCurrency;
 	}
 
-	public HyperwalletTransferMethod setTransferMethodCurrency(String transferMethodCurrency) {
+	public HyperwalletBankAccount setTransferMethodCurrency(String transferMethodCurrency) {
 		this.transferMethodCurrency = transferMethodCurrency;
 		return this;
 	}
@@ -135,7 +134,7 @@ public class HyperwalletTransferMethod {
 		return bankName;
 	}
 
-	public HyperwalletTransferMethod setBankName(String bankName) {
+	public HyperwalletBankAccount setBankName(String bankName) {
 		this.bankName = bankName;
 		return this;
 	}
@@ -144,7 +143,7 @@ public class HyperwalletTransferMethod {
 		return bankId;
 	}
 
-	public HyperwalletTransferMethod setBankId(String bankId) {
+	public HyperwalletBankAccount setBankId(String bankId) {
 		this.bankId = bankId;
 		return this;
 	}
@@ -153,7 +152,7 @@ public class HyperwalletTransferMethod {
 		return branchName;
 	}
 
-	public HyperwalletTransferMethod setBranchName(String branchName) {
+	public HyperwalletBankAccount setBranchName(String branchName) {
 		this.branchName = branchName;
 		return this;
 	}
@@ -162,7 +161,7 @@ public class HyperwalletTransferMethod {
 		return branchId;
 	}
 
-	public HyperwalletTransferMethod setBranchId(String branchId) {
+	public HyperwalletBankAccount setBranchId(String branchId) {
 		this.branchId = branchId;
 		return this;
 	}
@@ -171,16 +170,16 @@ public class HyperwalletTransferMethod {
 		return bankAccountId;
 	}
 
-	public HyperwalletTransferMethod setBankAccountId(String bankAccountId) {
+	public HyperwalletBankAccount setBankAccountId(String bankAccountId) {
 		this.bankAccountId = bankAccountId;
 		return this;
 	}
 
-	public BankAccountRelationship getBankAccountRelationship() {
+	public Relationship getRelationship() {
 		return bankAccountRelationship;
 	}
 
-	public HyperwalletTransferMethod setBankAccountRelationship(BankAccountRelationship bankAccountRelationship) {
+	public HyperwalletBankAccount setRelationship(Relationship bankAccountRelationship) {
 		this.bankAccountRelationship = bankAccountRelationship;
 		return this;
 	}
@@ -189,26 +188,8 @@ public class HyperwalletTransferMethod {
 		return bankAccountPurpose;
 	}
 
-	public HyperwalletTransferMethod setBankAccountPurpose(String bankAccountPurpose) {
+	public HyperwalletBankAccount setBankAccountPurpose(String bankAccountPurpose) {
 		this.bankAccountPurpose = bankAccountPurpose;
-		return this;
-	}
-
-	public String getTaxId() {
-		return taxId;
-	}
-
-	public HyperwalletTransferMethod setTaxId(String taxId) {
-		this.taxId = taxId;
-		return this;
-	}
-
-	public String getTaxReasonId() {
-		return taxReasonId;
-	}
-
-	public HyperwalletTransferMethod setTaxReasonId(String taxReasonId) {
-		this.taxReasonId = taxReasonId;
 		return this;
 	}
 
@@ -216,7 +197,7 @@ public class HyperwalletTransferMethod {
 		return branchAddressLine1;
 	}
 
-	public HyperwalletTransferMethod setBranchAddressLine1(String branchAddressLine1) {
+	public HyperwalletBankAccount setBranchAddressLine1(String branchAddressLine1) {
 		this.branchAddressLine1 = branchAddressLine1;
 		return this;
 	}
@@ -225,7 +206,7 @@ public class HyperwalletTransferMethod {
 		return branchAddressLine2;
 	}
 
-	public HyperwalletTransferMethod setBranchAddressLine2(String branchAddressLine2) {
+	public HyperwalletBankAccount setBranchAddressLine2(String branchAddressLine2) {
 		this.branchAddressLine2 = branchAddressLine2;
 		return this;
 	}
@@ -234,7 +215,7 @@ public class HyperwalletTransferMethod {
 		return branchCity;
 	}
 
-	public HyperwalletTransferMethod setBranchCity(String branchCity) {
+	public HyperwalletBankAccount setBranchCity(String branchCity) {
 		this.branchCity = branchCity;
 		return this;
 	}
@@ -243,7 +224,7 @@ public class HyperwalletTransferMethod {
 		return branchStateProvince;
 	}
 
-	public HyperwalletTransferMethod setBranchStateProvince(String branchStateProvince) {
+	public HyperwalletBankAccount setBranchStateProvince(String branchStateProvince) {
 		this.branchStateProvince = branchStateProvince;
 		return this;
 	}
@@ -252,7 +233,7 @@ public class HyperwalletTransferMethod {
 		return branchCountry;
 	}
 
-	public HyperwalletTransferMethod setBranchCountry(String branchCountry) {
+	public HyperwalletBankAccount setBranchCountry(String branchCountry) {
 		this.branchCountry = branchCountry;
 		return this;
 	}
@@ -261,7 +242,7 @@ public class HyperwalletTransferMethod {
 		return branchPostalCode;
 	}
 
-	public HyperwalletTransferMethod setBranchPostalCode(String branchPostalCode) {
+	public HyperwalletBankAccount setBranchPostalCode(String branchPostalCode) {
 		this.branchPostalCode = branchPostalCode;
 		return this;
 	}
@@ -270,7 +251,7 @@ public class HyperwalletTransferMethod {
 		return wireInstructions;
 	}
 
-	public HyperwalletTransferMethod setWireInstructions(String wireInstructions) {
+	public HyperwalletBankAccount setWireInstructions(String wireInstructions) {
 		this.wireInstructions = wireInstructions;
 		return this;
 	}
@@ -279,7 +260,7 @@ public class HyperwalletTransferMethod {
 		return intermediaryBankId;
 	}
 
-	public HyperwalletTransferMethod setIntermediaryBankId(String intermediaryBankId) {
+	public HyperwalletBankAccount setIntermediaryBankId(String intermediaryBankId) {
 		this.intermediaryBankId = intermediaryBankId;
 		return this;
 	}
@@ -288,7 +269,7 @@ public class HyperwalletTransferMethod {
 		return intermediaryBankName;
 	}
 
-	public HyperwalletTransferMethod setIntermediaryBankName(String intermediaryBankName) {
+	public HyperwalletBankAccount setIntermediaryBankName(String intermediaryBankName) {
 		this.intermediaryBankName = intermediaryBankName;
 		return this;
 	}
@@ -297,7 +278,7 @@ public class HyperwalletTransferMethod {
 		return intermediaryBankAccountId;
 	}
 
-	public HyperwalletTransferMethod setIntermediaryBankAccountId(String intermediaryBankAccountId) {
+	public HyperwalletBankAccount setIntermediaryBankAccountId(String intermediaryBankAccountId) {
 		this.intermediaryBankAccountId = intermediaryBankAccountId;
 		return this;
 	}
@@ -306,7 +287,7 @@ public class HyperwalletTransferMethod {
 		return intermediaryBankAddressLine1;
 	}
 
-	public HyperwalletTransferMethod setIntermediaryBankAddressLine1(String intermediaryBankAddressLine1) {
+	public HyperwalletBankAccount setIntermediaryBankAddressLine1(String intermediaryBankAddressLine1) {
 		this.intermediaryBankAddressLine1 = intermediaryBankAddressLine1;
 		return this;
 	}
@@ -315,7 +296,7 @@ public class HyperwalletTransferMethod {
 		return intermediaryBankAddressLine2;
 	}
 
-	public HyperwalletTransferMethod setIntermediaryBankAddressLine2(String intermediaryBankAddressLine2) {
+	public HyperwalletBankAccount setIntermediaryBankAddressLine2(String intermediaryBankAddressLine2) {
 		this.intermediaryBankAddressLine2 = intermediaryBankAddressLine2;
 		return this;
 	}
@@ -324,7 +305,7 @@ public class HyperwalletTransferMethod {
 		return intermediaryBankCity;
 	}
 
-	public HyperwalletTransferMethod setIntermediaryBankCity(String intermediaryBankCity) {
+	public HyperwalletBankAccount setIntermediaryBankCity(String intermediaryBankCity) {
 		this.intermediaryBankCity = intermediaryBankCity;
 		return this;
 	}
@@ -333,7 +314,7 @@ public class HyperwalletTransferMethod {
 		return intermediaryBankStateProvince;
 	}
 
-	public HyperwalletTransferMethod setIntermediaryBankStateProvince(String intermediaryBankStateProvince) {
+	public HyperwalletBankAccount setIntermediaryBankStateProvince(String intermediaryBankStateProvince) {
 		this.intermediaryBankStateProvince = intermediaryBankStateProvince;
 		return this;
 	}
@@ -342,7 +323,7 @@ public class HyperwalletTransferMethod {
 		return intermediaryBankCountry;
 	}
 
-	public HyperwalletTransferMethod setIntermediaryBankCountry(String intermediaryBankCountry) {
+	public HyperwalletBankAccount setIntermediaryBankCountry(String intermediaryBankCountry) {
 		this.intermediaryBankCountry = intermediaryBankCountry;
 		return this;
 	}
@@ -351,26 +332,8 @@ public class HyperwalletTransferMethod {
 		return intermediaryBankPostalCode;
 	}
 
-	public HyperwalletTransferMethod setIntermediaryBankPostalCode(String intermediaryBankPostalCode) {
+	public HyperwalletBankAccount setIntermediaryBankPostalCode(String intermediaryBankPostalCode) {
 		this.intermediaryBankPostalCode = intermediaryBankPostalCode;
-		return this;
-	}
-
-	public CardType getCardType() {
-		return cardType;
-	}
-
-	public HyperwalletTransferMethod setCardType(CardType cardType) {
-		this.cardType = cardType;
-		return this;
-	}
-
-	public String getCardPackage() {
-		return cardPackage;
-	}
-
-	public HyperwalletTransferMethod setCardPackage(String cardPackage) {
-		this.cardPackage = cardPackage;
 		return this;
 	}
 
@@ -378,7 +341,7 @@ public class HyperwalletTransferMethod {
 		return userToken;
 	}
 
-	public HyperwalletTransferMethod setUserToken(String userToken) {
+	public HyperwalletBankAccount setUserToken(String userToken) {
 		this.userToken = userToken;
 		return this;
 	}
@@ -387,17 +350,8 @@ public class HyperwalletTransferMethod {
 		return profileType;
 	}
 
-	public HyperwalletTransferMethod setProfileType(HyperwalletUser.ProfileType profileType) {
+	public HyperwalletBankAccount setProfileType(HyperwalletUser.ProfileType profileType) {
 		this.profileType = profileType;
-		return this;
-	}
-
-	public HyperwalletUser.BusinessType getBusinessType() {
-		return businessType;
-	}
-
-	public HyperwalletTransferMethod setBusinessType(HyperwalletUser.BusinessType businessType) {
-		this.businessType = businessType;
 		return this;
 	}
 
@@ -405,7 +359,7 @@ public class HyperwalletTransferMethod {
 		return businessName;
 	}
 
-	public HyperwalletTransferMethod setBusinessName(String businessName) {
+	public HyperwalletBankAccount setBusinessName(String businessName) {
 		this.businessName = businessName;
 		return this;
 	}
@@ -414,7 +368,7 @@ public class HyperwalletTransferMethod {
 		return businessRegistrationId;
 	}
 
-	public HyperwalletTransferMethod setBusinessRegistrationId(String businessRegistrationId) {
+	public HyperwalletBankAccount setBusinessRegistrationId(String businessRegistrationId) {
 		this.businessRegistrationId = businessRegistrationId;
 		return this;
 	}
@@ -423,7 +377,7 @@ public class HyperwalletTransferMethod {
 		return businessRegistrationStateProvince;
 	}
 
-	public HyperwalletTransferMethod setBusinessRegistrationStateProvince(String businessRegistrationStateProvince) {
+	public HyperwalletBankAccount setBusinessRegistrationStateProvince(String businessRegistrationStateProvince) {
 		this.businessRegistrationStateProvince = businessRegistrationStateProvince;
 		return this;
 	}
@@ -432,7 +386,7 @@ public class HyperwalletTransferMethod {
 		return businessRegistrationCountry;
 	}
 
-	public HyperwalletTransferMethod setBusinessRegistrationCountry(String businessRegistrationCountry) {
+	public HyperwalletBankAccount setBusinessRegistrationCountry(String businessRegistrationCountry) {
 		this.businessRegistrationCountry = businessRegistrationCountry;
 		return this;
 	}
@@ -441,7 +395,7 @@ public class HyperwalletTransferMethod {
 		return businessContactRole;
 	}
 
-	public HyperwalletTransferMethod setBusinessContactRole(HyperwalletUser.BusinessContactRole businessContactRole) {
+	public HyperwalletBankAccount setBusinessContactRole(HyperwalletUser.BusinessContactRole businessContactRole) {
 		this.businessContactRole = businessContactRole;
 		return this;
 	}
@@ -450,7 +404,7 @@ public class HyperwalletTransferMethod {
 		return firstName;
 	}
 
-	public HyperwalletTransferMethod setFirstName(String firstName) {
+	public HyperwalletBankAccount setFirstName(String firstName) {
 		this.firstName = firstName;
 		return this;
 	}
@@ -459,7 +413,7 @@ public class HyperwalletTransferMethod {
 		return middleName;
 	}
 
-	public HyperwalletTransferMethod setMiddleName(String middleName) {
+	public HyperwalletBankAccount setMiddleName(String middleName) {
 		this.middleName = middleName;
 		return this;
 	}
@@ -468,7 +422,7 @@ public class HyperwalletTransferMethod {
 		return lastName;
 	}
 
-	public HyperwalletTransferMethod setLastName(String lastName) {
+	public HyperwalletBankAccount setLastName(String lastName) {
 		this.lastName = lastName;
 		return this;
 	}
@@ -477,7 +431,7 @@ public class HyperwalletTransferMethod {
 		return dateOfBirth;
 	}
 
-	public HyperwalletTransferMethod setDateOfBirth(Date dateOfBirth) {
+	public HyperwalletBankAccount setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 		return this;
 	}
@@ -486,7 +440,7 @@ public class HyperwalletTransferMethod {
 		return countryOfBirth;
 	}
 
-	public HyperwalletTransferMethod setCountryOfBirth(String countryOfBirth) {
+	public HyperwalletBankAccount setCountryOfBirth(String countryOfBirth) {
 		this.countryOfBirth = countryOfBirth;
 		return this;
 	}
@@ -495,7 +449,7 @@ public class HyperwalletTransferMethod {
 		return countryOfNationality;
 	}
 
-	public HyperwalletTransferMethod setCountryOfNationality(String countryOfNationality) {
+	public HyperwalletBankAccount setCountryOfNationality(String countryOfNationality) {
 		this.countryOfNationality = countryOfNationality;
 		return this;
 	}
@@ -504,7 +458,7 @@ public class HyperwalletTransferMethod {
 		return gender;
 	}
 
-	public HyperwalletTransferMethod setGender(HyperwalletUser.Gender gender) {
+	public HyperwalletBankAccount setGender(HyperwalletUser.Gender gender) {
 		this.gender = gender;
 		return this;
 	}
@@ -513,7 +467,7 @@ public class HyperwalletTransferMethod {
 		return phoneNumber;
 	}
 
-	public HyperwalletTransferMethod setPhoneNumber(String phoneNumber) {
+	public HyperwalletBankAccount setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 		return this;
 	}
@@ -522,7 +476,7 @@ public class HyperwalletTransferMethod {
 		return mobileNumber;
 	}
 
-	public HyperwalletTransferMethod setMobileNumber(String mobileNumber) {
+	public HyperwalletBankAccount setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
 		return this;
 	}
@@ -531,7 +485,7 @@ public class HyperwalletTransferMethod {
 		return email;
 	}
 
-	public HyperwalletTransferMethod setEmail(String email) {
+	public HyperwalletBankAccount setEmail(String email) {
 		this.email = email;
 		return this;
 	}
@@ -540,7 +494,7 @@ public class HyperwalletTransferMethod {
 		return governmentId;
 	}
 
-	public HyperwalletTransferMethod setGovernmentId(String governmentId) {
+	public HyperwalletBankAccount setGovernmentId(String governmentId) {
 		this.governmentId = governmentId;
 		return this;
 	}
@@ -549,7 +503,7 @@ public class HyperwalletTransferMethod {
 		return passportId;
 	}
 
-	public HyperwalletTransferMethod setPassportId(String passportId) {
+	public HyperwalletBankAccount setPassportId(String passportId) {
 		this.passportId = passportId;
 		return this;
 	}
@@ -558,7 +512,7 @@ public class HyperwalletTransferMethod {
 		return driversLicenseId;
 	}
 
-	public HyperwalletTransferMethod setDriversLicenseId(String driversLicenseId) {
+	public HyperwalletBankAccount setDriversLicenseId(String driversLicenseId) {
 		this.driversLicenseId = driversLicenseId;
 		return this;
 	}
@@ -567,7 +521,7 @@ public class HyperwalletTransferMethod {
 		return addressLine1;
 	}
 
-	public HyperwalletTransferMethod setAddressLine1(String addressLine1) {
+	public HyperwalletBankAccount setAddressLine1(String addressLine1) {
 		this.addressLine1 = addressLine1;
 		return this;
 	}
@@ -576,7 +530,7 @@ public class HyperwalletTransferMethod {
 		return addressLine2;
 	}
 
-	public HyperwalletTransferMethod setAddressLine2(String addressLine2) {
+	public HyperwalletBankAccount setAddressLine2(String addressLine2) {
 		this.addressLine2 = addressLine2;
 		return this;
 	}
@@ -585,7 +539,7 @@ public class HyperwalletTransferMethod {
 		return city;
 	}
 
-	public HyperwalletTransferMethod setCity(String city) {
+	public HyperwalletBankAccount setCity(String city) {
 		this.city = city;
 		return this;
 	}
@@ -594,7 +548,7 @@ public class HyperwalletTransferMethod {
 		return stateProvince;
 	}
 
-	public HyperwalletTransferMethod setStateProvince(String stateProvince) {
+	public HyperwalletBankAccount setStateProvince(String stateProvince) {
 		this.stateProvince = stateProvince;
 		return this;
 	}
@@ -603,7 +557,7 @@ public class HyperwalletTransferMethod {
 		return postalCode;
 	}
 
-	public HyperwalletTransferMethod setPostalCode(String postalCode) {
+	public HyperwalletBankAccount setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 		return this;
 	}
@@ -612,7 +566,7 @@ public class HyperwalletTransferMethod {
 		return country;
 	}
 
-	public HyperwalletTransferMethod setCountry(String country) {
+	public HyperwalletBankAccount setCountry(String country) {
 		this.country = country;
 		return this;
 	}

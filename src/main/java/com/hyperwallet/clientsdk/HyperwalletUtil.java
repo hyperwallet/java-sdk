@@ -3,8 +3,9 @@ package com.hyperwallet.clientsdk;
 import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.hyperwallet.clientsdk.model.HyperwalletBankAccount;
 import com.hyperwallet.clientsdk.model.HyperwalletPayment;
-import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod;
+import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
 import com.hyperwallet.clientsdk.model.HyperwalletUser;
 
 import javax.xml.bind.DatatypeConverter;
@@ -199,8 +200,13 @@ class HyperwalletUtil {
 		return payment;
 	}
 
-	HyperwalletTransferMethod clean(HyperwalletTransferMethod method) {
-		method = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(method), HyperwalletTransferMethod.class);
+	HyperwalletPrepaidCard clean(HyperwalletPrepaidCard method) {
+		method = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(method), HyperwalletPrepaidCard.class);
+		return method;
+	}
+
+	HyperwalletBankAccount clean(HyperwalletBankAccount method) {
+		method = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(method), HyperwalletBankAccount.class);
 		return method;
 	}
 
