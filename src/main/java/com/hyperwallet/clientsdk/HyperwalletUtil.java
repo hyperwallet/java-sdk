@@ -3,10 +3,8 @@ package com.hyperwallet.clientsdk;
 import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.hyperwallet.clientsdk.model.HyperwalletBankAccount;
-import com.hyperwallet.clientsdk.model.HyperwalletPayment;
-import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
-import com.hyperwallet.clientsdk.model.HyperwalletUser;
+import com.fasterxml.jackson.databind.node.NullNode;
+import com.hyperwallet.clientsdk.model.*;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
@@ -29,9 +27,7 @@ class HyperwalletUtil {
 		Response response = null;
 		try {
 			response = getService(url).optionsResource();
-			return convert(response.getBody(), type);
-		} catch (HyperwalletException e) {
-			return addError(type, e);
+			return processResponse(response, type);
 		} catch (IOException e) {
 			throw new HyperwalletException(e, response);
 		}
@@ -41,9 +37,7 @@ class HyperwalletUtil {
 		Response response = null;
 		try {
 			response = getService(url).getResource();
-			return convert(response.getBody(), type);
-		} catch (HyperwalletException e) {
-			return addError(type, e);
+			return processResponse(response, type);
 		} catch (IOException e) {
 			throw new HyperwalletException(e, response);
 		}
@@ -53,10 +47,7 @@ class HyperwalletUtil {
 		Response response = null;
 		try {
 			response = getService(url).getResource();
-			return convert(response.getBody(), type);
-		} catch (HyperwalletException e) {
-			return null;
-//			return addError(type, e);
+			return processResponse(response, type);
 		} catch (IOException e) {
 			throw new HyperwalletException(e, response);
 		}
@@ -67,9 +58,7 @@ class HyperwalletUtil {
 		try {
 			String body = convert(bodyObject);
 			response = getService(url).setBody(body).deleteResource();
-			return convert(response.getBody(), type);
-		} catch (HyperwalletException e) {
-			return addError(type, e);
+			return processResponse(response, type);
 		} catch (IOException e) {
 			throw new HyperwalletException(e, response);
 		}
@@ -90,9 +79,7 @@ class HyperwalletUtil {
 		try {
 			String body = convert(bodyObject);
 			response = getService(url).setBody(body).putResource();
-			return convert(response.getBody(), type);
-		} catch (HyperwalletException e) {
-			return addError(type, e);
+			return processResponse(response, type);
 		} catch (IOException e) {
 			throw new HyperwalletException(e, response);
 		}
@@ -103,13 +90,33 @@ class HyperwalletUtil {
 		try {
 			String body = convert(bodyObject);
 			response = getService(url).setBody(body).postResource();
-			return convert(response.getBody(), type);
-		} catch (HyperwalletException e) {
-			return addError(type, e);
+            return processResponse(response, type);
 		} catch (IOException e) {
 			throw new HyperwalletException(e, response);
 		}
 	}
+
+    private <T> T processResponse(final Response response, final Class<T> type){
+        checkErrorResponse(response);
+        return convert(response.getBody(), type);
+    }
+
+    private <T> T processResponse(final Response response, final TypeReference<T> type){
+        checkErrorResponse(response);
+        return convert(response.getBody(), type);
+    }
+
+    private void checkErrorResponse(final Response response) {
+        HyperwalletErrorList errorList = null;
+        if (response.getResponseCode() >= 400) {
+            errorList = convert(response.getBody(), HyperwalletErrorList.class);
+            if (errorList != null) {
+                throw new HyperwalletException(errorList);
+            } else {//unmapped errors
+                throw new HyperwalletException(response, response.getResponseCode(), response.getResponseMessage());
+            }
+        }
+    }
 
 	private String getAuthorizationHeader() {
 		final String pair = this.username + ":" + this.password;

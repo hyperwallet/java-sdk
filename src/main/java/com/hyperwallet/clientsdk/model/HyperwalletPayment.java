@@ -20,6 +20,7 @@ public class HyperwalletPayment {
 	public Date releaseOn;
 	public String destinationToken;
 	public String programToken;
+	public String clientPaymentId;
 
 
 	public String getToken() {
@@ -28,6 +29,15 @@ public class HyperwalletPayment {
 
 	public HyperwalletPayment setToken(String token) {
 		this.token = token;
+		return this;
+	}
+
+	public String getClientPaymentId() {
+		return clientPaymentId;
+	}
+
+	public HyperwalletPayment setClientPaymentId(String clientPaymentId) {
+		this.clientPaymentId = clientPaymentId;
 		return this;
 	}
 
