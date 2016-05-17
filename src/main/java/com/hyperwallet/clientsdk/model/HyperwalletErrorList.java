@@ -16,7 +16,7 @@ public class HyperwalletErrorList {
         return errors;
     }
 
-    public void setErrors(List<HyperwalletError> errorList) {
-        this.errors = errorList;
+    public void setErrors(List<HyperwalletError> errors) {
+        this.errors = errors;
     }
 }
