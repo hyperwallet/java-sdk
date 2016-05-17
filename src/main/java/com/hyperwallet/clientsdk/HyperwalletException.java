@@ -19,22 +19,11 @@ class HyperwalletException extends RuntimeException {
 		super(e);
 	}
 
-	HyperwalletException(final Exception e, final Response response) {
-		super(e);
-		this.response = response;
-	}
-
     HyperwalletException(final Response response, final int code, final String message) {
         this.response = response;
         errorCode = Integer.toString(code);
         errorMessage = message;
     }
-
-	HyperwalletException(final Exception e, final String errorCode, final String errorMessage) {
-		super(e);
-		this.errorCode = errorCode;
-		this.errorMessage = errorMessage;
-	}
 
     HyperwalletException(final HyperwalletErrorList hyperwalletErrorList) {
         this.hyperwalletErrorList = hyperwalletErrorList;

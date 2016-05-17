@@ -29,7 +29,7 @@ class HyperwalletUtil {
 			response = getService(url).optionsResource();
 			return processResponse(response, type);
 		} catch (IOException e) {
-			throw new HyperwalletException(e, response);
+			throw new HyperwalletException(e);
 		}
 	}
 
@@ -39,7 +39,7 @@ class HyperwalletUtil {
 			response = getService(url).getResource();
 			return processResponse(response, type);
 		} catch (IOException e) {
-			throw new HyperwalletException(e, response);
+			throw new HyperwalletException(e);
 		}
 	}
 
@@ -49,7 +49,7 @@ class HyperwalletUtil {
 			response = getService(url).getResource();
 			return processResponse(response, type);
 		} catch (IOException e) {
-			throw new HyperwalletException(e, response);
+			throw new HyperwalletException(e);
 		}
 	}
 
@@ -60,7 +60,7 @@ class HyperwalletUtil {
 			response = getService(url).setBody(body).deleteResource();
 			return processResponse(response, type);
 		} catch (IOException e) {
-			throw new HyperwalletException(e, response);
+			throw new HyperwalletException(e);
 		}
 	}
 
@@ -70,7 +70,7 @@ class HyperwalletUtil {
 			String body = convert(bodyObject);
 			response = getService(url).setBody(body).deleteResource();
 		} catch (IOException e) {
-			throw new HyperwalletException(e, response);
+			throw new HyperwalletException(e);
 		}
 	}
 
@@ -81,7 +81,7 @@ class HyperwalletUtil {
 			response = getService(url).setBody(body).putResource();
 			return processResponse(response, type);
 		} catch (IOException e) {
-			throw new HyperwalletException(e, response);
+			throw new HyperwalletException(e);
 		}
 	}
 
@@ -92,21 +92,21 @@ class HyperwalletUtil {
 			response = getService(url).setBody(body).postResource();
             return processResponse(response, type);
 		} catch (IOException e) {
-			throw new HyperwalletException(e, response);
+			throw new HyperwalletException(e);
 		}
 	}
 
-    private <T> T processResponse(final Response response, final Class<T> type){
+    protected <T> T processResponse(final Response response, final Class<T> type){
         checkErrorResponse(response);
         return convert(response.getBody(), type);
     }
 
-    private <T> T processResponse(final Response response, final TypeReference<T> type){
+    protected <T> T processResponse(final Response response, final TypeReference<T> type){
         checkErrorResponse(response);
         return convert(response.getBody(), type);
     }
 
-    private void checkErrorResponse(final Response response) {
+    protected void checkErrorResponse(final Response response) {
         HyperwalletErrorList errorList = null;
         if (response.getResponseCode() >= 400) {
             errorList = convert(response.getBody(), HyperwalletErrorList.class);
@@ -159,24 +159,6 @@ class HyperwalletUtil {
 			return (T) json;
 		}
 		return HyperwalletJsonUtil.fromJson(json, type);
-	}
-
-	<T> T addError(final Class<T> type, final HyperwalletException in) {
-		try {
-			return addError(type.newInstance(), in);
-		} catch (HyperwalletException se) {
-			throw se;
-		} catch (Exception e) {
-			throw new HyperwalletException(e);
-		}
-	}
-
-	private <T> T addError(final T in, final HyperwalletException e) {
-//		if (in instanceof SpreedlyErrorSetting) {
-//			SpreedlyErrorSetting ses = (SpreedlyErrorSetting) in;
-//			ses.setError(e.errorCode, e.errorMessage);
-//		}
-		return in;
 	}
 
 	private String convert(final Object object) {
