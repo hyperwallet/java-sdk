@@ -436,6 +436,16 @@ public class Hyperwallet {
 		return util.get(url, new TypeReference<HyperwalletList<HyperwalletTransferMethodConfiguration>>() {});
 	}
 
+
+    // Programs
+
+    public HyperwalletProgram getProgram(String token) {
+        if (token == null || token.trim().equals("")) {
+            throw new HyperwalletException("Program token is required");
+        }
+        return util.get(url + "/programs/" + token, HyperwalletProgram.class);
+    }
+
 	String paginate(String url, HyperwalletPaginationOptions options) {
 		if (options == null) {
 			return url;
