@@ -436,6 +436,51 @@ public class Hyperwallet {
 		return util.get(url, new TypeReference<HyperwalletList<HyperwalletTransferMethodConfiguration>>() {});
 	}
 
+	// User Balances
+    public HyperwalletList<HyperwalletBalance> listUserBalances(String userToken) {
+        return listUserBalances(userToken, null);
+    }
+
+	public HyperwalletList<HyperwalletBalance> listUserBalances(String userToken, HyperwalletBalanceListOptions options) {
+		if (userToken == null || userToken.trim().equals("")) {
+			throw new HyperwalletException("User token is required");
+		}
+		String url = paginate(this.url + "/users/" + userToken + "/balances", options);
+        return util.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {});
+	}
+
+    // User Prepaid Card Balances
+    public HyperwalletList<HyperwalletBalance> listUserPrepaidCardBalances(String userToken, String prepaidCardToken) {
+        return listUserPrepaidCardBalances(userToken, prepaidCardToken, null);
+    }
+
+    public HyperwalletList<HyperwalletBalance> listUserPrepaidCardBalances(String userToken, String prepaidCardToken, HyperwalletBalanceListOptions options) {
+        if (userToken == null || userToken.trim().equals("")) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (prepaidCardToken == null || prepaidCardToken.trim().equals("")) {
+            throw new HyperwalletException("Prepaid card token is required");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/balances", options);
+        return util.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {});
+    }
+
+    // Satellite Account Balances
+    public HyperwalletList<HyperwalletBalance> listUserAccountBalances(String programToken, String accountToken) {
+        return listUserAccountBalances(programToken, accountToken, null);
+    }
+
+    public HyperwalletList<HyperwalletBalance> listUserAccountBalances(String programToken, String accountToken, HyperwalletBalanceListOptions options) {
+        if (programToken == null || programToken.trim().equals("")) {
+            throw new HyperwalletException("Program token is required");
+        }
+        if (accountToken == null || accountToken.trim().equals("")) {
+            throw new HyperwalletException("Satellite account token is required");
+        }
+        String url = paginate(this.url + "/programs/" + programToken + "/accounts/" + accountToken + "/balances", options);
+        return util.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {});
+    }
+
 	String paginate(String url, HyperwalletPaginationOptions options) {
 		if (options == null) {
 			return url;
@@ -447,6 +492,17 @@ public class Hyperwallet {
 		url = addParameter(url, "limit", options.limit);
 		return url;
 	}
+
+    String paginate(String url, HyperwalletBalanceListOptions options) {
+        if (options == null) {
+            return url;
+        }
+        url = addParameter(url, "currency", options.currency);
+        url = addParameter(url, "sortBy", options.sortBy);
+        url = addParameter(url, "offset", options.offset);
+        url = addParameter(url, "limit", options.limit);
+        return url;
+    }
 
 	String addParameter(String url, String key, Object value) {
 		if (url == null || key == null || value == null) {
