@@ -445,7 +445,13 @@ public class Hyperwallet {
 		if (userToken == null || userToken.trim().equals("")) {
 			throw new HyperwalletException("User token is required");
 		}
-		String url = paginate(this.url + "/users/" + userToken + "/balances", options);
+		String url = this.url + "/users/" + userToken + "/balances";
+		if (options != null) {
+			url = addParameter(url, "currency", options.currency);
+			url = addParameter(url, "sortBy", options.sortBy);
+			url = addParameter(url, "offset", options.offset);
+			url = addParameter(url, "limit", options.limit);
+		}
         return util.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {});
 	}
 
@@ -461,23 +467,33 @@ public class Hyperwallet {
         if (prepaidCardToken == null || prepaidCardToken.trim().equals("")) {
             throw new HyperwalletException("Prepaid card token is required");
         }
-        String url = paginate(this.url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/balances", options);
+        String url = this.url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/balances";
+		if (options != null) {
+			url = addParameter(url, "sortBy", options.sortBy);
+			url = addParameter(url, "offset", options.offset);
+			url = addParameter(url, "limit", options.limit);
+		}
         return util.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {});
     }
 
     // Satellite Account Balances
-    public HyperwalletList<HyperwalletBalance> listUserAccountBalances(String programToken, String accountToken) {
-        return listUserAccountBalances(programToken, accountToken, null);
+    public HyperwalletList<HyperwalletBalance> listProgramAccountBalances(String programToken, String accountToken) {
+        return listProgramAccountBalances(programToken, accountToken, null);
     }
 
-    public HyperwalletList<HyperwalletBalance> listUserAccountBalances(String programToken, String accountToken, HyperwalletBalanceListOptions options) {
+    public HyperwalletList<HyperwalletBalance> listProgramAccountBalances(String programToken, String accountToken, HyperwalletBalanceListOptions options) {
         if (programToken == null || programToken.trim().equals("")) {
             throw new HyperwalletException("Program token is required");
         }
         if (accountToken == null || accountToken.trim().equals("")) {
-            throw new HyperwalletException("Satellite account token is required");
+            throw new HyperwalletException("Account token is required");
         }
-        String url = paginate(this.url + "/programs/" + programToken + "/accounts/" + accountToken + "/balances", options);
+        String url = this.url + "/programs/" + programToken + "/accounts/" + accountToken + "/balances";
+		if (options != null) {
+			url = addParameter(url, "sortBy", options.sortBy);
+			url = addParameter(url, "offset", options.offset);
+			url = addParameter(url, "limit", options.limit);
+		}
         return util.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {});
     }
 
@@ -492,17 +508,6 @@ public class Hyperwallet {
 		url = addParameter(url, "limit", options.limit);
 		return url;
 	}
-
-    String paginate(String url, HyperwalletBalanceListOptions options) {
-        if (options == null) {
-            return url;
-        }
-        url = addParameter(url, "currency", options.currency);
-        url = addParameter(url, "sortBy", options.sortBy);
-        url = addParameter(url, "offset", options.offset);
-        url = addParameter(url, "limit", options.limit);
-        return url;
-    }
 
 	String addParameter(String url, String key, Object value) {
 		if (url == null || key == null || value == null) {

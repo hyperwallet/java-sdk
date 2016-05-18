@@ -1,9 +1,7 @@
 package com.hyperwallet.clientsdk;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.HyperwalletBalance;
 import com.hyperwallet.clientsdk.model.HyperwalletList;
-import org.apache.catalina.LifecycleException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +18,7 @@ public class HyperwalletBalancesTest {
     Hyperwallet hyperwallet;
 
     @Before
-    public void initialize() throws LifecycleException {
+    public void initialize() {
         hyperwallet = new Hyperwallet("username", "password", "programToken", "url");
     }
 
@@ -55,23 +53,23 @@ public class HyperwalletBalancesTest {
     }
 
     @Test(expected = HyperwalletException.class)
-    public void testGetUserAccountBalancesProgramTokenNull() {
-        hyperwallet.listUserAccountBalances(null, "act-*");
+    public void testGetProgramAccountBalancesProgramTokenNull() {
+        hyperwallet.listProgramAccountBalances(null, "act-*");
     }
 
     @Test(expected = HyperwalletException.class)
-    public void testGetUserAccountBalancesProgramTokenEmpty() {
-        hyperwallet.listUserAccountBalances("", "act-*");
+    public void testGetProgramAccountBalancesProgramTokenEmpty() {
+        hyperwallet.listProgramAccountBalances("", "act-*");
     }
 
     @Test(expected = HyperwalletException.class)
-    public void testGetUserAccountBalancesAccountTokenNull() {
-        hyperwallet.listUserAccountBalances("prg-*", null);
+    public void testGetProgramAccountBalancesAccountTokenNull() {
+        hyperwallet.listProgramAccountBalances("prg-*", null);
     }
 
     @Test(expected = HyperwalletException.class)
-    public void testGetUserAccountBalancesAccountTokenEmpty() {
-        hyperwallet.listUserAccountBalances("prg-*", "");
+    public void testGetProgramAccountBalancesAccountTokenEmpty() {
+        hyperwallet.listProgramAccountBalances("prg-*", "");
     }
 
     @Test
@@ -127,23 +125,23 @@ public class HyperwalletBalancesTest {
     }
 
     @Test
-    public void testGetMockedAccountBalancesNullReturn() {
+    public void testGetMockedProgramAccountBalancesNullReturn() {
         Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.listUserAccountBalances("user-token", "act-token")).thenReturn(null);
-        assertNull(hw.listUserAccountBalances("prg-token", "act-token"));
+        when(hw.listProgramAccountBalances("user-token", "act-token")).thenReturn(null);
+        assertNull(hw.listProgramAccountBalances("prg-token", "act-token"));
     }
 
     @Test
-    public void testGetMockedAccountBalancesNormal() {
+    public void testGetMockedProgramAccountBalancesNormal() {
         HyperwalletList<HyperwalletBalance> list = new HyperwalletList<HyperwalletBalance>();
         HyperwalletBalance balOne = new HyperwalletBalance();
         balOne.setAmount(12.00).setCurrency("CAD");
         list.data.add(balOne);
 
         Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.listUserAccountBalances("user-token", "act-token")).thenReturn(list);
+        when(hw.listProgramAccountBalances("user-token", "act-token")).thenReturn(list);
 
-        HyperwalletList<HyperwalletBalance> response = hw.listUserAccountBalances("user-token", "act-token");
+        HyperwalletList<HyperwalletBalance> response = hw.listProgramAccountBalances("user-token", "act-token");
         assertNotNull(response);
         assertTrue(response.data.size() > 0);
         HyperwalletBalance responseBalance = response.data.get(0);
