@@ -3,18 +3,21 @@ package com.hyperwallet.clientsdk.model;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletStatusTransition {
 
-	public static enum Status { ACTIVATED, DE_ACTIVATED, SUSPENDED, UNSUSPENDED, LOST_OR_STOLEN }
+	public static enum Status { ACTIVATED, DE_ACTIVATED, SUSPENDED, UNSUSPENDED, LOST_OR_STOLEN, LOCKED, UNLLOCKED }
 
 	public String token;
 
 	public Status transition;
 	public Status fromStatus;
 	public Status toStatus;
+
+	public Date createdOn;
 
 	public String notes;
 
@@ -36,6 +39,15 @@ public class HyperwalletStatusTransition {
 
 	public HyperwalletStatusTransition setToken(String token) {
 		this.token = token;
+		return this;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public HyperwalletStatusTransition setCreateOn(Date createdOn) {
+		this.createdOn = createdOn;
 		return this;
 	}
 

@@ -1,6 +1,11 @@
 package com.hyperwallet.clientsdk;
 
 import cc.protea.util.http.Response;
+import com.hyperwallet.clientsdk.model.HyperwalletError;
+import com.hyperwallet.clientsdk.model.HyperwalletErrorList;
+import com.hyperwallet.clientsdk.model.HyperwalletList;
+
+import java.util.List;
 
 class HyperwalletException extends RuntimeException {
 
@@ -8,21 +13,24 @@ class HyperwalletException extends RuntimeException {
 	public Response response = null;
 	public String errorMessage;
 	public String errorCode;
+    public HyperwalletErrorList hyperwalletErrorList;
 
 	HyperwalletException(final Exception e) {
 		super(e);
 	}
 
-	HyperwalletException(final Exception e, final Response response) {
-		super(e);
-		this.response = response;
-	}
+    HyperwalletException(final Response response, final int code, final String message) {
+        this.response = response;
+        errorCode = Integer.toString(code);
+        errorMessage = message;
+    }
 
-	HyperwalletException(final Exception e, final String errorCode, final String errorMessage) {
-		super(e);
-		this.errorCode = errorCode;
-		this.errorMessage = errorMessage;
-	}
+    HyperwalletException(final HyperwalletErrorList hyperwalletErrorList) {
+        this.hyperwalletErrorList = hyperwalletErrorList;
+        HyperwalletError error = this.hyperwalletErrorList.getErrors().get(0);
+        errorCode = error.code;
+        errorMessage = error.message;
+    }
 
 	HyperwalletException(final String errorMessage) {
 		this.errorMessage = errorMessage;
@@ -35,4 +43,8 @@ class HyperwalletException extends RuntimeException {
 	public String getErrorCode() {
 		return errorCode;
 	}
+
+    public List<HyperwalletError> getHyperwalletErrors () {
+        return hyperwalletErrorList != null ? hyperwalletErrorList.getErrors() : null;
+    }
 }

@@ -86,7 +86,7 @@ public class Hyperwallet {
 		prepaidCard.createdOn = null;
 		prepaidCard.status = null;
 		prepaidCard.cardType = null;
-		return util.post(url + "/user/" + prepaidCard.userToken + "/prepaid-cards", prepaidCard, HyperwalletPrepaidCard.class);
+		return util.post(url + "/users/" + prepaidCard.userToken + "/prepaid-cards", prepaidCard, HyperwalletPrepaidCard.class);
 	}
 
 	public HyperwalletPrepaidCard getPrepaidCard(HyperwalletUser user, String transferMethodToken) {
@@ -147,7 +147,7 @@ public class Hyperwallet {
 		bankAccount = util.clean(bankAccount);
 		bankAccount.createdOn = null;
 		bankAccount.status = null;
-		return util.post(url + "/user/" + bankAccount.userToken + "/bank-accounts", bankAccount, HyperwalletBankAccount.class);
+		return util.post(url + "/users/" + bankAccount.userToken + "/bank-accounts", bankAccount, HyperwalletBankAccount.class);
 	}
 
 	public HyperwalletBankAccount getUserBankAccount(HyperwalletUser user, String transferMethodToken) {
