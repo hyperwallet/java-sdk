@@ -7,7 +7,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletList;
 
 import java.util.List;
 
-class HyperwalletException extends RuntimeException {
+public class HyperwalletException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	public Response response = null;

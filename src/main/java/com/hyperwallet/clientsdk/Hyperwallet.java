@@ -441,7 +441,7 @@ public class Hyperwallet {
         return listUserBalances(userToken, null);
     }
 
-	public HyperwalletList<HyperwalletBalance> listUserBalances(String userToken, HyperwalletPaginationOptions options) {
+	public HyperwalletList<HyperwalletBalance> listUserBalances(String userToken, HyperwalletBalanceListOptions options) {
 		if (userToken == null || userToken.trim().equals("")) {
 			throw new HyperwalletException("User token is required");
 		}
@@ -460,7 +460,7 @@ public class Hyperwallet {
         return listUserPrepaidCardBalances(userToken, prepaidCardToken, null);
     }
 
-    public HyperwalletList<HyperwalletBalance> listUserPrepaidCardBalances(String userToken, String prepaidCardToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletBalance> listUserPrepaidCardBalances(String userToken, String prepaidCardToken, HyperwalletBalanceListOptions options) {
         if (userToken == null || userToken.trim().equals("")) {
             throw new HyperwalletException("User token is required");
         }
@@ -481,7 +481,7 @@ public class Hyperwallet {
         return listProgramAccountBalances(programToken, accountToken, null);
     }
 
-    public HyperwalletList<HyperwalletBalance> listProgramAccountBalances(String programToken, String accountToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletBalance> listProgramAccountBalances(String programToken, String accountToken, HyperwalletBalanceListOptions options) {
         if (programToken == null || programToken.trim().equals("")) {
             throw new HyperwalletException("Program token is required");
         }

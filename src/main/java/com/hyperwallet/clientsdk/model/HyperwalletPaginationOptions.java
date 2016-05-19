@@ -9,7 +9,6 @@ public class HyperwalletPaginationOptions {
 	public String sortBy;
 	public Integer offset;
 	public Integer limit;
-	public String currency;
 
 	public Date getCreatedBefore() {
 		return createdBefore;
@@ -55,13 +54,4 @@ public class HyperwalletPaginationOptions {
 		this.limit = limit;
 		return this;
 	}
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public HyperwalletPaginationOptions setCurrency(String currency) {
-        this.currency = currency;
-        return this;
-    }
 }
