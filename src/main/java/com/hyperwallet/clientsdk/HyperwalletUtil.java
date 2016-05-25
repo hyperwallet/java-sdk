@@ -166,8 +166,8 @@ class HyperwalletUtil {
 	}
 
 	void setProgramToken(HyperwalletUser user) {
-		if (user != null && user.programToken == null) {
-			user.programToken = this.programToken;
+		if (user != null && user.getProgramToken() == null) {
+			user.setProgramToken(this.programToken);
 		}
 	}
 

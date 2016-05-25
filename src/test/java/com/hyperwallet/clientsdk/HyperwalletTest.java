@@ -24,7 +24,7 @@ public class HyperwalletTest {
 		String token = "usr-a150eb06-bf46-43b8-966f-8fb5ecb88ed0";
 		HyperwalletUser user = hyperwallet.getUser(token);
 		Assert.assertNotNull(user);
-		Assert.assertEquals(token, user.token);
+		Assert.assertEquals(token, user.getToken());
 	}
 
 	@Test
@@ -45,11 +45,11 @@ public class HyperwalletTest {
 		String token = "usr-a150eb06-bf46-43b8-966f-8fb5ecb88ed0";
 		HyperwalletUser user = hyperwallet.getUser(token);
 		Assert.assertNotNull(user);
-		Assert.assertEquals(token, user.token);
-		user.firstName = "" + user.firstName + "X";
+		Assert.assertEquals(token, user.getToken());
+		user.firstName("").firstName("X");
 		HyperwalletUser user2 = hyperwallet.updateUser(user);
 		Assert.assertNotNull(user2);
-		Assert.assertEquals(token, user2.token);
+		Assert.assertEquals(token, user2.getToken());
 	}
 
 	public static Hyperwallet getHyperwallet() {
