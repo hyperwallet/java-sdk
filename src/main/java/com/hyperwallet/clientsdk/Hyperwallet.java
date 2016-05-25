@@ -571,17 +571,6 @@ public class Hyperwallet {
 		url = addParameter(url, "limit", options.limit);
 		return url;
 	}
-    String paginate(String url, HyperwalletPaginationOptions options) {
-        if (options == null) {
-            return url;
-        }
-        url = addParameter(url, "createdAfter", convert(options.createdAfter));
-        url = addParameter(url, "createdBefore", convert(options.createdBefore));
-        url = addParameter(url, "sortBy", options.sortBy);
-        url = addParameter(url, "offset", options.offset);
-        url = addParameter(url, "limit", options.limit);
-        return url;
-    }
 
     String addParameter(String url, String key, Object value) {
         if (url == null || key == null || value == null) {
