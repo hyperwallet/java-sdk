@@ -43,18 +43,18 @@ public class HyperwalletProgramTest {
         Date now = new Date(System.currentTimeMillis());
         Hyperwallet hw = mock(Hyperwallet.class);
         HyperwalletProgram orig = new HyperwalletProgram();
-        orig.createdOn = now;
-        orig.parentToken = "prg-parent-token";
-        orig.name = "Test program";
-        orig.token = "prg-token";
+        orig.setCreatedOn(now);
+        orig.setParentToken("prg-parent-token");
+        orig.setName("Test program");
+        orig.setToken("prg-token");
 
         when(hw.getProgram("prg-token")).thenReturn(orig);
         HyperwalletProgram response = hw.getProgram("prg-token");
 
         assertNotNull(response);
-        assertEquals(now, response.createdOn);
-        assertEquals(orig.token, response.token);
-        assertEquals(orig.name, response.name);
-        assertEquals(orig.parentToken, response.parentToken);
+        assertEquals(now, response.getCreatedOn());
+        assertEquals(orig.getToken(), response.getToken());
+        assertEquals(orig.getName(), response.getName());
+        assertEquals(orig.getParentToken(), response.getParentToken());
     }
 }

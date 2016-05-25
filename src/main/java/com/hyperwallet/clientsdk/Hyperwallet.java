@@ -437,8 +437,12 @@ public class Hyperwallet {
 	}
 
 
-    // Programs
-
+    /**
+     * Get Program
+     *
+     * @param token Program token
+     * @throws HyperwalletException
+     * */
     public HyperwalletProgram getProgram(String token) {
         if (token == null || token.trim().equals("")) {
             throw new HyperwalletException("Program token is required");

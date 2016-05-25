@@ -10,16 +10,20 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletProgram {
 
-    public String token;
-    public Date createdOn;
-    public String name;
-    public String parentToken;
+    private String token;
+    private Date createdOn;
+    private String name;
+    private String parentToken;
 
     public String getToken() {
         return token;
     }
 
-    public HyperwalletProgram setToken(String token) {
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public HyperwalletProgram token(String token) {
         this.token = token;
         return this;
     }
@@ -28,7 +32,11 @@ public class HyperwalletProgram {
         return createdOn;
     }
 
-    public HyperwalletProgram setCreatedOn(Date createdOn) {
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public HyperwalletProgram createdOn(Date createdOn) {
         this.createdOn = createdOn;
         return this;
     }
