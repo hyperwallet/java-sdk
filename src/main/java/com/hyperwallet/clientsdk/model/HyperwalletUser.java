@@ -64,12 +64,19 @@ public class HyperwalletUser extends HyperwalletBaseModel {
     }
 
     public void setToken(String token) {
+        addField("token", token);
         this.token = token;
     }
 
     public HyperwalletUser token(String token) {
+        addField("token", token);
         this.token = token;
         return this;
+    }
+
+    public void clearToken() {
+        clearField("token");
+        token = null;
     }
 
     public Status getStatus() {
@@ -77,12 +84,19 @@ public class HyperwalletUser extends HyperwalletBaseModel {
     }
 
     public void setStatus(Status status) {
+        addField("status", status);
         this.status = status;
     }
 
     public HyperwalletUser status(Status status) {
+        addField("status", status);
         this.status = status;
         return this;
+    }
+
+    public void clearStatus() {
+        clearField("status");
+        status = null;
     }
 
     public Date getCreatedOn() {
@@ -90,12 +104,19 @@ public class HyperwalletUser extends HyperwalletBaseModel {
     }
 
     public void setCreatedOn(Date createdOn) {
+        addField("createdOn", createdOn);
         this.createdOn = createdOn;
     }
 
     public HyperwalletUser createdOn(Date createdOn) {
+        addField("createdOn", createdOn);
         this.createdOn = createdOn;
         return this;
+    }
+
+    public void clearCreatedOn() {
+        clearField("createdOn");
+        createdOn = null;
     }
 
     public String getClientUserId() {
@@ -111,6 +132,11 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         addField("clientUserId", clientUserId);
         this.clientUserId = clientUserId;
         return this;
+    }
+
+    public void clearClientUserId() {
+        clearField("clientUserId");
+        clientUserId = null;
     }
 
     public ProfileType getProfileType() {

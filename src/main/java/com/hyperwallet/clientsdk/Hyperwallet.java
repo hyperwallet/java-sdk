@@ -15,21 +15,46 @@ public class Hyperwallet {
     private final String version = "0.0.2";
     private final String url;
 
+    /**
+     * Create Hyperwallet SDK instance
+     *
+     * @param username  API key assigned
+     * @param password  API Password assigned
+     * @param url API base url
+     * */
     public Hyperwallet(final String username, final String password, final String programToken, final String url) {
         util = new HyperwalletUtil(username, password, programToken, version);
         this.url = url == null ? "https://beta.paylution.com/rest/v3" : url;
     }
 
+    /**
+     * Create Hyperwallet SDK instance
+     *
+     * @param username API key assigned
+     * @param password API password
+     * @param programToken API program token assigned
+     * */
     public Hyperwallet(final String username, final String password, final String programToken) {
         this(username, password, programToken, null);
     }
 
+    /**
+     * Create Hyperwallet SDK instance
+     *
+     * @param username API key assigned
+     * @param password API password
+     * */
     public Hyperwallet(final String username, final String password) {
         this(username, password, null);
     }
 
-    // Users
-
+    /**
+     * Create a User
+     *
+     * @param user Hyperwallet user representation
+     * @return HyperwalletUser created User
+     * @throws HyperwalletException
+     * */
     public HyperwalletUser createUser(HyperwalletUser user) {
         if (user == null) {
             throw new HyperwalletException("User is required");
@@ -43,10 +68,24 @@ public class Hyperwallet {
         return util.post(url + "/users", user, HyperwalletUser.class);
     }
 
+    /**
+     * Get User
+     *
+     * @param token user account token
+     * @return HyperwalletUser retreived user
+     * @throws HyperwalletException
+     * */
     public HyperwalletUser getUser(String token) {
         return util.get(url + "/users/" + token, HyperwalletUser.class);
     }
 
+    /**
+     * Update User
+     *
+     * @param user Hyperwallet User representation object
+     * @return HyperwalletUser updated user object
+     * @throws HyperwalletException
+     * */
     public HyperwalletUser updateUser(HyperwalletUser user) {
         if (user == null) {
             throw new HyperwalletException("User is required");
@@ -54,13 +93,12 @@ public class Hyperwallet {
         if (user.getToken() == null) {
             throw new HyperwalletException("User token is required");
         }
-        user = util.clean(user);
-        user.setStatus(null);
-        user.setCreatedOn(null);
-        user.setProgramToken(null);
         return util.put(url + "/users/" + user.getToken(), user, HyperwalletUser.class);
     }
 
+    /**
+     * List Users
+     * */
     public HyperwalletList<HyperwalletUser> listUsers() {
         return listUsers(null);
     }
