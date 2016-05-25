@@ -3,7 +3,6 @@ package com.hyperwallet.clientsdk;
 import cc.protea.util.http.Response;
 import com.hyperwallet.clientsdk.model.HyperwalletError;
 import com.hyperwallet.clientsdk.model.HyperwalletErrorList;
-import com.hyperwallet.clientsdk.model.HyperwalletList;
 
 import java.util.List;
 

@@ -2,6 +2,7 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -510,6 +511,7 @@ public class Hyperwallet {
         });
     }
 
+
     /**
      * List Programs Account Balances
      *
@@ -544,6 +546,26 @@ public class Hyperwallet {
         }
         return util.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
         });
+    }
+
+    /**
+     * Get Programs Account
+     *
+     * @param programToken Program token
+     * @param accountToken Program account token
+     *
+     */
+    public HyperwalletAccount getProgramAccount(final String programToken, final String accountToken){
+
+        if(StringUtils.isEmpty(programToken) ){
+            throw new HyperwalletException("Program token is required");
+        }
+
+        if(StringUtils.isEmpty(accountToken)){
+            throw new HyperwalletException("Account token is required");
+        }
+
+        return util.get(url + "/programs/" + programToken + "/accounts/"+ accountToken,  HyperwalletAccount.class);
     }
 
 
