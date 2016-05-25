@@ -448,7 +448,7 @@ public class Hyperwallet {
      *
      * @param userToken User token assigned
      * @throws HyperwalletException
-     * */
+     */
     public HyperwalletList<HyperwalletBalance> listUserBalances(String userToken) {
         return listUserBalances(userToken, null);
     }
@@ -457,9 +457,9 @@ public class Hyperwallet {
      * List all User's Balances
      *
      * @param userToken User token assigned
-     * @param options Filter User list balances response by setting options
+     * @param options   Filter User list balances response by setting options
      * @throws HyperwalletException
-     * */
+     */
     public HyperwalletList<HyperwalletBalance> listUserBalances(String userToken, HyperwalletBalanceListOptions options) {
         if (userToken == null || userToken.trim().equals("")) {
             throw new HyperwalletException("User token is required");
@@ -478,10 +478,10 @@ public class Hyperwallet {
     /**
      * List all User's Prepaid Card Balances
      *
-     * @param userToken User token assigned
+     * @param userToken        User token assigned
      * @param prepaidCardToken Prepaid Card token assigned from User's Prepaid Card
      * @throws HyperwalletException
-     * */
+     */
     public HyperwalletList<HyperwalletBalance> listUserPrepaidCardBalances(String userToken, String prepaidCardToken) {
         return listUserPrepaidCardBalances(userToken, prepaidCardToken, null);
     }
@@ -489,10 +489,10 @@ public class Hyperwallet {
     /**
      * List all User's Prepaid Card Balances
      *
-     * @param userToken User token assigned
+     * @param userToken        User token assigned
      * @param prepaidCardToken Prepaid Card token assigned from User's Prepaid Card
-     * @param options Filter User's Prepaid Card balances response by setting options
-     * */
+     * @param options          Filter User's Prepaid Card balances response by setting options
+     */
     public HyperwalletList<HyperwalletBalance> listUserPrepaidCardBalances(String userToken, String prepaidCardToken, HyperwalletBalanceListOptions options) {
         if (userToken == null || userToken.trim().equals("")) {
             throw new HyperwalletException("User token is required");
@@ -516,7 +516,7 @@ public class Hyperwallet {
      * @param programToken Program token
      * @param accountToken Program account token
      * @throws HyperwalletException
-     * */
+     */
     public HyperwalletList<HyperwalletBalance> listProgramAccountBalances(String programToken, String accountToken) {
         return listProgramAccountBalances(programToken, accountToken, null);
     }
@@ -526,9 +526,9 @@ public class Hyperwallet {
      *
      * @param programToken Program token
      * @param accountToken Program account token
-     * @param options Filter Program Account Balances response by setting options
+     * @param options      Filter Program Account Balances response by setting options
      * @throws HyperwalletException
-     * */
+     */
     public HyperwalletList<HyperwalletBalance> listProgramAccountBalances(String programToken, String accountToken, HyperwalletBalanceListOptions options) {
         if (programToken == null || programToken.trim().equals("")) {
             throw new HyperwalletException("Program token is required");
@@ -552,7 +552,7 @@ public class Hyperwallet {
      *
      * @param token Program token
      * @throws HyperwalletException
-     * */
+     */
     public HyperwalletProgram getProgram(String token) {
         if (token == null || token.trim().equals("")) {
             throw new HyperwalletException("Program token is required");
@@ -560,17 +560,17 @@ public class Hyperwallet {
         return util.get(url + "/programs/" + token, HyperwalletProgram.class);
     }
 
-	String paginate(String url, HyperwalletPaginationOptions options) {
-		if (options == null) {
-			return url;
-		}
-		url = addParameter(url, "createdAfter", convert(options.createdAfter));
-		url = addParameter(url, "createdBefore", convert(options.createdBefore));
-		url = addParameter(url, "sortBy", options.sortBy);
-		url = addParameter(url, "offset", options.offset);
-		url = addParameter(url, "limit", options.limit);
-		return url;
-	}
+    String paginate(String url, HyperwalletPaginationOptions options) {
+        if (options == null) {
+            return url;
+        }
+        url = addParameter(url, "createdAfter", convert(options.createdAfter));
+        url = addParameter(url, "createdBefore", convert(options.createdBefore));
+        url = addParameter(url, "sortBy", options.sortBy);
+        url = addParameter(url, "offset", options.offset);
+        url = addParameter(url, "limit", options.limit);
+        return url;
+    }
 
     String addParameter(String url, String key, Object value) {
         if (url == null || key == null || value == null) {
