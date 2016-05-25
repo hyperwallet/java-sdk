@@ -48,6 +48,7 @@
         <mockito.version>1.10.19</mockito.version>
         <protea.http.version>[0.2,)</protea.http.version>
         <jackson.jaxrs.json.provider.version>2.5.3</jackson.jaxrs.json.provider.version>
+        <org.apache.commons.commons-lang3.version>3.4</org.apache.commons.commons-lang3.version>
     </properties>
 
     <dependencies>
@@ -72,6 +73,11 @@
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
             <version>${jackson.jaxrs.json.provider.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${org.apache.commons.commons-lang3.version}</version>
         </dependency>
     </dependencies>
 
