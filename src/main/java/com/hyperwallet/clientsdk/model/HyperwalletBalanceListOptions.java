@@ -2,16 +2,20 @@ package com.hyperwallet.clientsdk.model;
 
 public class HyperwalletBalanceListOptions {
 
-    public String currency;
-    public String sortBy;
-    public Integer offset;
-    public Integer limit;
+    private String currency;
+    private String sortBy;
+    private Integer offset;
+    private Integer limit;
 
     public String getCurrency() {
         return currency;
     }
 
-    public HyperwalletBalanceListOptions setCurrency(String currency) {
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public HyperwalletBalanceListOptions currency(String currency) {
         this.currency = currency;
         return this;
     }
@@ -20,7 +24,11 @@ public class HyperwalletBalanceListOptions {
         return sortBy;
     }
 
-    public HyperwalletBalanceListOptions setSortBy(String sortBy) {
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
+    }
+
+    public HyperwalletBalanceListOptions sortBy(String sortBy) {
         this.sortBy = sortBy;
         return this;
     }
@@ -29,7 +37,11 @@ public class HyperwalletBalanceListOptions {
         return offset;
     }
 
-    public HyperwalletBalanceListOptions setOffset(Integer offset) {
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public HyperwalletBalanceListOptions offset(Integer offset) {
         this.offset = offset;
         return this;
     }
@@ -38,7 +50,11 @@ public class HyperwalletBalanceListOptions {
         return limit;
     }
 
-    public HyperwalletBalanceListOptions setLimit(Integer limit) {
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public HyperwalletBalanceListOptions limit(Integer limit) {
         this.limit = limit;
         return this;
     }

@@ -83,7 +83,7 @@ public class HyperwalletBalancesTest {
     public void testGetMockedUserBalanceNormal() {
         HyperwalletList<HyperwalletBalance> list = new HyperwalletList<HyperwalletBalance>();
         HyperwalletBalance balOne = new HyperwalletBalance();
-        balOne.setAmount(10.00).setCurrency("CAD");
+        balOne.amount(10.00).currency("CAD");
         list.data.add(balOne);
 
         Hyperwallet hw = mock(Hyperwallet.class);
@@ -94,8 +94,8 @@ public class HyperwalletBalancesTest {
         assertTrue(response.data.size() > 0);
         HyperwalletBalance responseBalance = response.data.get(0);
         assertNotNull(responseBalance);
-        assertEquals(balOne.amount, responseBalance.amount);
-        assertEquals(balOne.currency, responseBalance.currency);
+        assertEquals(balOne.getAmount(), responseBalance.getAmount());
+        assertEquals(balOne.getCurrency(), responseBalance.getCurrency());
     }
 
     @Test
@@ -109,7 +109,7 @@ public class HyperwalletBalancesTest {
     public void testGetMockedUserPrepaidCardBalancesNormal() {
         HyperwalletList<HyperwalletBalance> list = new HyperwalletList<HyperwalletBalance>();
         HyperwalletBalance balOne = new HyperwalletBalance();
-        balOne.setAmount(11.00).setCurrency("CAD");
+        balOne.amount(11.00).currency("CAD");
         list.data.add(balOne);
 
         Hyperwallet hw = mock(Hyperwallet.class);
@@ -120,8 +120,8 @@ public class HyperwalletBalancesTest {
         assertTrue(response.data.size() > 0);
         HyperwalletBalance responseBalance = response.data.get(0);
         assertNotNull(responseBalance);
-        assertEquals(balOne.amount, responseBalance.amount);
-        assertEquals(balOne.currency, responseBalance.currency);
+        assertEquals(balOne.getAmount(), responseBalance.getAmount());
+        assertEquals(balOne.getCurrency(), responseBalance.getCurrency());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class HyperwalletBalancesTest {
     public void testGetMockedProgramAccountBalancesNormal() {
         HyperwalletList<HyperwalletBalance> list = new HyperwalletList<HyperwalletBalance>();
         HyperwalletBalance balOne = new HyperwalletBalance();
-        balOne.setAmount(12.00).setCurrency("CAD");
+        balOne.amount(12.00).currency("CAD");
         list.data.add(balOne);
 
         Hyperwallet hw = mock(Hyperwallet.class);
@@ -146,7 +146,7 @@ public class HyperwalletBalancesTest {
         assertTrue(response.data.size() > 0);
         HyperwalletBalance responseBalance = response.data.get(0);
         assertNotNull(responseBalance);
-        assertEquals(balOne.amount, responseBalance.amount);
-        assertEquals(balOne.currency, responseBalance.currency);
+        assertEquals(balOne.getAmount(), responseBalance.getAmount());
+        assertEquals(balOne.getCurrency(), responseBalance.getCurrency());
     }
 }

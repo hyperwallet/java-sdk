@@ -1,5 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
+import com.hyperwallet.clientsdk.Hyperwallet;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -7,8 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletBalance {
-    public String currency;
-    public Double amount;
+    private String currency;
+    private Double amount;
 
     public HyperwalletBalance () {}
 
@@ -16,7 +18,11 @@ public class HyperwalletBalance {
         return currency;
     }
 
-    public HyperwalletBalance setCurrency(String currency){
+    public void setCurrency(String currency){
+        this.currency = currency;
+    }
+
+    public HyperwalletBalance currency(String currency) {
         this.currency = currency;
         return this;
     }
@@ -25,7 +31,11 @@ public class HyperwalletBalance {
         return amount;
     }
 
-    public HyperwalletBalance setAmount(Double amount) {
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public HyperwalletBalance amount(Double amount) {
         this.amount = amount;
         return this;
     }
