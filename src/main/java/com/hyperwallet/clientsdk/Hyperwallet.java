@@ -511,6 +511,7 @@ public class Hyperwallet {
         });
     }
 
+
     /**
      * List Programs Account Balances
      *
@@ -547,7 +548,14 @@ public class Hyperwallet {
         });
     }
 
-    public HyperwalletAccount getAccount(final String programToken, final String accountToken){
+    /**
+     * Get Programs Account
+     *
+     * @param programToken Program token
+     * @param accountToken Program account token
+     *
+     */
+    public HyperwalletAccount getProgramAccount(final String programToken, final String accountToken){
 
         if(StringUtils.isEmpty(programToken) ){
             throw new HyperwalletException("Program token is required");

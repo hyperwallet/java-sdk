@@ -36,9 +36,9 @@ public class HyperwalletAccountTest {
         account_mock.setType(HyperwalletAccount.EType.FUNDING);
         account_mock.setToken("token");
 
-        when(hyperwallet.getAccount(anyString(),anyString())).thenReturn(account_mock);
+        when(hyperwallet.getProgramAccount(anyString(),anyString())).thenReturn(account_mock);
 
-        HyperwalletAccount account = hyperwallet.getAccount("any", "any");
+        HyperwalletAccount account = hyperwallet.getProgramAccount("any", "any");
 
         assertNotNull(account);
         assertEquals(account_mock.getEmail(),account.getEmail());
@@ -46,7 +46,7 @@ public class HyperwalletAccountTest {
         assertEquals(account_mock.getCreatedOn(),account.getCreatedOn());
         assertEquals(account_mock.getType(),account.getType());
 
-        verify(hyperwallet,times(1)).getAccount(anyString(),anyString());
+        verify(hyperwallet,times(1)).getProgramAccount(anyString(),anyString());
         verifyNoMoreInteractions(hyperwallet);
 
     }
@@ -55,14 +55,14 @@ public class HyperwalletAccountTest {
     public void testGet_Empty_ProgramToken(){
         thrown.expect(HyperwalletException.class);
         Hyperwallet hyperwallet = new Hyperwallet("","");
-        hyperwallet.getAccount("","accountToken");
+        hyperwallet.getProgramAccount("","accountToken");
     }
 
     @Test
     public void testGet_Empty_AccountToken(){
         thrown.expect(HyperwalletException.class);
         Hyperwallet hyperwallet = new Hyperwallet("","");
-        hyperwallet.getAccount("","accountToken");
+        hyperwallet.getProgramAccount("","accountToken");
     }
 
 

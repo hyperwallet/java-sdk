@@ -16,7 +16,7 @@ public class HyperwalletAccountTestIT extends BaseTest {
         }
 
         //Todo Integration Test is not ready yet, need to back change expected value.
-        HyperwalletAccount account = hyperwallet.getAccount(programToken,accountToken);
+        HyperwalletAccount account = hyperwallet.getProgramAccount(programToken,accountToken);
 
     }
 
