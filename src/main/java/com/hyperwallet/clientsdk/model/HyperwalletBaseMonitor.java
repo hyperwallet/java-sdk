@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
 import java.util.Set;
 
-public class HyperwalletBaseModel {
+public class HyperwalletBaseMonitor {
 
     @JsonIgnore
     private Set<String> inclusions = new HashSet<String>();
+
+    protected HyperwalletBaseMonitor () {}
 
     public Set<String> getInclusions() {
         return inclusions;

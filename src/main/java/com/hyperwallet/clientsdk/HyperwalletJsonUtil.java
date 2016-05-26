@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.hyperwallet.clientsdk.model.HyperwalletBaseModel;
+import com.hyperwallet.clientsdk.model.HyperwalletBaseMonitor;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -60,7 +60,7 @@ class HyperwalletJsonUtil {
             return null;
         }
         try {
-            HyperwalletBaseModel base = (HyperwalletBaseModel) object;
+            HyperwalletBaseMonitor base = (HyperwalletBaseMonitor) object;
             FilterProvider filters = new SimpleFilterProvider()
                     .addFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER,
                             SimpleBeanPropertyFilter.serializeAll(base.getInclusions()));

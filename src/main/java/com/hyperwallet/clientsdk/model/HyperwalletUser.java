@@ -11,11 +11,11 @@ import java.util.Date;
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HyperwalletUser extends HyperwalletBaseModel {
+public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     public static enum Gender {MALE, FEMALE}
 
-    public static enum ProfileType {INDIVIDUAL, BUSINESS}
+    public static enum ProfileType {INDIVIDUAL, BUSINESS, UNKNOWN}
 
     public static enum BusinessType {CORPORATION, PARTNERSHIP}
 
@@ -74,9 +74,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearToken() {
+    public HyperwalletUser clearToken() {
         clearField("token");
         token = null;
+        return this;
     }
 
     public Status getStatus() {
@@ -94,9 +95,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearStatus() {
+    public HyperwalletUser clearStatus() {
         clearField("status");
         status = null;
+        return this;
     }
 
     public Date getCreatedOn() {
@@ -114,9 +116,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearCreatedOn() {
+    public HyperwalletUser clearCreatedOn() {
         clearField("createdOn");
         createdOn = null;
+        return this;
     }
 
     public String getClientUserId() {
@@ -134,9 +137,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearClientUserId() {
+    public HyperwalletUser clearClientUserId() {
         clearField("clientUserId");
         clientUserId = null;
+        return this;
     }
 
     public ProfileType getProfileType() {
@@ -153,9 +157,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearProfileType() {
+    public HyperwalletUser clearProfileType() {
         clearField("profileType");
         profileType = null;
+        return this;
     }
 
     public BusinessType getBusinessType() {
@@ -173,9 +178,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearBusinessType() {
+    public HyperwalletUser clearBusinessType() {
         clearField("businessType");
         businessType = null;
+        return this;
     }
 
     public String getBusinessName() {
@@ -193,9 +199,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearBusinessName() {
+    public HyperwalletUser clearBusinessName() {
         clearField("businessName");
         businessName = null;
+        return this;
     }
 
     public String getBusinessRegistrationId() {
@@ -213,9 +220,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearBusinessRegistration() {
+    public HyperwalletUser clearBusinessRegistration() {
         clearField("businessRegistrationId");
         businessRegistrationId = null;
+        return this;
     }
 
     public String getBusinessRegistrationStateProvince() {
@@ -233,9 +241,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearRegistrationStateProvince() {
+    public HyperwalletUser clearRegistrationStateProvince() {
         clearField("businessRegistrationStateProvince");
         businessRegistrationStateProvince = null;
+        return this;
     }
 
     public String getBusinessRegistrationCountry() {
@@ -252,9 +261,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearBusinessRegistrationCountry() {
+    public HyperwalletUser clearBusinessRegistrationCountry() {
         clearField("businessRegistrationCountry");
         businessRegistrationCountry = null;
+        return this;
     }
 
     public BusinessContactRole getBusinessContactRole() {
@@ -272,9 +282,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearBusinessContractRole() {
+    public HyperwalletUser clearBusinessContractRole() {
         clearField("businessContactRole");
         businessContactRole = null;
+        return this;
     }
 
     public String getFirstName() {
@@ -291,9 +302,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearFirstName() {
+    public HyperwalletUser clearFirstName() {
         clearField("firstName");
         firstName = null;
+        return this;
     }
 
     public String getMiddleName() {
@@ -311,9 +323,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearMiddleName() {
+    public HyperwalletUser clearMiddleName() {
         clearField("middleName");
         middleName = null;
+        return this;
     }
 
     public String getLastName() {
@@ -331,9 +344,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearLastName() {
+    public HyperwalletUser clearLastName() {
         clearField("lastName");
         lastName = null;
+        return this;
     }
 
     public Date getDateOfBirth() {
@@ -351,9 +365,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearDateOfBirth() {
+    public HyperwalletUser clearDateOfBirth() {
         clearField("dateOfBirth");
         dateOfBirth = null;
+        return this;
     }
 
     public String getCountryOfBirth() {
@@ -370,9 +385,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearCountryOfBirth() {
+    public HyperwalletUser clearCountryOfBirth() {
         clearField("countryOfBirth");
         countryOfBirth = null;
+        return this;
     }
 
     public String getCountryOfNationality() {
@@ -390,9 +406,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearCountryOfNationality() {
+    public HyperwalletUser clearCountryOfNationality() {
         clearField("countryOfNationality");
         countryOfNationality = null;
+        return this;
     }
 
     public Gender getGender() {
@@ -410,9 +427,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearGender() {
+    public HyperwalletUser clearGender() {
         clearField("gender");
         gender = null;
+        return this;
     }
 
     public String getPhoneNumber() {
@@ -430,9 +448,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearPhoneNumber() {
+    public HyperwalletUser clearPhoneNumber() {
         clearField("phoneNumber");
         phoneNumber = null;
+        return this;
     }
 
     public String getMobileNumber() {
@@ -450,9 +469,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearMobileNumber() {
+    public HyperwalletUser clearMobileNumber() {
         clearField("mobileNumber");
         mobileNumber = null;
+        return this;
     }
 
     public String getEmail() {
@@ -465,13 +485,15 @@ public class HyperwalletUser extends HyperwalletBaseModel {
     }
 
     public HyperwalletUser email(String email) {
+        addField("email", email);
         this.email = email;
         return this;
     }
 
-    public void clearEmail() {
+    public HyperwalletUser clearEmail() {
         clearField("email");
         email = null;
+        return this;
     }
 
     public String getGovernmentId() {
@@ -484,13 +506,15 @@ public class HyperwalletUser extends HyperwalletBaseModel {
     }
 
     public HyperwalletUser governmentId(String governmentId) {
+        addField("governmentId", governmentId);
         this.governmentId = governmentId;
         return this;
     }
 
-    public void clearGovernmentId() {
+    public HyperwalletUser clearGovernmentId() {
         clearField("governmentId");
         governmentId = null;
+        return this;
     }
 
     public String getPassportId() {
@@ -508,9 +532,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearPassportId() {
+    public HyperwalletUser clearPassportId() {
         clearField("passportId");
         passportId = null;
+        return this;
     }
 
     public String getDriversLicenseId() {
@@ -528,9 +553,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearDriversLicenseId() {
+    public HyperwalletUser clearDriversLicenseId() {
         clearField("driversLicenseId");
         driversLicenseId = null;
+        return this;
     }
 
     public String getEmployerId() {
@@ -548,9 +574,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearEmployerId() {
+    public HyperwalletUser clearEmployerId() {
         clearField("employerId");
         employerId = null;
+        return this;
     }
 
     public String getAddressLine1() {
@@ -568,9 +595,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearAddressLine1() {
+    public HyperwalletUser clearAddressLine1() {
         clearField("addressLine1");
         addressLine1 = null;
+        return this;
     }
 
     public String getAddressLine2() {
@@ -588,9 +616,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearAddressLine2() {
+    public HyperwalletUser clearAddressLine2() {
         clearField("addressLine2");
         addressLine2 = null;
+        return this;
     }
 
     public String getCity() {
@@ -608,9 +637,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearCity() {
+    public HyperwalletUser clearCity() {
         clearField("city");
         city = null;
+        return this;
     }
 
     public String getStateProvince() {
@@ -628,9 +658,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearStateProvince() {
+    public HyperwalletUser clearStateProvince() {
         clearField("stateProvince");
         stateProvince = null;
+        return this;
     }
 
     public String getPostalCode() {
@@ -648,9 +679,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearPostalCode() {
+    public HyperwalletUser clearPostalCode() {
         clearField("postalCode");
         postalCode = null;
+        return this;
     }
 
     public String getCountry() {
@@ -668,9 +700,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearCountry() {
+    public HyperwalletUser clearCountry() {
         clearField("country");
         country = null;
+        return this;
     }
 
     public String getLanguage() {
@@ -688,9 +721,10 @@ public class HyperwalletUser extends HyperwalletBaseModel {
         return this;
     }
 
-    public void clearLanguage() {
+    public HyperwalletUser clearLanguage() {
         clearField("language");
         language = null;
+        return this;
     }
 
     public String getProgramToken() {
@@ -705,6 +739,12 @@ public class HyperwalletUser extends HyperwalletBaseModel {
     public HyperwalletUser programToken(String programToken) {
         addField("programToken", programToken);
         this.programToken = programToken;
+        return this;
+    }
+
+    public HyperwalletUser clearProgramToken() {
+        clearField("programToken");
+        programToken = null;
         return this;
     }
 }
