@@ -24,59 +24,6 @@ public class HyperwalletStatusTransitionTest {
     public ExpectedException thrown= ExpectedException.none();
 
     @Test
-    public void testModelBuilder() {
-        HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
-        transition.token("").transition(HyperwalletStatusTransition.Status.ACTIVATED)
-                .createdOn(new Date()).fromStatus(HyperwalletStatusTransition.Status.ACTIVATED)
-                .toStatus(HyperwalletStatusTransition.Status.DE_ACTIVATED).notes("");
-
-        Field[] fields = HyperwalletStatusTransition.class.getDeclaredFields();
-        Set<String> inclusions = transition.getInclusions();
-        assertTrue(inclusions.size() == fields.length);
-
-        for (Field f : fields) {
-            assertTrue(inclusions.contains(f.getName()));
-        }
-
-        transition.setNotes(null);
-        assertFalse(inclusions.contains("notes"));
-        assertTrue(inclusions.size() == fields.length - 1);
-
-        transition.clearNotes();
-        assertTrue(inclusions.contains("notes"));
-        assertNull(transition.getNotes());
-        assertTrue(inclusions.size() == fields.length);
-    }
-
-    @Test
-    public void testModelBean() {
-        HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
-        transition.setToken("");
-        transition.setTransition(HyperwalletStatusTransition.Status.ACTIVATED);
-        transition.setFromStatus(HyperwalletStatusTransition.Status.DE_ACTIVATED);
-        transition.setToStatus(HyperwalletStatusTransition.Status.LOCKED);
-        transition.setCreatedOn(new Date());
-        transition.setNotes("");
-
-        Field[] fields = HyperwalletStatusTransition.class.getDeclaredFields();
-        Set<String> inclusions = transition.getInclusions();
-        assertTrue(inclusions.size() == fields.length);
-
-        for (Field f : fields) {
-            assertTrue(inclusions.contains(f.getName()));
-        }
-
-        transition.setNotes(null);
-        assertFalse(inclusions.contains("notes"));
-        assertTrue(inclusions.size() == fields.length - 1);
-
-        transition.clearNotes();
-        assertTrue(inclusions.contains("notes"));
-        assertNull(transition.getNotes());
-        assertTrue(inclusions.size() == fields.length);
-    }
-
-    @Test
     public void testFaildCreatePrepaidCardStatusTransitionUserToken() {
         thrown.expect(HyperwalletException.class);
         new Hyperwallet("d", "d").createPrepaidCardStatusTransition("", "d",

@@ -16,6 +16,7 @@ class HyperwalletJsonUtil {
 
     static ObjectMapper objectMapper = new HyperwalletJsonConfiguration().getContext(Void.class);
     static ObjectMapper parser = new HyperwalletJsonConfiguration().getParser();
+    static ObjectMapper putObjectMapper = new HyperwalletJsonConfiguration().getPutObjectMapper();
 
     static <T> T fromJson(final byte[] content, final Class<T> valueType) {
         if (content == null || content.length == 0) {
@@ -60,12 +61,23 @@ class HyperwalletJsonUtil {
             return null;
         }
         try {
+            return HyperwalletJsonUtil.objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
+
+    static String toJsonPut(final Object object) {
+        if (object == null) {
+            return null;
+        }
+        try {
             HyperwalletBaseMonitor base = (HyperwalletBaseMonitor) object;
             FilterProvider filters = new SimpleFilterProvider()
                     .addFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER,
                             SimpleBeanPropertyFilter.serializeAll(base.getInclusions()));
 
-            ObjectWriter writer = HyperwalletJsonUtil.objectMapper.writer(filters);
+            ObjectWriter writer = HyperwalletJsonUtil.putObjectMapper.writer(filters);
             return writer.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             return null;

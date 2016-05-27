@@ -19,34 +19,6 @@ import static org.mockito.Mockito.*;
 public class HyperwalletPrepaidCardTest {
 
     @Test
-    public void testModel() {
-        HyperwalletPrepaidCard ppc = new HyperwalletPrepaidCard();
-        Field[] fields = HyperwalletPrepaidCard.class.getDeclaredFields();
-
-        ppc.token("").status(HyperwalletTransferMethod.Status.ACTIVATED).createdOn(new Date()).transferMethodCountry("")
-                .transferMethodCurrency("").cardType(HyperwalletPrepaidCard.CardType.INSTANT_ISSUE).cardPackage("")
-                .cardNumber("").cardBrand(HyperwalletPrepaidCard.Brand.MASTERCARD).dateOfExpiry(new Date())
-                .userToken("").setType(HyperwalletTransferMethod.Type.BANK_ACCOUNT);
-
-        Set<String> inclusions = ppc.getInclusions();
-
-        assertEquals(fields.length, inclusions.size());
-
-        for (Field f : fields) {
-            assertTrue(inclusions.contains(f.getName()));
-        }
-
-        ppc.setCardNumber(null);
-        assertFalse(inclusions.contains("cardNumber"));
-        assertEquals(fields.length - 1, inclusions.size());
-
-        ppc.clearCardNumber();
-        assertTrue(inclusions.contains("cardNumber"));
-        assertNull(ppc.getCardNumber());
-        assertEquals(fields.length, inclusions.size());
-    }
-
-    @Test
     public void testCreatePrepaidCard() {
 
         HyperwalletPrepaidCard ppc = new HyperwalletPrepaidCard();
