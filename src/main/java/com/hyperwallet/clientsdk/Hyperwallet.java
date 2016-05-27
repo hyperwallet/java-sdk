@@ -60,7 +60,7 @@ public class Hyperwallet {
         if (user == null) {
             throw new HyperwalletException("User is required");
         }
-        if (StringUtils.isEmpty(user.getToken())) {
+        if (!StringUtils.isEmpty(user.getToken())) {
             throw new HyperwalletException("User token may not be present");
         }
         user = util.clean(user);
@@ -191,7 +191,7 @@ public class Hyperwallet {
         if (bankAccount == null) {
             throw new HyperwalletException("Transfer Method is required");
         }
-        if (StringUtils.isEmpty(bankAccount.getToken())) {
+        if (!StringUtils.isEmpty(bankAccount.getToken())) {
             throw new HyperwalletException("Transfer Method token may not be present");
         }
         if (StringUtils.isEmpty(bankAccount.getUserToken())) {
@@ -523,7 +523,7 @@ public class Hyperwallet {
         if (payment == null) {
             throw new HyperwalletException("Payment is required");
         }
-        if (StringUtils.isEmpty(payment.getToken())) {
+        if (!StringUtils.isEmpty(payment.getToken())) {
             throw new HyperwalletException("Payment token may not be present");
         }
         return util.post(url + "/payments/", payment, HyperwalletPayment.class);

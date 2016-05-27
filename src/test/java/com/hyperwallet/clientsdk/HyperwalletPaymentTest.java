@@ -23,6 +23,66 @@ public class HyperwalletPaymentTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
+    public void testModelBuilder() {
+        HyperwalletPayment payment = new HyperwalletPayment();
+        payment.token("").createdOn(new Date()).amount(10.0).currency("CAD").description("")
+                .memo("").purpose("").releaseOn(new Date()).destinationToken("").programToken("")
+                .clientPaymentId("");
+
+        Field[] fields = HyperwalletPayment.class.getDeclaredFields();
+        Set<String> inclusions = payment.getInclusions();
+
+        assertEquals(fields.length, inclusions.size());
+
+        for (Field f : fields) {
+            assertTrue(inclusions.contains(f.getName()));
+        }
+
+        payment.setDescription(null);
+        assertFalse(inclusions.contains("description"));
+        assertTrue(inclusions.size() == fields.length - 1);
+
+        payment.clearDescription();
+        assertTrue(inclusions.contains("description"));
+        assertNull(payment.getDescription());
+        assertTrue(inclusions.size() == fields.length);
+    }
+
+    @Test
+    public void testModelBean() {
+        HyperwalletPayment payment = new HyperwalletPayment();
+        payment.setToken("");
+        payment.setCreatedOn(new Date());
+        payment.setAmount(10.5);
+        payment.setCurrency("USD");
+        payment.setDescription("");
+        payment.setMemo("");
+        payment.setPurpose("");
+        payment.setReleaseOn(new Date());
+        payment.setDestinationToken("");
+        payment.setProgramToken("");
+        payment.setClientPaymentId("");
+
+        Field[] fields = HyperwalletPayment.class.getDeclaredFields();
+        Set<String> inclusions = payment.getInclusions();
+
+        assertEquals(fields.length, inclusions.size());
+
+        for (Field f : fields) {
+            assertTrue(inclusions.contains(f.getName()));
+        }
+
+        payment.setDescription(null);
+        assertFalse(inclusions.contains("description"));
+        assertTrue(inclusions.size() == fields.length - 1);
+
+        payment.clearDescription();
+        assertTrue(inclusions.contains("description"));
+        assertNull(payment.getDescription());
+        assertTrue(inclusions.size() == fields.length);
+    }
+
+    @Test
     public void testFailedCreatePaymentNull() {
         thrown.expect(HyperwalletException.class);
         new Hyperwallet("d", "d").createPayment(null);
