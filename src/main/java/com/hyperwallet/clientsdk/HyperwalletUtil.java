@@ -172,8 +172,8 @@ class HyperwalletUtil {
 	}
 
 	void setProgramToken(HyperwalletPayment payment) {
-		if (payment != null && payment.programToken == null) {
-			payment.programToken = this.programToken;
+		if (payment != null && payment.getProgramToken() == null) {
+			payment.setProgramToken(this.programToken);
 		}
 	}
 

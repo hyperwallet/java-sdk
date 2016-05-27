@@ -108,7 +108,7 @@ public class Hyperwallet {
 
     /**
      * List Users
-     * @param options Filter User list response by setting options
+     * @param options List filter option
      * @return HyperwalletList<HyperwalletUser> list of Users
      * @throws HyperwalletException
      * */
@@ -167,7 +167,7 @@ public class Hyperwallet {
      * List User's Prepaid Card
      *
      * @param userToken User token assigned
-     * @param options Filter options for specified Prepaid card list group
+     * @param options List filter option
      * @return HyperwalletList<HyperwalletPrepaidCard> list of Prepaid cards
      * @throws HyperwalletException
      * */
@@ -253,7 +253,7 @@ public class Hyperwallet {
      * List User Bank Accounts
      *
      * @param userToken User token assigned
-     * @param options Filter options to control group list result
+     * @param options List filter option
      * @return HyperwalletList<HyperwalletBankAccount> list of Bank Accounts for the specified User
      * @throws HyperwalletException
      * */
@@ -332,7 +332,7 @@ public class Hyperwallet {
      *
      * @param userToken User token
      * @param prepaidCardToken Prepaid Card token
-     * @param options Filter prepaid card status information list group
+     * @param options List filter option
      * @throws HyperwalletException
      * */
     public HyperwalletList<HyperwalletStatusTransition> listPrepaidCardStatusTransitions(String userToken, String prepaidCardToken, HyperwalletPaginationOptions options) {
@@ -498,7 +498,7 @@ public class Hyperwallet {
      *
      * @param userToken User token
      * @param bankAccountToken Bank Account token
-     * @param options Filter result list group
+     * @param options List filter option
      * @throws HyperwalletException
      * */
     public HyperwalletList<HyperwalletStatusTransition> listBankAccountStatusTransitions(String userToken, String bankAccountToken, HyperwalletPaginationOptions options) {
@@ -512,28 +512,49 @@ public class Hyperwallet {
         return util.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {});
     }
 
-    // Payments
-
+    /**
+     * Create Payment
+     *
+     * @param payment Payment
+     * @return HyperwalletPayment created payment information
+     * @throws HyperwalletException
+     * */
     public HyperwalletPayment createPayment(HyperwalletPayment payment) {
         if (payment == null) {
             throw new HyperwalletException("Payment is required");
         }
-        if (payment.token != null) {
+        if (StringUtils.isEmpty(payment.getToken())) {
             throw new HyperwalletException("Payment token may not be present");
         }
-        payment = util.clean(payment);
-        payment.createdOn = null;
         return util.post(url + "/payments/", payment, HyperwalletPayment.class);
     }
 
-    public HyperwalletPayment getPayment(String token) {
-        return util.get(url + "/payments/" + token, HyperwalletPayment.class);
+    /**
+     * Get Payment
+     *
+     * @param paymentToken Payment token
+     * @throws HyperwalletException
+     * */
+    public HyperwalletPayment getPayment(String paymentToken) {
+        return util.get(url + "/payments/" + paymentToken, HyperwalletPayment.class);
     }
 
+    /**
+     * List all Payments
+     *
+     * @return HyperwalletList<HyperwalletPayment> list of Payments
+     * */
     public HyperwalletList<HyperwalletPayment> listPayments() {
         return listPayments(null);
     }
 
+    /**
+     * List all Payments
+     *
+     * @param options List filter option
+     * @return HyperwalletList<HyperwalletPayment> list of Payments
+     * @throws HyperwalletException
+     * */
     public HyperwalletList<HyperwalletPayment> listPayments(HyperwalletPaymentListOptions options) {
         String url = paginate(this.url + "/payments", options);
         if (options != null) {
@@ -544,8 +565,17 @@ public class Hyperwallet {
         });
     }
 
-    // Transfer Method Configurations
-
+    /**
+     * Get Transfer Method Configuration
+     *
+     * @param userToken User token
+     * @param country Country
+     * @param currency Currency
+     * @param type Type of Transfer Method to retrieve
+     * @param profileType Type of User profile
+     * @return HyperwalletTransferMethodConfiguration
+     * @throws HyperwalletException
+     * */
     public HyperwalletTransferMethodConfiguration getTransferMethodConfiguration(String userToken, String country, String currency, HyperwalletTransferMethod.Type type, HyperwalletUser.ProfileType profileType) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
@@ -571,10 +601,25 @@ public class Hyperwallet {
                 HyperwalletTransferMethodConfiguration.class);
     }
 
+    /**
+     * List all Transfer Method Configuration associated with User
+     *
+     * @param userToken User token
+     * @return HyperwalletList<HyperwalletTransferMethodConfiguration> list of Transfer Method Configuration
+     * @throws HyperwalletException
+     * */
     public HyperwalletList<HyperwalletTransferMethodConfiguration> listTransferMethodConfigurations(String userToken) {
         return listTransferMethodConfigurations(userToken, null);
     }
 
+    /**
+     * List all Transfer Method Configuration associated with User
+     *
+     * @param userToken User token
+     * @param options List filter options
+     * @return HyperwalletList<HyperwalletTransferMethodConfiguration> list of Transfer Method Configuration
+     * @throws HyperwalletException
+     * */
     public HyperwalletList<HyperwalletTransferMethodConfiguration> listTransferMethodConfigurations(String userToken, HyperwalletPaginationOptions options) {
         if (userToken == null) {
             throw new HyperwalletException("User token is required");
@@ -598,7 +643,7 @@ public class Hyperwallet {
      * List all User's Balances
      *
      * @param userToken User token assigned
-     * @param options   Filter User list balances response by setting options
+     * @param options   List filter option
      * @throws HyperwalletException
      */
     public HyperwalletList<HyperwalletBalance> listUserBalances(String userToken, HyperwalletBalanceListOptions options) {
@@ -632,7 +677,7 @@ public class Hyperwallet {
      *
      * @param userToken        User token assigned
      * @param prepaidCardToken Prepaid Card token assigned from User's Prepaid Card
-     * @param options          Filter User's Prepaid Card balances response by setting options
+     * @param options          List filter option
      */
     public HyperwalletList<HyperwalletBalance> listUserPrepaidCardBalances(String userToken, String prepaidCardToken, HyperwalletBalanceListOptions options) {
         if (StringUtils.isEmpty(userToken)) {
@@ -668,7 +713,7 @@ public class Hyperwallet {
      *
      * @param programToken Program token
      * @param accountToken Program account token
-     * @param options      Filter Program Account Balances response by setting options
+     * @param options      List filter option
      * @throws HyperwalletException
      */
     public HyperwalletList<HyperwalletBalance> listProgramAccountBalances(String programToken, String accountToken, HyperwalletBalanceListOptions options) {
@@ -693,7 +738,6 @@ public class Hyperwallet {
      *
      * @param programToken Program token
      * @param accountToken Program account token
-     *
      */
     public HyperwalletAccount getProgramAccount(final String programToken, final String accountToken){
 
