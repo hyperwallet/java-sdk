@@ -3,7 +3,6 @@ package com.hyperwallet.clientsdk;
 import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.node.NullNode;
 import com.hyperwallet.clientsdk.model.*;
 
 import javax.xml.bind.DatatypeConverter;
