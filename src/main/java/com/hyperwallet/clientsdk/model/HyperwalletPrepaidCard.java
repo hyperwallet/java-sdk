@@ -56,12 +56,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletPrepaidCard clearType() {
-        clearField("type");
-        type = null;
-        return this;
-    }
-
     public String getToken() {
         return token;
     }
@@ -74,12 +68,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     public HyperwalletPrepaidCard token(String token) {
         addField("token", token);
         this.token = token;
-        return this;
-    }
-
-    public HyperwalletPrepaidCard clearToken() {
-        clearField("token");
-        token = null;
         return this;
     }
 
@@ -98,12 +86,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletPrepaidCard clearStatus() {
-        clearField("status");
-        status = null;
-        return this;
-    }
-
     public Date getCreatedOn() {
         return createdOn;
     }
@@ -116,12 +98,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     public HyperwalletPrepaidCard createdOn(Date createdOn) {
         addField("createdOn", createdOn);
         this.createdOn = createdOn;
-        return this;
-    }
-
-    public HyperwalletPrepaidCard clearCreatedOn() {
-        clearField("createdOn");
-        createdOn = null;
         return this;
     }
 
@@ -140,12 +116,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletPrepaidCard clearTransferMethodCountry() {
-        clearField("transferMethodCountry");
-        transferMethodCountry = null;
-        return this;
-    }
-
     public String getTransferMethodCurrency() {
         return transferMethodCurrency;
     }
@@ -158,12 +128,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     public HyperwalletPrepaidCard transferMethodCurrency(String transferMethodCurrency) {
         addField("transferMethodCurrency", transferMethodCurrency);
         this.transferMethodCurrency = transferMethodCurrency;
-        return this;
-    }
-
-    public HyperwalletPrepaidCard clearTransferMethodCurrency() {
-        clearField("transferMethodCurrency");
-        transferMethodCurrency = null;
         return this;
     }
 
@@ -182,12 +146,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletPrepaidCard clearCardType() {
-        clearField("cardType");
-        cardType = null;
-        return this;
-    }
-
     public String getCardPackage() {
         return cardPackage;
     }
@@ -200,12 +158,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     public HyperwalletPrepaidCard cardPackage(String cardPackage) {
         addField("cardPackage", cardPackage);
         this.cardPackage = cardPackage;
-        return this;
-    }
-
-    public HyperwalletPrepaidCard clearCardPackage() {
-        clearField("cardPackage");
-        cardPackage = null;
         return this;
     }
 
@@ -224,12 +176,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletPrepaidCard clearDateOfExpiry() {
-        addField("dateOfExpiry", dateOfExpiry);
-        dateOfExpiry = null;
-        return this;
-    }
-
     public String getCardNumber() {
         return cardNumber;
     }
@@ -242,12 +188,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     public HyperwalletPrepaidCard cardNumber(String cardNumber) {
         addField("cardNumber", cardNumber);
         this.cardNumber = cardNumber;
-        return this;
-    }
-
-    public HyperwalletPrepaidCard clearCardNumber() {
-        clearField("cardNumber");
-        cardNumber = null;
         return this;
     }
 
@@ -266,12 +206,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletPrepaidCard clearCardBrand() {
-        clearField("cardBrand");
-        cardBrand = null;
-        return this;
-    }
-
     public String getUserToken() {
         return userToken;
     }
@@ -284,12 +218,6 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     public HyperwalletPrepaidCard userToken(String userToken) {
         addField("userToken", userToken);
         this.userToken = userToken;
-        return this;
-    }
-
-    public HyperwalletPrepaidCard clearUserToken() {
-        clearField("userToken");
-        userToken = null;
         return this;
     }
 }

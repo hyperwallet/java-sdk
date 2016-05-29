@@ -41,11 +41,6 @@ public class HyperwalletPaymentTest {
         payment.setDescription(null);
         assertFalse(inclusions.contains("description"));
         assertTrue(inclusions.size() == fields.length - 1);
-
-        payment.clearDescription();
-        assertTrue(inclusions.contains("description"));
-        assertNull(payment.getDescription());
-        assertTrue(inclusions.size() == fields.length);
     }
 
     @Test
@@ -75,11 +70,6 @@ public class HyperwalletPaymentTest {
         payment.setDescription(null);
         assertFalse(inclusions.contains("description"));
         assertTrue(inclusions.size() == fields.length - 1);
-
-        payment.clearDescription();
-        assertTrue(inclusions.contains("description"));
-        assertNull(payment.getDescription());
-        assertTrue(inclusions.size() == fields.length);
     }
 
     @Test

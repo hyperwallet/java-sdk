@@ -2,7 +2,6 @@ package com.hyperwallet.clientsdk;
 
 import com.hyperwallet.clientsdk.model.HyperwalletList;
 import com.hyperwallet.clientsdk.model.HyperwalletUser;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -73,6 +72,66 @@ public class HyperwalletUserTest {
 
         when(hw.createUser(user)).thenReturn(user);
         HyperwalletUser u = hw.createUser(user);
+
+        assertEquals(user.getClientUserId(), u.getClientUserId());
+        assertEquals(user.getProfileType(), u.getProfileType());
+        assertEquals(user.getFirstName(), u.getFirstName());
+        assertEquals(user.getLastName(), u.getLastName());
+        assertEquals(user.getEmail(), u.getEmail());
+        assertEquals(user.getAddressLine1(), u.getAddressLine1());
+        assertEquals(user.getCity(), u.getCity());
+        assertEquals(user.getStateProvince(), u.getStateProvince());
+        assertEquals(user.getCountry(), u.getCountry());
+        assertEquals(user.getPostalCode(), u.getPostalCode());
+    }
+    
+    @Test
+    public void testUpdateUserClearing() {
+        Hyperwallet hw = mock(Hyperwallet.class);
+        HyperwalletUser user = new HyperwalletUser();
+        user.setClientUserId("clientxx001");
+        user.setProfileType(HyperwalletUser.ProfileType.INDIVIDUAL);
+        user.setFirstName("devfirstname");
+        user.setLastName("develastname");
+        user.setEmail("dev@mail.com");
+        user.setAddressLine1("950 Granville");
+        user.setCity("Cebu");
+        user.setStateProvince("BC");
+        user.setCountry("CA");
+        user.clearPostalCode();
+
+        when(hw.updateUser(user)).thenReturn(user);
+        HyperwalletUser u = hw.updateUser(user);
+
+        assertEquals(user.getClientUserId(), u.getClientUserId());
+        assertEquals(user.getProfileType(), u.getProfileType());
+        assertEquals(user.getFirstName(), u.getFirstName());
+        assertEquals(user.getLastName(), u.getLastName());
+        assertEquals(user.getEmail(), u.getEmail());
+        assertEquals(user.getAddressLine1(), u.getAddressLine1());
+        assertEquals(user.getCity(), u.getCity());
+        assertEquals(user.getStateProvince(), u.getStateProvince());
+        assertEquals(user.getCountry(), u.getCountry());
+        assertNull(u.getPostalCode());
+    }
+    
+    @Test
+    public void testUpdateUserNulling() {
+        Hyperwallet hw = mock(Hyperwallet.class);
+        HyperwalletUser user = new HyperwalletUser();
+        user.setClientUserId("clientxx001");
+        user.setProfileType(HyperwalletUser.ProfileType.INDIVIDUAL);
+        user.setFirstName("devfirstname");
+        user.setLastName("develastname");
+        user.setEmail("dev@mail.com");
+        user.setAddressLine1("950 Granville");
+        user.setCity("Cebu");
+        user.setStateProvince("BC");
+        user.setCountry("CA");
+        user.setPostalCode("H0H0H0");
+
+        when(hw.updateUser(user)).thenReturn(user);
+        HyperwalletUser u = hw.updateUser(user);
 
         assertEquals(user.getClientUserId(), u.getClientUserId());
         assertEquals(user.getProfileType(), u.getProfileType());

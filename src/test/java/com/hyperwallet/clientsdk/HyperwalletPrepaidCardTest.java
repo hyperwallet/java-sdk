@@ -39,11 +39,6 @@ public class HyperwalletPrepaidCardTest {
         ppc.setCardNumber(null);
         assertFalse(inclusions.contains("cardNumber"));
         assertEquals(fields.length - 1, inclusions.size());
-
-        ppc.clearCardNumber();
-        assertTrue(inclusions.contains("cardNumber"));
-        assertNull(ppc.getCardNumber());
-        assertEquals(fields.length, inclusions.size());
     }
 
     @Test

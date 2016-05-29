@@ -47,12 +47,6 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletStatusTransition clearToken() {
-        clearField("token");
-        token = null;
-        return this;
-    }
-
     public Date getCreatedOn() {
         return createdOn;
     }
@@ -65,12 +59,6 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
     public HyperwalletStatusTransition createdOn(Date createdOn) {
         addField("createdOn", createdOn);
         this.createdOn = createdOn;
-        return this;
-    }
-
-    public HyperwalletStatusTransition clearCreatedOn() {
-        clearField("createdOn");
-        createdOn = null;
         return this;
     }
 
@@ -89,12 +77,6 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletStatusTransition clearTransition() {
-        clearField("transition");
-        transition = null;
-        return this;
-    }
-
     public Status getFromStatus() {
         return fromStatus;
     }
@@ -107,12 +89,6 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
     public HyperwalletStatusTransition fromStatus(Status fromStatus) {
         addField("fromStatus", fromStatus);
         this.fromStatus = fromStatus;
-        return this;
-    }
-
-    public HyperwalletStatusTransition clearFromStatus() {
-        clearField("fromStatus");
-        fromStatus = null;
         return this;
     }
 
@@ -131,12 +107,6 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletStatusTransition clearToStatus() {
-        clearField("toStatus");
-        toStatus = null;
-        return this;
-    }
-
     public String getNotes() {
         return notes;
     }
@@ -151,11 +121,4 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
         this.notes = notes;
         return this;
     }
-
-    public HyperwalletStatusTransition clearNotes() {
-        clearField("notes");
-        notes = null;
-        return this;
-    }
-
 }

@@ -41,11 +41,6 @@ public class HyperwalletStatusTransitionTest {
         transition.setNotes(null);
         assertFalse(inclusions.contains("notes"));
         assertTrue(inclusions.size() == fields.length - 1);
-
-        transition.clearNotes();
-        assertTrue(inclusions.contains("notes"));
-        assertNull(transition.getNotes());
-        assertTrue(inclusions.size() == fields.length);
     }
 
     @Test
@@ -69,11 +64,6 @@ public class HyperwalletStatusTransitionTest {
         transition.setNotes(null);
         assertFalse(inclusions.contains("notes"));
         assertTrue(inclusions.size() == fields.length - 1);
-
-        transition.clearNotes();
-        assertTrue(inclusions.contains("notes"));
-        assertNull(transition.getNotes());
-        assertTrue(inclusions.size() == fields.length);
     }
 
     @Test
