@@ -25,7 +25,7 @@ public class Hyperwallet {
      * */
     public Hyperwallet(final String username, final String password, final String programToken, final String url) {
         util = new HyperwalletUtil(username, password, programToken, version);
-        this.url = StringUtils.isEmpty(url) ? "https://beta.paylution.com/rest/v3" : url;
+        this.url = StringUtils.isEmpty(url) ? "https://api.sandbox.hyperwallet.com/rest/v3" : url;
     }
 
     /**
@@ -351,66 +351,24 @@ public class Hyperwallet {
      * Deactivate Bank Account
      *
      * @param userToken User token
-     * @param bankAccount Bank Account information
+     * @param bankAccountToken Bank Account token
      * @return HyperwalletStatusTransition deactivated bank account
      * @throws HyperwalletException
      * */
-    public HyperwalletStatusTransition deactivateBankAccount(String userToken, HyperwalletBankAccount bankAccount) {
-        return createStatusTransition(userToken, bankAccount, HyperwalletStatusTransition.Status.DE_ACTIVATED);
+    public HyperwalletStatusTransition deactivateBankAccount(String userToken, String bankAccountToken) {
+        return createBankAccountStatusTransition(userToken, bankAccountToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.DE_ACTIVATED));
     }
 
     /**
      * Activate Bank Account
      *
      * @param userToken User token
-     * @param bankAccount Bank Account information
+     * @param bankAccountToken Bank Account token
      * @return HyperwalletStatusTransition activated bank account
      * @throws HyperwalletException
      * */
-    public HyperwalletStatusTransition activateBankAccount(String userToken, HyperwalletBankAccount bankAccount) {
-        return createStatusTransition(userToken, bankAccount, HyperwalletStatusTransition.Status.ACTIVATED);
-    }
-
-    /**
-     * Create Bank Account Status Transition
-     *
-     * @param userToken User token
-     * @param bankAccount Bank Account information
-     * @param transition Status transition information
-     * @return HyperwalletStatusTransition
-     * @throws HyperwalletException
-     * */
-    public HyperwalletStatusTransition createStatusTransition(String userToken, HyperwalletBankAccount bankAccount, HyperwalletStatusTransition transition) {
-        return createBankAccountStatusTransition(userToken, bankAccount, transition);
-    }
-
-    /**
-     * Create Bank Account Status Transition
-     *
-     * @param userToken User token
-     * @param bankAccount Bank Account information
-     * @param status Status transition information
-     * @return HyperwalletStatusTransition
-     * @throws HyperwalletException
-     * */
-    public HyperwalletStatusTransition createStatusTransition(String userToken, HyperwalletBankAccount bankAccount, HyperwalletStatusTransition.Status status) {
-        return createBankAccountStatusTransition(userToken, bankAccount, new HyperwalletStatusTransition(status));
-    }
-
-    /**
-     * Create Bank Account Status Transition
-     *
-     * @param userToken User token
-     * @param bankAccount Bank Account information
-     * @param transition Status transition information
-     * @return HyperwalletStatusTransition
-     * @throws HyperwalletException
-     * */
-    public HyperwalletStatusTransition createBankAccountStatusTransition(String userToken, HyperwalletBankAccount bankAccount, HyperwalletStatusTransition transition) {
-        if (bankAccount == null) {
-            throw new HyperwalletException("Account is required");
-        }
-        return createBankAccountStatusTransition(userToken, bankAccount.getToken(), transition);
+    public HyperwalletStatusTransition activateBankAccount(String userToken, String bankAccountToken) {
+        return createBankAccountStatusTransition(userToken, bankAccountToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.ACTIVATED));
     }
 
     /**
@@ -438,37 +396,19 @@ public class Hyperwallet {
     /**
      * Get Bank Account Status Transition
      *
-     * @param user User information
-     * @param bankAccount Bank Account Information
-     * @param statusTransitionToken Status transition token
-     * @throws HyperwalletException
-     * */
-    public HyperwalletStatusTransition getBankAccountStatusTransition(HyperwalletUser user, HyperwalletBankAccount bankAccount, String statusTransitionToken) {
-        if (user == null) {
-            throw new HyperwalletException("User is required");
-        }
-        if (bankAccount == null) {
-            throw new HyperwalletException("Account is required");
-        }
-        return getBankAccountStatusTransition(user.getToken(), bankAccount.getToken(), statusTransitionToken);
-    }
-
-    /**
-     * Get Bank Account Status Transition
-     *
      * @param userToken User token
      * @param bankAccountToken Bank Account token
      * @param statusTransitionToken Status transition token
      * @throws HyperwalletException
      * */
     public HyperwalletStatusTransition getBankAccountStatusTransition(String userToken, String bankAccountToken, String statusTransitionToken) {
-        if (bankAccountToken == null) {
+        if (StringUtils.isEmpty(bankAccountToken)) {
             throw new HyperwalletException("Account token is required");
         }
-        if (userToken == null) {
+        if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
-        if (statusTransitionToken == null) {
+        if (StringUtils.isEmpty(statusTransitionToken)) {
             throw new HyperwalletException("Transition token is required");
         }
         return util.get(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions" + statusTransitionToken, HyperwalletStatusTransition.class);

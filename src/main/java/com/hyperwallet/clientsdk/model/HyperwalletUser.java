@@ -257,6 +257,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     }
 
     public HyperwalletUser businessRegistrationCountry(String businessRegistrationCountry) {
+        addField("businessRegistrationCountry", businessRegistrationCountry);
         this.businessRegistrationCountry = businessRegistrationCountry;
         return this;
     }
@@ -298,6 +299,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     }
 
     public HyperwalletUser firstName(String firstName) {
+        addField("firstName" , firstName);
         this.firstName = firstName;
         return this;
     }
@@ -381,6 +383,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     }
 
     public HyperwalletUser countryOfBirth(String countryOfBirth) {
+        addField("countryOfBirth", countryOfBirth);
         this.countryOfBirth = countryOfBirth;
         return this;
     }
