@@ -304,8 +304,10 @@ public class Hyperwallet {
         if (transition == null) {
             throw new HyperwalletException("Transition is required");
         }
+        if (!StringUtils.isEmpty(transition.getToken())) {
+            throw new HyperwalletException("Status transition token may not be present");
+        }
         transition = util.clean(transition);
-        transition.setToken(null);
         transition.setCreatedOn(null);
         transition.setFromStatus(null);
         transition.setToStatus(null);
@@ -415,7 +417,7 @@ public class Hyperwallet {
             throw new HyperwalletException("Transition is required");
         }
         if (!StringUtils.isEmpty(transition.getToken())) {
-            throw new HyperwalletException("Transition token may not be present");
+            throw new HyperwalletException("Status transition token may not be present");
         }
         transition = util.clean(transition);
         transition.setCreatedOn(null);
