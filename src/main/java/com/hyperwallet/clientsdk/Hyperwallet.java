@@ -132,6 +132,7 @@ public class Hyperwallet {
         if (StringUtils.isEmpty(prepaidCard.getUserToken())) {
             throw new HyperwalletException("User token is required");
         }
+        prepaidCard = util.clean(prepaidCard);
         return util.post(url + "/users/" + prepaidCard.getUserToken() + "/prepaid-cards", prepaidCard, HyperwalletPrepaidCard.class);
     }
 
@@ -197,6 +198,7 @@ public class Hyperwallet {
         if (StringUtils.isEmpty(bankAccount.getUserToken())) {
             throw new HyperwalletException("User token is required");
         }
+        bankAccount = util.clean(bankAccount);
         return util.post(url + "/users/" + bankAccount.getUserToken() + "/bank-accounts", bankAccount, HyperwalletBankAccount.class);
     }
 
