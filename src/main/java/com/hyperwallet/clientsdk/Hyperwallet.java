@@ -64,7 +64,6 @@ public class Hyperwallet {
             throw new HyperwalletException("User token may not be present");
         }
         user = util.clean(user);
-        user.setToken(null);
         user.setStatus(null);
         user.setCreatedOn(null);
         return util.post(url + "/users", user, HyperwalletUser.class);
@@ -115,8 +114,7 @@ public class Hyperwallet {
      * */
     public HyperwalletList<HyperwalletUser> listUsers(HyperwalletPaginationOptions options) {
         String url = paginate(this.url + "/users", options);
-        return util.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {
-        });
+        return util.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {});
     }
 
     /**
@@ -133,12 +131,13 @@ public class Hyperwallet {
         if (StringUtils.isEmpty(prepaidCard.getUserToken())) {
             throw new HyperwalletException("User token is required");
         }
+        if (!StringUtils.isEmpty(prepaidCard.getToken())) {
+            throw new HyperwalletException("Prepaid Card token may not be present");
+        }
         prepaidCard = util.clean(prepaidCard);
         prepaidCard.createdOn(null);
         prepaidCard.setStatus(null);
         prepaidCard.setCardType(null);
-        prepaidCard.setToken(null);
-        prepaidCard.setStatus(null);
         prepaidCard.setCreatedOn(null);
         prepaidCard.setTransferMethodCountry(null);
         prepaidCard.setTransferMethodCurrency(null);
@@ -204,14 +203,13 @@ public class Hyperwallet {
         if (bankAccount == null) {
             throw new HyperwalletException("Transfer Method is required");
         }
-        if (!StringUtils.isEmpty(bankAccount.getToken())) {
-            throw new HyperwalletException("Transfer Method token may not be present");
-        }
         if (StringUtils.isEmpty(bankAccount.getUserToken())) {
             throw new HyperwalletException("User token is required");
         }
+        if (!StringUtils.isEmpty(bankAccount.getToken())) {
+            throw new HyperwalletException("Transfer Method token may not be present");
+        }
         bankAccount = util.clean(bankAccount);
-        bankAccount.setToken(null);
         bankAccount.createdOn(null);
         bankAccount.setStatus(null);
         bankAccount.setBranchAddressLine2(null);
@@ -416,8 +414,10 @@ public class Hyperwallet {
         if (transition == null) {
             throw new HyperwalletException("Transition is required");
         }
+        if (!StringUtils.isEmpty(transition.getToken())) {
+            throw new HyperwalletException("Transition token may not be present");
+        }
         transition = util.clean(transition);
-        transition.setToken(null);
         transition.setCreatedOn(null);
         transition.setFromStatus(null);
         transition.setToStatus(null);
@@ -498,7 +498,6 @@ public class Hyperwallet {
             throw new HyperwalletException("Payment token may not be present");
         }
         payment = util.clean(payment);
-        payment.setToken(null);
         payment.setCreatedOn(null);
         return util.post(url + "/payments/", payment, HyperwalletPayment.class);
     }
