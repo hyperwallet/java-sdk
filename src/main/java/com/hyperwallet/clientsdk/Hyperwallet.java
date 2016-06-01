@@ -64,6 +64,7 @@ public class Hyperwallet {
             throw new HyperwalletException("User token may not be present");
         }
         user = util.clean(user);
+        user.setToken(null);
         user.setStatus(null);
         user.setCreatedOn(null);
         return util.post(url + "/users", user, HyperwalletUser.class);
@@ -133,6 +134,17 @@ public class Hyperwallet {
             throw new HyperwalletException("User token is required");
         }
         prepaidCard = util.clean(prepaidCard);
+        prepaidCard.createdOn(null);
+        prepaidCard.setStatus(null);
+        prepaidCard.setCardType(null);
+        prepaidCard.setToken(null);
+        prepaidCard.setStatus(null);
+        prepaidCard.setCreatedOn(null);
+        prepaidCard.setTransferMethodCountry(null);
+        prepaidCard.setTransferMethodCurrency(null);
+        prepaidCard.setCardNumber(null);
+        prepaidCard.setCardBrand(null);
+        prepaidCard.setDateOfExpiry(null);
         return util.post(url + "/users/" + prepaidCard.getUserToken() + "/prepaid-cards", prepaidCard, HyperwalletPrepaidCard.class);
     }
 
@@ -199,6 +211,13 @@ public class Hyperwallet {
             throw new HyperwalletException("User token is required");
         }
         bankAccount = util.clean(bankAccount);
+        bankAccount.setToken(null);
+        bankAccount.createdOn(null);
+        bankAccount.setStatus(null);
+        bankAccount.setBranchAddressLine2(null);
+        bankAccount.setIntermediaryBankAddressLine2(null);
+        bankAccount.setIntermediaryBankStateProvince(null);
+        bankAccount.setIntermediaryBankPostalCode(null);
         return util.post(url + "/users/" + bankAccount.getUserToken() + "/bank-accounts", bankAccount, HyperwalletBankAccount.class);
     }
 
@@ -287,6 +306,11 @@ public class Hyperwallet {
         if (transition == null) {
             throw new HyperwalletException("Transition is required");
         }
+        transition = util.clean(transition);
+        transition.setToken(null);
+        transition.setCreatedOn(null);
+        transition.setFromStatus(null);
+        transition.setToStatus(null);
         return util.post(url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
     }
 
@@ -392,6 +416,11 @@ public class Hyperwallet {
         if (transition == null) {
             throw new HyperwalletException("Transition is required");
         }
+        transition = util.clean(transition);
+        transition.setToken(null);
+        transition.setCreatedOn(null);
+        transition.setFromStatus(null);
+        transition.setToStatus(null);
         return util.post(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
     }
 
@@ -468,6 +497,9 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(payment.getToken())) {
             throw new HyperwalletException("Payment token may not be present");
         }
+        payment = util.clean(payment);
+        payment.setToken(null);
+        payment.setCreatedOn(null);
         return util.post(url + "/payments/", payment, HyperwalletPayment.class);
     }
 
