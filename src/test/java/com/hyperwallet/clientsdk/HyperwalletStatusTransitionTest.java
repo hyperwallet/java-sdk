@@ -205,8 +205,8 @@ public class HyperwalletStatusTransitionTest {
         bank.setToken("trm-token");
 
         Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.createBankAccountStatusTransition("usr-token", bank, transition)).thenReturn(transition);
-        HyperwalletStatusTransition newTrans = hw.createBankAccountStatusTransition("usr-token", bank, transition);
+        when(hw.createBankAccountStatusTransition("usr-token", bank.getToken(), transition)).thenReturn(transition);
+        HyperwalletStatusTransition newTrans = hw.createBankAccountStatusTransition("usr-token", bank.getToken(), transition);
 
         assertEquals(transition.getNotes(), newTrans.getNotes());
         assertEquals(transition.getFromStatus(), newTrans.getFromStatus());
