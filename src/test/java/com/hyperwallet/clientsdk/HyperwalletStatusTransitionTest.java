@@ -1,5 +1,7 @@
 package com.hyperwallet.clientsdk;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.introspect.ClassIntrospector;
 import com.hyperwallet.clientsdk.model.HyperwalletBankAccount;
 import com.hyperwallet.clientsdk.model.HyperwalletList;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition;
@@ -180,10 +182,12 @@ public class HyperwalletStatusTransitionTest {
         transition.setNotes("Activated bank account card");
         transition.setFromStatus(HyperwalletStatusTransition.Status.DE_ACTIVATED);
         transition.setToStatus(HyperwalletStatusTransition.Status.ACTIVATED);
-        transition.setToken("trm-token");
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.createBankAccountStatusTransition("usr-token", "trm-token", transition)).thenReturn(transition);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.copy(transition)).thenReturn(transition);
+        when(client.post(anyString(), anyObject(), any(Class.class))).thenReturn(transition);
         HyperwalletStatusTransition newTrans = hw.createBankAccountStatusTransition("usr-token", "trm-token", transition);
 
         assertEquals(transition.getNotes(), newTrans.getNotes());
@@ -199,13 +203,15 @@ public class HyperwalletStatusTransitionTest {
         transition.setNotes("Activated bank account card");
         transition.setFromStatus(HyperwalletStatusTransition.Status.DE_ACTIVATED);
         transition.setToStatus(HyperwalletStatusTransition.Status.ACTIVATED);
-        transition.setToken("trm-token");
 
         HyperwalletBankAccount bank = new HyperwalletBankAccount();
         bank.setToken("trm-token");
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.createBankAccountStatusTransition("usr-token", bank.getToken(), transition)).thenReturn(transition);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.copy(transition)).thenReturn(transition);
+        when(client.post(anyString(), anyObject(), any(Class.class))).thenReturn(transition);
         HyperwalletStatusTransition newTrans = hw.createBankAccountStatusTransition("usr-token", bank.getToken(), transition);
 
         assertEquals(transition.getNotes(), newTrans.getNotes());
@@ -223,8 +229,10 @@ public class HyperwalletStatusTransitionTest {
         transition.setToStatus(HyperwalletStatusTransition.Status.ACTIVATED);
         transition.setToken("trm-token");
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.getBankAccountStatusTransition("usr-token", "trm-token", "sts-token")).thenReturn(transition);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(Class.class))).thenReturn(transition);
         HyperwalletStatusTransition newTrans = hw.getBankAccountStatusTransition("usr-token", "trm-token", "sts-token");
 
         assertEquals(transition.getNotes(), newTrans.getNotes());
@@ -246,8 +254,10 @@ public class HyperwalletStatusTransitionTest {
         list.data = new ArrayList<HyperwalletStatusTransition>();
         list.data.add(transition);
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.listBankAccountStatusTransitions("user-token", "trm-token")).thenReturn(list);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(TypeReference.class))).thenReturn(list);
 
         HyperwalletList<HyperwalletStatusTransition> retList = hw.listBankAccountStatusTransitions("user-token", "trm-token");
 

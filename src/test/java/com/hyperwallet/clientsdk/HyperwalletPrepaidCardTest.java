@@ -1,5 +1,6 @@
 package com.hyperwallet.clientsdk;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.HyperwalletList;
 import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod;
@@ -46,8 +47,7 @@ public class HyperwalletPrepaidCardTest {
 
         HyperwalletPrepaidCard ppc = new HyperwalletPrepaidCard();
         ppc.setType(HyperwalletTransferMethod.Type.PREPAID_CARD);
-        ppc.setUserToken("usr-38cfc293-8ea1-4df1-b97b-7436ec59551d");
-        ppc.setToken("trm-***");
+        ppc.setUserToken("usr-token");
         ppc.setType(HyperwalletTransferMethod.Type.PREPAID_CARD);
         ppc.setStatus(HyperwalletTransferMethod.Status.PRE_ACTIVATED);
         ppc.setCreatedOn(new Date());
@@ -59,8 +59,11 @@ public class HyperwalletPrepaidCardTest {
         ppc.setCardBrand(HyperwalletPrepaidCard.Brand.MASTERCARD);
         ppc.setDateOfExpiry(new Date());
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.createPrepaidCard(ppc)).thenReturn(ppc);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.copy(ppc)).thenReturn(ppc);
+        when(client.post(anyString(), anyObject(), any(Class.class))).thenReturn(ppc);
         HyperwalletPrepaidCard prepaidCard = hw.createPrepaidCard(ppc);
 
         assertEquals(ppc.getToken(), prepaidCard.getToken());
@@ -93,8 +96,10 @@ public class HyperwalletPrepaidCardTest {
         ppc.setCardBrand(HyperwalletPrepaidCard.Brand.MASTERCARD);
         ppc.setDateOfExpiry(new Date());
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.getPrepaidCard("usr-token", "trm-token")).thenReturn(ppc);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(Class.class))).thenReturn(ppc);
         HyperwalletPrepaidCard prepaidCard = hw.getPrepaidCard("usr-token", "trm-token");
 
         assertEquals(ppc.getToken(), prepaidCard.getToken());
@@ -132,8 +137,10 @@ public class HyperwalletPrepaidCardTest {
         list.data = new ArrayList<HyperwalletPrepaidCard>();
         list.data.add(ppc);
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.listPrepaidCards("usr-token")).thenReturn(list);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(TypeReference.class))).thenReturn(list);
 
         HyperwalletList<HyperwalletPrepaidCard> resultList = hw.listPrepaidCards("usr-token");
         assertNotNull(resultList);

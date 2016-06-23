@@ -12,7 +12,7 @@ import java.util.TimeZone;
 
 public class Hyperwallet {
 
-    private final HyperwalletApiClient util;
+    private HyperwalletApiClient util;
     private final String version = "0.0.2";
     private final String url;
 
@@ -520,8 +520,7 @@ public class Hyperwallet {
             url = addParameter(url, "releasedOn", convert(options.releasedOn));
             url = addParameter(url, "currency", options.currency);
         }
-        return util.get(url, new TypeReference<HyperwalletList<HyperwalletPayment>>() {
-        });
+        return util.get(url, new TypeReference<HyperwalletList<HyperwalletPayment>>() {});
     }
 
     /**
@@ -750,5 +749,9 @@ public class Hyperwallet {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return dateFormat.format(in);
+    }
+
+    protected void setClientService(HyperwalletApiClient client) {
+        util = client;
     }
 }
