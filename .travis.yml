@@ -3,3 +3,6 @@ jdk:
 - oraclejdk8
 - oraclejdk7
 - openjdk6
+
+after_success:
+- if [ $TRAVIS_PHP_VERSION = '7.0' ] && [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then sh ./scripts/travisPublishDocs.sh; fi
