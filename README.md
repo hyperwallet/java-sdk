@@ -1,35 +1,84 @@
-hyperwallet-java
-================
+[![Build Status](https://travis-ci.org/hyperwallet/java-sdk.png?branch=master)](https://travis-ci.org/hyperwallet/java-sdk)
+[![Coverage Status](https://coveralls.io/repos/github/hyperwallet/java-sdk/badge.svg?branch=master)](https://coveralls.io/github/hyperwallet/java-sdk?branch=master)
+[![Dependency Status](https://www.versioneye.com/user/projects/5764801d073540004151857e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5764801d073540004151857e)
+
+Hyperwallet REST SDK (Beta)
+===========================
+
+A library to manage users, transfer methods and payments through the Hyperwallet API
+
+
+Installation
+------------
 
 ```
 <dependency>
     <groupId>com.hyperwallet</groupId>
-    <artifactId>rest-r3-java-sdk</artifactId>
-    <version>0.1.1</version>
+    <artifactId>sdk</artifactId>
+    <version>0.1.0</version>
 </dependency>
 ```
 
-For general usage, create a new ```Hyperwallet(username, password)``` - this is threadsafe - and call its top level methods
-directly.  You can optionally pass in a program code as a third parameter and it will be used as a default if one is
-not provided in direct calls.
 
-```java
-HyperwalletUser user = hyperwallet.getUser("usr-7d8d50f7-abc1-49a1-9616-29575314f385");
+Documentation
+-------------
 
-user.setFirstName("Bob").setLastName("Hope");
+Documentation is available at http://hyperwallet.github.io/java-sdk.
 
-user = hyperwallet.updateUser(user);
+
+API Overview
+------------
+
+To write an app using the SDK
+
+* Register for a sandbox account and get your username, password and program token at the [Hyperwallet Program Portal](https://portal.hyperwallet.com).
+* Add dependency `hyperwallet/sdk` to your `composer.json`.
+
+* Create a instance of the Hyperwallet Client (with username, password and program token)
+  ```java
+  Hyperwallet client = new Hyperwallet("restapiuser@4917301618", "mySecurePassword!", "prg-645fc30d-83ed-476c-a412-32c82738a20e");
+  ```
+* Start making API calls (e.g. create a user)
+  ```java
+
+  HyperwalletUser user = new HyperwalletUser();
+  user
+    .clientUserId("test-client-id-1")
+    .profileType(User::ProfileType::INDIVIDUAL)
+    .firstName("Daffyd")
+    .lastName("y Goliath")
+    .email("testmail-1@hyperwallet.com")
+    .addressLine1("123 Main Street")
+    .city("Austin")
+    .stateProvince("TX")
+    .country("US")
+    .postalCode("78701");
+
+  try {
+      HyperwalletUser createdUser = client.createUser(user);
+  } catch (HyperwalletException e) {
+      // Add error handling here
+  }
+  ```
+
+
+Development
+-----------
+
+Run the tests using [`junit`](http://junit.org/junit4/):
+
+```bash
+$ mvn test
 ```
 
-Any commands that return a list will also include metadata; they do this by returning a ```HyperwalletList<?>``` object.  The actual
-results will be contained within the ```data``` sub-structure.
 
-Setters support chaining, and any errors will be shown by throwing a ```HyperwalletException``` which will contain an errorCode and an
-errorMessage.
+Reference
+---------
 
-You can use JavaBean conventions or simply edit the public attributes of the objects directly, whichever best fits your project style.
+[REST API Reference](https://sandbox.hyperwallet.com/developer-portal/#/docs)
 
-Since we assume that you're going to be using this in a much larger project, all classes are prefaced with the word
-Hyperwallet to avoid confusion.
 
-To run the (trivial) tests, simply set the environment variables ```HYPERWALLET_USERNAME``` and ```HYPERWALLET_PASSWORD``` to appropriate values.
+License
+-------
+
+[MIT](https://raw.githubusercontent.com/hyperwallet/java-sdk/master/LICENSE)
