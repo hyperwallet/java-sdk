@@ -12,7 +12,7 @@ import java.util.TimeZone;
 
 public class Hyperwallet {
 
-    private final HyperwalletUtil util;
+    private final HyperwalletApiClient util;
     private final String version = "0.0.2";
     private final String url;
 
@@ -25,7 +25,7 @@ public class Hyperwallet {
      * @param url API base url
      * */
     public Hyperwallet(final String username, final String password, final String programToken, final String url) {
-        util = new HyperwalletUtil(username, password, programToken, version);
+        util = new HyperwalletApiClient(username, password, programToken, version);
         this.url = StringUtils.isEmpty(url) ? "https://api.sandbox.hyperwallet.com/rest/v3" : url;
     }
 
@@ -63,7 +63,7 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(user.getToken())) {
             throw new HyperwalletException("User token may not be present");
         }
-        user = util.clean(user);
+        user = util.copy(user);
         user.setStatus(null);
         user.setCreatedOn(null);
         return util.post(url + "/users", user, HyperwalletUser.class);
@@ -131,7 +131,7 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(prepaidCard.getToken())) {
             throw new HyperwalletException("Prepaid Card token may not be present");
         }
-        prepaidCard = util.clean(prepaidCard);
+        prepaidCard = util.copy(prepaidCard);
         prepaidCard.createdOn(null);
         prepaidCard.setStatus(null);
         prepaidCard.setCardType(null);
@@ -203,7 +203,7 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(bankAccount.getToken())) {
             throw new HyperwalletException("Transfer Method token may not be present");
         }
-        bankAccount = util.clean(bankAccount);
+        bankAccount = util.copy(bankAccount);
         bankAccount.createdOn(null);
         bankAccount.setStatus(null);
         bankAccount.setBranchAddressLine2(null);
@@ -296,7 +296,7 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(transition.getToken())) {
             throw new HyperwalletException("Status transition token may not be present");
         }
-        transition = util.clean(transition);
+        transition = util.copy(transition);
         transition.setCreatedOn(null);
         transition.setFromStatus(null);
         transition.setToStatus(null);
@@ -405,7 +405,7 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(transition.getToken())) {
             throw new HyperwalletException("Status transition token may not be present");
         }
-        transition = util.clean(transition);
+        transition = util.copy(transition);
         transition.setCreatedOn(null);
         transition.setFromStatus(null);
         transition.setToStatus(null);
@@ -484,7 +484,7 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(payment.getToken())) {
             throw new HyperwalletException("Payment token may not be present");
         }
-        payment = util.clean(payment);
+        payment = util.copy(payment);
         payment.setCreatedOn(null);
         return util.post(url + "/payments/", payment, HyperwalletPayment.class);
     }

@@ -8,14 +8,14 @@ import com.hyperwallet.clientsdk.model.*;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 
-class HyperwalletUtil {
+class HyperwalletApiClient {
 
     private final String username;
     private final String password;
     private final String version;
     private final String programToken;
 
-    HyperwalletUtil(final String username, final String password, final String programToken, final String version) {
+    HyperwalletApiClient(final String username, final String password, final String programToken, final String version) {
         this.username = username;
         this.password = password;
         this.version = version;
@@ -25,7 +25,7 @@ class HyperwalletUtil {
     <T> T options(final String url, final Class<T> type) {
         Response response = null;
         try {
-            response = getService(url).optionsResource();
+            response = getService(url, true).optionsResource();
             return processResponse(response, type);
         } catch (IOException e) {
             throw new HyperwalletException(e);
@@ -35,7 +35,7 @@ class HyperwalletUtil {
     <T> T get(final String url, final Class<T> type) {
         Response response = null;
         try {
-            response = getService(url).getResource();
+            response = getService(url, true).getResource();
             return processResponse(response, type);
         } catch (IOException e) {
             throw new HyperwalletException(e);
@@ -45,7 +45,7 @@ class HyperwalletUtil {
     <T> T get(final String url, final TypeReference<T> type) {
         Response response = null;
         try {
-            response = getService(url).getResource();
+            response = getService(url, true).getResource();
             return processResponse(response, type);
         } catch (IOException e) {
             throw new HyperwalletException(e);
@@ -56,7 +56,7 @@ class HyperwalletUtil {
         Response response = null;
         try {
             String body = convert(bodyObject);
-            response = getService(url).setBody(body).deleteResource();
+            response = getService(url, false).setBody(body).deleteResource();
             return processResponse(response, type);
         } catch (IOException e) {
             throw new HyperwalletException(e);
@@ -67,7 +67,7 @@ class HyperwalletUtil {
         Response response = null;
         try {
             String body = convert(bodyObject);
-            response = getService(url).setBody(body).deleteResource();
+            response = getService(url, false).setBody(body).deleteResource();
         } catch (IOException e) {
             throw new HyperwalletException(e);
         }
@@ -77,7 +77,7 @@ class HyperwalletUtil {
         Response response = null;
         try {
             String body = convert(bodyObject);
-            response = getService(url).setBody(body).putResource();
+            response = getService(url, false).setBody(body).putResource();
             return processResponse(response, type);
         } catch (IOException e) {
             throw new HyperwalletException(e);
@@ -88,7 +88,7 @@ class HyperwalletUtil {
         Response response = null;
         try {
             String body = convert(bodyObject);
-            response = getService(url).setBody(body).postResource();
+            response = getService(url, false).setBody(body).postResource();
             return processResponse(response, type);
         } catch (IOException e) {
             throw new HyperwalletException(e);
@@ -123,12 +123,19 @@ class HyperwalletUtil {
         return "Basic " + base64;
     }
 
-    private Request getService(final String url) {
-        return new Request(url)
-                .addHeader("Authorization", getAuthorizationHeader())
-                .addHeader("Accept", "application/json")
-                .addHeader("Content-Type", "application/json")
-                .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
+    private Request getService(final String url, boolean isHttpGet) {
+        if (isHttpGet) {
+            return new Request(url)
+                    .addHeader("Authorization", getAuthorizationHeader())
+                    .addHeader("Accept", "application/json")
+                    .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
+        } else {
+            return new Request(url)
+                    .addHeader("Authorization", getAuthorizationHeader())
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
+        }
     }
 
     <T> T convert(final String json, final Class<T> type) {
@@ -176,29 +183,29 @@ class HyperwalletUtil {
         }
     }
 
-    HyperwalletUser clean(HyperwalletUser user) {
+    HyperwalletUser copy(HyperwalletUser user) {
         user = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(user), HyperwalletUser.class);
         setProgramToken(user);
         return user;
     }
 
-    HyperwalletPayment clean(HyperwalletPayment payment) {
+    HyperwalletPayment copy(HyperwalletPayment payment) {
         payment = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(payment), HyperwalletPayment.class);
         setProgramToken(payment);
         return payment;
     }
 
-    HyperwalletPrepaidCard clean(HyperwalletPrepaidCard method) {
+    HyperwalletPrepaidCard copy(HyperwalletPrepaidCard method) {
         method = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(method), HyperwalletPrepaidCard.class);
         return method;
     }
 
-    HyperwalletBankAccount clean(HyperwalletBankAccount method) {
+    HyperwalletBankAccount copy(HyperwalletBankAccount method) {
         method = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(method), HyperwalletBankAccount.class);
         return method;
     }
 
-    HyperwalletStatusTransition clean(HyperwalletStatusTransition statusTransition) {
+    HyperwalletStatusTransition copy(HyperwalletStatusTransition statusTransition) {
         statusTransition = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(statusTransition), HyperwalletStatusTransition.class);
         return statusTransition;
     }

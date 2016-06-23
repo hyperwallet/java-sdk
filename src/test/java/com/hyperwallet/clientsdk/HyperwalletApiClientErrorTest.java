@@ -9,18 +9,18 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class HyperwalletUtilErrorTest {
+public class HyperwalletApiClientErrorTest {
 
     @Test
     public void testCheckErrorResponseWithHyperwalletErrorResponse () {
-        HyperwalletUtil hyperwalletUtil = new HyperwalletUtil("username", "password", "programtoken", "version");
+        HyperwalletApiClient hyperwalletApiClient = new HyperwalletApiClient("username", "password", "programtoken", "version");
         Response response = new Response();
         response.setResponseCode(400);
         response.setBody(getError());
         HyperwalletException exception = null;
 
         try {
-            hyperwalletUtil.checkErrorResponse(response);
+            hyperwalletApiClient.checkErrorResponse(response);
         } catch (HyperwalletException e) {
             exception = e;
         }
@@ -32,7 +32,7 @@ public class HyperwalletUtilErrorTest {
 
     @Test
     public void testCheckErrorResponseNoHyperwalletErrorMapping () {
-        HyperwalletUtil hyperwalletUtil = new HyperwalletUtil("username", "password", "programtoken", "version");
+        HyperwalletApiClient hyperwalletApiClient = new HyperwalletApiClient("username", "password", "programtoken", "version");
         Response response = new Response();
         response.setResponseCode(400);
         response.setBody(null);
@@ -40,7 +40,7 @@ public class HyperwalletUtilErrorTest {
 
         HyperwalletException exception = null;
         try {
-            hyperwalletUtil.checkErrorResponse(response);
+            hyperwalletApiClient.checkErrorResponse(response);
         } catch (HyperwalletException e) {
             exception = e;
         }
@@ -51,13 +51,13 @@ public class HyperwalletUtilErrorTest {
 
     @Test
     public void testProcessResponseClassMappedError () {
-        HyperwalletUtil hyperwalletUtil = new HyperwalletUtil("username", "password", "programtoken", "version");
+        HyperwalletApiClient hyperwalletApiClient = new HyperwalletApiClient("username", "password", "programtoken", "version");
         Response response = new Response();
         response.setResponseCode(400);
         response.setBody(getError());
         HyperwalletException exception = null;
         try {
-            hyperwalletUtil.processResponse(response, HyperwalletUser.class);
+            hyperwalletApiClient.processResponse(response, HyperwalletUser.class);
         } catch (HyperwalletException e) {
             exception = e;
         }
@@ -70,13 +70,13 @@ public class HyperwalletUtilErrorTest {
 
     @Test
     public void testProcessResponseTypeReferenceMappedError () {
-        HyperwalletUtil hyperwalletUtil = new HyperwalletUtil("username", "password", "programtoken", "version");
+        HyperwalletApiClient hyperwalletApiClient = new HyperwalletApiClient("username", "password", "programtoken", "version");
         Response response = new Response();
         response.setResponseCode(400);
         response.setBody(getError());
         HyperwalletException exception = null;
         try {
-            hyperwalletUtil.processResponse(response, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {});
+            hyperwalletApiClient.processResponse(response, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {});
         } catch (HyperwalletException e) {
             exception = e;
         }
@@ -90,14 +90,14 @@ public class HyperwalletUtilErrorTest {
 
     @Test
     public void testProcessResponseClassUnMappedError () {
-        HyperwalletUtil hyperwalletUtil = new HyperwalletUtil("username", "password", "programtoken", "version");
+        HyperwalletApiClient hyperwalletApiClient = new HyperwalletApiClient("username", "password", "programtoken", "version");
         Response response = new Response();
         response.setResponseCode(400);
         response.setBody(null);
         response.setResponseMessage("This is a test message");
         HyperwalletException exception = null;
         try {
-            hyperwalletUtil.processResponse(response, HyperwalletUser.class);
+            hyperwalletApiClient.processResponse(response, HyperwalletUser.class);
         } catch (HyperwalletException e) {
             exception = e;
         }
@@ -109,14 +109,14 @@ public class HyperwalletUtilErrorTest {
 
     @Test
     public void testProcessResponseTypeReferenceUnMappedError () {
-        HyperwalletUtil hyperwalletUtil = new HyperwalletUtil("username", "password", "programtoken", "version");
+        HyperwalletApiClient hyperwalletApiClient = new HyperwalletApiClient("username", "password", "programtoken", "version");
         Response response = new Response();
         response.setResponseCode(400);
         response.setBody(null);
         response.setResponseMessage("This is a test message");
         HyperwalletException exception = null;
         try {
-            hyperwalletUtil.processResponse(response, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {});
+            hyperwalletApiClient.processResponse(response, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {});
         } catch (HyperwalletException e) {
             exception = e;
         }
