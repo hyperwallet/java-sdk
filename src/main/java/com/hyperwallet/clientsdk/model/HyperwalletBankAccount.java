@@ -841,12 +841,12 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     }
 
     public void setFirstName(String firstName) {
-        addField("firstName" , firstName);
+        addField("firstName", firstName);
         this.firstName = firstName;
     }
 
     public HyperwalletBankAccount firstName(String firstName) {
-        addField("firstName" , firstName);
+        addField("firstName", firstName);
         this.firstName = firstName;
         return this;
     }

@@ -1,7 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +10,8 @@ public class HyperwalletErrorList {
 
     public List<HyperwalletError> errors = new ArrayList<HyperwalletError>();
 
-    public HyperwalletErrorList() {}
+    public HyperwalletErrorList() {
+    }
 
     public List<HyperwalletError> getErrors() {
         return errors;

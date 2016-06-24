@@ -29,7 +29,8 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
         return token;
     }
 
-    public HyperwalletStatusTransition() {}
+    public HyperwalletStatusTransition() {
+    }
 
     public HyperwalletStatusTransition(Status transition) {
         addField("transition", transition);

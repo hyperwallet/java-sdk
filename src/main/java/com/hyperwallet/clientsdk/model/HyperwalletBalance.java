@@ -10,13 +10,14 @@ public class HyperwalletBalance {
     private String currency;
     private Double amount;
 
-    public HyperwalletBalance () {}
+    public HyperwalletBalance() {
+    }
 
     public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency){
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 

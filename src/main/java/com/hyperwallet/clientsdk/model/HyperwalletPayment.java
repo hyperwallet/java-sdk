@@ -75,7 +75,7 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
 
     public void setCreatedOn(Date createdOn) {
         addField("createdOn", createdOn);
-       this.createdOn = createdOn;
+        this.createdOn = createdOn;
     }
 
     public HyperwalletPayment createdOn(Date createdOn) {
@@ -236,7 +236,7 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
         this.destinationToken = null;
         return this;
     }
-    
+
     public String getProgramToken() {
         return programToken;
     }

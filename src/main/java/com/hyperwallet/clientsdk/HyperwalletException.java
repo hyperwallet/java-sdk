@@ -8,15 +8,15 @@ import java.util.List;
 
 public class HyperwalletException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
-	public Response response = null;
-	public String errorMessage;
-	public String errorCode;
+    private static final long serialVersionUID = 1L;
+    public Response response = null;
+    public String errorMessage;
+    public String errorCode;
     public HyperwalletErrorList hyperwalletErrorList;
 
-	HyperwalletException(final Exception e) {
-		super(e);
-	}
+    HyperwalletException(final Exception e) {
+        super(e);
+    }
 
     HyperwalletException(final Response response, final int code, final String message) {
         this.response = response;
@@ -31,19 +31,19 @@ public class HyperwalletException extends RuntimeException {
         errorMessage = error.getMessage();
     }
 
-	HyperwalletException(final String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
+    HyperwalletException(final String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 
-	public String getErrorMessage() {
-		return errorMessage;
-	}
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 
-	public String getErrorCode() {
-		return errorCode;
-	}
+    public String getErrorCode() {
+        return errorCode;
+    }
 
-    public List<HyperwalletError> getHyperwalletErrors () {
+    public List<HyperwalletError> getHyperwalletErrors() {
         return hyperwalletErrorList != null ? hyperwalletErrorList.getErrors() : null;
     }
 }

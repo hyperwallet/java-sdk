@@ -19,11 +19,11 @@ public class Hyperwallet {
     /**
      * Create Hyperwallet SDK instance
      *
-     * @param username  API key assigned
-     * @param password  API Password assigned
+     * @param username     API key assigned
+     * @param password     API Password assigned
      * @param programToken API program token
-     * @param url API base url
-     * */
+     * @param url          API base url
+     */
     public Hyperwallet(final String username, final String password, final String programToken, final String url) {
         util = new HyperwalletApiClient(username, password, programToken, version);
         this.url = StringUtils.isEmpty(url) ? "https://api.sandbox.hyperwallet.com/rest/v3" : url;
@@ -32,10 +32,10 @@ public class Hyperwallet {
     /**
      * Create Hyperwallet SDK instance
      *
-     * @param username API key assigned
-     * @param password API password
+     * @param username     API key assigned
+     * @param password     API password
      * @param programToken API program token assigned
-     * */
+     */
     public Hyperwallet(final String username, final String password, final String programToken) {
         this(username, password, programToken, null);
     }
@@ -45,7 +45,7 @@ public class Hyperwallet {
      *
      * @param username API key assigned
      * @param password API password
-     * */
+     */
     public Hyperwallet(final String username, final String password) {
         this(username, password, null);
     }
@@ -55,7 +55,7 @@ public class Hyperwallet {
      *
      * @param user Hyperwallet user representation
      * @return HyperwalletUser created User
-     * */
+     */
     public HyperwalletUser createUser(HyperwalletUser user) {
         if (user == null) {
             throw new HyperwalletException("User is required");
@@ -74,7 +74,7 @@ public class Hyperwallet {
      *
      * @param token user account token
      * @return HyperwalletUser retreived user
-     * */
+     */
     public HyperwalletUser getUser(String token) {
         return util.get(url + "/users/" + token, HyperwalletUser.class);
     }
@@ -84,7 +84,7 @@ public class Hyperwallet {
      *
      * @param user Hyperwallet User representation object
      * @return HyperwalletUser updated user object
-     * */
+     */
     public HyperwalletUser updateUser(HyperwalletUser user) {
         if (user == null) {
             throw new HyperwalletException("User is required");
@@ -99,7 +99,7 @@ public class Hyperwallet {
      * List Users
      *
      * @return HyperwalletList of HyperwalletUser
-     * */
+     */
     public HyperwalletList<HyperwalletUser> listUsers() {
         return listUsers(null);
     }
@@ -109,10 +109,11 @@ public class Hyperwallet {
      *
      * @param options List filter option
      * @return HyperwalletList of HyperwalletUser
-     * */
+     */
     public HyperwalletList<HyperwalletUser> listUsers(HyperwalletPaginationOptions options) {
         String url = paginate(this.url + "/users", options);
-        return util.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {});
+        return util.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {
+        });
     }
 
     /**
@@ -120,7 +121,7 @@ public class Hyperwallet {
      *
      * @param prepaidCard Prepaid Card object to create
      * @return HyperwalletPrepaidCard Prepaid Card object created
-     * */
+     */
     public HyperwalletPrepaidCard createPrepaidCard(HyperwalletPrepaidCard prepaidCard) {
         if (prepaidCard == null) {
             throw new HyperwalletException("Card is required");
@@ -150,10 +151,10 @@ public class Hyperwallet {
     /**
      * Get Prepaid Card
      *
-     * @param userToken User token assigned
+     * @param userToken        User token assigned
      * @param prepaidCardToken Prepaid Card token
      * @return HyperwalletPrepaidCard Prepaid Card
-     * */
+     */
     public HyperwalletPrepaidCard getPrepaidCard(String userToken, String prepaidCardToken) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
@@ -169,7 +170,7 @@ public class Hyperwallet {
      *
      * @param userToken User token assigned
      * @return HyperwalletList of HyperwalletPrepaidCard
-     * */
+     */
     public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(String userToken) {
         return listPrepaidCards(userToken, null);
     }
@@ -178,9 +179,9 @@ public class Hyperwallet {
      * List User's Prepaid Card
      *
      * @param userToken User token assigned
-     * @param options List filter option
+     * @param options   List filter option
      * @return HyperwalletList of HyperwalletPrepaidCard
-     * */
+     */
     public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(String userToken, HyperwalletPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
@@ -195,7 +196,7 @@ public class Hyperwallet {
      *
      * @param bankAccount bank account representation
      * @return HyperwalletBankAccount created bank account for the specicic user
-     * */
+     */
     public HyperwalletBankAccount createUserBankAccount(HyperwalletBankAccount bankAccount) {
         if (bankAccount == null) {
             throw new HyperwalletException("Transfer Method is required");
@@ -219,10 +220,10 @@ public class Hyperwallet {
     /**
      * Get User Bank Account
      *
-     * @param userToken User token assigned
+     * @param userToken           User token assigned
      * @param transferMethodToken Bank account token assigned
      * @return HyperwalletBankAccount bank account information
-     * */
+     */
     public HyperwalletBankAccount getUserBankAccount(String userToken, String transferMethodToken) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
@@ -238,7 +239,7 @@ public class Hyperwallet {
      *
      * @param bankAccount Bank Account to update.
      * @return HyperwalletBankAccount updated Bank Account
-     * */
+     */
     public HyperwalletBankAccount updateUserBankAccount(HyperwalletBankAccount bankAccount) {
         if (bankAccount == null) {
             throw new HyperwalletException("Bank account is required");
@@ -257,7 +258,7 @@ public class Hyperwallet {
      *
      * @param userToken User token assigned
      * @return HyperwalletList of HyperwalletBankAccount
-     * */
+     */
     public HyperwalletList<HyperwalletBankAccount> listUserBankAccounts(String userToken) {
         return listUserBankAccounts(userToken, null);
     }
@@ -266,9 +267,9 @@ public class Hyperwallet {
      * List User Bank Accounts
      *
      * @param userToken User token assigned
-     * @param options List filter option
+     * @param options   List filter option
      * @return HyperwalletList of HyperwalletBankAccount
-     * */
+     */
     public HyperwalletList<HyperwalletBankAccount> listUserBankAccounts(String userToken, HyperwalletPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
@@ -281,11 +282,11 @@ public class Hyperwallet {
     /**
      * Create Prepaid Card Status Transition
      *
-     * @param userToken Usert token
+     * @param userToken        Usert token
      * @param prepaidCardToken Prepaid Card token
-     * @param transition Status transition information
+     * @param transition       Status transition information
      * @return HyperwalletStatusTransition new status for Prepaid Card
-     * */
+     */
     public HyperwalletStatusTransition createPrepaidCardStatusTransition(String userToken, String prepaidCardToken, HyperwalletStatusTransition transition) {
         if (prepaidCardToken == null) {
             throw new HyperwalletException("Card token is required");
@@ -310,11 +311,11 @@ public class Hyperwallet {
     /**
      * Get Prepaid Card Status Transition
      *
-     * @param userToken User token
-     * @param prepaidCardToken Prepaid Card token
+     * @param userToken             User token
+     * @param prepaidCardToken      Prepaid Card token
      * @param statusTransitionToken Status transition token
      * @return HyperwalletStatusTransition
-     * */
+     */
     public HyperwalletStatusTransition getPrepaidCardStatusTransition(String userToken, String prepaidCardToken, String statusTransitionToken) {
         if (prepaidCardToken == null) {
             throw new HyperwalletException("Card token is required");
@@ -331,10 +332,10 @@ public class Hyperwallet {
     /**
      * List All Prepaid Card Status Transition information
      *
-     * @param userToken User token
+     * @param userToken        User token
      * @param prepaidCardToken Prepaid Card token
      * @return HyperwalletList of HyperwalletStatusTransition
-     * */
+     */
     public HyperwalletList<HyperwalletStatusTransition> listPrepaidCardStatusTransitions(String userToken, String prepaidCardToken) {
         if (StringUtils.isEmpty(prepaidCardToken)) {
             throw new HyperwalletException("Card token is required");
@@ -348,11 +349,11 @@ public class Hyperwallet {
     /**
      * List Prepaid Card Status Transition information
      *
-     * @param userToken User token
+     * @param userToken        User token
      * @param prepaidCardToken Prepaid Card token
-     * @param options List filter option
+     * @param options          List filter option
      * @return HyperwalletList of HyperwalletStatusTransition
-     * */
+     */
     public HyperwalletList<HyperwalletStatusTransition> listPrepaidCardStatusTransitions(String userToken, String prepaidCardToken, HyperwalletPaginationOptions options) {
         if (StringUtils.isEmpty(prepaidCardToken)) {
             throw new HyperwalletException("Card token is required");
@@ -361,17 +362,18 @@ public class Hyperwallet {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/status-transitions", options);
-        return util.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {});
+        return util.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
+        });
     }
 
 
     /**
      * Deactivate Bank Account
      *
-     * @param userToken User token
+     * @param userToken        User token
      * @param bankAccountToken Bank Account token
      * @return HyperwalletStatusTransition deactivated bank account
-     * */
+     */
     public HyperwalletStatusTransition deactivateBankAccount(String userToken, String bankAccountToken) {
         return createBankAccountStatusTransition(userToken, bankAccountToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.DE_ACTIVATED));
     }
@@ -379,10 +381,10 @@ public class Hyperwallet {
     /**
      * Activate Bank Account
      *
-     * @param userToken User token
+     * @param userToken        User token
      * @param bankAccountToken Bank Account token
      * @return HyperwalletStatusTransition activated bank account
-     * */
+     */
     public HyperwalletStatusTransition activateBankAccount(String userToken, String bankAccountToken) {
         return createBankAccountStatusTransition(userToken, bankAccountToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.ACTIVATED));
     }
@@ -390,11 +392,11 @@ public class Hyperwallet {
     /**
      * Create Bank Account Status Transition
      *
-     * @param userToken User token
+     * @param userToken        User token
      * @param bankAccountToken Bank Account token
-     * @param transition Status transition information
+     * @param transition       Status transition information
      * @return HyperwalletStatusTransition
-     * */
+     */
     public HyperwalletStatusTransition createBankAccountStatusTransition(String userToken, String bankAccountToken, HyperwalletStatusTransition transition) {
         if (StringUtils.isEmpty(bankAccountToken)) {
             throw new HyperwalletException("Account token is required");
@@ -418,11 +420,11 @@ public class Hyperwallet {
     /**
      * Get Bank Account Status Transition
      *
-     * @param userToken User token
-     * @param bankAccountToken Bank Account token
+     * @param userToken             User token
+     * @param bankAccountToken      Bank Account token
      * @param statusTransitionToken Status transition token
      * @return HyperwalletStatusTransition
-     * */
+     */
     public HyperwalletStatusTransition getBankAccountStatusTransition(String userToken, String bankAccountToken, String statusTransitionToken) {
         if (StringUtils.isEmpty(bankAccountToken)) {
             throw new HyperwalletException("Account token is required");
@@ -440,10 +442,10 @@ public class Hyperwallet {
     /**
      * List All Bank Account Status Transition
      *
-     * @param userToken User token
+     * @param userToken        User token
      * @param bankAccountToken Bank Account token
      * @return HyperwalletList of HyperwalletStatusTransition
-     * */
+     */
     public HyperwalletList<HyperwalletStatusTransition> listBankAccountStatusTransitions(String userToken, String bankAccountToken) {
         if (StringUtils.isEmpty(bankAccountToken)) {
             throw new HyperwalletException("Account token is required");
@@ -458,11 +460,11 @@ public class Hyperwallet {
     /**
      * List Bank Account Status Transition
      *
-     * @param userToken User token
+     * @param userToken        User token
      * @param bankAccountToken Bank Account token
-     * @param options List filter option
+     * @param options          List filter option
      * @return HyperwalletList of HyperwalletStatusTransition
-     * */
+     */
     public HyperwalletList<HyperwalletStatusTransition> listBankAccountStatusTransitions(String userToken, String bankAccountToken, HyperwalletPaginationOptions options) {
         if (StringUtils.isEmpty(bankAccountToken)) {
             throw new HyperwalletException("Account token is required");
@@ -471,7 +473,8 @@ public class Hyperwallet {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", options);
-        return util.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {});
+        return util.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
+        });
     }
 
     /**
@@ -479,7 +482,7 @@ public class Hyperwallet {
      *
      * @param payment Payment
      * @return HyperwalletPayment created payment information
-     * */
+     */
     public HyperwalletPayment createPayment(HyperwalletPayment payment) {
         if (payment == null) {
             throw new HyperwalletException("Payment is required");
@@ -497,7 +500,7 @@ public class Hyperwallet {
      *
      * @param paymentToken Payment token
      * @return HyperwalletPayment
-     * */
+     */
     public HyperwalletPayment getPayment(String paymentToken) {
         return util.get(url + "/payments/" + paymentToken, HyperwalletPayment.class);
     }
@@ -506,7 +509,7 @@ public class Hyperwallet {
      * List all Payments
      *
      * @return HyperwalletList of HyperwalletPayment
-     * */
+     */
     public HyperwalletList<HyperwalletPayment> listPayments() {
         return listPayments(null);
     }
@@ -516,26 +519,27 @@ public class Hyperwallet {
      *
      * @param options List filter option
      * @return HyperwalletList of HyperwalletPayment
-     * */
+     */
     public HyperwalletList<HyperwalletPayment> listPayments(HyperwalletPaymentListOptions options) {
         String url = paginate(this.url + "/payments", options);
         if (options != null) {
             url = addParameter(url, "releasedOn", convert(options.getReleasedOn()));
             url = addParameter(url, "currency", options.getCurrency());
         }
-        return util.get(url, new TypeReference<HyperwalletList<HyperwalletPayment>>() {});
+        return util.get(url, new TypeReference<HyperwalletList<HyperwalletPayment>>() {
+        });
     }
 
     /**
      * Get Transfer Method Configuration
      *
-     * @param userToken User token
-     * @param country Country
-     * @param currency Currency
-     * @param type Type of Transfer Method to retrieve
+     * @param userToken   User token
+     * @param country     Country
+     * @param currency    Currency
+     * @param type        Type of Transfer Method to retrieve
      * @param profileType Type of User profile
      * @return HyperwalletTransferMethodConfiguration
-     * */
+     */
     public HyperwalletTransferMethodConfiguration getTransferMethodConfiguration(String userToken, String country, String currency, HyperwalletTransferMethod.Type type, HyperwalletUser.ProfileType profileType) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
@@ -566,7 +570,7 @@ public class Hyperwallet {
      *
      * @param userToken User token
      * @return HyperwalletList of HyperwalletTransferMethodConfiguration
-     * */
+     */
     public HyperwalletList<HyperwalletTransferMethodConfiguration> listTransferMethodConfigurations(String userToken) {
         return listTransferMethodConfigurations(userToken, null);
     }
@@ -575,9 +579,9 @@ public class Hyperwallet {
      * List all Transfer Method Configuration associated with User
      *
      * @param userToken User token
-     * @param options List filter options
+     * @param options   List filter options
      * @return HyperwalletList of HyperwalletTransferMethodConfiguration
-     * */
+     */
     public HyperwalletList<HyperwalletTransferMethodConfiguration> listTransferMethodConfigurations(String userToken, HyperwalletPaginationOptions options) {
         if (userToken == null) {
             throw new HyperwalletException("User token is required");
@@ -699,17 +703,17 @@ public class Hyperwallet {
      * @param accountToken Program account token
      * @return HyperwalletAccount
      */
-    public HyperwalletAccount getProgramAccount(final String programToken, final String accountToken){
+    public HyperwalletAccount getProgramAccount(final String programToken, final String accountToken) {
 
-        if(StringUtils.isEmpty(programToken) ){
+        if (StringUtils.isEmpty(programToken)) {
             throw new HyperwalletException("Program token is required");
         }
 
-        if(StringUtils.isEmpty(accountToken)){
+        if (StringUtils.isEmpty(accountToken)) {
             throw new HyperwalletException("Account token is required");
         }
 
-        return util.get(url + "/programs/" + programToken + "/accounts/"+ accountToken,  HyperwalletAccount.class);
+        return util.get(url + "/programs/" + programToken + "/accounts/" + accountToken, HyperwalletAccount.class);
     }
 
 

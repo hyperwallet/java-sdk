@@ -295,12 +295,12 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     }
 
     public void setFirstName(String firstName) {
-        addField("firstName" , firstName);
+        addField("firstName", firstName);
         this.firstName = firstName;
     }
 
     public HyperwalletUser firstName(String firstName) {
-        addField("firstName" , firstName);
+        addField("firstName", firstName);
         this.firstName = firstName;
         return this;
     }

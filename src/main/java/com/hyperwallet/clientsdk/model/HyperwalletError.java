@@ -9,7 +9,8 @@ public class HyperwalletError {
     private String fieldName;
     private String message;
 
-    public HyperwalletError() {}
+    public HyperwalletError() {
+    }
 
     public HyperwalletError(String code, String message) {
         this.code = code;

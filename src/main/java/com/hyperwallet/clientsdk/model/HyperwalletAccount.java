@@ -12,7 +12,7 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletAccount {
 
-    public enum EType{FUNDING,MERCHANT,REVENUE,COLLECTIONS,VIRTUAL_INCENTIVES,POST_FUNDING}
+    public enum EType {FUNDING, MERCHANT, REVENUE, COLLECTIONS, VIRTUAL_INCENTIVES, POST_FUNDING}
 
     private String token;
     private EType type;
@@ -51,22 +51,22 @@ public class HyperwalletAccount {
         this.type = type;
     }
 
-    public HyperwalletAccount token(String token){
+    public HyperwalletAccount token(String token) {
         setToken(token);
         return this;
     }
 
-    public HyperwalletAccount type(EType type){
+    public HyperwalletAccount type(EType type) {
         setType(type);
         return this;
     }
 
-    public HyperwalletAccount createdOn(Date createdOn){
+    public HyperwalletAccount createdOn(Date createdOn) {
         setCreatedOn(createdOn);
         return this;
     }
 
-    public HyperwalletAccount email(String email){
+    public HyperwalletAccount email(String email) {
         setEmail(email);
         return this;
     }

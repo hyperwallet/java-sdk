@@ -51,7 +51,7 @@ public abstract class BaseModelTest<T> {
         assertThat(getter.invoke(model), is(equalTo(oldValue)));
 
         if (model instanceof HyperwalletBaseMonitor) {
-            assertThat(new ArrayList<String>(((HyperwalletBaseMonitor)model).getInclusions()), containsInAnyOrder(fieldName));
+            assertThat(new ArrayList<String>(((HyperwalletBaseMonitor) model).getInclusions()), containsInAnyOrder(fieldName));
         }
     }
 
@@ -72,7 +72,7 @@ public abstract class BaseModelTest<T> {
         assertThat(getter.invoke(model), is(equalTo(oldValue)));
 
         if (model instanceof HyperwalletBaseMonitor) {
-            assertThat(new ArrayList<String>(((HyperwalletBaseMonitor)model).getInclusions()), containsInAnyOrder(fieldName));
+            assertThat(new ArrayList<String>(((HyperwalletBaseMonitor) model).getInclusions()), containsInAnyOrder(fieldName));
         }
     }
 
@@ -98,14 +98,14 @@ public abstract class BaseModelTest<T> {
         Field f = clazz.getDeclaredField(fieldName);
         f.setAccessible(true);
         f.set(model, getter.invoke(baseModel));
-        assertThat(new ArrayList<String>(((HyperwalletBaseMonitor)model).getInclusions()), is(Matchers.<String>empty()));
+        assertThat(new ArrayList<String>(((HyperwalletBaseMonitor) model).getInclusions()), is(Matchers.<String>empty()));
 
         assertThat(getter.invoke(model), is(equalTo(getter.invoke(baseModel))));
 
         clear.invoke(model);
         assertThat(getter.invoke(model), is(nullValue()));
 
-        assertThat(new ArrayList<String>(((HyperwalletBaseMonitor)model).getInclusions()), containsInAnyOrder(fieldName));
+        assertThat(new ArrayList<String>(((HyperwalletBaseMonitor) model).getInclusions()), containsInAnyOrder(fieldName));
     }
 
     @Test(dependsOnMethods = "testSetterMethod")
@@ -128,7 +128,7 @@ public abstract class BaseModelTest<T> {
 
         // Compare changed list
         if (model instanceof HyperwalletBaseMonitor) {
-            assertThat(new ArrayList<String>(((HyperwalletBaseMonitor)model).getInclusions()), containsInAnyOrder(fieldNames.toArray()));
+            assertThat(new ArrayList<String>(((HyperwalletBaseMonitor) model).getInclusions()), containsInAnyOrder(fieldNames.toArray()));
         }
     }
 
@@ -153,7 +153,7 @@ public abstract class BaseModelTest<T> {
 
         // Compare changed list
         if (model instanceof HyperwalletBaseMonitor) {
-            assertThat(new ArrayList<String>(((HyperwalletBaseMonitor)model).getInclusions()), containsInAnyOrder(fieldNames.toArray()));
+            assertThat(new ArrayList<String>(((HyperwalletBaseMonitor) model).getInclusions()), containsInAnyOrder(fieldNames.toArray()));
         }
     }
 
@@ -182,7 +182,7 @@ public abstract class BaseModelTest<T> {
         }
 
         // Compare changed list
-        assertThat(new ArrayList<String>(((HyperwalletBaseMonitor)model).getInclusions()), containsInAnyOrder(fieldNames.toArray()));
+        assertThat(new ArrayList<String>(((HyperwalletBaseMonitor) model).getInclusions()), containsInAnyOrder(fieldNames.toArray()));
     }
 
     private Method findSetter(Class<T> clazz, String fieldName, Class<?> paramClazz) throws Exception {
@@ -219,7 +219,7 @@ public abstract class BaseModelTest<T> {
         List<String> fieldNames = collectFieldNames();
         List<Object[]> objects = new ArrayList<Object[]>(fieldNames.size());
         for (String fieldName : fieldNames) {
-            objects.add(new Object[] { fieldName });
+            objects.add(new Object[]{fieldName});
         }
         return objects.iterator();
     }

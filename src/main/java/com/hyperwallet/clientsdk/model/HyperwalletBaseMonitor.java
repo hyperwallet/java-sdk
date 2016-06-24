@@ -10,7 +10,8 @@ public class HyperwalletBaseMonitor {
     @JsonIgnore
     private Set<String> inclusions = new HashSet<String>();
 
-    protected HyperwalletBaseMonitor () {}
+    protected HyperwalletBaseMonitor() {
+    }
 
     public Set<String> getInclusions() {
         return inclusions;
