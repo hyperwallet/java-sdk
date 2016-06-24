@@ -30,13 +30,14 @@ public class HyperwalletPaymentTest {
                 .memo("").purpose("").releaseOn(new Date()).destinationToken("").programToken("")
                 .clientPaymentId("");
 
-        Field[] fields = HyperwalletPayment.class.getDeclaredFields();
+        String[] fields = {"token", "createdOn", "amount", "currency", "description", "memo", "purpose",
+                            "releaseOn", "destinationToken", "programToken", "clientPaymentId"};
         Set<String> inclusions = payment.getInclusions();
 
         assertEquals(fields.length, inclusions.size());
 
-        for (Field f : fields) {
-            assertTrue(inclusions.contains(f.getName()));
+        for (String f : fields) {
+            assertTrue(inclusions.contains(f));
         }
 
         payment.setDescription(null);
@@ -59,13 +60,14 @@ public class HyperwalletPaymentTest {
         payment.setProgramToken("");
         payment.setClientPaymentId("");
 
-        Field[] fields = HyperwalletPayment.class.getDeclaredFields();
+        String[] fields = {"token", "createdOn", "amount", "currency", "description", "memo", "purpose",
+                "releaseOn", "destinationToken", "programToken", "clientPaymentId"};
         Set<String> inclusions = payment.getInclusions();
 
         assertEquals(fields.length, inclusions.size());
 
-        for (Field f : fields) {
-            assertTrue(inclusions.contains(f.getName()));
+        for (String f : fields) {
+            assertTrue(inclusions.contains(f));
         }
 
         payment.setDescription(null);

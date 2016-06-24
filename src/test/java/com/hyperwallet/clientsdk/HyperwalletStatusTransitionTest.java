@@ -32,12 +32,12 @@ public class HyperwalletStatusTransitionTest {
                 .createdOn(new Date()).fromStatus(HyperwalletStatusTransition.Status.ACTIVATED)
                 .toStatus(HyperwalletStatusTransition.Status.DE_ACTIVATED).notes("");
 
-        Field[] fields = HyperwalletStatusTransition.class.getDeclaredFields();
+        String[] fields = {"token", "transition", "createdOn", "fromStatus", "toStatus", "notes"};
         Set<String> inclusions = transition.getInclusions();
         assertTrue(inclusions.size() == fields.length);
 
-        for (Field f : fields) {
-            assertTrue(inclusions.contains(f.getName()));
+        for (String f : fields) {
+            assertTrue(inclusions.contains(f));
         }
 
         transition.setNotes(null);
@@ -55,12 +55,12 @@ public class HyperwalletStatusTransitionTest {
         transition.setCreatedOn(new Date());
         transition.setNotes("");
 
-        Field[] fields = HyperwalletStatusTransition.class.getDeclaredFields();
+        String[] fields = {"token", "transition", "createdOn", "fromStatus", "toStatus", "notes"};
         Set<String> inclusions = transition.getInclusions();
         assertTrue(inclusions.size() == fields.length);
 
-        for (Field f : fields) {
-            assertTrue(inclusions.contains(f.getName()));
+        for (String f : fields) {
+            assertTrue(inclusions.contains(f));
         }
 
         transition.setNotes(null);

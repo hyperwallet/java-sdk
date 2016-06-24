@@ -19,8 +19,19 @@ public class HyperwalletBankAccountTest {
 
     @Test
     public void testModel() {
-
-        Field[] fields = HyperwalletBankAccount.class.getDeclaredFields();
+        String[] fields = {
+                "token", "status", "type",
+                "createdOn", "transferMethodCountry", "transferMethodCurrency", "bankName", "bankId", "branchName",
+                "branchId", "bankAccountId", "bankAccountRelationship", "bankAccountPurpose",
+                "branchAddressLine1", "branchAddressLine2", "branchCity", "branchStateProvince", "branchCountry", "branchPostalCode",
+                "wireInstructions", "intermediaryBankId", "intermediaryBankName", "intermediaryBankAccountId", "intermediaryBankAddressLine1",
+                "intermediaryBankAddressLine2", "intermediaryBankCity", "intermediaryBankStateProvince", "intermediaryBankPostalCode",
+                "intermediaryBankCountry", "userToken", "profileType", "businessName",
+                "businessRegistrationId", "businessRegistrationStateProvince", "businessRegistrationCountry",
+                "businessContactRole", "firstName", "lastName", "dateOfBirth",
+                "countryOfBirth", "countryOfNationality", "gender", "phoneNumber", "mobileNumber",
+                "email", "governmentId", "passportId", "driversLicenseId", "addressLine1", "addressLine2",
+                "city", "stateProvince", "postalCode", "country", "middleName"};
 
         HyperwalletBankAccount bank = new HyperwalletBankAccount();
 
@@ -38,10 +49,10 @@ public class HyperwalletBankAccountTest {
                 .city("").stateProvince("").postalCode("").country("").middleName("");
 
         Set<String> inclusions = bank.getInclusions();
-        assertTrue(inclusions.size() == fields.length);
+        assertEquals(fields.length, inclusions.size());
 
-        for(Field f : fields) {
-            assertTrue(inclusions.contains(f.getName()));
+        for(String f : fields) {
+            assertTrue(inclusions.contains(f));
         }
 
         bank.setToken(null);

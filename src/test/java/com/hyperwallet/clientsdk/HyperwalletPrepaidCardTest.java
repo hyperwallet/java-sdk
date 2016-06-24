@@ -22,7 +22,10 @@ public class HyperwalletPrepaidCardTest {
     @Test
     public void testModel() {
         HyperwalletPrepaidCard ppc = new HyperwalletPrepaidCard();
-        Field[] fields = HyperwalletPrepaidCard.class.getDeclaredFields();
+        String[] fields = {
+                "token", "status", "createdOn", "transferMethodCountry", "transferMethodCurrency", "cardType", "cardPackage",
+                "cardNumber", "cardBrand", "dateOfExpiry", "userToken", "type"
+        };
 
         ppc.token("").status(HyperwalletTransferMethod.Status.ACTIVATED).createdOn(new Date()).transferMethodCountry("")
                 .transferMethodCurrency("").cardType(HyperwalletPrepaidCard.CardType.INSTANT_ISSUE).cardPackage("")
@@ -33,8 +36,8 @@ public class HyperwalletPrepaidCardTest {
 
         assertEquals(fields.length, inclusions.size());
 
-        for (Field f : fields) {
-            assertTrue(inclusions.contains(f.getName()));
+        for (String f : fields) {
+            assertTrue("field contains " + f, inclusions.contains(f));
         }
 
         ppc.setCardNumber(null);
