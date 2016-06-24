@@ -1,5 +1,6 @@
 package com.hyperwallet.clientsdk;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.HyperwalletList;
 import com.hyperwallet.clientsdk.model.HyperwalletUser;
 import org.junit.Test;
@@ -147,7 +148,6 @@ public class HyperwalletUserTest {
 
     @Test
     public void testGetUser() {
-        Hyperwallet hw = mock(Hyperwallet.class);
         HyperwalletUser user = new HyperwalletUser();
         user.setClientUserId("clientxx001");
         user.setProfileType(HyperwalletUser.ProfileType.INDIVIDUAL);
@@ -160,7 +160,10 @@ public class HyperwalletUserTest {
         user.setCountry("CA");
         user.setPostalCode("V1V2V3");
 
-        when(hw.getUser("user-token")).thenReturn(user);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(Class.class))).thenReturn(user);
         HyperwalletUser u = hw.getUser("user-token");
 
         assertEquals(user.getClientUserId(), u.getClientUserId());
@@ -177,7 +180,6 @@ public class HyperwalletUserTest {
 
     @Test
     public void testGetUsers() {
-        Hyperwallet hw = mock(Hyperwallet.class);
         HyperwalletUser user = new HyperwalletUser();
         user.setClientUserId("clientxx001");
         user.setProfileType(HyperwalletUser.ProfileType.INDIVIDUAL);
@@ -194,7 +196,10 @@ public class HyperwalletUserTest {
         userList.data = new ArrayList<HyperwalletUser>();
         userList.data.add(user);
 
-        when(hw.listUsers()).thenReturn(userList);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(TypeReference.class))).thenReturn(userList);
 
         HyperwalletList<HyperwalletUser> uList = hw.listUsers();
         assertTrue(uList.data.size() > 0);

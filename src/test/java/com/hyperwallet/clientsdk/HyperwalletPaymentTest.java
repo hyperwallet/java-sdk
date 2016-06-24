@@ -1,5 +1,6 @@
 package com.hyperwallet.clientsdk;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.HyperwalletList;
 import com.hyperwallet.clientsdk.model.HyperwalletPayment;
 import org.junit.Rule;
@@ -106,10 +107,14 @@ public class HyperwalletPaymentTest {
                 .memo("PmtBatch-20160501")
                 .purpose("OTHER")
                 .destinationToken("trm-token")
-                .programToken("prg-token");
+                .programToken("prg-token").setCreatedOn(new Date());
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.createPayment(payment)).thenReturn(payment);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+
+        when(client.post(anyString(), anyObject(), any(Class.class))).thenReturn(payment);
+        when(client.copy(payment)).thenReturn(payment);
         HyperwalletPayment processed = hw.createPayment(payment);
 
         assertNotNull(processed);
@@ -133,8 +138,10 @@ public class HyperwalletPaymentTest {
                 .destinationToken("trm-token")
                 .programToken("prg-token");
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.getPayment("pmt-token")).thenReturn(payment);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(Class.class))).thenReturn(payment);
         HyperwalletPayment processed = hw.getPayment("pmt-token");
 
         assertNotNull(processed);
@@ -162,8 +169,11 @@ public class HyperwalletPaymentTest {
         paymentList.data = new ArrayList<HyperwalletPayment>();
         paymentList.data.add(payment);
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.listPayments()).thenReturn(paymentList);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+
+        when(client.get(anyString(), any(TypeReference.class))).thenReturn(paymentList);
         HyperwalletList<HyperwalletPayment> list = hw.listPayments();
 
         assertNotNull(list);

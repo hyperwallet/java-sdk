@@ -41,14 +41,16 @@ public class HyperwalletProgramTest {
     @Test
     public void testGetProgramNormal() {
         Date now = new Date(System.currentTimeMillis());
-        Hyperwallet hw = mock(Hyperwallet.class);
         HyperwalletProgram orig = new HyperwalletProgram();
         orig.setCreatedOn(now);
         orig.setParentToken("prg-parent-token");
         orig.setName("Test program");
         orig.setToken("prg-token");
 
-        when(hw.getProgram("prg-token")).thenReturn(orig);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(Class.class))).thenReturn(orig);
         HyperwalletProgram response = hw.getProgram("prg-token");
 
         assertNotNull(response);

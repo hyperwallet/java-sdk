@@ -1,5 +1,6 @@
 package com.hyperwallet.clientsdk;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.HyperwalletBankAccount;
 import com.hyperwallet.clientsdk.model.HyperwalletList;
 import com.hyperwallet.clientsdk.model.HyperwalletUser;
@@ -73,9 +74,14 @@ public class HyperwalletBankAccountTest {
         bank.setStateProvince("BC");
         bank.setCountry("CA");
         bank.setPostalCode("H0H0H0");
+        bank.setUserToken("usr-token");
+        bank.setCreatedOn(new Date());
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.createUserBankAccount(bank)).thenReturn(bank);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.copy(bank)).thenReturn(bank);
+        when(client.post(anyString(), anyObject(), any(Class.class))).thenReturn(bank);
         HyperwalletBankAccount created = hw.createUserBankAccount(bank);
 
         assertNotNull(created);
@@ -119,9 +125,13 @@ public class HyperwalletBankAccountTest {
         bank.setStateProvince("BC");
         bank.setCountry("CA");
         bank.clearPostalCode();
+        bank.setUserToken("usr-token");
+        bank.setToken("trm-token");
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.updateUserBankAccount(bank)).thenReturn(bank);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.put(anyString(), anyObject(), any(Class.class))).thenReturn(bank);
         HyperwalletBankAccount created = hw.updateUserBankAccount(bank);
 
         assertNotNull(created);
@@ -165,9 +175,13 @@ public class HyperwalletBankAccountTest {
         bank.setStateProvince("BC");
         bank.setCountry("CA");
         bank.setPostalCode(null);
+        bank.setUserToken("usr-token");
+        bank.setToken("trm-token");
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.updateUserBankAccount(bank)).thenReturn(bank);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.put(anyString(), anyObject(), any(Class.class))).thenReturn(bank);
         HyperwalletBankAccount created = hw.updateUserBankAccount(bank);
 
         assertNotNull(created);
@@ -210,9 +224,13 @@ public class HyperwalletBankAccountTest {
         bank.setStateProvince("BC");
         bank.setCountry("CA");
         bank.setPostalCode("H0H0H0");
+        bank.setUserToken("usr-token");
+        bank.setToken("trm-token");
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.getUserBankAccount(bank.getUserToken(), bank.getToken())).thenReturn(bank);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(Class.class))).thenReturn(bank);
         HyperwalletBankAccount retreived = hw.getUserBankAccount(bank.getUserToken(), bank.getToken());
 
         assertNotNull(retreived);
@@ -260,8 +278,10 @@ public class HyperwalletBankAccountTest {
         list.data = new ArrayList<HyperwalletBankAccount>();
         list.data.add(bank);
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.listUserBankAccounts("usr-token")).thenReturn(list);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(TypeReference.class))).thenReturn(list);
 
         HyperwalletList<HyperwalletBankAccount> results = hw.listUserBankAccounts("usr-token");
         assertTrue(results.data.size() > 0);

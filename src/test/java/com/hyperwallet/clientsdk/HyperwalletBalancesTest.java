@@ -1,11 +1,14 @@
 package com.hyperwallet.clientsdk;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.HyperwalletBalance;
 import com.hyperwallet.clientsdk.model.HyperwalletList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.lang.ref.Reference;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -110,8 +113,10 @@ public class HyperwalletBalancesTest {
         balOne.amount(11.00).currency("CAD");
         list.data.add(balOne);
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.listUserPrepaidCardBalances("user-token", "trm-token")).thenReturn(list);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(TypeReference.class))).thenReturn(list);
 
         HyperwalletList<HyperwalletBalance> response = hw.listUserPrepaidCardBalances("user-token", "trm-token");
         assertNotNull(response);
@@ -124,8 +129,10 @@ public class HyperwalletBalancesTest {
 
     @Test
     public void testGetMockedProgramAccountBalancesNullReturn() {
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.listProgramAccountBalances("user-token", "act-token")).thenReturn(null);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(TypeReference.class))).thenReturn(null);
         assertNull(hw.listProgramAccountBalances("prg-token", "act-token"));
     }
 
@@ -136,8 +143,10 @@ public class HyperwalletBalancesTest {
         balOne.amount(12.00).currency("CAD");
         list.data.add(balOne);
 
-        Hyperwallet hw = mock(Hyperwallet.class);
-        when(hw.listProgramAccountBalances("user-token", "act-token")).thenReturn(list);
+        HyperwalletApiClient client = mock(HyperwalletApiClient.class);
+        Hyperwallet hw = new Hyperwallet("username", "password");
+        hw.setClientService(client);
+        when(client.get(anyString(), any(TypeReference.class))).thenReturn(list);
 
         HyperwalletList<HyperwalletBalance> response = hw.listProgramAccountBalances("user-token", "act-token");
         assertNotNull(response);
