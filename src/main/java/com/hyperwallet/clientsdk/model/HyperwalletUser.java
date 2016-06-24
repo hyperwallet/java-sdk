@@ -153,6 +153,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     }
 
     public HyperwalletUser profileType(ProfileType profileType) {
+        addField("profileType", profileType);
         this.profileType = profileType;
         return this;
     }
@@ -220,7 +221,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletUser clearBusinessRegistration() {
+    public HyperwalletUser clearBusinessRegistrationId() {
         clearField("businessRegistrationId");
         businessRegistrationId = null;
         return this;
@@ -241,7 +242,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletUser clearRegistrationStateProvince() {
+    public HyperwalletUser clearBusinessRegistrationStateProvince() {
         clearField("businessRegistrationStateProvince");
         businessRegistrationStateProvince = null;
         return this;
@@ -283,7 +284,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletUser clearBusinessContractRole() {
+    public HyperwalletUser clearBusinessContactRole() {
         clearField("businessContactRole");
         businessContactRole = null;
         return this;

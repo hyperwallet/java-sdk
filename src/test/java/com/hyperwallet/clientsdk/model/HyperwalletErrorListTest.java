@@ -1,35 +1,27 @@
 package com.hyperwallet.clientsdk.model;
 
-import org.junit.Test;
+import org.hamcrest.Matchers;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+/**
+ * @author fkrauthan
+ */
 public class HyperwalletErrorListTest {
 
     @Test
-    public void testGetErrorsEmpty() throws Exception {
+    public void testHyperwalletErrorList() {
         HyperwalletErrorList errorList = new HyperwalletErrorList();
-        assertNotNull(errorList.getErrors());
-        assertTrue(errorList.getErrors().isEmpty());
-    }
+        assertThat(errorList.getErrors(), is(Matchers.<HyperwalletError>empty()));
 
-    @Test
-    public void testGetErrorsWithErrors() throws Exception {
+        List<HyperwalletError> myErrorList = new ArrayList<HyperwalletError>();
+        errorList.setErrors(myErrorList);
 
-        HyperwalletErrorList errorList = new HyperwalletErrorList();
-        HyperwalletError error = new HyperwalletError();
-        error.fieldName = "error_field";
-        error.message = "Test error message";
-        error.code = "TEST_ERROR_CODE";
-        errorList.getErrors().add(error);
-
-        assertNotNull(errorList.getErrors());
-        assertFalse(errorList.getErrors().isEmpty());
-        assertTrue(errorList.getErrors().size() == 1);
-
-        HyperwalletError e = errorList.getErrors().get(0);
-        assertEquals(e.getFieldName(), error.fieldName);
-        assertEquals(e.getMessage(), error.message);
-        assertEquals(e.getCode(), error.code);
+        assertThat(errorList.getErrors(), is(equalTo(myErrorList)));
     }
 }

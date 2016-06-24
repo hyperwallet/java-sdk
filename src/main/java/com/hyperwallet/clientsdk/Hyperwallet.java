@@ -131,6 +131,9 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(prepaidCard.getToken())) {
             throw new HyperwalletException("Prepaid Card token may not be present");
         }
+        if (prepaidCard.getType() == null) {
+            prepaidCard.setType(HyperwalletTransferMethod.Type.PREPAID_CARD);
+        }
         prepaidCard = util.copy(prepaidCard);
         prepaidCard.createdOn(null);
         prepaidCard.setStatus(null);
@@ -517,8 +520,8 @@ public class Hyperwallet {
     public HyperwalletList<HyperwalletPayment> listPayments(HyperwalletPaymentListOptions options) {
         String url = paginate(this.url + "/payments", options);
         if (options != null) {
-            url = addParameter(url, "releasedOn", convert(options.releasedOn));
-            url = addParameter(url, "currency", options.currency);
+            url = addParameter(url, "releasedOn", convert(options.getReleasedOn()));
+            url = addParameter(url, "currency", options.getCurrency());
         }
         return util.get(url, new TypeReference<HyperwalletList<HyperwalletPayment>>() {});
     }
@@ -727,11 +730,11 @@ public class Hyperwallet {
         if (options == null) {
             return url;
         }
-        url = addParameter(url, "createdAfter", convert(options.createdAfter));
-        url = addParameter(url, "createdBefore", convert(options.createdBefore));
-        url = addParameter(url, "sortBy", options.sortBy);
-        url = addParameter(url, "offset", options.offset);
-        url = addParameter(url, "limit", options.limit);
+        url = addParameter(url, "createdAfter", convert(options.getCreatedAfter()));
+        url = addParameter(url, "createdBefore", convert(options.getCreatedBefore()));
+        url = addParameter(url, "sortBy", options.getSortBy());
+        url = addParameter(url, "offset", options.getOffset());
+        url = addParameter(url, "limit", options.getLimit());
         return url;
     }
 

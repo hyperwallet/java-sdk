@@ -42,6 +42,12 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public HyperwalletPayment clearToken() {
+        clearField("token");
+        this.token = null;
+        return this;
+    }
+
     public String getClientPaymentId() {
         return clientPaymentId;
     }
@@ -54,6 +60,12 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     public HyperwalletPayment clientPaymentId(String clientPaymentId) {
         addField("clientPaymentId", clientPaymentId);
         this.clientPaymentId = clientPaymentId;
+        return this;
+    }
+
+    public HyperwalletPayment clearClientPaymentId() {
+        clearField("clientPaymentId");
+        this.clientPaymentId = null;
         return this;
     }
 
@@ -72,6 +84,12 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public HyperwalletPayment clearCreatedOn() {
+        clearField("createdOn");
+        this.createdOn = null;
+        return this;
+    }
+
     public Double getAmount() {
         return amount;
     }
@@ -84,6 +102,12 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     public HyperwalletPayment amount(Double amount) {
         addField("amount", amount);
         this.amount = amount;
+        return this;
+    }
+
+    public HyperwalletPayment clearAmount() {
+        clearField("amount");
+        this.amount = null;
         return this;
     }
 
@@ -102,6 +126,12 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public HyperwalletPayment clearCurrency() {
+        clearField("currency");
+        this.currency = null;
+        return this;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -114,6 +144,12 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     public HyperwalletPayment description(String description) {
         addField("description", description);
         this.description = description;
+        return this;
+    }
+
+    public HyperwalletPayment clearDescription() {
+        clearField("description");
+        this.description = null;
         return this;
     }
 
@@ -132,6 +168,12 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public HyperwalletPayment clearMemo() {
+        clearField("memo");
+        this.memo = null;
+        return this;
+    }
+
     public String getPurpose() {
         return purpose;
     }
@@ -144,6 +186,12 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     public HyperwalletPayment purpose(String purpose) {
         addField("purpose", purpose);
         this.purpose = purpose;
+        return this;
+    }
+
+    public HyperwalletPayment clearPurpose() {
+        clearField("purpose");
+        this.purpose = null;
         return this;
     }
 
@@ -162,6 +210,12 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public HyperwalletPayment clearReleaseOn() {
+        clearField("releaseOn");
+        this.releaseOn = null;
+        return this;
+    }
+
     public String getDestinationToken() {
         return destinationToken;
     }
@@ -174,6 +228,12 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     public HyperwalletPayment destinationToken(String destinationToken) {
         addField("destinationToken", destinationToken);
         this.destinationToken = destinationToken;
+        return this;
+    }
+
+    public HyperwalletPayment clearDestinationToken() {
+        clearField("destinationToken");
+        this.destinationToken = null;
         return this;
     }
     
@@ -189,6 +249,12 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     public HyperwalletPayment programToken(String programToken) {
         addField("programToken", programToken);
         this.programToken = programToken;
+        return this;
+    }
+
+    public HyperwalletPayment clearProgramToken() {
+        clearField("programToken");
+        this.programToken = null;
         return this;
     }
 }

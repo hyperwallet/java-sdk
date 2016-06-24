@@ -31,9 +31,9 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
 
     public HyperwalletStatusTransition() {}
 
-    public HyperwalletStatusTransition(Status status) {
+    public HyperwalletStatusTransition(Status transition) {
         addField("transition", transition);
-        this.transition = status;
+        this.transition = transition;
     }
 
     public void setToken(String token) {
@@ -47,6 +47,12 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public HyperwalletStatusTransition clearToken() {
+        clearField("token");
+        this.token = null;
+        return this;
+    }
+
     public Date getCreatedOn() {
         return createdOn;
     }
@@ -54,6 +60,12 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
     public void setCreatedOn(Date createdOn) {
         addField("createdOn", createdOn);
         this.createdOn = createdOn;
+    }
+
+    public HyperwalletStatusTransition clearCreatedOn() {
+        clearField("createdOn");
+        this.createdOn = null;
+        return this;
     }
 
     public HyperwalletStatusTransition createdOn(Date createdOn) {
@@ -77,6 +89,12 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public HyperwalletStatusTransition clearTransition() {
+        clearField("transition");
+        this.transition = null;
+        return this;
+    }
+
     public Status getFromStatus() {
         return fromStatus;
     }
@@ -89,6 +107,12 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
     public HyperwalletStatusTransition fromStatus(Status fromStatus) {
         addField("fromStatus", fromStatus);
         this.fromStatus = fromStatus;
+        return this;
+    }
+
+    public HyperwalletStatusTransition clearFromStatus() {
+        clearField("fromStatus");
+        this.fromStatus = null;
         return this;
     }
 
@@ -107,6 +131,12 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public HyperwalletStatusTransition clearToStatus() {
+        clearField("toStatus");
+        this.toStatus = null;
+        return this;
+    }
+
     public String getNotes() {
         return notes;
     }
@@ -119,6 +149,12 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
     public HyperwalletStatusTransition notes(String notes) {
         addField("notes", notes);
         this.notes = notes;
+        return this;
+    }
+
+    public HyperwalletStatusTransition clearNotes() {
+        clearField("notes");
+        this.notes = null;
         return this;
     }
 }

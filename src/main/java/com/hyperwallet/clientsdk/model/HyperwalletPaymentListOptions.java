@@ -4,14 +4,18 @@ import java.util.Date;
 
 public class HyperwalletPaymentListOptions extends HyperwalletPaginationOptions {
 
-	public Date releasedOn;
-	public String currency;
+	private Date releasedOn;
+	private String currency;
 
 	public Date getReleasedOn() {
 		return releasedOn;
 	}
 
-	public HyperwalletPaymentListOptions setReleasedOn(Date releasedOn) {
+	public void setReleasedOn(Date releasedOn) {
+		this.releasedOn = releasedOn;
+	}
+
+	public HyperwalletPaymentListOptions releasedOn(Date releasedOn) {
 		this.releasedOn = releasedOn;
 		return this;
 	}
@@ -20,7 +24,11 @@ public class HyperwalletPaymentListOptions extends HyperwalletPaginationOptions 
 		return currency;
 	}
 
-	public HyperwalletPaymentListOptions setCurrency(String currency) {
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
+	public HyperwalletPaymentListOptions currency(String currency) {
 		this.currency = currency;
 		return this;
 	}

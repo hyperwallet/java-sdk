@@ -25,8 +25,6 @@ public class HyperwalletBaseMonitor {
     }
 
     protected void clearField(String field) {
-        if (!inclusions.contains(field)) {
-            inclusions.add(field);
-        }
+        inclusions.add(field);
     }
 }

@@ -5,9 +5,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class HyperwalletError {
 
-    public String code;
-    public String fieldName;
-    public String message;
+    private String code;
+    private String fieldName;
+    private String message;
 
     public HyperwalletError() {}
 

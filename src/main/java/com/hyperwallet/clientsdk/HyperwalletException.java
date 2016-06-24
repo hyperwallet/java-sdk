@@ -27,8 +27,8 @@ public class HyperwalletException extends RuntimeException {
     HyperwalletException(final HyperwalletErrorList hyperwalletErrorList) {
         this.hyperwalletErrorList = hyperwalletErrorList;
         HyperwalletError error = this.hyperwalletErrorList.getErrors().get(0);
-        errorCode = error.code;
-        errorMessage = error.message;
+        errorCode = error.getCode();
+        errorMessage = error.getMessage();
     }
 
 	HyperwalletException(final String errorMessage) {

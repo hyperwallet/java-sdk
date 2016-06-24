@@ -1,6 +1,8 @@
 package com.hyperwallet.clientsdk.model;
 
 
+import com.hyperwallet.clientsdk.Hyperwallet;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -45,7 +47,11 @@ public class HyperwalletProgram {
         return name;
     }
 
-    public HyperwalletProgram setName(String name) {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public HyperwalletProgram name(String name) {
         this.name = name;
         return this;
     }
@@ -54,7 +60,11 @@ public class HyperwalletProgram {
         return parentToken;
     }
 
-    public HyperwalletProgram setParentToken(String parentToken) {
+    public void setParentToken(String parentToken) {
+        this.parentToken = parentToken;
+    }
+
+    public HyperwalletProgram parentToken(String parentToken) {
         this.parentToken = parentToken;
         return this;
     }

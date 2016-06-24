@@ -4,17 +4,21 @@ import java.util.Date;
 
 public class HyperwalletPaginationOptions {
 
-	public Date createdBefore;
-	public Date createdAfter;
-	public String sortBy;
-	public Integer offset;
-	public Integer limit;
+	private Date createdBefore;
+	private Date createdAfter;
+	private String sortBy;
+	private Integer offset;
+	private Integer limit;
 
 	public Date getCreatedBefore() {
 		return createdBefore;
 	}
 
-	public HyperwalletPaginationOptions setCreatedBefore(Date createdBefore) {
+	public void setCreatedBefore(Date createdBefore) {
+		this.createdBefore = createdBefore;
+	}
+
+	public HyperwalletPaginationOptions createdBefore(Date createdBefore) {
 		this.createdBefore = createdBefore;
 		return this;
 	}
@@ -23,7 +27,11 @@ public class HyperwalletPaginationOptions {
 		return createdAfter;
 	}
 
-	public HyperwalletPaginationOptions setCreatedAfter(Date createdAfter) {
+	public void setCreatedAfter(Date createdAfter) {
+		this.createdAfter = createdAfter;
+	}
+
+	public HyperwalletPaginationOptions createdAfter(Date createdAfter) {
 		this.createdAfter = createdAfter;
 		return this;
 	}
@@ -32,7 +40,11 @@ public class HyperwalletPaginationOptions {
 		return sortBy;
 	}
 
-	public HyperwalletPaginationOptions setSortBy(String sortBy) {
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
+	}
+
+	public HyperwalletPaginationOptions sortBy(String sortBy) {
 		this.sortBy = sortBy;
 		return this;
 	}
@@ -41,7 +53,11 @@ public class HyperwalletPaginationOptions {
 		return offset;
 	}
 
-	public HyperwalletPaginationOptions setOffset(Integer offset) {
+	public void setOffset(Integer offset) {
+		this.offset = offset;
+	}
+
+	public HyperwalletPaginationOptions offset(Integer offset) {
 		this.offset = offset;
 		return this;
 	}
@@ -50,7 +66,11 @@ public class HyperwalletPaginationOptions {
 		return limit;
 	}
 
-	public HyperwalletPaginationOptions setLimit(Integer limit) {
+	public void setLimit(Integer limit) {
+		this.limit = limit;
+	}
+
+	public HyperwalletPaginationOptions limit(Integer limit) {
 		this.limit = limit;
 		return this;
 	}

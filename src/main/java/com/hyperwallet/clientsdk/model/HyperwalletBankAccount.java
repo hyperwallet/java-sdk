@@ -17,8 +17,6 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
 
     public static enum Status {ACTIVATED, INVALID, DE_ACTIVATED}
 
-    public static enum Relationship {SELF, JOINT_ACCOUNT, SPOUSE, RELATIVE, BUSINESS_PARTNER, UPLINE, DOWNLINE, OTHER, OWN_COMPANY, BILL_PAYMENT}
-
     private String token;
 
     private Type type;
@@ -32,7 +30,7 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     private String branchName;
     private String branchId;
     private String bankAccountId;
-    private Relationship bankAccountRelationship;
+    private HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship;
     private String bankAccountPurpose;
 
     private String branchAddressLine1;
@@ -313,16 +311,16 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public Relationship getBankAccountRelationship() {
+    public HyperwalletTransferMethod.BankAccountRelationship getBankAccountRelationship() {
         return bankAccountRelationship;
     }
 
-    public void setBankAccountRelationship(Relationship bankAccountRelationship) {
+    public void setBankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship) {
         addField("bankAccountRelationship", bankAccountRelationship);
         this.bankAccountRelationship = bankAccountRelationship;
     }
 
-    public HyperwalletBankAccount bankAccountRelationship(Relationship bankAccountRelationship) {
+    public HyperwalletBankAccount bankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship) {
         addField("bankAccountRelationship", bankAccountRelationship);
         this.bankAccountRelationship = bankAccountRelationship;
         return this;
@@ -496,7 +494,7 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletBankAccount clearWireInstrutions() {
+    public HyperwalletBankAccount clearWireInstructions() {
         clearField("wireInstructions");
         wireInstructions = null;
         return this;
@@ -559,7 +557,7 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletBankAccount clearIntermediaryBanckAccountId() {
+    public HyperwalletBankAccount clearIntermediaryBankAccountId() {
         clearField("intermediaryBankAccountId");
         intermediaryBankAccountId = null;
         return this;
@@ -769,7 +767,7 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletBankAccount clearBusinessRegistration() {
+    public HyperwalletBankAccount clearBusinessRegistrationId() {
         clearField("businessRegistrationId");
         businessRegistrationId = null;
         return this;
@@ -790,7 +788,7 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletBankAccount clearBusinesRegistrationStateProvince() {
+    public HyperwalletBankAccount clearBusinessRegistrationStateProvince() {
         clearField("businessRegistrationStateProvince");
         businessRegistrationStateProvince = null;
         return this;
