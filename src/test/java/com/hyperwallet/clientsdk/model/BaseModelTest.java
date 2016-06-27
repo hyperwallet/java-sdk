@@ -1,6 +1,8 @@
 package com.hyperwallet.clientsdk.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -34,6 +36,21 @@ public abstract class BaseModelTest<T> {
     protected abstract T createBaseModel();
 
     protected abstract Class<T> createModelClass();
+
+    @Test
+    public void testJsonFilterAnnotationPresent() throws Exception {
+        Class<T> clazz = createModelClass();
+        T model = clazz.newInstance();
+
+        if (model instanceof HyperwalletBaseMonitor) {
+            JsonFilter filter = clazz.getAnnotation(JsonFilter.class);
+            assertThat(filter, is(notNullValue()));
+            assertThat(filter.value(), is(equalTo(HyperwalletJsonConfiguration.INCLUSION_FILTER)));
+        } else {
+            JsonFilter filter = clazz.getAnnotation(JsonFilter.class);
+            assertThat(filter, is(nullValue()));
+        }
+    }
 
     @Test(dataProvider = "fieldNames")
     public void testSetterMethod(String fieldName) throws Exception {

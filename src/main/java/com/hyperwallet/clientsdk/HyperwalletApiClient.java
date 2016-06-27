@@ -4,6 +4,7 @@ import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;

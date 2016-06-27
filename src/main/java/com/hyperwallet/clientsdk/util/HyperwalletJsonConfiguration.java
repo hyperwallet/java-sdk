@@ -1,4 +1,4 @@
-package com.hyperwallet.clientsdk;
+package com.hyperwallet.clientsdk.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParser;
