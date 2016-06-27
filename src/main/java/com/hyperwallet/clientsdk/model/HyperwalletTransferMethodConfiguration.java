@@ -12,8 +12,8 @@ public class HyperwalletTransferMethodConfiguration {
 
     public static class SelectionChoice {
 
-        public String value;
-        public String label;
+        private String value;
+        private String label;
 
         public String getValue() {
             return value;
@@ -36,19 +36,19 @@ public class HyperwalletTransferMethodConfiguration {
 
     public static class Field {
 
-        public static enum Category {ACCOUNT, INTERMEDIARY_ACCOUNT, PROFILE, ADDRESS}
+        public enum Category {ACCOUNT, INTERMEDIARY_ACCOUNT, PROFILE, ADDRESS}
 
-        public static enum DataType {TEXT, SELECTION, BOOLEAN, NUMBER}
+        public enum DataType {TEXT, SELECTION, BOOLEAN, NUMBER}
 
-        public String name;
-        public String label;
-        public Category category;
-        public DataType dataType;
-        public boolean isRequired;
-        public String regularExpression;
-        public Integer minLength;
-        public Integer maxLength;
-        public List<SelectionChoice> selectionChoices = new ArrayList<SelectionChoice>();
+        private String name;
+        private String label;
+        private Category category;
+        private DataType dataType;
+        private boolean isRequired;
+        private String regularExpression;
+        private Integer minLength;
+        private Integer maxLength;
+        private List<SelectionChoice> selectionChoices = new ArrayList<SelectionChoice>();
 
         public String getName() {
             return name;
@@ -132,11 +132,11 @@ public class HyperwalletTransferMethodConfiguration {
         }
     }
 
-    public List<String> countries = new ArrayList<String>();
-    public List<String> currencies = new ArrayList<String>();
-    public HyperwalletTransferMethod.Type type;
-    public HyperwalletUser.ProfileType profileType;
-    public List<Field> fields = new ArrayList<Field>();
+    private List<String> countries = new ArrayList<String>();
+    private List<String> currencies = new ArrayList<String>();
+    private HyperwalletTransferMethod.Type type;
+    private HyperwalletUser.ProfileType profileType;
+    private List<Field> fields = new ArrayList<Field>();
 
     public List<String> getCountries() {
         return countries;
