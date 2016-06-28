@@ -469,6 +469,42 @@ public class Hyperwallet {
     }
 
     //--------------------------------------
+    // Balances
+    //--------------------------------------
+
+    /**
+     * List all User's Balances
+     *
+     * @param userToken User token assigned
+     * @return HyperwalletList of HyperwalletBalance
+     */
+    public HyperwalletList<HyperwalletBalance> listBalancesForUser(String userToken) {
+        return listBalancesForUser(userToken, null);
+    }
+
+    /**
+     * List all User's Balances
+     *
+     * @param userToken User token assigned
+     * @param options   List filter option
+     * @return HyperwalletList list of HyperwalletBalance
+     */
+    public HyperwalletList<HyperwalletBalance> listBalancesForUser(String userToken, HyperwalletBalanceListOptions options) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        String url = this.url + "/users/" + userToken + "/balances";
+        if (options != null) {
+            url = addParameter(url, "currency", options.getCurrency());
+            url = addParameter(url, "sortBy", options.getSortBy());
+            url = addParameter(url, "offset", options.getOffset());
+            url = addParameter(url, "limit", options.getLimit());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
+        });
+    }
+
+    //--------------------------------------
     // Payments
     //--------------------------------------
 
@@ -635,37 +671,7 @@ public class Hyperwallet {
 
 
 
-    /**
-     * List all User's Balances
-     *
-     * @param userToken User token assigned
-     * @return HyperwalletList of HyperwalletBalance
-     */
-    public HyperwalletList<HyperwalletBalance> listUserBalances(String userToken) {
-        return listUserBalances(userToken, null);
-    }
 
-    /**
-     * List all User's Balances
-     *
-     * @param userToken User token assigned
-     * @param options   List filter option
-     * @return HyperwalletList list of HyperwalletBalance
-     */
-    public HyperwalletList<HyperwalletBalance> listUserBalances(String userToken, HyperwalletBalanceListOptions options) {
-        if (StringUtils.isEmpty(userToken)) {
-            throw new HyperwalletException("User token is required");
-        }
-        String url = this.url + "/users/" + userToken + "/balances";
-        if (options != null) {
-            url = addParameter(url, "currency", options.getCurrency());
-            url = addParameter(url, "sortBy", options.getSortBy());
-            url = addParameter(url, "offset", options.getOffset());
-            url = addParameter(url, "limit", options.getLimit());
-        }
-        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
-        });
-    }
 
     /**
      * List all User's Prepaid Card Balances
@@ -694,43 +700,6 @@ public class Hyperwallet {
             throw new HyperwalletException("Prepaid card token is required");
         }
         String url = this.url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/balances";
-        if (options != null) {
-            url = addParameter(url, "sortBy", options.getSortBy());
-            url = addParameter(url, "offset", options.getOffset());
-            url = addParameter(url, "limit", options.getLimit());
-        }
-        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
-        });
-    }
-
-
-    /**
-     * List Programs Account Balances
-     *
-     * @param programToken Program token
-     * @param accountToken Program account token
-     * @return HyperwalletList of HyperwalletBalance
-     */
-    public HyperwalletList<HyperwalletBalance> listProgramAccountBalances(String programToken, String accountToken) {
-        return listProgramAccountBalances(programToken, accountToken, null);
-    }
-
-    /**
-     * List Programs Account Balances
-     *
-     * @param programToken Program token
-     * @param accountToken Program account token
-     * @param options      List filter option
-     * @return HyperwalletList of HyperwalletBalances
-     */
-    public HyperwalletList<HyperwalletBalance> listProgramAccountBalances(String programToken, String accountToken, HyperwalletBalanceListOptions options) {
-        if (StringUtils.isEmpty(programToken)) {
-            throw new HyperwalletException("Program token is required");
-        }
-        if (StringUtils.isEmpty(accountToken)) {
-            throw new HyperwalletException("Account token is required");
-        }
-        String url = this.url + "/programs/" + programToken + "/accounts/" + accountToken + "/balances";
         if (options != null) {
             url = addParameter(url, "sortBy", options.getSortBy());
             url = addParameter(url, "offset", options.getOffset());
