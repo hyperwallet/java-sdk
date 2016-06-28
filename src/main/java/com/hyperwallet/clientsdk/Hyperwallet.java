@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+/**
+ * The Hyperwallet Client
+ */
 public class Hyperwallet {
 
     public static final String VERSION = "0.0.2";
@@ -206,26 +209,68 @@ public class Hyperwallet {
         });
     }
 
+    /**
+     * Suspend a prepaid card
+     *
+     * @param userToken User token
+     * @param prepaidCardToken Prepaid card token
+     * @return The status transition
+     */
     public HyperwalletStatusTransition suspendPrepaidCard(String userToken, String prepaidCardToken) {
         return createPrepaidCardStatusTransition(userToken, prepaidCardToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.SUSPENDED));
     }
 
+    /**
+     * Unsuspend a prepaid card
+     *
+     * @param userToken User token
+     * @param prepaidCardToken Prepaid card token
+     * @return The status transition
+     */
     public HyperwalletStatusTransition unsuspendPrepaidCard(String userToken, String prepaidCardToken) {
         return createPrepaidCardStatusTransition(userToken, prepaidCardToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.UNSUSPENDED));
     }
 
+    /**
+     * Mark a prepaid card as lost or stolen
+     *
+     * @param userToken User token
+     * @param prepaidCardToken Prepaid card token
+     * @return The status transition
+     */
     public HyperwalletStatusTransition lostOrStolenPrepaidCard(String userToken, String prepaidCardToken) {
         return createPrepaidCardStatusTransition(userToken, prepaidCardToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.LOST_OR_STOLEN));
     }
 
+    /**
+     * Deactivate a prepaid card
+     *
+     * @param userToken User token
+     * @param prepaidCardToken Prepaid card token
+     * @return The status transition
+     */
     public HyperwalletStatusTransition deactivatePrepaidCard(String userToken, String prepaidCardToken) {
         return createPrepaidCardStatusTransition(userToken, prepaidCardToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.DE_ACTIVATED));
     }
 
+    /**
+     * Lock a prepaid card
+     *
+     * @param userToken User token
+     * @param prepaidCardToken Prepaid card token
+     * @return The status transition
+     */
     public HyperwalletStatusTransition lockPrepaidCard(String userToken, String prepaidCardToken) {
         return createPrepaidCardStatusTransition(userToken, prepaidCardToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.LOCKED));
     }
 
+    /**
+     * Unlock a prepaid card
+     *
+     * @param userToken User token
+     * @param prepaidCardToken Prepaid card token
+     * @return The status transition
+     */
     public HyperwalletStatusTransition unlockPrepaidCard(String userToken, String prepaidCardToken) {
         return createPrepaidCardStatusTransition(userToken, prepaidCardToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.UNLOCKED));
     }
@@ -242,10 +287,10 @@ public class Hyperwallet {
         if (transition == null) {
             throw new HyperwalletException("Transition is required");
         }
-        if (userToken == null) {
+        if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
-        if (prepaidCardToken == null) {
+        if (StringUtils.isEmpty(prepaidCardToken)) {
             throw new HyperwalletException("Prepaid Card token is required");
         }
         if (!StringUtils.isEmpty(transition.getToken())) {
@@ -267,13 +312,13 @@ public class Hyperwallet {
      * @return HyperwalletStatusTransition
      */
     public HyperwalletStatusTransition getPrepaidCardStatusTransition(String userToken, String prepaidCardToken, String statusTransitionToken) {
-        if (userToken == null) {
+        if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
-        if (prepaidCardToken == null) {
+        if (StringUtils.isEmpty(prepaidCardToken)) {
             throw new HyperwalletException("Prepaid Card token is required");
         }
-        if (statusTransitionToken == null) {
+        if (StringUtils.isEmpty(statusTransitionToken)) {
             throw new HyperwalletException("Transition token is required");
         }
         return apiClient.get(url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/status-transitions/" + statusTransitionToken, HyperwalletStatusTransition.class);
@@ -696,7 +741,7 @@ public class Hyperwallet {
      * @return HyperwalletList of HyperwalletTransferMethodConfiguration
      */
     public HyperwalletList<HyperwalletTransferMethodConfiguration> listTransferMethodConfigurations(String userToken, HyperwalletPaginationOptions options) {
-        if (userToken == null) {
+        if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/transfer-method-configurations?userToken=" + userToken, options);
