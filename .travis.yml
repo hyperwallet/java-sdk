@@ -4,7 +4,9 @@ jdk:
 - oraclejdk7
 - openjdk7
 - openjdk6
-
 after_success:
 - if [ $TRAVIS_JDK_VERSION = 'oraclejdk7' ] && [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then sh ./scripts/travisPublishDocs.sh; fi
 - if [ $TRAVIS_JDK_VERSION = 'oraclejdk7' ]; then mvn clean cobertura:cobertura coveralls:report; fi
+env:
+  global:
+    secure: LsOj/2HbbRfMvUQd2RMR6ycM8BLn4SrnGtaitR3cJfqkoi25GuiLQBVv19XaAe0FWyrkX8YE9ciVLtVX1lQ1fx3BTMrSbCVhmV5I3AE2gK1sKaC598SlRflUPY6kl97/UNAHE+5JlMv7op66syngQgaZ+eKVxoo69o1SqxC5CqdyC+zrEgzj1q5JA2y+/R/k2lkGFus6qJCbADEmiChoWyBN99Kmw+lhW9HSan/+bbmwpe99TlvHOX+CrXlHTq9T/4VCRRJL1OYi6eI5npWGU3UzmWnNab3vBRl/B67AC2mbH8Y1da/uxgjY/1uxNVfB4FoiGQwZodcV3pSzt3tGcPM7ONIsodWJpcZ0h2Lp1J1tZBGMfg9yiL98guDJuFF+kCGrTgpTm58c26yT6U7ezL/L5d1uX8FUyCn3F9Du6cQ+VRwwgx6Km8n1Xd6/l5AQzCYwVqZq+gsgavqHiYAAJ6MaUJ6vkR9COzK2bi/2qjprHrC4ftRdzVgPkVCLnz/YiSA54xJsz1Y5HOIyYJF2UEWd+BRfGSZC7Z1sbNyCh38OnAJSU1ECV3f+ROCZjNyad5GYfAvIsjNPuY+4IuMCR9WWHfTLDFg3DYJFzppCmYfE6utVGJF7Wlm/vb1qlRbHhHLnVhf11UagRkojWDss14h0PQGY+dOOxR8hGCiXbyQ=
