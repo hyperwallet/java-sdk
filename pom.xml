@@ -77,6 +77,12 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-netty</artifactId>
+            <version>3.10.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>cc.protea.foundation.http</groupId>
             <artifactId>http</artifactId>
             <version>${protea.http.version}</version>
@@ -193,6 +199,31 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <MOCK_SERVER_PORT>${mockServerPort}</MOCK_SERVER_PORT>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>port-allocator-maven-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>allocate-ports</goal>
+                        </goals>
+                        <configuration>
+                            <ports>
+                                <port>
+                                    <name>mockServerPort</name>
+                                </port>
+                            </ports>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <extensions>

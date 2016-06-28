@@ -2,6 +2,8 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
+import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
@@ -12,8 +14,10 @@ import java.util.TimeZone;
 
 public class Hyperwallet {
 
+    private static final String VERSION = "0.0.2";
+
     private HyperwalletApiClient util;
-    private final String version = "0.0.2";
+    private final String programToken;
     private final String url;
 
     /**
@@ -22,11 +26,12 @@ public class Hyperwallet {
      * @param username     API key assigned
      * @param password     API Password assigned
      * @param programToken API program token
-     * @param url          API base url
+     * @param server          API serer url
      */
-    public Hyperwallet(final String username, final String password, final String programToken, final String url) {
-        util = new HyperwalletApiClient(username, password, programToken, version);
-        this.url = StringUtils.isEmpty(url) ? "https://api.sandbox.hyperwallet.com/rest/v3" : url;
+    public Hyperwallet(final String username, final String password, final String programToken, final String server) {
+        util = new HyperwalletApiClient(username, password, VERSION);
+        this.programToken = programToken;
+        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v3" : server + "/rest/v3";
     }
 
     /**
@@ -63,7 +68,7 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(user.getToken())) {
             throw new HyperwalletException("User token may not be present");
         }
-        user = util.copy(user);
+        user = copy(user);
         user.setStatus(null);
         user.setCreatedOn(null);
         return util.post(url + "/users", user, HyperwalletUser.class);
@@ -135,7 +140,7 @@ public class Hyperwallet {
         if (prepaidCard.getType() == null) {
             prepaidCard.setType(HyperwalletTransferMethod.Type.PREPAID_CARD);
         }
-        prepaidCard = util.copy(prepaidCard);
+        prepaidCard = copy(prepaidCard);
         prepaidCard.createdOn(null);
         prepaidCard.setStatus(null);
         prepaidCard.setCardType(null);
@@ -207,7 +212,7 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(bankAccount.getToken())) {
             throw new HyperwalletException("Transfer Method token may not be present");
         }
-        bankAccount = util.copy(bankAccount);
+        bankAccount = copy(bankAccount);
         bankAccount.createdOn(null);
         bankAccount.setStatus(null);
         bankAccount.setBranchAddressLine2(null);
@@ -300,7 +305,7 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(transition.getToken())) {
             throw new HyperwalletException("Status transition token may not be present");
         }
-        transition = util.copy(transition);
+        transition = copy(transition);
         transition.setCreatedOn(null);
         transition.setFromStatus(null);
         transition.setToStatus(null);
@@ -410,7 +415,7 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(transition.getToken())) {
             throw new HyperwalletException("Status transition token may not be present");
         }
-        transition = util.copy(transition);
+        transition = copy(transition);
         transition.setCreatedOn(null);
         transition.setFromStatus(null);
         transition.setToStatus(null);
@@ -490,7 +495,7 @@ public class Hyperwallet {
         if (!StringUtils.isEmpty(payment.getToken())) {
             throw new HyperwalletException("Payment token may not be present");
         }
-        payment = util.copy(payment);
+        payment = copy(payment);
         payment.setCreatedOn(null);
         return util.post(url + "/payments/", payment, HyperwalletPayment.class);
     }
@@ -730,7 +735,7 @@ public class Hyperwallet {
         return util.get(url + "/programs/" + token, HyperwalletProgram.class);
     }
 
-    String paginate(String url, HyperwalletPaginationOptions options) {
+    private String paginate(String url, HyperwalletPaginationOptions options) {
         if (options == null) {
             return url;
         }
@@ -742,14 +747,14 @@ public class Hyperwallet {
         return url;
     }
 
-    String addParameter(String url, String key, Object value) {
+    private String addParameter(String url, String key, Object value) {
         if (url == null || key == null || value == null) {
             return url;
         }
         return url + (url.indexOf("?") == -1 ? "?" : "&") + key + "=" + value;
     }
 
-    String convert(Date in) {
+    private String convert(Date in) {
         if (in == null) {
             return null;
         }
@@ -758,7 +763,43 @@ public class Hyperwallet {
         return dateFormat.format(in);
     }
 
-    protected void setClientService(HyperwalletApiClient client) {
-        util = client;
+    private void setProgramToken(HyperwalletUser user) {
+        if (user != null && user.getProgramToken() == null) {
+            user.setProgramToken(this.programToken);
+        }
     }
+
+    private void setProgramToken(HyperwalletPayment payment) {
+        if (payment != null && payment.getProgramToken() == null) {
+            payment.setProgramToken(this.programToken);
+        }
+    }
+
+    public HyperwalletUser copy(HyperwalletUser user) {
+        user = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(user), HyperwalletUser.class);
+        setProgramToken(user);
+        return user;
+    }
+
+    public HyperwalletPayment copy(HyperwalletPayment payment) {
+        payment = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(payment), HyperwalletPayment.class);
+        setProgramToken(payment);
+        return payment;
+    }
+
+    public HyperwalletPrepaidCard copy(HyperwalletPrepaidCard method) {
+        method = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(method), HyperwalletPrepaidCard.class);
+        return method;
+    }
+
+    public HyperwalletBankAccount copy(HyperwalletBankAccount method) {
+        method = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(method), HyperwalletBankAccount.class);
+        return method;
+    }
+
+    public HyperwalletStatusTransition copy(HyperwalletStatusTransition statusTransition) {
+        statusTransition = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(statusTransition), HyperwalletStatusTransition.class);
+        return statusTransition;
+    }
+
 }

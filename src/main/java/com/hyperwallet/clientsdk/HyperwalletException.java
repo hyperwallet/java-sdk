@@ -9,30 +9,36 @@ import java.util.List;
 public class HyperwalletException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
-    public Response response = null;
-    public String errorMessage;
-    public String errorCode;
-    public HyperwalletErrorList hyperwalletErrorList;
 
-    HyperwalletException(final Exception e) {
+    private Response response = null;
+    private String errorMessage;
+    private String errorCode;
+    private HyperwalletErrorList hyperwalletErrorList;
+
+    public HyperwalletException(final Exception e) {
         super(e);
     }
 
-    HyperwalletException(final Response response, final int code, final String message) {
+    public HyperwalletException(final Response response, final int code, final String message) {
         this.response = response;
         errorCode = Integer.toString(code);
         errorMessage = message;
     }
 
-    HyperwalletException(final HyperwalletErrorList hyperwalletErrorList) {
+    public HyperwalletException(final Response response, final HyperwalletErrorList hyperwalletErrorList) {
+        this.response = response;
         this.hyperwalletErrorList = hyperwalletErrorList;
         HyperwalletError error = this.hyperwalletErrorList.getErrors().get(0);
         errorCode = error.getCode();
         errorMessage = error.getMessage();
     }
 
-    HyperwalletException(final String errorMessage) {
+    public HyperwalletException(final String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public Response getResponse() {
+        return response;
     }
 
     public String getErrorMessage() {
