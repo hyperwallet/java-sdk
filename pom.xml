@@ -4,17 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hyperwallet</groupId>
-    <artifactId>rest-r3-java-sdk</artifactId>
+    <artifactId>sdk</artifactId>
     <version>0.1.1</version>
     <packaging>jar</packaging>
 
-    <name>hyperwallet</name>
-    <description>Java SDK around the Hyperwallet RESTful API r3</description>
+    <name>java-sdk</name>
+    <description>An SDK implementation in Java for the v3 REST APIs.</description>
 
-    <url>https://github.com/hyperwallet/rest-v3-java-sdk</url>
+    <url>https://github.com/hyperwallet/java-sdk</url>
 
     <issueManagement>
-        <url>https://github.com/hyperwallet/rest-v3-java-sdk/issues</url>
+        <url>https://github.com/hyperwallet/java-sdk/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
 
@@ -27,9 +27,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/hyperwallet/rest-v3-java-sdk</url>
-        <connection>scm:git:git://github.com/hyperwallet/rest-v3-java-sdk.git</connection>
-        <developerConnection>scm:git:git@github.com:hyperwallet/rest-v3-java-sdk.git</developerConnection>
+        <url>https://github.com/hyperwallet/java-sdk</url>
+        <connection>scm:git:git://github.com/hyperwallet/java-sdk.git</connection>
+        <developerConnection>scm:git:git@github.com:hyperwallet/java-sdk.git</developerConnection>
     </scm>
 
     <developers>

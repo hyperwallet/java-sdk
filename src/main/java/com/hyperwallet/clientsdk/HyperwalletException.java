@@ -20,12 +20,16 @@ public class HyperwalletException extends RuntimeException {
     }
 
     public HyperwalletException(final Response response, final int code, final String message) {
+        super(message);
+
         this.response = response;
         errorCode = Integer.toString(code);
         errorMessage = message;
     }
 
     public HyperwalletException(final Response response, final HyperwalletErrorList hyperwalletErrorList) {
+        super(hyperwalletErrorList.getErrors().get(0).getMessage());
+
         this.response = response;
         this.hyperwalletErrorList = hyperwalletErrorList;
         HyperwalletError error = this.hyperwalletErrorList.getErrors().get(0);
@@ -34,6 +38,8 @@ public class HyperwalletException extends RuntimeException {
     }
 
     public HyperwalletException(final String errorMessage) {
+        super(errorMessage);
+
         this.errorMessage = errorMessage;
     }
 

@@ -13,7 +13,7 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
 
-    public static enum Status {ACTIVATED, DE_ACTIVATED, SUSPENDED, UNSUSPENDED, LOST_OR_STOLEN, LOCKED, UNLLOCKED}
+    public static enum Status {ACTIVATED, DE_ACTIVATED, SUSPENDED, UNSUSPENDED, LOST_OR_STOLEN, LOCKED, UNLOCKED}
 
     private String token;
 
