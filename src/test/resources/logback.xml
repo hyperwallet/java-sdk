@@ -1,0 +1,9 @@
+<configuration debug="false">
+    <logger name="REQUEST" level="WARN" additivity="false">
+        <appender-ref ref="REQUEST_LOG"/>
+    </logger>
+
+    <logger name="org.mockserver" level="${mockserver.logLevel:-WARN}"/>
+    <logger name="org.mockserver.proxy" level="${mockserver.logLevel:-WARN}"/>
+    <logger name="org.mockserver.mockserver" level="${mockserver.logLevel:-WARN}"/>
+</configuration>
