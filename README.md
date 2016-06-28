@@ -70,7 +70,7 @@ To write an app using the SDK
 Development
 -----------
 
-Run the tests using [`junit`](http://junit.org/junit4/):
+Run the tests using [`maven`](https://maven.apache.org/):
 
 ```bash
 $ mvn test
