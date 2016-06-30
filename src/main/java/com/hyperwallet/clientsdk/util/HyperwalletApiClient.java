@@ -20,7 +20,12 @@ public class HyperwalletApiClient {
         this.password = password;
         this.version = version;
 
-        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+        // TLS fix
+        if (System.getProperty("java.version").startsWith("1.7.")) {
+            System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+        } else if (System.getProperty("java.version").startsWith("1.6.")) {
+            System.setProperty("https.protocols", "TLSv1,TLSv1.1");
+        }
     }
 
     public <T> T get(final String url, final Class<T> type) {
