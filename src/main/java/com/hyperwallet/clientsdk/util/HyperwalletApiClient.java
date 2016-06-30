@@ -23,8 +23,6 @@ public class HyperwalletApiClient {
         // TLS fix
         if (System.getProperty("java.version").startsWith("1.7.")) {
             System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
-        } else if (System.getProperty("java.version").startsWith("1.6.")) {
-            System.setProperty("https.protocols", "TLSv1,TLSv1.1");
         }
     }
 

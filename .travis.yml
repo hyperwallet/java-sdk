@@ -3,7 +3,6 @@ jdk:
 - oraclejdk8
 - oraclejdk7
 - openjdk7
-- openjdk6
 after_success:
 - if [ $TRAVIS_JDK_VERSION = 'oraclejdk7' ] && [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then sh ./scripts/travisPublishDocs.sh; fi
 - if [ $TRAVIS_JDK_VERSION = 'oraclejdk7' ]; then mvn clean cobertura:cobertura coveralls:report; fi
