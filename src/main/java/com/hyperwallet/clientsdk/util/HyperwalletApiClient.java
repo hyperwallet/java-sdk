@@ -19,6 +19,8 @@ public class HyperwalletApiClient {
         this.username = username;
         this.password = password;
         this.version = version;
+
+        System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
     }
 
     public <T> T get(final String url, final Class<T> type) {
