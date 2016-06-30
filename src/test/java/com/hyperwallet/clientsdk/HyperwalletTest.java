@@ -52,6 +52,21 @@ public class HyperwalletTest {
     }
 
     //--------------------------------------
+    // TLS verification
+    //--------------------------------------
+
+    @Test
+    public void testLisUser_noTLSIssues() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listUsers();
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(equalTo("INCORRECT_LOGIN_CREDENTIALS")));
+        }
+    }
+
+    //--------------------------------------
     // Users
     //--------------------------------------
 
