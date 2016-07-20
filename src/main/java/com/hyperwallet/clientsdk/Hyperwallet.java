@@ -750,6 +750,107 @@ public class Hyperwallet {
     }
 
     //--------------------------------------
+    // Receipts
+    //--------------------------------------
+
+    /**
+     * List all program account receipts
+     *
+     * @param programToken Program token
+     * @param accountToken Program account token
+     * @return HyperwalletList of HyperwalletReceipt
+     */
+    public HyperwalletList<HyperwalletReceipt> listProgramAccountReceipts(String programToken, String accountToken) {
+        return listProgramAccountReceipts(programToken, accountToken, null);
+    }
+
+    /**
+     * List all program account receipts
+     *
+     * @param programToken Program token
+     * @param accountToken Program account token
+     * @param options List filter options
+     * @return HyperwalletList of HyperwalletReceipt
+     */
+    public HyperwalletList<HyperwalletReceipt> listProgramAccountReceipts(String programToken, String accountToken, HyperwalletReceiptPaginationOptions options) {
+        if (StringUtils.isEmpty(programToken)) {
+            throw new HyperwalletException("Program token is required");
+        }
+        if (StringUtils.isEmpty(accountToken)) {
+            throw new HyperwalletException("Account token is required");
+        }
+        String url = paginate(this.url + "/programs/" + programToken + "/accounts/" + accountToken + "/receipts", options);
+        if (options != null && options.getType() != null) {
+            url = addParameter(url, "type", options.getType().name());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletReceipt>>() {
+        });
+    }
+
+    /**
+     * List all user receipts
+     *
+     * @param userToken User token
+     * @return HyperwalletList of HyperwalletReceipt
+     */
+    public HyperwalletList<HyperwalletReceipt> listUserReceipts(String userToken) {
+        return listUserReceipts(userToken, null);
+    }
+
+    /**
+     * List all user receipts
+     *
+     * @param userToken Program token
+     * @param options List filter options
+     * @return HyperwalletList of HyperwalletReceipt
+     */
+    public HyperwalletList<HyperwalletReceipt> listUserReceipts(String userToken, HyperwalletReceiptPaginationOptions options) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/receipts", options);
+        if (options != null && options.getType() != null) {
+            url = addParameter(url, "type", options.getType().name());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletReceipt>>() {
+        });
+    }
+
+    /**
+     * List all prepaid card receipts
+     *
+     * @param userToken User token
+     * @param prepaidCardToken Prepaid card token
+     * @return HyperwalletList of HyperwalletReceipt
+     */
+    public HyperwalletList<HyperwalletReceipt> listPrepaidCardReceipts(String userToken, String prepaidCardToken) {
+        return listPrepaidCardReceipts(userToken, prepaidCardToken, null);
+    }
+
+    /**
+     * List all prepaid card receipts
+     *
+     * @param userToken User token
+     * @param prepaidCardToken Prepaid card token
+     * @param options List filter options
+     * @return HyperwalletList of HyperwalletReceipt
+     */
+    public HyperwalletList<HyperwalletReceipt> listPrepaidCardReceipts(String userToken, String prepaidCardToken, HyperwalletReceiptPaginationOptions options) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(prepaidCardToken)) {
+            throw new HyperwalletException("Prepaid card token is required");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/receipts", options);
+        if (options != null && options.getType() != null) {
+            url = addParameter(url, "type", options.getType().name());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletReceipt>>() {
+        });
+    }
+
+    //--------------------------------------
     // Internal utils
     //--------------------------------------
 
