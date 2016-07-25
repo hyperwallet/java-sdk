@@ -760,8 +760,8 @@ public class Hyperwallet {
      * @param accountToken Program account token
      * @return HyperwalletList of HyperwalletReceipt
      */
-    public HyperwalletList<HyperwalletReceipt> listProgramAccountReceipts(String programToken, String accountToken) {
-        return listProgramAccountReceipts(programToken, accountToken, null);
+    public HyperwalletList<HyperwalletReceipt> listReceiptsForProgramAccount(String programToken, String accountToken) {
+        return listReceiptsForProgramAccount(programToken, accountToken, null);
     }
 
     /**
@@ -772,7 +772,7 @@ public class Hyperwallet {
      * @param options List filter options
      * @return HyperwalletList of HyperwalletReceipt
      */
-    public HyperwalletList<HyperwalletReceipt> listProgramAccountReceipts(String programToken, String accountToken, HyperwalletReceiptPaginationOptions options) {
+    public HyperwalletList<HyperwalletReceipt> listReceiptsForProgramAccount(String programToken, String accountToken, HyperwalletReceiptPaginationOptions options) {
         if (StringUtils.isEmpty(programToken)) {
             throw new HyperwalletException("Program token is required");
         }
@@ -793,8 +793,8 @@ public class Hyperwallet {
      * @param userToken User token
      * @return HyperwalletList of HyperwalletReceipt
      */
-    public HyperwalletList<HyperwalletReceipt> listUserReceipts(String userToken) {
-        return listUserReceipts(userToken, null);
+    public HyperwalletList<HyperwalletReceipt> listReceiptsForUser(String userToken) {
+        return listReceiptsForUser(userToken, null);
     }
 
     /**
@@ -804,7 +804,7 @@ public class Hyperwallet {
      * @param options List filter options
      * @return HyperwalletList of HyperwalletReceipt
      */
-    public HyperwalletList<HyperwalletReceipt> listUserReceipts(String userToken, HyperwalletReceiptPaginationOptions options) {
+    public HyperwalletList<HyperwalletReceipt> listReceiptsForUser(String userToken, HyperwalletReceiptPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
@@ -823,8 +823,8 @@ public class Hyperwallet {
      * @param prepaidCardToken Prepaid card token
      * @return HyperwalletList of HyperwalletReceipt
      */
-    public HyperwalletList<HyperwalletReceipt> listPrepaidCardReceipts(String userToken, String prepaidCardToken) {
-        return listPrepaidCardReceipts(userToken, prepaidCardToken, null);
+    public HyperwalletList<HyperwalletReceipt> listReceiptsForPrepaidCard(String userToken, String prepaidCardToken) {
+        return listReceiptsForPrepaidCard(userToken, prepaidCardToken, null);
     }
 
     /**
@@ -835,7 +835,7 @@ public class Hyperwallet {
      * @param options List filter options
      * @return HyperwalletList of HyperwalletReceipt
      */
-    public HyperwalletList<HyperwalletReceipt> listPrepaidCardReceipts(String userToken, String prepaidCardToken, HyperwalletReceiptPaginationOptions options) {
+    public HyperwalletList<HyperwalletReceipt> listReceiptsForPrepaidCard(String userToken, String prepaidCardToken, HyperwalletReceiptPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }

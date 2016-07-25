@@ -2172,10 +2172,10 @@ public class HyperwalletTest {
     //--------------------------------------
 
     @Test
-    public void testListProgramAccountReceipts_noParameters_noProgramToken() throws Exception {
+    public void testListReceiptsForProgramAccount_noParameters_noProgramToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listProgramAccountReceipts(null, null);
+            client.listReceiptsForProgramAccount(null, null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2187,10 +2187,10 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListProgramAccountReceipts_noParameters_noAccountToken() throws Exception {
+    public void testListReceiptsForProgramAccount_noParameters_noAccountToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listProgramAccountReceipts("test-account-token", null);
+            client.listReceiptsForProgramAccount("test-account-token", null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2202,7 +2202,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListProgramAccountReceipts_noParameters() throws Exception {
+    public void testListReceiptsForProgramAccount_noParameters() throws Exception {
         HyperwalletList<HyperwalletReceipt> response = new HyperwalletList<HyperwalletReceipt>();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -2210,17 +2210,17 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletReceipt> resp = client.listProgramAccountReceipts("test-program-token", "test-account-token");
+        HyperwalletList<HyperwalletReceipt> resp = client.listReceiptsForProgramAccount("test-program-token", "test-account-token");
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/programs/test-program-token/accounts/test-account-token/receipts"), Mockito.any(TypeReference.class));
     }
 
     @Test
-    public void testListProgramAccountReceipts_withParameters_noProgramToken() throws Exception {
+    public void testListReceiptsForProgramAccount_withParameters_noProgramToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listProgramAccountReceipts(null, null, new HyperwalletReceiptPaginationOptions());
+            client.listReceiptsForProgramAccount(null, null, new HyperwalletReceiptPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2232,10 +2232,10 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListProgramAccountReceipts_withParameters_noAccountToken() throws Exception {
+    public void testListReceiptsForProgramAccount_withParameters_noAccountToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listProgramAccountReceipts("test-program-token", null, new HyperwalletReceiptPaginationOptions());
+            client.listReceiptsForProgramAccount("test-program-token", null, new HyperwalletReceiptPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2247,7 +2247,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListProgramAccountReceipts_withParameters() throws Exception {
+    public void testListReceiptsForProgramAccount_withParameters() throws Exception {
         HyperwalletList<HyperwalletReceipt> response = new HyperwalletList<HyperwalletReceipt>();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -2264,14 +2264,14 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletReceipt> resp = client.listProgramAccountReceipts("test-program-token", "test-account-token", options);
+        HyperwalletList<HyperwalletReceipt> resp = client.listReceiptsForProgramAccount("test-program-token", "test-account-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/programs/test-program-token/accounts/test-account-token/receipts?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&type=ANNUAL_FEE"), Mockito.any(TypeReference.class));
     }
 
     @Test
-    public void testListProgramAccountReceipts_withSomeParameters() throws Exception {
+    public void testListReceiptsForProgramAccount_withSomeParameters() throws Exception {
         HyperwalletList<HyperwalletReceipt> response = new HyperwalletList<HyperwalletReceipt>();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -2285,17 +2285,17 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletReceipt> resp = client.listProgramAccountReceipts("test-program-token", "test-account-token", options);
+        HyperwalletList<HyperwalletReceipt> resp = client.listReceiptsForProgramAccount("test-program-token", "test-account-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/programs/test-program-token/accounts/test-account-token/receipts?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"), Mockito.any(TypeReference.class));
     }
 
     @Test
-    public void testListUserReceipts_noParameters_noUserToken() throws Exception {
+    public void testListReceiptsForUser_noParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listUserReceipts(null, null);
+            client.listReceiptsForUser(null, null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2307,7 +2307,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListUserReceipts_noParameters() throws Exception {
+    public void testListReceiptsForUser_noParameters() throws Exception {
         HyperwalletList<HyperwalletReceipt> response = new HyperwalletList<HyperwalletReceipt>();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -2315,17 +2315,17 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletReceipt> resp = client.listUserReceipts("test-user-token");
+        HyperwalletList<HyperwalletReceipt> resp = client.listReceiptsForUser("test-user-token");
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/receipts"), Mockito.any(TypeReference.class));
     }
 
     @Test
-    public void testListUserReceipts_withParameters_noUserToken() throws Exception {
+    public void testListReceiptsForUser_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listUserReceipts(null, new HyperwalletReceiptPaginationOptions());
+            client.listReceiptsForUser(null, new HyperwalletReceiptPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2337,7 +2337,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListUserReceipts_withParameters() throws Exception {
+    public void testListReceiptsForUser_withParameters() throws Exception {
         HyperwalletList<HyperwalletReceipt> response = new HyperwalletList<HyperwalletReceipt>();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -2354,14 +2354,14 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletReceipt> resp = client.listUserReceipts("test-user-token", options);
+        HyperwalletList<HyperwalletReceipt> resp = client.listReceiptsForUser("test-user-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/receipts?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&type=ANNUAL_FEE"), Mockito.any(TypeReference.class));
     }
 
     @Test
-    public void testListUserReceipts_withSomeParameters() throws Exception {
+    public void testListReceiptsForUser_withSomeParameters() throws Exception {
         HyperwalletList<HyperwalletReceipt> response = new HyperwalletList<HyperwalletReceipt>();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -2375,17 +2375,17 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletReceipt> resp = client.listUserReceipts("test-user-token", options);
+        HyperwalletList<HyperwalletReceipt> resp = client.listReceiptsForUser("test-user-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/receipts?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"), Mockito.any(TypeReference.class));
     }
 
     @Test
-    public void testListPrepaidCardReceipts_noParameters_noUserToken() throws Exception {
+    public void testListReceiptsForPrepaidCard_noParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPrepaidCardReceipts(null, null);
+            client.listReceiptsForPrepaidCard(null, null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2397,10 +2397,10 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListPrepaidCardReceipts_noParameters_noPrepaidCardToken() throws Exception {
+    public void testListReceiptsForPrepaidCard_noParameters_noPrepaidCardToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPrepaidCardReceipts("test-user-token", null);
+            client.listReceiptsForPrepaidCard("test-user-token", null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2412,7 +2412,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListPrepaidCardReceipts_noParameters() throws Exception {
+    public void testListReceiptsForPrepaidCard_noParameters() throws Exception {
         HyperwalletList<HyperwalletReceipt> response = new HyperwalletList<HyperwalletReceipt>();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -2420,17 +2420,17 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletReceipt> resp = client.listPrepaidCardReceipts("test-user-token", "test-prepaid-card-token");
+        HyperwalletList<HyperwalletReceipt> resp = client.listReceiptsForPrepaidCard("test-user-token", "test-prepaid-card-token");
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/prepaid-cards/test-prepaid-card-token/receipts"), Mockito.any(TypeReference.class));
     }
 
     @Test
-    public void testListPrepaidCardReceipts_withParameters_noUserToken() throws Exception {
+    public void testListReceiptsForPrepaidCard_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPrepaidCardReceipts(null, null, new HyperwalletReceiptPaginationOptions());
+            client.listReceiptsForPrepaidCard(null, null, new HyperwalletReceiptPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2442,10 +2442,10 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListPrepaidCardReceipts_withParameters_noPrepaidCardToken() throws Exception {
+    public void testListReceiptsForPrepaidCard_withParameters_noPrepaidCardToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPrepaidCardReceipts("test-user-token", null, new HyperwalletReceiptPaginationOptions());
+            client.listReceiptsForPrepaidCard("test-user-token", null, new HyperwalletReceiptPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2457,7 +2457,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListPrepaidCardReceipts_withParameters() throws Exception {
+    public void testListReceiptsForPrepaidCard_withParameters() throws Exception {
         HyperwalletList<HyperwalletReceipt> response = new HyperwalletList<HyperwalletReceipt>();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -2474,14 +2474,14 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletReceipt> resp = client.listPrepaidCardReceipts("test-user-token", "test-prepaid-card-token", options);
+        HyperwalletList<HyperwalletReceipt> resp = client.listReceiptsForPrepaidCard("test-user-token", "test-prepaid-card-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/prepaid-cards/test-prepaid-card-token/receipts?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&type=ANNUAL_FEE"), Mockito.any(TypeReference.class));
     }
 
     @Test
-    public void testListPrepaidCardReceipts_withSomeParameters() throws Exception {
+    public void testListReceiptsForPrepaidCard_withSomeParameters() throws Exception {
         HyperwalletList<HyperwalletReceipt> response = new HyperwalletList<HyperwalletReceipt>();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -2495,7 +2495,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletReceipt> resp = client.listPrepaidCardReceipts("test-user-token", "test-prepaid-card-token", options);
+        HyperwalletList<HyperwalletReceipt> resp = client.listReceiptsForPrepaidCard("test-user-token", "test-prepaid-card-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/prepaid-cards/test-prepaid-card-token/receipts?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"), Mockito.any(TypeReference.class));
