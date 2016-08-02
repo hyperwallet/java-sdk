@@ -550,6 +550,43 @@ public class Hyperwallet {
     }
 
     /**
+     * List all Program account balances
+     *
+     * @param accountToken Account token assigned
+     * @param programToken Program token assigned
+     * @return HyperwalletList of HyperwalletBalance
+     */
+    public HyperwalletList<HyperwalletBalance> listBalancesForAccount(String programToken, String accountToken) {
+        return listBalancesForAccount(programToken, accountToken, null);
+    }
+
+    /**
+     * List all Program account balances
+     *
+     * @param accountToken Account token assigned
+     * @param programToken Program token assigned
+     * @param options   List filter option
+     * @return HyperwalletList list of HyperwalletBalance
+     */
+    public HyperwalletList<HyperwalletBalance> listBalancesForAccount(String programToken, String accountToken, HyperwalletBalanceListOptions options) {
+        if (StringUtils.isEmpty(programToken)) {
+            throw new HyperwalletException("Program token is required");
+        }
+        if (StringUtils.isEmpty(accountToken)) {
+            throw new HyperwalletException("Account token is required");
+        }
+        String url = this.url + "/programs/" + programToken + "/accounts/" + accountToken + "/balances";
+        if (options != null) {
+            url = addParameter(url, "currency", options.getCurrency());
+            url = addParameter(url, "sortBy", options.getSortBy());
+            url = addParameter(url, "offset", options.getOffset());
+            url = addParameter(url, "limit", options.getLimit());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
+        });
+    }
+
+    /**
      * List all User's Prepaid Card Balances
      *
      * @param userToken        User token assigned
