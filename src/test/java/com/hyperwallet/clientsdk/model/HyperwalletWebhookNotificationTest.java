@@ -28,6 +28,7 @@ public class HyperwalletWebhookNotificationTest {
         assertThat(event.getObject().toString(), is(equalTo("{ payment: token }")));
         assertThat(event.getCreatedOn(), is(equalTo(createdOn)));
         assertThat(event.getType(), is(equalTo(HyperwalletWebhookNotification.Type.BANK_ACCOUNT_UPDATED.toString())));
+        assertThat(HyperwalletWebhookNotification.Type.BANK_ACCOUNT_UPDATED, is(equalTo(HyperwalletWebhookNotification.Type.getType(event.getType()))));
     }
 
 }
