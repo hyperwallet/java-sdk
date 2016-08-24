@@ -2620,6 +2620,101 @@ public class HyperwalletTest {
     }
 
     //--------------------------------------
+    // Webhook Notification
+    //--------------------------------------
+
+    @Test
+    public void testGetWebhookEvent_NoToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getWebhookEvent(null);
+            fail("This must not be called, due to expecting HyperwalletException after client.getWebhookEvent(null)");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Webhook token is required")));
+            assertThat(e.getMessage(), is(equalTo("Webhook token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetWebhookEvent_Successful() throws Exception {
+        HyperwalletWebhookNotification event = new HyperwalletWebhookNotification();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(event);
+
+        HyperwalletWebhookNotification resp = client.getWebhookEvent("test-webhook-token");
+        assertThat(resp, is(equalTo(event)));
+
+        Mockito.verify(mockApiClient).get("https://api.sandbox.hyperwallet.com/rest/v3/webhook-notifications/test-webhook-token", event.getClass());
+    }
+
+    @Test
+    public void testListWebhookEvents_noParameters() throws Exception {
+        HyperwalletList<HyperwalletWebhookNotification> response = new HyperwalletList<HyperwalletWebhookNotification>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletWebhookNotification> resp = client.listWebhookEvents();
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/webhook-notifications"), Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testListWebhookEvents_withParameters() throws Exception {
+        HyperwalletList<HyperwalletWebhookNotification> response = new HyperwalletList<HyperwalletWebhookNotification>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletWebhookNotificationPaginationOptions options = new HyperwalletWebhookNotificationPaginationOptions();
+        options
+                .type(HyperwalletWebhookNotification.Type.PREPAID_CARD_CREATED.toString())
+                .sortBy("test-sort-by")
+                .offset(5)
+                .limit(10)
+                .createdAfter(convertStringToDate("2016-08-24T13:56:26Z"))
+                .createdBefore(convertStringToDate("2016-08-24T13:56:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletWebhookNotification> resp = client.listWebhookEvents(options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/webhook-notifications?createdAfter=2016-08-24T13:56:26Z&createdBefore=2016-08-24T13:56:26Z&sortBy=test-sort-by&offset=5&limit=10&type=USERS.PREPAID_CARDS.CREATED"), Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testListWebhookEvents_withSomeParameters() throws Exception {
+        HyperwalletList<HyperwalletWebhookNotification> response = new HyperwalletList<HyperwalletWebhookNotification>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletWebhookNotificationPaginationOptions options = new HyperwalletWebhookNotificationPaginationOptions();
+        options
+                .sortBy("test-sort-by")
+                .offset(5)
+                .createdBefore(convertStringToDate("2016-08-24T13:56:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletWebhookNotification> resp = client.listWebhookEvents(options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/webhook-notifications?createdBefore=2016-08-24T13:56:26Z&sortBy=test-sort-by&offset=5"), Mockito.any(TypeReference.class));
+    }
+
+
+    //--------------------------------------
     // Internal utils
     //--------------------------------------
 
