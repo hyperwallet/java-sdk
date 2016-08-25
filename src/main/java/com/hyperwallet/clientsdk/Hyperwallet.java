@@ -888,6 +888,46 @@ public class Hyperwallet {
     }
 
     //--------------------------------------
+    // Webhook Notification
+    //--------------------------------------
+
+    /**
+     * Retrieve webhook event notification
+     *
+     * @param webhookToken Webhook token
+     * @return HyperwalletWebhookNotification
+     * */
+    public HyperwalletWebhookNotification getWebhookEvent(String webhookToken) {
+        if (StringUtils.isEmpty(webhookToken)) {
+            throw new HyperwalletException("Webhook token is required");
+        }
+        return apiClient.get(url + "/webhook-notifications/" + webhookToken, HyperwalletWebhookNotification.class);
+    }
+
+    /**
+     * List all webhook event notifications
+     *
+     * @return HyperwalletList of HyperwalletWebhookNotification
+     * */
+    public HyperwalletList<HyperwalletWebhookNotification> listWebhookEvents() {
+        return listWebhookEvents(null);
+    }
+
+    /**
+     * List all webhook event notifications
+     *
+     * @param options List filter options
+     * @return HyperwalletList of HyperwalletWebhookNotification
+     * */
+    public HyperwalletList<HyperwalletWebhookNotification> listWebhookEvents(HyperwalletWebhookNotificationPaginationOptions options) {
+        String url = paginate(this.url + "/webhook-notifications", options);
+        if (options != null && options.getType() != null) {
+            url = addParameter(url, "type", options.getType());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletWebhookNotification>>() {});
+    }
+
+    //--------------------------------------
     // Internal utils
     //--------------------------------------
 
