@@ -18,13 +18,12 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.fail;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 /**
  * @author fkrauthan
@@ -2847,68 +2846,7 @@ public class HyperwalletTest {
 
     @Test
     public void testCreateTransferMethod_Completed() throws Exception{
-        HyperwalletTransferMethod transferMethod = new HyperwalletTransferMethod();
-        transferMethod
-                .token("test-token")
-                .type(HyperwalletTransferMethod.Type.BANK_ACCOUNT)
-                .status(HyperwalletTransferMethod.Status.ACTIVATED)
-                .createdOn(new Date())
-                .transferMethodCountry("test-transfer-method-country")
-                .transferMethodCurrency("test-transfer-method-currency")
-                .bankName("test-bank-name")
-                .bankId("test-bank-id")
-                .branchName("test-branch-name")
-                .branchId("test-branch-id")
-                .bankAccountId("test-bank-account-id")
-                .bankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship.SELF)
-                .bankAccountPurpose("test-bank-account-purpose")
-                .branchAddressLine1("test-branch-address-line1")
-                .branchAddressLine2("test-branch-address-line2")
-                .branchCity("test-branch-city")
-                .branchStateProvince("test-branch-state-province")
-                .branchCountry("test-branch-country")
-                .branchPostalCode("test-branch-postal-code")
-                .wireInstructions("test-wire-instructions")
-                .intermediaryBankId("test-intermediary-bank-id")
-                .intermediaryBankName("test-intermediary-bank-name")
-                .intermediaryBankAccountId("test-intermediary-bank-account-id")
-                .intermediaryBankAddressLine1("test-intermediary-bank-address-line1")
-                .intermediaryBankAddressLine2("test-intermediary-bank-address-line2")
-                .intermediaryBankCity("test-intermediary-bank-city")
-                .intermediaryBankStateProvince("test-intermediary-bank-state-province")
-                .intermediaryBankCountry("test-intermediary-bank-country")
-                .intermediaryBankPostalCode("test-intermediary-bank-postal-code")
-                .cardType(HyperwalletTransferMethod.CardType.VIRTUAL)
-                .cardPackage("test-card-package")
-                .cardNumber("test-card-number")
-                .cardBrand(HyperwalletPrepaidCard.Brand.VISA)
-                .dateOfExpiry(new Date())
-                .userToken("test-user-token")
-                .profileType(HyperwalletUser.ProfileType.INDIVIDUAL)
-                .businessName("test-business-name")
-                .businessRegistrationId("test-business-registration-id")
-                .businessRegistrationStateProvince("test-business-registration-state-province")
-                .businessRegistrationCountry("test-business-registration-country")
-                .businessContactRole(HyperwalletUser.BusinessContactRole.OWNER)
-                .firstName("test-first-name")
-                .middleName("test-middle-name")
-                .lastName("test-last-name")
-                .dateOfBirth(new Date())
-                .countryOfBirth("test-country-of-birth")
-                .countryOfNationality("test-country-of-nationality")
-                .gender(HyperwalletUser.Gender.MALE)
-                .phoneNumber("test-phone-number")
-                .mobileNumber("test-mobile-number")
-                .email("test-email")
-                .governmentId("test-government-id")
-                .passportId("test-passport-id")
-                .driversLicenseId("test-drivers-license-id")
-                .addressLine1("test-address-line1")
-                .addressLine2("test-address-line2")
-                .city("test-city")
-                .stateProvince("test-state-province")
-                .postalCode("test-postal-code")
-                .country("test-country");
+        HyperwalletTransferMethod transferMethod = createPrePopulatedTransferMethod();
 
         HyperwalletTransferMethod transferMethodResponse = new HyperwalletTransferMethod();
 
@@ -2920,9 +2858,6 @@ public class HyperwalletTest {
         String jsonCacheToken = "token123-123-123";
         HyperwalletTransferMethod resp = client.createTransferMethod(jsonCacheToken, transferMethod);
         assertThat(resp, is(equalTo(transferMethodResponse)));
-
-        HashMap<String, String> headers = new HashMap<String, String>();
-        headers.put("Json-Cache-Token", jsonCacheToken);
 
         ArgumentCaptor<HyperwalletTransferMethod> argument = ArgumentCaptor.forClass(HyperwalletTransferMethod.class);
         verify(mockApiClient).post(eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/transfer-methods"), argument.capture(), eq(transferMethod.getClass()), (HashMap<String, String>) anyMapOf(String.class, String.class));
@@ -2989,6 +2924,73 @@ public class HyperwalletTest {
         assertThat(apiClientTransferMethod.getStateProvince(), is(equalTo("test-state-province")));
         assertThat(apiClientTransferMethod.getPostalCode(), is(equalTo("test-postal-code")));
         assertThat(apiClientTransferMethod.getCountry(), is(equalTo("test-country")));
+    }
+
+    private HyperwalletTransferMethod createPrePopulatedTransferMethod() {
+        HyperwalletTransferMethod transferMethod = new HyperwalletTransferMethod();
+        transferMethod
+                .token("test-token")
+                .type(HyperwalletTransferMethod.Type.BANK_ACCOUNT)
+                .status(HyperwalletTransferMethod.Status.ACTIVATED)
+                .createdOn(new Date())
+                .transferMethodCountry("test-transfer-method-country")
+                .transferMethodCurrency("test-transfer-method-currency")
+                .bankName("test-bank-name")
+                .bankId("test-bank-id")
+                .branchName("test-branch-name")
+                .branchId("test-branch-id")
+                .bankAccountId("test-bank-account-id")
+                .bankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship.SELF)
+                .bankAccountPurpose("test-bank-account-purpose")
+                .branchAddressLine1("test-branch-address-line1")
+                .branchAddressLine2("test-branch-address-line2")
+                .branchCity("test-branch-city")
+                .branchStateProvince("test-branch-state-province")
+                .branchCountry("test-branch-country")
+                .branchPostalCode("test-branch-postal-code")
+                .wireInstructions("test-wire-instructions")
+                .intermediaryBankId("test-intermediary-bank-id")
+                .intermediaryBankName("test-intermediary-bank-name")
+                .intermediaryBankAccountId("test-intermediary-bank-account-id")
+                .intermediaryBankAddressLine1("test-intermediary-bank-address-line1")
+                .intermediaryBankAddressLine2("test-intermediary-bank-address-line2")
+                .intermediaryBankCity("test-intermediary-bank-city")
+                .intermediaryBankStateProvince("test-intermediary-bank-state-province")
+                .intermediaryBankCountry("test-intermediary-bank-country")
+                .intermediaryBankPostalCode("test-intermediary-bank-postal-code")
+                .cardType(HyperwalletTransferMethod.CardType.VIRTUAL)
+                .cardPackage("test-card-package")
+                .cardNumber("test-card-number")
+                .cardBrand(HyperwalletPrepaidCard.Brand.VISA)
+                .dateOfExpiry(new Date())
+                .userToken("test-user-token")
+                .profileType(HyperwalletUser.ProfileType.INDIVIDUAL)
+                .businessName("test-business-name")
+                .businessRegistrationId("test-business-registration-id")
+                .businessRegistrationStateProvince("test-business-registration-state-province")
+                .businessRegistrationCountry("test-business-registration-country")
+                .businessContactRole(HyperwalletUser.BusinessContactRole.OWNER)
+                .firstName("test-first-name")
+                .middleName("test-middle-name")
+                .lastName("test-last-name")
+                .dateOfBirth(new Date())
+                .countryOfBirth("test-country-of-birth")
+                .countryOfNationality("test-country-of-nationality")
+                .gender(HyperwalletUser.Gender.MALE)
+                .phoneNumber("test-phone-number")
+                .mobileNumber("test-mobile-number")
+                .email("test-email")
+                .governmentId("test-government-id")
+                .passportId("test-passport-id")
+                .driversLicenseId("test-drivers-license-id")
+                .addressLine1("test-address-line1")
+                .addressLine2("test-address-line2")
+                .city("test-city")
+                .stateProvince("test-state-province")
+                .postalCode("test-postal-code")
+                .country("test-country");
+
+        return transferMethod;
     }
 
 
