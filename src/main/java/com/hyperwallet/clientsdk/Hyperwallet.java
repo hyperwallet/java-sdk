@@ -935,8 +935,8 @@ public class Hyperwallet {
     /**
      * Create a Transfer Method
      *
-     * @param jsonCacheToken JSON cache token
-     * @param transferMethod Transfer Method object to create
+     * @param jsonCacheToken String JSON cache token
+     * @param transferMethod TransferMethod object to create
      * @return HyperwalletTransferMethod Transfer Method object created
      */
     public HyperwalletTransferMethod createTransferMethod(String jsonCacheToken, HyperwalletTransferMethod transferMethod) {
@@ -959,6 +959,31 @@ public class Hyperwallet {
         return apiClient.post(url + "/users/"+transferMethod.getUserToken()+"/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
     }
 
+
+    /**
+     * Create a Transfer Method
+     *
+     * @param jsonCacheToken String JSON cache token
+     * @param userToken String user token
+     * @return HyperwalletTransferMethod Transfer Method object created
+     */
+    public HyperwalletTransferMethod createTransferMethod(String jsonCacheToken, String userToken) {
+
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(jsonCacheToken)) {
+            throw new HyperwalletException("JSON token is required");
+        }
+
+        HyperwalletTransferMethod transferMethod = new HyperwalletTransferMethod();
+        transferMethod.setUserToken(userToken);
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Json-Cache-Token", jsonCacheToken);
+
+        return apiClient.post(url + "/users/"+transferMethod.getUserToken()+"/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
+    }
     //--------------------------------------
     // Internal utils
     //--------------------------------------

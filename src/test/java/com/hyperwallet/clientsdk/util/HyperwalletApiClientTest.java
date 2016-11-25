@@ -724,9 +724,9 @@ public class HyperwalletApiClientTest {
                         .withStatusCode(400)
                         .withBody("{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", \"message\": \"test5\" }] }")
         );
+
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Authorization", "Basic wrong_password");
-
 
         try {
             hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class, headers);
@@ -766,6 +766,29 @@ public class HyperwalletApiClientTest {
         assertThat(body, is(notNullValue()));
         assertThat(body.test1, is(equalTo("value1")));
         assertThat(body.test2, is(nullValue()));
+    }
+
+
+    @Test
+    public void testPost_noConnectionWithHeaders() {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+
+        mockServer.stop();
+        if (mockServer.isRunning()) {
+            fail("Mockserver still running");
+        }
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Basic wrong_password");
+
+        try {
+            hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class,headers);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(equalTo("java.net.ConnectException: Connection refused")));
+        }
     }
 
 }
