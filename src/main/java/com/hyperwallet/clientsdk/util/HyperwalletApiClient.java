@@ -75,8 +75,10 @@ public class HyperwalletApiClient {
             String body = convert(bodyObject);
             Request request = getService(url, false).setBody(body);
 
-            for (String key: header.keySet()) {
-                request = request.addHeader(key, header.get(key));
+            if (header != null) {
+                for (String key : header.keySet()) {
+                    request = request.addHeader(key, header.get(key));
+                }
             }
 
             response = request.postResource();
