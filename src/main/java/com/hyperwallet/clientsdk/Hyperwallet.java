@@ -956,7 +956,7 @@ public class Hyperwallet {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Json-Cache-Token", jsonCacheToken);
 
-        return apiClient.post(url + "/users/"+transferMethod.getUserToken()+"/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
+        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
     }
 
 
@@ -982,7 +982,7 @@ public class Hyperwallet {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Json-Cache-Token", jsonCacheToken);
 
-        return apiClient.post(url + "/users/"+transferMethod.getUserToken()+"/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
+        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
     }
     //--------------------------------------
     // Internal utils
