@@ -2824,6 +2824,24 @@ public class HyperwalletTest {
     }
 
     @Test
+    public void testCreateTransferMethod_noJsonCacheTokenStringUserToken() {
+        {
+
+            Hyperwallet client = new Hyperwallet("test-username", "test-password");
+            try {
+                client.createTransferMethod("", "test-user-token");
+                fail("Expect HyperwalletException");
+            } catch (HyperwalletException e) {
+                assertThat(e.getErrorCode(), is(nullValue()));
+                assertThat(e.getResponse(), is(nullValue()));
+                assertThat(e.getErrorMessage(), is(equalTo("JSON token is required")));
+                assertThat(e.getMessage(), is(equalTo("JSON token is required")));
+                assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            }
+        }
+    }
+
+    @Test
     public void testCreateTransferMethod_noUserokenInTransferMethod() {
         HyperwalletTransferMethod transferMethod = new HyperwalletTransferMethod();
 
@@ -2842,7 +2860,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testCreateTransferMethod_noUseroken() {
+    public void testCreateTransferMethod_noUserToken() {
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         String jsonCacheToken = "token123-123-123";
