@@ -14,13 +14,13 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import static org.testng.Assert.fail;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.fail;
 
 /**
  * @author fkrauthan
@@ -2781,6 +2781,330 @@ public class HyperwalletTest {
                 { "lock", HyperwalletStatusTransition.Status.LOCKED },
                 { "unlock", HyperwalletStatusTransition.Status.UNLOCKED },
         };
+    }
+
+    //--------------------------------------
+    // Transfer Method
+    //--------------------------------------
+
+    @Test
+    public void testTransferMethod_noTransferMethod() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        String jsonCacheToken = "token123-123-123";
+        try {
+            client.createTransferMethod(jsonCacheToken, (HyperwalletTransferMethod)null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreateTransferMethod_noJsonCacheToken() {
+        {
+            HyperwalletTransferMethod transferMethod = new HyperwalletTransferMethod();
+            transferMethod.setUserToken("test123123");
+
+            Hyperwallet client = new Hyperwallet("test-username", "test-password");
+            try {
+                client.createTransferMethod(null, transferMethod);
+                fail("Expect HyperwalletException");
+            } catch (HyperwalletException e) {
+                assertThat(e.getErrorCode(), is(nullValue()));
+                assertThat(e.getResponse(), is(nullValue()));
+                assertThat(e.getErrorMessage(), is(equalTo("JSON token is required")));
+                assertThat(e.getMessage(), is(equalTo("JSON token is required")));
+                assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            }
+        }
+    }
+
+    @Test
+    public void testCreateTransferMethod_noJsonCacheTokenStringUserToken() {
+        {
+
+            Hyperwallet client = new Hyperwallet("test-username", "test-password");
+            try {
+                client.createTransferMethod("", "test-user-token");
+                fail("Expect HyperwalletException");
+            } catch (HyperwalletException e) {
+                assertThat(e.getErrorCode(), is(nullValue()));
+                assertThat(e.getResponse(), is(nullValue()));
+                assertThat(e.getErrorMessage(), is(equalTo("JSON token is required")));
+                assertThat(e.getMessage(), is(equalTo("JSON token is required")));
+                assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            }
+        }
+    }
+
+    @Test
+    public void testCreateTransferMethod_noUserokenInTransferMethod() {
+        HyperwalletTransferMethod transferMethod = new HyperwalletTransferMethod();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        String jsonCacheToken = "token123-123-123";
+        try {
+            client.createTransferMethod(jsonCacheToken, transferMethod);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreateTransferMethod_noUserToken() {
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        String jsonCacheToken = "token123-123-123";
+
+        try {
+            client.createTransferMethod(jsonCacheToken, "");
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreateTransferMethod_CompletedUserToken() throws Exception{
+
+        HyperwalletTransferMethod transferMethodResponse = new HyperwalletTransferMethod();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class), Mockito.any(HashMap.class))).thenReturn(transferMethodResponse);
+
+        String jsonCacheToken = "token123-123-123";
+        String userToken = "test-user-token";
+        HyperwalletTransferMethod resp = client.createTransferMethod(jsonCacheToken, userToken);
+        assertThat(resp, is(equalTo(transferMethodResponse)));
+
+        ArgumentCaptor<HyperwalletTransferMethod> argument = ArgumentCaptor.forClass(HyperwalletTransferMethod.class);
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/transfer-methods"), argument.capture(), Mockito.eq(resp.getClass()), (HashMap<String, String>) Mockito.anyMapOf(String.class, String.class));
+
+        HyperwalletTransferMethod apiClientTransferMethod = argument.getValue();
+
+        assertThat(apiClientTransferMethod, is(notNullValue()));
+        assertThat(apiClientTransferMethod.getUserToken(), is(notNullValue()));
+
+        assertThat(apiClientTransferMethod.getToken(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getStatus(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getCreatedOn(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getCountry(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getType(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getTransferMethodCountry(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getTransferMethodCurrency(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBankName(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBankId(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBranchName(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBranchId(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBankAccountId(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBankAccountRelationship(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBankAccountPurpose(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBranchAddressLine1(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBranchAddressLine2(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBranchCity(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBranchStateProvince(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBranchCountry(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBranchPostalCode(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getWireInstructions(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getIntermediaryBankId(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getIntermediaryBankName(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getIntermediaryBankAccountId(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getIntermediaryBankAddressLine1(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getIntermediaryBankAddressLine2(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getIntermediaryBankCity(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getIntermediaryBankStateProvince(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getIntermediaryBankCountry(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getIntermediaryBankPostalCode(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getCardType(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getCardPackage(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getCardNumber(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getCardBrand(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getProfileType(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBusinessName(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBusinessRegistrationId(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBusinessRegistrationStateProvince(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBusinessRegistrationCountry(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBusinessContactRole(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getFirstName(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getMiddleName(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getLastName(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getCountryOfBirth(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getCountryOfNationality(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getGender(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getMobileNumber(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getEmail(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getGovernmentId(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getPassportId(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getDriversLicenseId(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getAddressLine1(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getAddressLine2(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getCity(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getStateProvince(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getPostalCode(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getCountry(), is(nullValue()));
+    }
+
+    @Test
+    public void testCreateTransferMethod_Completed() throws Exception{
+        HyperwalletTransferMethod transferMethod = createPrePopulatedTransferMethod();
+
+        HyperwalletTransferMethod transferMethodResponse = new HyperwalletTransferMethod();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class), Mockito.any(HashMap.class))).thenReturn(transferMethodResponse);
+
+        String jsonCacheToken = "token123-123-123";
+        HyperwalletTransferMethod resp = client.createTransferMethod(jsonCacheToken, transferMethod);
+        assertThat(resp, is(equalTo(transferMethodResponse)));
+
+        ArgumentCaptor<HyperwalletTransferMethod> argument = ArgumentCaptor.forClass(HyperwalletTransferMethod.class);
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/transfer-methods"), argument.capture(), Mockito.eq(transferMethod.getClass()), (HashMap<String, String>) Mockito.anyMapOf(String.class, String.class));
+
+        HyperwalletTransferMethod apiClientTransferMethod = argument.getValue();
+
+        assertThat(apiClientTransferMethod, is(notNullValue()));
+        assertThat(apiClientTransferMethod.getToken(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getStatus(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getCreatedOn(), is(nullValue()));
+
+        assertThat(apiClientTransferMethod.getCountry(), is(equalTo("test-country")));
+        assertThat(apiClientTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
+        assertThat(apiClientTransferMethod.getTransferMethodCountry(), is(equalTo("test-transfer-method-country")));
+        assertThat(apiClientTransferMethod.getTransferMethodCurrency(), is(equalTo("test-transfer-method-currency")));
+        assertThat(apiClientTransferMethod.getBankName(), is(equalTo("test-bank-name")));
+        assertThat(apiClientTransferMethod.getBankId(), is(equalTo("test-bank-id")));
+        assertThat(apiClientTransferMethod.getBranchName(), is(equalTo("test-branch-name")));
+        assertThat(apiClientTransferMethod.getBranchId(), is(equalTo("test-branch-id")));
+        assertThat(apiClientTransferMethod.getBankAccountId(), is(equalTo("test-bank-account-id")));
+        assertThat(apiClientTransferMethod.getBankAccountRelationship(), is(equalTo(HyperwalletTransferMethod.BankAccountRelationship.SELF)));
+        assertThat(apiClientTransferMethod.getBankAccountPurpose(), is(equalTo("test-bank-account-purpose")));
+        assertThat(apiClientTransferMethod.getBranchAddressLine1(), is(equalTo("test-branch-address-line1")));
+        assertThat(apiClientTransferMethod.getBranchAddressLine2(), is(equalTo("test-branch-address-line2")));
+        assertThat(apiClientTransferMethod.getBranchCity(), is(equalTo("test-branch-city")));
+        assertThat(apiClientTransferMethod.getBranchStateProvince(), is(equalTo("test-branch-state-province")));
+        assertThat(apiClientTransferMethod.getBranchCountry(), is(equalTo("test-branch-country")));
+        assertThat(apiClientTransferMethod.getBranchPostalCode(), is(equalTo("test-branch-postal-code")));
+        assertThat(apiClientTransferMethod.getWireInstructions(), is(equalTo("test-wire-instructions")));
+        assertThat(apiClientTransferMethod.getIntermediaryBankId(), is(equalTo("test-intermediary-bank-id")));
+        assertThat(apiClientTransferMethod.getIntermediaryBankName(), is(equalTo("test-intermediary-bank-name")));
+        assertThat(apiClientTransferMethod.getIntermediaryBankAccountId(), is(equalTo("test-intermediary-bank-account-id")));
+        assertThat(apiClientTransferMethod.getIntermediaryBankAddressLine1(), is(equalTo("test-intermediary-bank-address-line1")));
+        assertThat(apiClientTransferMethod.getIntermediaryBankAddressLine2(), is(equalTo("test-intermediary-bank-address-line2")));
+        assertThat(apiClientTransferMethod.getIntermediaryBankCity(), is(equalTo("test-intermediary-bank-city")));
+        assertThat(apiClientTransferMethod.getIntermediaryBankStateProvince(), is(equalTo("test-intermediary-bank-state-province")));
+        assertThat(apiClientTransferMethod.getIntermediaryBankCountry(), is(equalTo("test-intermediary-bank-country")));
+        assertThat(apiClientTransferMethod.getIntermediaryBankPostalCode(), is(equalTo("test-intermediary-bank-postal-code")));
+        assertThat(apiClientTransferMethod.getCardType(), is(equalTo(HyperwalletTransferMethod.CardType.VIRTUAL)));
+        assertThat(apiClientTransferMethod.getCardPackage(), is(equalTo("test-card-package")));
+        assertThat(apiClientTransferMethod.getCardNumber(), is(equalTo("test-card-number")));
+        assertThat(apiClientTransferMethod.getCardBrand(), is(equalTo(HyperwalletPrepaidCard.Brand.VISA)));
+        assertThat(apiClientTransferMethod.getUserToken(), is(equalTo("test-user-token")));
+        assertThat(apiClientTransferMethod.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.INDIVIDUAL)));
+        assertThat(apiClientTransferMethod.getBusinessName(), is(equalTo("test-business-name")));
+        assertThat(apiClientTransferMethod.getBusinessRegistrationId(), is(equalTo("test-business-registration-id")));
+        assertThat(apiClientTransferMethod.getBusinessRegistrationStateProvince(), is(equalTo("test-business-registration-state-province")));
+        assertThat(apiClientTransferMethod.getBusinessRegistrationCountry(), is(equalTo("test-business-registration-country")));
+        assertThat(apiClientTransferMethod.getBusinessContactRole(), is(equalTo(HyperwalletUser.BusinessContactRole.OWNER)));
+        assertThat(apiClientTransferMethod.getFirstName(), is(equalTo("test-first-name")));
+        assertThat(apiClientTransferMethod.getMiddleName(), is(equalTo("test-middle-name")));
+        assertThat(apiClientTransferMethod.getLastName(), is(equalTo("test-last-name")));
+        assertThat(apiClientTransferMethod.getCountryOfBirth(), is(equalTo("test-country-of-birth")));
+        assertThat(apiClientTransferMethod.getCountryOfNationality(), is(equalTo("test-country-of-nationality")));
+        assertThat(apiClientTransferMethod.getGender(), is(equalTo(HyperwalletUser.Gender.MALE)));
+        assertThat(apiClientTransferMethod.getMobileNumber(), is(equalTo("test-mobile-number")));
+        assertThat(apiClientTransferMethod.getEmail(), is(equalTo("test-email")));
+        assertThat(apiClientTransferMethod.getGovernmentId(), is(equalTo("test-government-id")));
+        assertThat(apiClientTransferMethod.getPassportId(), is(equalTo("test-passport-id")));
+        assertThat(apiClientTransferMethod.getDriversLicenseId(), is(equalTo("test-drivers-license-id")));
+        assertThat(apiClientTransferMethod.getAddressLine1(), is(equalTo("test-address-line1")));
+        assertThat(apiClientTransferMethod.getAddressLine2(), is(equalTo("test-address-line2")));
+        assertThat(apiClientTransferMethod.getCity(), is(equalTo("test-city")));
+        assertThat(apiClientTransferMethod.getStateProvince(), is(equalTo("test-state-province")));
+        assertThat(apiClientTransferMethod.getPostalCode(), is(equalTo("test-postal-code")));
+        assertThat(apiClientTransferMethod.getCountry(), is(equalTo("test-country")));
+    }
+
+    private HyperwalletTransferMethod createPrePopulatedTransferMethod() {
+        HyperwalletTransferMethod transferMethod = new HyperwalletTransferMethod();
+        transferMethod
+                .token("test-token")
+                .type(HyperwalletTransferMethod.Type.BANK_ACCOUNT)
+                .status(HyperwalletTransferMethod.Status.ACTIVATED)
+                .createdOn(new Date())
+                .transferMethodCountry("test-transfer-method-country")
+                .transferMethodCurrency("test-transfer-method-currency")
+                .bankName("test-bank-name")
+                .bankId("test-bank-id")
+                .branchName("test-branch-name")
+                .branchId("test-branch-id")
+                .bankAccountId("test-bank-account-id")
+                .bankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship.SELF)
+                .bankAccountPurpose("test-bank-account-purpose")
+                .branchAddressLine1("test-branch-address-line1")
+                .branchAddressLine2("test-branch-address-line2")
+                .branchCity("test-branch-city")
+                .branchStateProvince("test-branch-state-province")
+                .branchCountry("test-branch-country")
+                .branchPostalCode("test-branch-postal-code")
+                .wireInstructions("test-wire-instructions")
+                .intermediaryBankId("test-intermediary-bank-id")
+                .intermediaryBankName("test-intermediary-bank-name")
+                .intermediaryBankAccountId("test-intermediary-bank-account-id")
+                .intermediaryBankAddressLine1("test-intermediary-bank-address-line1")
+                .intermediaryBankAddressLine2("test-intermediary-bank-address-line2")
+                .intermediaryBankCity("test-intermediary-bank-city")
+                .intermediaryBankStateProvince("test-intermediary-bank-state-province")
+                .intermediaryBankCountry("test-intermediary-bank-country")
+                .intermediaryBankPostalCode("test-intermediary-bank-postal-code")
+                .cardType(HyperwalletTransferMethod.CardType.VIRTUAL)
+                .cardPackage("test-card-package")
+                .cardNumber("test-card-number")
+                .cardBrand(HyperwalletPrepaidCard.Brand.VISA)
+                .dateOfExpiry(new Date())
+                .userToken("test-user-token")
+                .profileType(HyperwalletUser.ProfileType.INDIVIDUAL)
+                .businessName("test-business-name")
+                .businessRegistrationId("test-business-registration-id")
+                .businessRegistrationStateProvince("test-business-registration-state-province")
+                .businessRegistrationCountry("test-business-registration-country")
+                .businessContactRole(HyperwalletUser.BusinessContactRole.OWNER)
+                .firstName("test-first-name")
+                .middleName("test-middle-name")
+                .lastName("test-last-name")
+                .dateOfBirth(new Date())
+                .countryOfBirth("test-country-of-birth")
+                .countryOfNationality("test-country-of-nationality")
+                .gender(HyperwalletUser.Gender.MALE)
+                .phoneNumber("test-phone-number")
+                .mobileNumber("test-mobile-number")
+                .email("test-email")
+                .governmentId("test-government-id")
+                .passportId("test-passport-id")
+                .driversLicenseId("test-drivers-license-id")
+                .addressLine1("test-address-line1")
+                .addressLine2("test-address-line2")
+                .city("test-city")
+                .stateProvince("test-state-province")
+                .postalCode("test-postal-code")
+                .country("test-country");
+        return transferMethod;
     }
 
 

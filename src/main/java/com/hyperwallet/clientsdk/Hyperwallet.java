@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -928,6 +929,62 @@ public class Hyperwallet {
     }
 
     //--------------------------------------
+    // Transfer Methods
+    //--------------------------------------
+
+    /**
+     * Create a Transfer Method
+     *
+     * @param jsonCacheToken String JSON cache token
+     * @param transferMethod TransferMethod object to create
+     * @return HyperwalletTransferMethod Transfer Method object created
+     */
+    public HyperwalletTransferMethod createTransferMethod(String jsonCacheToken, HyperwalletTransferMethod transferMethod) {
+
+        if (transferMethod == null || StringUtils.isEmpty(transferMethod.getUserToken())) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(jsonCacheToken)) {
+            throw new HyperwalletException("JSON token is required");
+        }
+        transferMethod = copy(transferMethod);
+
+        transferMethod.setToken(null);
+        transferMethod.setStatus(null);
+        transferMethod.setCreatedOn(null);
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Json-Cache-Token", jsonCacheToken);
+
+        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
+    }
+
+
+    /**
+     * Create a Transfer Method
+     *
+     * @param jsonCacheToken String JSON cache token
+     * @param userToken String user token
+     * @return HyperwalletTransferMethod Transfer Method object created
+     */
+    public HyperwalletTransferMethod createTransferMethod(String jsonCacheToken, String userToken) {
+
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(jsonCacheToken)) {
+            throw new HyperwalletException("JSON token is required");
+        }
+
+        HyperwalletTransferMethod transferMethod = new HyperwalletTransferMethod();
+        transferMethod.setUserToken(userToken);
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Json-Cache-Token", jsonCacheToken);
+
+        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
+    }
+    //--------------------------------------
     // Internal utils
     //--------------------------------------
 
@@ -996,6 +1053,11 @@ public class Hyperwallet {
     private HyperwalletStatusTransition copy(HyperwalletStatusTransition statusTransition) {
         statusTransition = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(statusTransition), HyperwalletStatusTransition.class);
         return statusTransition;
+    }
+
+    private HyperwalletTransferMethod copy(HyperwalletTransferMethod transferMethod) {
+        transferMethod = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transferMethod), HyperwalletTransferMethod.class);
+        return transferMethod;
     }
 
 }

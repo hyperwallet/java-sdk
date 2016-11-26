@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import java.util.HashMap;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -663,6 +665,129 @@ public class HyperwalletApiClientTest {
             assertThat(e.getErrorMessage(), is(equalTo("Internal Server Error")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getResponse(), is(notNullValue()));
+        }
+    }
+
+    @Test
+    public void testPost_WithHeaders() throws Exception {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("Content-Type", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0")
+                        .withBody(StringBody.exact("{\"test1\":\"value1\"}")),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("{ \"test1\": \"value1\" }")
+        );
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Json-Cache-Token", "token123-123-123");
+
+        TestBody body = hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class, headers);
+        assertThat(body, is(notNullValue()));
+        assertThat(body.test1, is(equalTo("value1")));
+        assertThat(body.test2, is(nullValue()));
+    }
+
+
+
+    @Test
+    public void testPost_OverwriteHeaders() throws Exception {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic wrong_password")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("Content-Type", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0")
+                        .withBody(StringBody.exact("{\"test1\":\"value1\"}")),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(400)
+                        .withBody("{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", \"message\": \"test5\" }] }")
+        );
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Basic wrong_password");
+
+        try {
+            hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class, headers);
+            fail("Expected HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(equalTo("test1")));
+            assertThat(e.getErrorMessage(), is(equalTo("test3")));
+            assertThat(e.getResponse(), is(notNullValue()));
+        }
+    }
+
+    @Test
+    public void testPost_NullHeaders() throws Exception {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("Content-Type", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0")
+                        .withBody(StringBody.exact("{\"test1\":\"value1\"}")),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("{ \"test1\": \"value1\" }")
+        );
+
+        TestBody body = hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class, null);
+        assertThat(body, is(notNullValue()));
+        assertThat(body.test1, is(equalTo("value1")));
+        assertThat(body.test2, is(nullValue()));
+    }
+
+
+    @Test
+    public void testPost_noConnectionWithHeaders() {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+
+        mockServer.stop();
+        if (mockServer.isRunning()) {
+            fail("Mockserver still running");
+        }
+
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Basic wrong_password");
+
+        try {
+            hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class,headers);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(equalTo("java.net.ConnectException: Connection refused")));
         }
     }
 

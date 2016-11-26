@@ -4,10 +4,11 @@ import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.HyperwalletException;
-import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletErrorList;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class HyperwalletApiClient {
 
@@ -62,6 +63,25 @@ public class HyperwalletApiClient {
         try {
             String body = convert(bodyObject);
             response = getService(url, false).setBody(body).postResource();
+            return processResponse(response, type);
+        } catch (IOException e) {
+            throw new HyperwalletException(e);
+        }
+    }
+
+    public <T> T post(final String url, final Object bodyObject, final Class<T> type, HashMap<String,String> header) {
+        Response response = null;
+        try {
+            String body = convert(bodyObject);
+            Request request = getService(url, false).setBody(body);
+
+            if (header != null) {
+                for (String key : header.keySet()) {
+                    request = request.addHeader(key, header.get(key));
+                }
+            }
+
+            response = request.postResource();
             return processResponse(response, type);
         } catch (IOException e) {
             throw new HyperwalletException(e);
