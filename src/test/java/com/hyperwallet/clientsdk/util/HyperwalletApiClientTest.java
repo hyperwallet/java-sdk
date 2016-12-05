@@ -2,9 +2,11 @@ package com.hyperwallet.clientsdk.util;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.hyperwallet.clientsdk.Hyperwallet;
 import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletBaseMonitor;
 import com.hyperwallet.clientsdk.model.HyperwalletError;
+import com.hyperwallet.clientsdk.model.HyperwalletPayment;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.matchers.Times;
 import org.mockserver.model.HttpRequest;
@@ -15,9 +17,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import java.util.HashMap;
 
@@ -270,7 +279,6 @@ public class HyperwalletApiClientTest {
         );
 
         TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {});
-        assertThat(body, is(nullValue()));
     }
 
     @Test
@@ -791,4 +799,64 @@ public class HyperwalletApiClientTest {
         }
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testInvalidJsonResponse() throws Exception {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("Content-Type", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0")
+                        .withBody(StringBody.exact("{\"test1\":\"value1\"}")),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(
+                                "    {\n" +
+                                        "      \"token\" : \"pmt-81aad61a-03ff-4995-a2fc-6a6e2d8911af\",\n" +
+                                        "      \"createdOn\" : \"2016-11-11T21:57:40\",\n" +
+                                        "      \"amount\" : \"1,707.58\",\n" +
+                                        "      \"currency\" : \"GBP\",\n" +
+                                        "      \"clientPaymentId\" : \"8729\",\n" +
+                                        "      \"memo\" : \"Advance Payment for Oct 2016\",\n" +
+                                        "      \"purpose\" : \"OTHER\",\n" +
+                                        "      \"expiresOn\" : \"2017-05-10\",\n" +
+                                        "      \"destinationToken\" : \"usr-332b1efe-3486-407f-b72b-f74f36723e6d\",\n" +
+                                        "      \"programToken\" : \"prg-11f244b9-7ce4-4d8f-a367-614617529b11\",\n" +
+                                        "      \"links\" : [ {\n" +
+                                        "        \"params\" : {\n" +
+                                        "          \"rel\" : \"self\"\n" +
+                                        "        },\n" +
+                                        "        \"href\" : \"https://maelle.paylution.com/rest/v3/payments/pmt-81aad61a-03ff-4995-a2fc-6a6e2d8911af\"\n" +
+                                        "      } ]\n" +
+                                        "    }    {\n" +
+                                        "      \"token\" : \"pmt-81aad61a-03ff-4995-a2fc-6a6e2d8911af\",\n" +
+                                        "      \"createdOn\" : \"2016-11-11T21:57:40\",\n" +
+                                        "      \"amount\" : \"1,707.58\",\n" +
+                                        "      \"currency\" : \"GBP\",\n" +
+                                        "      \"clientPaymentId\" : \"8729\",\n" +
+                                        "      \"memo\" : \"Advance Payment for Oct 2016\",\n" +
+                                        "      \"purpose\" : \"OTHER\",\n" +
+                                        "      \"expiresOn\" : \"2017-05-10\",\n" +
+                                        "      \"destinationToken\" : \"usr-332b1efe-3486-407f-b72b-f74f36723e6d\",\n" +
+                                        "      \"programToken\" : \"prg-11f244b9-7ce4-4d8f-a367-614617529b11\",\n" +
+                                        "      \"links\" : [ {\n" +
+                                        "        \"params\" : {\n" +
+                                        "          \"rel\" : \"self\"\n" +
+                                        "        },\n" +
+                                        "        \"href\" : \"https://maelle.paylution.com/rest/v3/payments/pmt-81aad61a-03ff-4995-a2fc-6a6e2d8911af\"\n" +
+                                        "      } ]\n" +
+                                        "    }")
+        );
+        hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, HyperwalletPayment.class);
+    }
 }

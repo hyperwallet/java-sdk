@@ -23,6 +23,7 @@ public class HyperwalletJsonUtilTest {
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class TestBody {
         public String test;
+        public Double amount;
     }
 
     @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
@@ -69,6 +70,17 @@ public class HyperwalletJsonUtilTest {
         assertThat(body, is(nullValue()));
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testFromJson_byClassReference_Invalid_JSON_Content() {
+        HyperwalletJsonUtil.fromJson("{\"amount\": \"1,023.37\" }", TestBody.class);
+    }
+
+    @Test
+    public void testFromJson_byClassReference_Valid_JSON_Content() {
+        TestBody body = HyperwalletJsonUtil.fromJson("{\"amount\": \"1023.37\" }", TestBody.class);
+        assertThat(body.amount, is(1023.37));
+    }
+
     @Test
     public void testFromJson_byClassReference_emptyContent() {
         TestBody body = HyperwalletJsonUtil.fromJson("", TestBody.class);
@@ -92,6 +104,11 @@ public class HyperwalletJsonUtilTest {
     public void testFromJson_byTypeReference_emptyContent() {
         TestBody body = HyperwalletJsonUtil.fromJson("", new TypeReference<TestBody>() {});
         assertThat(body, is(nullValue()));
+    }
+
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testFromJson_byTypeReference_Invalid_JSON_Content() {
+        HyperwalletJsonUtil.fromJson("{\"amount\" : }", new TypeReference<TestBody>() {});
     }
 
     @Test
