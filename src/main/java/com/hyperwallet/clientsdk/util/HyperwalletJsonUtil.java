@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletBaseMonitor;
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,7 +29,7 @@ public class HyperwalletJsonUtil {
         try {
             return HyperwalletJsonUtil.parser.readValue(content, valueType);
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new HyperwalletException(e);
         }
     }
 
@@ -39,7 +40,7 @@ public class HyperwalletJsonUtil {
         try {
             return HyperwalletJsonUtil.parser.readValue(content, valueType);
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new HyperwalletException(e);
         }
     }
 

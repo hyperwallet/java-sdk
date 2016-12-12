@@ -2,6 +2,7 @@ package com.hyperwallet.clientsdk.util;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletBaseMonitor;
 import org.testng.annotations.Test;
 
@@ -70,7 +71,7 @@ public class HyperwalletJsonUtilTest {
         assertThat(body, is(nullValue()));
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
+    @Test(expectedExceptions = HyperwalletException.class)
     public void testFromJson_byClassReference_Invalid_JSON_Content() {
         HyperwalletJsonUtil.fromJson("{\"amount\": \"1,023.37\" }", TestBody.class);
     }
@@ -106,7 +107,7 @@ public class HyperwalletJsonUtilTest {
         assertThat(body, is(nullValue()));
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
+    @Test(expectedExceptions = HyperwalletException.class)
     public void testFromJson_byTypeReference_Invalid_JSON_Content() {
         HyperwalletJsonUtil.fromJson("{\"amount\" : }", new TypeReference<TestBody>() {});
     }

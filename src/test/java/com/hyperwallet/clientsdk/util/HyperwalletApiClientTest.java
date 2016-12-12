@@ -799,7 +799,7 @@ public class HyperwalletApiClientTest {
         }
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
+    @Test(expectedExceptions = HyperwalletException.class)
     public void testInvalidJsonResponse() throws Exception {
         TestBody requestBody = new TestBody();
         requestBody.test1 = "value1";
