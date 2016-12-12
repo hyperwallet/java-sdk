@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletBaseMonitor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 
@@ -21,24 +23,24 @@ public class HyperwalletJsonUtil {
     }
 
     public static <T> T fromJson(final String content, final Class<T> valueType) {
-        if (content == null) {
+        if (StringUtils.isBlank(content)) {
             return null;
         }
         try {
             return HyperwalletJsonUtil.parser.readValue(content, valueType);
         } catch (IOException e) {
-            return null;
+            throw new HyperwalletException(e);
         }
     }
 
     public static <T> T fromJson(final String content, final TypeReference<T> valueType) {
-        if (content == null) {
+        if (StringUtils.isBlank(content)) {
             return null;
         }
         try {
             return HyperwalletJsonUtil.parser.readValue(content, valueType);
         } catch (IOException e) {
-            return null;
+            throw new HyperwalletException(e);
         }
     }
 
