@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.2.0 (in progress)
--------------------
+0.2.0 (2017-03-07)
+------------------
 
 - Added list program account receipt endpoint
 - Added list user receipt endpoint
