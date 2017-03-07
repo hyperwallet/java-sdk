@@ -18,7 +18,7 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     private Date createdOn;
     private Double amount;
     private String currency;
-    private String description;
+    private String notes;
     private String memo;
     private String purpose;
     private Date releaseOn;
@@ -132,24 +132,24 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public String getDescription() {
-        return description;
+    public String getNotes() {
+        return notes;
     }
 
-    public void setDescription(String description) {
-        addField("description", description);
-        this.description = description;
+    public void setNotes(String notes) {
+        addField("notes", notes);
+        this.notes = notes;
     }
 
-    public HyperwalletPayment description(String description) {
-        addField("description", description);
-        this.description = description;
+    public HyperwalletPayment notes(String notes) {
+        addField("notes", notes);
+        this.notes = notes;
         return this;
     }
 
-    public HyperwalletPayment clearDescription() {
-        clearField("description");
-        this.description = null;
+    public HyperwalletPayment clearNotes() {
+        clearField("notes");
+        this.notes = null;
         return this;
     }
 

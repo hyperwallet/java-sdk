@@ -15,7 +15,7 @@ public class HyperwalletPaymentTest extends BaseModelTest<HyperwalletPayment> {
                 .currency("test-currency")
 
                 .memo("test-memo")
-                .description("test-description")
+                .notes("test-note")
 
                 .purpose("test-purpose")
                 .releaseOn(new Date())
