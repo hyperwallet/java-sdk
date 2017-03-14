@@ -50,7 +50,7 @@ To write an app using the SDK
   HyperwalletUser user = new HyperwalletUser();
   user
     .clientUserId("test-client-id-1")
-    .profileType(User::ProfileType::INDIVIDUAL)
+    .profileType(HyperwalletUser.UserProfileType.INDIVIDUAL)
     .firstName("Daffyd")
     .lastName("y Goliath")
     .email("testmail-1@hyperwallet.com")
