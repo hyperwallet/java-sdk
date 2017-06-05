@@ -19,6 +19,7 @@ public class HyperwalletPaymentTest extends BaseModelTest<HyperwalletPayment> {
 
                 .purpose("test-purpose")
                 .releaseOn(new Date())
+                .expiresOn(new Date())
 
                 .destinationToken("test-destination-token")
                 .programToken("test-program-token")

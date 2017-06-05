@@ -22,6 +22,7 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     private String memo;
     private String purpose;
     private Date releaseOn;
+    private Date expiresOn;
     private String destinationToken;
     private String programToken;
     private String clientPaymentId;
@@ -213,6 +214,27 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     public HyperwalletPayment clearReleaseOn() {
         clearField("releaseOn");
         this.releaseOn = null;
+        return this;
+    }
+
+    public Date getExpiresOn() {
+        return expiresOn;
+    }
+
+    public void setExpiresOn(Date expiresOn) {
+        addField("expiresOn", expiresOn);
+        this.expiresOn = expiresOn;
+    }
+
+    public HyperwalletPayment expiresOn(Date expiresOn) {
+        addField("expiresOn", expiresOn);
+        this.expiresOn = expiresOn;
+        return this;
+    }
+
+    public HyperwalletPayment clearExpiresOn() {
+        clearField("expiresOn");
+        this.expiresOn = null;
         return this;
     }
 
