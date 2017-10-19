@@ -2,6 +2,7 @@ package com.hyperwallet.clientsdk.util;
 
 import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
+import cc.protea.util.http.TimedRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletErrorList;
@@ -15,11 +16,16 @@ public class HyperwalletApiClient {
     private final String username;
     private final String password;
     private final String version;
+    private final int connectTimeout;
+    private final int readTimeout;
 
-    public HyperwalletApiClient(final String username, final String password, final String version) {
+    public HyperwalletApiClient(final String username, final String password, final String version,
+                                final int connectTimeout, final int readTimeout) {
         this.username = username;
         this.password = password;
         this.version = version;
+        this.connectTimeout = connectTimeout;
+        this.readTimeout = readTimeout;
 
         // TLS fix
         if (System.getProperty("java.version").startsWith("1.7.")) {
@@ -126,12 +132,12 @@ public class HyperwalletApiClient {
 
     private Request getService(final String url, boolean isHttpGet) {
         if (isHttpGet) {
-            return new Request(url)
+            return new TimedRequest(url, connectTimeout, readTimeout)
                     .addHeader("Authorization", getAuthorizationHeader())
                     .addHeader("Accept", "application/json")
                     .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
         } else {
-            return new Request(url)
+            return new TimedRequest(url, connectTimeout, readTimeout)
                     .addHeader("Authorization", getAuthorizationHeader())
                     .addHeader("Accept", "application/json")
                     .addHeader("Content-Type", "application/json")

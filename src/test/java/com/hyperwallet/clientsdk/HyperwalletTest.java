@@ -3,6 +3,7 @@ package com.hyperwallet.clientsdk;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
+import org.apache.commons.lang3.RandomUtils;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.testng.annotations.DataProvider;
@@ -30,25 +31,73 @@ public class HyperwalletTest {
     @Test
     public void testConstructor_noProgramToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
-        validateHyperwalletVariables(client, "test-username", "test-password", "https://api.sandbox.hyperwallet.com/rest/v3", null);
+        validateHyperwalletVariables(client, "test-username", "test-password",
+                "https://api.sandbox.hyperwallet.com/rest/v3", null);
+    }
+
+    @Test
+    public void testConstructor_noProgramTokenwithConnectAndReadTimeout() throws Exception {
+        final int expectedConnectTimeout = RandomUtils.nextInt(1, Integer.MAX_VALUE);
+        final int expectedReadTimeout = RandomUtils.nextInt(1, Integer.MAX_VALUE);
+        Hyperwallet client = new Hyperwallet("test-username", "test-password", expectedConnectTimeout,
+                expectedReadTimeout);
+        validateHyperwalletVariables(client, "test-username", "test-password",
+                "https://api.sandbox.hyperwallet.com/rest/v3", null);
+        validateHyperwalletApiClientConnectAndReadTimeouts(client, expectedConnectTimeout, expectedReadTimeout);
     }
 
     @Test
     public void testConstructor_withProgramToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token");
-        validateHyperwalletVariables(client, "test-username", "test-password", "https://api.sandbox.hyperwallet.com/rest/v3", "test-program-token");
+        validateHyperwalletVariables(client, "test-username", "test-password",
+                "https://api.sandbox.hyperwallet.com/rest/v3", "test-program-token");
+    }
+
+    @Test
+    public void testConstructor_withProgramTokenAndConnectAndReadTimeout() throws Exception {
+        final int expectedConnectTimeout = RandomUtils.nextInt(1, Integer.MAX_VALUE);
+        final int expectedReadTimeout = RandomUtils.nextInt(1, Integer.MAX_VALUE);
+        Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token",
+                expectedConnectTimeout, expectedReadTimeout);
+        validateHyperwalletVariables(client, "test-username", "test-password",
+                "https://api.sandbox.hyperwallet.com/rest/v3", "test-program-token");
+        validateHyperwalletApiClientConnectAndReadTimeouts(client, expectedConnectTimeout, expectedReadTimeout);
     }
 
     @Test
     public void testConstructor_defaultServer() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "");
-        validateHyperwalletVariables(client, "test-username", "test-password", "https://api.sandbox.hyperwallet.com/rest/v3", "test-program-token");
+        validateHyperwalletVariables(client, "test-username", "test-password",
+                "https://api.sandbox.hyperwallet.com/rest/v3", "test-program-token");
+    }
+
+    @Test
+    public void testConstructor_defaultServerWithConnectAndReadTimeout() throws Exception {
+        final int expectedConnectTimeout = RandomUtils.nextInt(1, Integer.MAX_VALUE);
+        final int expectedReadTimeout = RandomUtils.nextInt(1, Integer.MAX_VALUE);
+        Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "",
+                expectedConnectTimeout, expectedReadTimeout);
+        validateHyperwalletVariables(client, "test-username", "test-password",
+                "https://api.sandbox.hyperwallet.com/rest/v3", "test-program-token");
+        validateHyperwalletApiClientConnectAndReadTimeouts(client, expectedConnectTimeout, expectedReadTimeout);
     }
 
     @Test
     public void testConstructor_withCustomServer() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "http://test.de");
-        validateHyperwalletVariables(client, "test-username", "test-password", "http://test.de/rest/v3", "test-program-token");
+        validateHyperwalletVariables(client, "test-username", "test-password", "http://test.de/rest/v3",
+                "test-program-token");
+    }
+
+    @Test
+    public void testConstructor_customServerWithConnectAndReadTimeout() throws Exception {
+        final int expectedConnectTimeout = RandomUtils.nextInt(1, Integer.MAX_VALUE);
+        final int expectedReadTimeout = RandomUtils.nextInt(1, Integer.MAX_VALUE);
+        Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "http://test.de",
+                expectedConnectTimeout, expectedReadTimeout);
+        validateHyperwalletVariables(client, "test-username", "test-password", "http://test.de/rest/v3",
+                "test-program-token");
+        validateHyperwalletApiClientConnectAndReadTimeouts(client, expectedConnectTimeout, expectedReadTimeout);
     }
 
     //--------------------------------------
@@ -2734,7 +2783,30 @@ public class HyperwalletTest {
         return dateFormat.parse(date);
     }
 
-    private void validateHyperwalletVariables(Hyperwallet client, String expectedUsername, String expectedPassword, String expectedUrl, String expectedProgramToken) throws Exception {
+    private void validateHyperwalletApiClientConnectAndReadTimeouts(Hyperwallet client, int expectedConnectTimeout,
+                                                                    int expectedReadTimeout)
+            throws NoSuchFieldException, IllegalAccessException {
+        Field apiClientField = client.getClass().getDeclaredField("apiClient");
+
+        apiClientField.setAccessible(true);
+
+        HyperwalletApiClient hyperwalletApiClient = (HyperwalletApiClient) apiClientField.get(client);
+
+        Field connectTimeoutField = hyperwalletApiClient.getClass().getDeclaredField("connectTimeout");
+        Field readTimeoutField = hyperwalletApiClient.getClass().getDeclaredField("readTimeout");
+
+        connectTimeoutField.setAccessible(true);
+        readTimeoutField.setAccessible(true);
+
+        int connectTimeout = connectTimeoutField.getInt(hyperwalletApiClient);
+        int readTimeout = readTimeoutField.getInt(hyperwalletApiClient);
+
+        assertThat(connectTimeout, is(equalTo(expectedConnectTimeout)));
+        assertThat(readTimeout, is(equalTo(expectedReadTimeout)));
+    }
+
+    private void validateHyperwalletVariables(Hyperwallet client, String expectedUsername, String expectedPassword,
+                                              String expectedUrl, String expectedProgramToken) throws Exception {
         Field urlField = client.getClass().getDeclaredField("url");
         Field programTokenField = client.getClass().getDeclaredField("programToken");
         Field apiClientField = client.getClass().getDeclaredField("apiClient");
