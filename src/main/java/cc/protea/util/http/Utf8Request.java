@@ -36,7 +36,7 @@ import java.util.Map;
 /**
  * This class represents an HTTP Request message.
  */
-public class Request extends Message<Request> {
+public class Utf8Request extends Message<Utf8Request> {
 
     HttpURLConnection connection;
     OutputStreamWriter writer;
@@ -51,7 +51,7 @@ public class Request extends Message<Request> {
      *            The url parameter does not need the query string parameters if they are going to be supplied via calls to
      *            {@link #addQueryParameter(String, String)}. You can, however, supply the query parameters in the URL if you wish.
      */
-    public Request(final String url) {
+    public Utf8Request(final String url) {
         try {
             this.url = new URL(url);
             this.connection = (HttpURLConnection) this.url.openConnection();
@@ -70,7 +70,7 @@ public class Request extends Message<Request> {
      *            The Query Parameter's value
      * @return this Request, to support chained method calls
      */
-    public Request addQueryParameter(final String name, final String value) {
+    public Utf8Request addQueryParameter(final String name, final String value) {
         this.query.put(name, value);
         return this;
     }
@@ -82,7 +82,7 @@ public class Request extends Message<Request> {
      *            The name of the Query Parameter to remove
      * @return this Request, to support chained method calls
      */
-    public Request removeQueryParameter(final String name) {
+    public Utf8Request removeQueryParameter(final String name) {
         this.query.remove(name);
         return this;
     }
@@ -280,7 +280,7 @@ public class Request extends Message<Request> {
         }
     }
 
-    public Request setBodyUrlEncoded(final Map<String, String> map) {
+    public Utf8Request setBodyUrlEncoded(final Map<String, String> map) {
 
         if (map == null) {
             this.body = null;

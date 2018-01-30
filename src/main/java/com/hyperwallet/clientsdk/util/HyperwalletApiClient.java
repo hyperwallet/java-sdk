@@ -1,6 +1,6 @@
 package com.hyperwallet.clientsdk.util;
 
-import cc.protea.util.http.Request;
+import cc.protea.util.http.Utf8Request;
 import cc.protea.util.http.Response;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.HyperwalletException;
@@ -73,7 +73,7 @@ public class HyperwalletApiClient {
         Response response = null;
         try {
             String body = convert(bodyObject);
-            Request request = getService(url, false).setBody(body);
+            Utf8Request request = getService(url, false).setBody(body);
 
             if (header != null) {
                 for (String key : header.keySet()) {
@@ -124,14 +124,14 @@ public class HyperwalletApiClient {
         return "Basic " + base64;
     }
 
-    private Request getService(final String url, boolean isHttpGet) {
+    private Utf8Request getService(final String url, boolean isHttpGet) {
         if (isHttpGet) {
-            return new Request(url)
+            return new Utf8Request(url)
                     .addHeader("Authorization", getAuthorizationHeader())
                     .addHeader("Accept", "application/json")
                     .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
         } else {
-            return new Request(url)
+            return new Utf8Request(url)
                     .addHeader("Authorization", getAuthorizationHeader())
                     .addHeader("Accept", "application/json")
                     .addHeader("Content-Type", "application/json")
