@@ -1,0 +1,8 @@
+curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-f695ef43-9614-4e17-9269-902c234616c3/bank-cards/trm-d69300ef-5011-486b-bd2e-bfd8b20fef26/status-transitions" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Content-Type: application/json" \
+-H "Accept: application/json" \
+-d "{
+  "notes": "Closing this account.",
+  "transition": "DE_ACTIVATED"
+}"
