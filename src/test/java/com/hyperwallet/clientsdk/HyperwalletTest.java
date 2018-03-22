@@ -1612,6 +1612,669 @@ public class HyperwalletTest {
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/bank-cards/test-bank-card-token/status-transitions?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"), Mockito.any(TypeReference.class));
     }
+
+    //--------------------------------------
+    // Paper Checks
+    //--------------------------------------
+
+    @Test
+    public void testCreatePaperCheck_noPaperCheck() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createPaperCheck(null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Paper Check is required")));
+            assertThat(e.getMessage(), is(equalTo("Paper Check is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePaperCheck_noUserToken() {
+        HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createPaperCheck(paperCheck);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePaperCheck_prepaidCardTokenSpecified() {
+        HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
+        paperCheck.setUserToken("test-user-token");
+        paperCheck.setToken("test-token");
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createPaperCheck(paperCheck);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Paper Check token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("Paper Check token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePaperCheck_noType() throws Exception {
+        HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
+        paperCheck.setUserToken("test-user-token");
+        paperCheck.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        paperCheck.setCreatedOn(new Date());
+        paperCheck.setAddressLine1("test-address-line1");
+
+        HyperwalletPaperCheck paperCheckResponse = new HyperwalletPaperCheck();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(paperCheckResponse);
+
+        HyperwalletPaperCheck resp = client.createPaperCheck(paperCheck);
+        assertThat(resp, is(equalTo(paperCheckResponse)));
+
+        ArgumentCaptor<HyperwalletPaperCheck> argument = ArgumentCaptor.forClass(HyperwalletPaperCheck.class);
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks"), argument.capture(), Mockito.eq(paperCheck.getClass()));
+
+        HyperwalletPaperCheck apiClientPaperCheck = argument.getValue();
+        assertThat(apiClientPaperCheck, is(notNullValue()));
+        assertThat(apiClientPaperCheck.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAPER_CHECK)));
+        assertThat(apiClientPaperCheck.getStatus(), is(nullValue()));
+        assertThat(apiClientPaperCheck.getCreatedOn(), is(nullValue()));
+    }
+
+    @Test
+    public void testCreatePaperCheck_withType() throws Exception {
+        HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
+        paperCheck.setUserToken("test-user-token");
+        paperCheck.setType(HyperwalletTransferMethod.Type.PAPER_CHECK);
+        paperCheck.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        paperCheck.setCreatedOn(new Date());
+        paperCheck.setAddressLine1("test-address-line1");
+
+        HyperwalletPaperCheck paperCheckResponse = new HyperwalletPaperCheck();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(paperCheckResponse);
+
+        HyperwalletPaperCheck resp = client.createPaperCheck(paperCheck);
+        assertThat(resp, is(equalTo(paperCheckResponse)));
+
+        ArgumentCaptor<HyperwalletPaperCheck> argument = ArgumentCaptor.forClass(HyperwalletPaperCheck.class);
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks"), argument.capture(), Mockito.eq(paperCheck.getClass()));
+
+        HyperwalletPaperCheck apiClienPaperCheck = argument.getValue();
+        assertThat(apiClienPaperCheck, is(notNullValue()));
+        assertThat(apiClienPaperCheck.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAPER_CHECK)));
+        assertThat(apiClienPaperCheck.getStatus(), is(nullValue()));
+        assertThat(apiClienPaperCheck.getCreatedOn(), is(nullValue()));
+    }
+
+    @Test
+    public void testUpdatePaperCheck_noPaperCheck() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePaperCheck(null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Paper Check is required")));
+            assertThat(e.getMessage(), is(equalTo("Paper Check is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePaperCheck_noUserToken() {
+        HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePaperCheck(paperCheck);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePaperCheck_noBankAccountToken() {
+        HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
+        paperCheck.setUserToken("test-user-token");
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePaperCheck(paperCheck);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePaperCheckt_successful() throws Exception {
+        HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
+        paperCheck.setToken("test-bank-card-token");
+        paperCheck.setUserToken("test-user-token");
+        paperCheck.setAddressLine1("test-address-line1");
+
+        HyperwalletPaperCheck paperCheckResponse = new HyperwalletPaperCheck();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(paperCheckResponse);
+
+        HyperwalletPaperCheck resp = client.updatePaperCheck(paperCheck);
+        assertThat(resp, is(equalTo(paperCheckResponse)));
+
+        ArgumentCaptor<HyperwalletPaperCheck> argument = ArgumentCaptor.forClass(HyperwalletPaperCheck.class);
+        Mockito.verify(mockApiClient).put(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks/test-bank-card-token"), argument.capture(), Mockito.eq(paperCheck.getClass()));
+
+        HyperwalletPaperCheck apiClientBankAccount = argument.getValue();
+        assertThat(apiClientBankAccount, is(notNullValue()));
+        assertThat(apiClientBankAccount.getAddressLine1(), is(equalTo("test-address-line1")));
+    }
+
+    @Test
+    public void testGetPaperCheck_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getPaperCheck(null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetPaperCheck_noPaperCheckToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getPaperCheck("test-user-token", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetPaperCheck_successful() throws Exception {
+        HyperwalletPaperCheck paperCheckResponse = new HyperwalletPaperCheck();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(paperCheckResponse);
+
+        HyperwalletPaperCheck resp = client.getPaperCheck("test-user-token", "test-bank-card-token");
+        assertThat(resp, is(equalTo(paperCheckResponse)));
+
+        Mockito.verify(mockApiClient).get("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks/test-bank-card-token", paperCheckResponse.getClass());
+    }
+
+    @Test
+    public void testListPaperChecks_noParameters_noUserToken() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listPaperChecks(null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListPaperChecks_noParameters() throws Exception {
+        HyperwalletList<HyperwalletPaperCheck> response = new HyperwalletList<HyperwalletPaperCheck>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletPaperCheck> resp = client.listPaperChecks("test-user-token");
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks"), Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testListPaperChecks_withParameters_noUserToken() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listPaperChecks(null, new HyperwalletPaginationOptions());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListPaperChecks_withParameters() throws Exception {
+        HyperwalletList<HyperwalletPaperCheck> response = new HyperwalletList<HyperwalletPaperCheck>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        options
+            .sortBy("test-sort-by")
+            .offset(5)
+            .limit(10)
+            .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletPaperCheck> resp = client.listPaperChecks("test-user-token", options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"), Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testListPaperChecks_withSomeParameters() throws Exception {
+        HyperwalletList<HyperwalletPaperCheck> response = new HyperwalletList<HyperwalletPaperCheck>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        options
+            .sortBy("test-sort-by")
+            .offset(5)
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletPaperCheck> resp = client.listPaperChecks("test-user-token", options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"), Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testDeactivatePaperCheckStatusTransition_noUserToken() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.deactivatePaperCheck(null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testDeactivatePaperCheckStatusTransition_noPaperCheckToken() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.deactivatePaperCheck("test-user-token", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testDeactivatePaperCheckStatusTransition_successful() throws Exception {
+        HyperwalletStatusTransition statusTransitionResponse = new HyperwalletStatusTransition();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(statusTransitionResponse);
+
+        HyperwalletStatusTransition resp = client.deactivatePaperCheck("test-user-token", "test-bank-card-token");
+        assertThat(resp, is(equalTo(statusTransitionResponse)));
+
+        ArgumentCaptor<HyperwalletStatusTransition> argument = ArgumentCaptor.forClass(HyperwalletStatusTransition.class);
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks/test-bank-card-token/status-transitions"), argument.capture(), Mockito.eq(statusTransitionResponse.getClass()));
+
+        HyperwalletStatusTransition apiClientStatusTransition = argument.getValue();
+        assertThat(apiClientStatusTransition, is(notNullValue()));
+        assertThat(apiClientStatusTransition.getTransition(), is(equalTo(HyperwalletStatusTransition.Status.DE_ACTIVATED)));
+    }
+
+    @Test
+    public void testDeactivatePaperCheckStatusTransition_withNotes_successful() throws Exception {
+        HyperwalletStatusTransition statusTransitionResponse = new HyperwalletStatusTransition();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(statusTransitionResponse);
+
+        HyperwalletStatusTransition resp = client.deactivatePaperCheck("test-user-token", "test-bank-card-token", "test-notes");
+        assertThat(resp, is(equalTo(statusTransitionResponse)));
+
+        ArgumentCaptor<HyperwalletStatusTransition> argument = ArgumentCaptor.forClass(HyperwalletStatusTransition.class);
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks/test-bank-card-token/status-transitions"), argument.capture(), Mockito.eq(statusTransitionResponse.getClass()));
+
+        HyperwalletStatusTransition apiClientStatusTransition = argument.getValue();
+        assertThat(apiClientStatusTransition, is(notNullValue()));
+        assertThat(apiClientStatusTransition.getTransition(), is(equalTo(HyperwalletStatusTransition.Status.DE_ACTIVATED)));
+        assertThat(apiClientStatusTransition.getNotes(), is(equalTo("test-notes")));
+    }
+
+    @Test
+    public void testCreatePaperCheckStatusTransition_noTransition() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createPaperCheckStatusTransition(null, null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Transition is required")));
+            assertThat(e.getMessage(), is(equalTo("Transition is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePaperCheckStatusTransition_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createPaperCheckStatusTransition(null, null, new HyperwalletStatusTransition());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePaperCheckStatusTransition_noPaperCheckToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createPaperCheckStatusTransition("test-user-token", null, new HyperwalletStatusTransition());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePaperCheckStatusTransition_transitionTokenSpecified() {
+        HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
+        transition.setToken("test-token");
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createPaperCheckStatusTransition("test-user-token", "test-bank-card-token", transition);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Status Transition token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("Status Transition token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePaperCheckStatusTransition_successful() throws Exception {
+        HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
+        transition.setFromStatus(HyperwalletStatusTransition.Status.ACTIVATED);
+        transition.setToStatus(HyperwalletStatusTransition.Status.DE_ACTIVATED);
+        transition.setCreatedOn(new Date());
+        transition.setTransition(HyperwalletStatusTransition.Status.DE_ACTIVATED);
+
+        HyperwalletStatusTransition transitionResponse = new HyperwalletStatusTransition();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(transitionResponse);
+
+        HyperwalletStatusTransition resp = client.createPaperCheckStatusTransition("test-user-token", "test-bank-card-token", transition);
+        assertThat(resp, is(equalTo(transitionResponse)));
+
+        ArgumentCaptor<HyperwalletStatusTransition> argument = ArgumentCaptor.forClass(HyperwalletStatusTransition.class);
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks/test-bank-card-token/status-transitions"), argument.capture(), Mockito.eq(transition.getClass()));
+
+        HyperwalletStatusTransition apiClientTransition = argument.getValue();
+        assertThat(apiClientTransition, is(notNullValue()));
+        assertThat(apiClientTransition.getTransition(), is(equalTo(HyperwalletStatusTransition.Status.DE_ACTIVATED)));
+        assertThat(apiClientTransition.getFromStatus(), is(nullValue()));
+        assertThat(apiClientTransition.getToStatus(), is(nullValue()));
+        assertThat(apiClientTransition.getCreatedOn(), is(nullValue()));
+    }
+
+    @Test
+    public void testGetPaperCheckStatusTransition_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getPaperCheckStatusTransition(null, null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetPaperCheckStatusTransition_noPaperCheckToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getPaperCheckStatusTransition("test-user-token", null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetPaperCheckStatusTransition_noTransitionToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getPaperCheckStatusTransition("test-user-token", "test-bank-card-token", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Transition token is required")));
+            assertThat(e.getMessage(), is(equalTo("Transition token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetPaperCheckStatusTransition_successful() throws Exception {
+        HyperwalletStatusTransition transitionResponse = new HyperwalletStatusTransition();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(transitionResponse);
+
+        HyperwalletStatusTransition resp = client.getPaperCheckStatusTransition("test-user-token", "test-bank-card-token", "test-status-transition-token");
+        assertThat(resp, is(equalTo(transitionResponse)));
+
+        Mockito.verify(mockApiClient).get("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks/test-bank-card-token/status-transitions/test-status-transition-token", transitionResponse.getClass());
+    }
+
+    @Test
+    public void testListPaperCheckStatusTransitions_noParameters_noUserToken() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listPaperCheckStatusTransitions(null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListPaperCheckStatusTransitions_noParameters_noPaperCheckToken() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listPaperCheckStatusTransitions("test-user-token", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListPaperCheckStatusTransitions_noParameters() throws Exception {
+        HyperwalletList<HyperwalletStatusTransition> response = new HyperwalletList<HyperwalletStatusTransition>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletStatusTransition> resp = client.listPaperCheckStatusTransitions("test-user-token", "test-bank-card-token");
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks/test-bank-card-token/status-transitions"), Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testListPaperCheckStatusTransitions_withParameters_noUserToken() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listPaperCheckStatusTransitions(null, null, new HyperwalletPaginationOptions());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListPaperCheckStatusTransitions_withParameters_noPaperCheckToken() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listPaperCheckStatusTransitions("test-user-token", null, new HyperwalletPaginationOptions());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListPaperCheckStatisTransitions_withParameters() throws Exception {
+        HyperwalletList<HyperwalletStatusTransition> response = new HyperwalletList<HyperwalletStatusTransition>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        options
+            .sortBy("test-sort-by")
+            .offset(5)
+            .limit(10)
+            .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletStatusTransition> resp = client.listPaperCheckStatusTransitions("test-user-token", "test-bank-card-token", options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks/test-bank-card-token/status-transitions?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"), Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testListPaperCheckStatusTransitions_withSomeParameters() throws Exception {
+        HyperwalletList<HyperwalletStatusTransition> response = new HyperwalletList<HyperwalletStatusTransition>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        options
+            .sortBy("test-sort-by")
+            .offset(5)
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletStatusTransition> resp = client.listPaperCheckStatusTransitions("test-user-token", "test-bank-card-token", options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks/test-bank-card-token/status-transitions?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"), Mockito.any(TypeReference.class));
+    }
     
     //--------------------------------------
     // Bank Accounts

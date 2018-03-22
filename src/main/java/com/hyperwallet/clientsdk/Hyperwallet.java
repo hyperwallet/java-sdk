@@ -555,6 +555,201 @@ public class Hyperwallet {
     }
 
     //--------------------------------------
+    // Paper Checks
+    //--------------------------------------
+
+    /**
+     * Create Paper Check
+     *
+     * @param paperCheck Paper Check object to create
+     * @return HyperwalletPaperCheck Paper Check object created
+     */
+    public HyperwalletPaperCheck createPaperCheck(HyperwalletPaperCheck paperCheck) {
+        if (paperCheck == null) {
+            throw new HyperwalletException("Paper Check is required");
+        }
+        if (StringUtils.isEmpty(paperCheck.getUserToken())) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (!StringUtils.isEmpty(paperCheck.getToken())) {
+            throw new HyperwalletException("Paper Check token may not be present");
+        }
+        if (paperCheck.getType() == null) {
+            paperCheck.setType(HyperwalletTransferMethod.Type.PAPER_CHECK);
+        }
+        paperCheck = copy(paperCheck);
+        paperCheck.setStatus(null);
+        paperCheck.setCreatedOn(null);
+        return apiClient.post(url + "/users/" + paperCheck.getUserToken() + "/paper-checks", paperCheck, HyperwalletPaperCheck.class);
+    }
+
+    /**
+     * Update Paper Check
+     *
+     * @param paperCheck Paper Check object to create
+     * @return HyperwalletPaperCheck Paper Check object created
+     */
+    public HyperwalletPaperCheck updatePaperCheck(HyperwalletPaperCheck paperCheck) {
+        if (paperCheck == null) {
+            throw new HyperwalletException("Paper Check is required");
+        }
+        if (StringUtils.isEmpty(paperCheck.getUserToken())) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(paperCheck.getToken())) {
+            throw new HyperwalletException("Paper Check token is required");
+        }
+        return apiClient.put(url + "/users/" + paperCheck.getUserToken() + "/paper-checks/" + paperCheck.getToken(), paperCheck, HyperwalletPaperCheck.class);
+    }
+
+    /**
+     * Get Paper Check
+     *
+     * @param userToken        User token assigned
+     * @param paperCheckToken Paper Check token
+     * @return HyperwalletPaperCheck Paper Check
+     */
+    public HyperwalletPaperCheck getPaperCheck(String userToken, String paperCheckToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(paperCheckToken)) {
+            throw new HyperwalletException("Paper Check token is required");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/paper-checks/" + paperCheckToken, HyperwalletPaperCheck.class);
+    }
+
+    /**
+     * List User's Paper Check
+     *
+     * @param userToken User token assigned
+     * @return HyperwalletList of HyperwalletPaperCheck
+     */
+    public HyperwalletList<HyperwalletPaperCheck> listPaperChecks(String userToken) {
+        return listPaperChecks(userToken, null);
+    }
+
+    /**
+     * List User's Paper Check
+     *
+     * @param userToken User token assigned
+     * @param options   List filter option
+     * @return HyperwalletList of HyperwalletPaperCheck
+     */
+    public HyperwalletList<HyperwalletPaperCheck> listPaperChecks(String userToken, HyperwalletPaginationOptions options) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/paper-checks", options);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPaperCheck>>() {
+        });
+    }
+
+    /**
+     * Deactivate a Paper Check
+     *
+     * @param userToken User token
+     * @param paperCheckToken Paper Check token
+     * @return The status transition
+     */
+    public HyperwalletStatusTransition deactivatePaperCheck(String userToken, String paperCheckToken) {
+        return deactivatePaperCheck(userToken, paperCheckToken, null);
+    }
+
+    /**
+     * Deactivate a Paper Check
+     *
+     * @param userToken User token
+     * @param paperCheckToken Paper Check token
+     * @return The status transition
+     */
+    public HyperwalletStatusTransition deactivatePaperCheck(String userToken, String paperCheckToken, String notes) {
+        return createPaperCheckStatusTransition(userToken,
+                                              paperCheckToken,
+                                              new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.DE_ACTIVATED).notes(notes));
+    }
+
+    /**
+     * Create Paper Check Status Transition
+     *
+     * @param userToken        Usert token
+     * @param paperCheckToken Paper Check token
+     * @param transition       Status transition information
+     * @return HyperwalletStatusTransition new status for Paper Check
+     */
+    public HyperwalletStatusTransition createPaperCheckStatusTransition(String userToken, String paperCheckToken, HyperwalletStatusTransition transition) {
+        if (transition == null) {
+            throw new HyperwalletException("Transition is required");
+        }
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(paperCheckToken)) {
+            throw new HyperwalletException("Paper Check token is required");
+        }
+        if (!StringUtils.isEmpty(transition.getToken())) {
+            throw new HyperwalletException("Status Transition token may not be present");
+        }
+        transition = copy(transition);
+        transition.setCreatedOn(null);
+        transition.setFromStatus(null);
+        transition.setToStatus(null);
+        return apiClient.post(url + "/users/" + userToken + "/paper-checks/" + paperCheckToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * Get Paper Check Status Transition
+     *
+     * @param userToken             User token
+     * @param paperCheckToken      Paper Check token
+     * @param statusTransitionToken Status transition token
+     * @return HyperwalletStatusTransition
+     */
+    public HyperwalletStatusTransition getPaperCheckStatusTransition(String userToken, String paperCheckToken, String statusTransitionToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(paperCheckToken)) {
+            throw new HyperwalletException("Paper Check token is required");
+        }
+        if (StringUtils.isEmpty(statusTransitionToken)) {
+            throw new HyperwalletException("Transition token is required");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/paper-checks/" + paperCheckToken + "/status-transitions/" + statusTransitionToken, HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * List All Paper Check Status Transition information
+     *
+     * @param userToken        User token
+     * @param paperCheckToken Paper Check token
+     * @return HyperwalletList of HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listPaperCheckStatusTransitions(String userToken, String paperCheckToken) {
+        return listPaperCheckStatusTransitions(userToken, paperCheckToken, null);
+    }
+
+    /**
+     * List Paper Check Status Transition information
+     *
+     * @param userToken        User token
+     * @param paperCheckToken Paper Check token
+     * @param options          List filter option
+     * @return HyperwalletList of HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listPaperCheckStatusTransitions(String userToken, String paperCheckToken, HyperwalletPaginationOptions options) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(paperCheckToken)) {
+            throw new HyperwalletException("Paper Check token is required");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/paper-checks/" + paperCheckToken + "/status-transitions", options);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
+        });
+    }
+
+    //--------------------------------------
     // Bank Accounts
     //--------------------------------------
 
@@ -1246,6 +1441,11 @@ public class Hyperwallet {
     private HyperwalletBankCard copy(HyperwalletBankCard card) {
         card = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(card), HyperwalletBankCard.class);
         return card;
+    }
+
+    private HyperwalletPaperCheck copy(HyperwalletPaperCheck check) {
+        check = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(check), HyperwalletPaperCheck.class);
+        return check;
     }
 
     private HyperwalletBankAccount copy(HyperwalletBankAccount method) {

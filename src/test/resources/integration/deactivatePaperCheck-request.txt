@@ -1,0 +1,8 @@
+curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-1dea80c9-c73e-4490-91b7-097d4a07550f/paper-checks/trm-9e2e1a06-a33b-4c2f-9933-893ae21db442/status-transitions" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Content-Type: application/json" \
+-H "Accept: application/json" \
+-d "{
+  "notes": "Closing check.",
+  "transition": "DE_ACTIVATED"
+}"
