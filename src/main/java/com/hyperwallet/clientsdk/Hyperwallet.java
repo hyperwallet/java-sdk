@@ -168,6 +168,27 @@ public class Hyperwallet {
     }
 
     /**
+     * Update Prepaid Card
+     *
+     * @param prepaidCard Prepaid Card object to create
+     * @return HyperwalletPrepaidCard Prepaid Card object created
+     */
+    public HyperwalletPrepaidCard updatePrepaidCard(HyperwalletPrepaidCard prepaidCard) {
+        if (prepaidCard == null) {
+            throw new HyperwalletException("Prepaid Card is required");
+        }
+        if (StringUtils.isEmpty(prepaidCard.getUserToken())) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(prepaidCard.getToken())) {
+            throw new HyperwalletException("Prepaid Card token is required");
+        }
+        return apiClient.put(url + "/users/" + prepaidCard.getUserToken() + "/prepaid-cards/" + prepaidCard.getToken(),
+                             prepaidCard,
+                             HyperwalletPrepaidCard.class);
+    }
+
+    /**
      * Get Prepaid Card
      *
      * @param userToken        User token assigned

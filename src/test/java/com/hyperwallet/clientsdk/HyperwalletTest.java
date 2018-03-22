@@ -756,6 +756,86 @@ public class HyperwalletTest {
     }
 
     @Test
+    public void testUpdatePrepaidCard_noPrepaidCard() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePrepaidCard(null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card is required")));
+            assertThat(e.getMessage(), is(equalTo("Prepaid Card is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePrepaidCard_noUserToken() {
+        HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePrepaidCard(prepaidCard);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePrepaidCard_noPrepaidAccountToken() {
+        HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard();
+        prepaidCard.setUserToken("test-user-token");
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePrepaidCard(prepaidCard);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card token is required")));
+            assertThat(e.getMessage(), is(equalTo("Prepaid Card token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePrepaidCardt_successful() throws Exception {
+        HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard();
+        prepaidCard.setToken("test-prepaid-card-token");
+        prepaidCard.setUserToken("test-user-token");
+        prepaidCard.setTransferMethodCountry("UK");
+        prepaidCard.setTransferMethodCurrency("GBR");
+
+        HyperwalletPrepaidCard prepaidCardResponse = new HyperwalletPrepaidCard();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(prepaidCardResponse);
+
+        HyperwalletPrepaidCard resp = client.updatePrepaidCard(prepaidCard);
+        assertThat(resp, is(equalTo(prepaidCardResponse)));
+
+        ArgumentCaptor<HyperwalletPrepaidCard> argument = ArgumentCaptor.forClass(HyperwalletPrepaidCard.class);
+        Mockito.verify(mockApiClient).put(
+            Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/prepaid-cards/test-prepaid-card-token"),
+            argument.capture(),
+            Mockito.eq(prepaidCard.getClass()));
+
+        HyperwalletPrepaidCard apiClientBankAccount = argument.getValue();
+        assertThat(apiClientBankAccount, is(notNullValue()));
+        assertThat(apiClientBankAccount.getTransferMethodCountry(), is(equalTo("UK")));
+        assertThat(apiClientBankAccount.getTransferMethodCurrency(), is(equalTo("GBR")));
+    }
+
+    @Test
     public void testGetPrepaidCardStatusTransition_noUserToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {

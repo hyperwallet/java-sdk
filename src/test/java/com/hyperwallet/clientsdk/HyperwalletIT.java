@@ -4,12 +4,14 @@ import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
 
 import com.hyperwallet.clientsdk.model.HyperwalletBankCard;
 import com.hyperwallet.clientsdk.model.HyperwalletList;
+import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
 import com.hyperwallet.clientsdk.model.HyperwalletPaperCheck;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod;
@@ -51,6 +53,37 @@ public class HyperwalletIT {
     public void setUp() {
         String baseUrl = "http://localhost:" + mockServer.getPort();
         client = new Hyperwallet("test-username", "test-password", "test-program-token", baseUrl);
+    }
+
+    @Test
+    public void testUpdatePrepaidCard() throws Exception {
+        String functionality = "updatePrepaidCard";
+        initMockServer(functionality);
+
+        HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard()
+            .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+            .token("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")
+            .cardPackage("US8419889B2");
+
+        HyperwalletPrepaidCard returnValue;
+        try {
+            returnValue = client.updatePrepaidCard(prepaidCard);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-09T22:50:14 UTC"))));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getCardPackage(), is(equalTo("US8419889B2")));
+        assertThat(returnValue.getCardType(), is(equalTo(HyperwalletPrepaidCard.CardType.VIRTUAL)));
+        assertThat(returnValue.getCardNumber(), is(equalTo("************0114")));
+        assertThat(returnValue.getCardBrand(), is(equalTo(HyperwalletPrepaidCard.Brand.MASTERCARD)));
+        assertThat(returnValue.getDateOfExpiry(), is(nullValue()));
     }
 
     //

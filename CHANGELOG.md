@@ -4,6 +4,7 @@ Changelog
 0.3.0 (in progress)
 -------------------
 
+- Added Update Prepaid Card endpoint
 - Added Paper Checks endpoint
 - Added bank card endpoint
 
