@@ -1,0 +1,16 @@
+{
+  "token": "sts-46592b6c-7d8b-4e00-abf6-ca5a03880d31",
+  "createdOn": "2017-12-21T11:35:43",
+  "transition": "CANCELLED",
+  "fromStatus": "SCHEDULED",
+  "toStatus": "CANCELLED",
+  "notes": "Cancel a payment upon customer request.",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v3/payments/pmt-8716ee36-8b8f-4572-bf68-b9d1f956a3a2/status-transitions/sts-46592b6c-7d8b-4e00-abf6-ca5a03880d31"
+    }
+  ]
+}

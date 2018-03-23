@@ -1,6 +1,12 @@
 package com.hyperwallet.clientsdk;
 
+import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.ACTIVATED;
+import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.CANCELLED;
+import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.COMPLETED;
+import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.CREATED;
 import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.DE_ACTIVATED;
+import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.RECALLED;
+import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.SCHEDULED;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -11,8 +17,8 @@ import static org.mockserver.model.JsonBody.json;
 
 import com.hyperwallet.clientsdk.model.HyperwalletBankCard;
 import com.hyperwallet.clientsdk.model.HyperwalletList;
-import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
 import com.hyperwallet.clientsdk.model.HyperwalletPaperCheck;
+import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod;
 import com.hyperwallet.clientsdk.model.HyperwalletUser;
@@ -54,6 +60,10 @@ public class HyperwalletIT {
         String baseUrl = "http://localhost:" + mockServer.getPort();
         client = new Hyperwallet("test-username", "test-password", "test-program-token", baseUrl);
     }
+
+    //
+    // Prepaid Card
+    //
 
     @Test
     public void testUpdatePrepaidCard() throws Exception {
@@ -222,7 +232,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getToken(), is(equalTo("sts-1825afa2-61f1-4860-aa69-a65b9d14f556")));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T00:55:57 UTC"))));
         assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
-        assertThat(returnValue.getFromStatus(), is(equalTo(HyperwalletStatusTransition.Status.ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getNotes(), is(equalTo("Closing this account.")));
     }
@@ -245,7 +255,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-1825afa2-61f1-4860-aa69-a65b9d14f556")));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T00:55:57 UTC"))));
         assertThat(returnValue.getData().get(0).getTransition(), is(equalTo(DE_ACTIVATED)));
-        assertThat(returnValue.getData().get(0).getFromStatus(), is(equalTo(HyperwalletStatusTransition.Status.ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getFromStatus(), is(equalTo(ACTIVATED)));
         assertThat(returnValue.getData().get(0).getToStatus(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getData().get(0).getNotes(), is(equalTo("Closing this account.")));
     }
@@ -272,7 +282,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getToken(), is(equalTo("sts-1825afa2-61f1-4860-aa69-a65b9d14f556")));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T00:55:57 UTC"))));
         assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
-        assertThat(returnValue.getFromStatus(), is(equalTo(HyperwalletStatusTransition.Status.ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getNotes(), is(equalTo("Closing this account.")));
     }
@@ -299,7 +309,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getToken(), is(equalTo("sts-1825afa2-61f1-4860-aa69-a65b9d14f556")));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T00:55:57 UTC"))));
         assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
-        assertThat(returnValue.getFromStatus(), is(equalTo(HyperwalletStatusTransition.Status.ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getNotes(), is(equalTo("Closing this account.")));
     }
@@ -467,7 +477,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getToken(), is(equalTo("sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7")));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-30T19:50:49 UTC"))));
         assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
-        assertThat(returnValue.getFromStatus(), is(equalTo(HyperwalletStatusTransition.Status.ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
     }
@@ -490,7 +500,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7")));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-30T19:50:49 UTC"))));
         assertThat(returnValue.getData().get(0).getTransition(), is(equalTo(DE_ACTIVATED)));
-        assertThat(returnValue.getData().get(0).getFromStatus(), is(equalTo(HyperwalletStatusTransition.Status.ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getFromStatus(), is(equalTo(ACTIVATED)));
         assertThat(returnValue.getData().get(0).getToStatus(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getData().get(0).getNotes(), is(equalTo("Closing check.")));
     }
@@ -517,9 +527,84 @@ public class HyperwalletIT {
         assertThat(returnValue.getToken(), is(equalTo("sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7")));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-30T19:50:49 UTC"))));
         assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
-        assertThat(returnValue.getFromStatus(), is(equalTo(HyperwalletStatusTransition.Status.ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
+    }
+
+    //
+    // Payments
+    //
+    @Test
+    public void testListPaymentStatusTransitions() throws Exception {
+        String functionality = "listPaymentStatusTransitions";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletStatusTransition> returnValue;
+        try {
+            returnValue = client.listPaymentStatusTransitions("pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getCount(), is(equalTo(2)));
+        assertThat(returnValue.getData().get(1).getToken(), is(equalTo("sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33")));
+        assertThat(returnValue.getData().get(1).getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T02:04:17 UTC"))));
+        assertThat(returnValue.getData().get(1).getTransition(), is(equalTo(RECALLED)));
+        assertThat(returnValue.getData().get(1).getFromStatus(), is(equalTo(COMPLETED)));
+        assertThat(returnValue.getData().get(1).getToStatus(), is(equalTo(RECALLED)));
+    }
+
+    @Test
+    public void testCreatePaymentStatusTransition() throws Exception {
+        String functionality = "createPaymentStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
+        transition.setNotes("Cancel a payment upon customer request.");
+        transition.setTransition(CANCELLED);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.createPaymentStatusTransition("pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f",
+                                                                transition);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("sts-46592b6c-7d8b-4e00-abf6-ca5a03880d31")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-12-21T11:35:43 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(CANCELLED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(SCHEDULED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(CANCELLED)));
+        assertThat(returnValue.getNotes(), is(equalTo("Cancel a payment upon customer request.")));
+    }
+
+    @Test
+    public void testGetPaymentStatusTransition() throws Exception {
+        String functionality = "getPaymentStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
+        transition.setNotes("Closing this account.");
+        transition.setTransition(DE_ACTIVATED);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.getPaymentStatusTransition("pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f",
+                                                             "sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T02:04:17 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(COMPLETED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(CREATED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(COMPLETED)));
     }
 
     @Test
@@ -544,7 +629,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getToken(), is(equalTo("sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7")));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-30T19:50:49 UTC"))));
         assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
-        assertThat(returnValue.getFromStatus(), is(equalTo(HyperwalletStatusTransition.Status.ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
     }

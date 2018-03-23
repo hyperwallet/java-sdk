@@ -300,7 +300,7 @@ public class Hyperwallet {
     /**
      * Create Prepaid Card Status Transition
      *
-     * @param userToken        Usert token
+     * @param userToken        User token
      * @param prepaidCardToken Prepaid Card token
      * @param transition       Status transition information
      * @return HyperwalletStatusTransition new status for Prepaid Card
@@ -498,7 +498,7 @@ public class Hyperwallet {
     /**
      * Create Bank Card Status Transition
      *
-     * @param userToken        Usert token
+     * @param userToken        User token
      * @param bankCardToken Bank Card token
      * @param transition       Status transition information
      * @return HyperwalletStatusTransition new status for Bank Card
@@ -693,7 +693,7 @@ public class Hyperwallet {
     /**
      * Create Paper Check Status Transition
      *
-     * @param userToken        Usert token
+     * @param userToken        User token
      * @param paperCheckToken Paper Check token
      * @param transition       Status transition information
      * @return HyperwalletStatusTransition new status for Paper Check
@@ -1094,6 +1094,74 @@ public class Hyperwallet {
             url = addParameter(url, "currency", options.getCurrency());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPayment>>() {
+        });
+    }
+
+
+    /**
+     * Create Payment Status Transition
+     *
+     * @param paymentToken  Payment token
+     * @param transition    Status transition information
+     * @return HyperwalletStatusTransition new status for Payment
+     */
+    public HyperwalletStatusTransition createPaymentStatusTransition(String paymentToken, HyperwalletStatusTransition transition) {
+        if (transition == null) {
+            throw new HyperwalletException("Transition is required");
+        }
+        if (StringUtils.isEmpty(paymentToken)) {
+            throw new HyperwalletException("Payment token is required");
+        }
+        if (!StringUtils.isEmpty(transition.getToken())) {
+            throw new HyperwalletException("Status Transition token may not be present");
+        }
+        transition = copy(transition);
+        transition.setCreatedOn(null);
+        transition.setFromStatus(null);
+        transition.setToStatus(null);
+        return apiClient.post(url + "/payments/" + paymentToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * Get Payment Status Transition
+     *
+     * @param paymentToken          Payment token
+     * @param statusTransitionToken Status transition token
+     * @return HyperwalletStatusTransition
+     */
+    public HyperwalletStatusTransition getPaymentStatusTransition(String paymentToken, String statusTransitionToken) {
+        if (StringUtils.isEmpty(paymentToken)) {
+            throw new HyperwalletException("Payment token is required");
+        }
+        if (StringUtils.isEmpty(statusTransitionToken)) {
+            throw new HyperwalletException("Transition token is required");
+        }
+        return apiClient.get(url + "/payments/" + paymentToken + "/status-transitions/" + statusTransitionToken, HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * List All Payment Status Transition information
+     *
+     * @param paymentToken     Payment token
+     * @return HyperwalletList of HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listPaymentStatusTransitions( String paymentToken) {
+        return listPaymentStatusTransitions(paymentToken, null);
+    }
+
+    /**
+     * List Payment Status Transition information
+     *
+     * @param paymentToken     Payment token
+     * @param options          List filter option
+     * @return HyperwalletList of HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listPaymentStatusTransitions(String paymentToken, HyperwalletPaginationOptions options) {
+        if (StringUtils.isEmpty(paymentToken)) {
+            throw new HyperwalletException("Payment token is required");
+        }
+        String url = paginate(this.url + "/payments/" + paymentToken + "/status-transitions", options);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
         });
     }
 
