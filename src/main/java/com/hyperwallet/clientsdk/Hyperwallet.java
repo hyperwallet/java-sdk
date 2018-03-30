@@ -168,6 +168,23 @@ public class Hyperwallet {
     }
 
     /**
+     * Get Prepaid Card
+     *
+     * @param userToken        User token assigned
+     * @param prepaidCardToken Prepaid Card token
+     * @return HyperwalletPrepaidCard Prepaid Card
+     */
+    public HyperwalletPrepaidCard getPrepaidCard(String userToken, String prepaidCardToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(prepaidCardToken)) {
+            throw new HyperwalletException("Prepaid Card token is required");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken, HyperwalletPrepaidCard.class);
+    }
+
+    /**
      * Update Prepaid Card
      *
      * @param prepaidCard Prepaid Card object to create
@@ -184,25 +201,8 @@ public class Hyperwallet {
             throw new HyperwalletException("Prepaid Card token is required");
         }
         return apiClient.put(url + "/users/" + prepaidCard.getUserToken() + "/prepaid-cards/" + prepaidCard.getToken(),
-                             prepaidCard,
-                             HyperwalletPrepaidCard.class);
-    }
-
-    /**
-     * Get Prepaid Card
-     *
-     * @param userToken        User token assigned
-     * @param prepaidCardToken Prepaid Card token
-     * @return HyperwalletPrepaidCard Prepaid Card
-     */
-    public HyperwalletPrepaidCard getPrepaidCard(String userToken, String prepaidCardToken) {
-        if (StringUtils.isEmpty(userToken)) {
-            throw new HyperwalletException("User token is required");
-        }
-        if (StringUtils.isEmpty(prepaidCardToken)) {
-            throw new HyperwalletException("Prepaid Card token is required");
-        }
-        return apiClient.get(url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken, HyperwalletPrepaidCard.class);
+                prepaidCard,
+                HyperwalletPrepaidCard.class);
     }
 
     /**
@@ -409,6 +409,23 @@ public class Hyperwallet {
     }
 
     /**
+     * Get Bank Card
+     *
+     * @param userToken        User token assigned
+     * @param bankCardToken Bank Card token
+     * @return HyperwalletBankCard Bank Card
+     */
+    public HyperwalletBankCard getBankCard(String userToken, String bankCardToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(bankCardToken)) {
+            throw new HyperwalletException("Bank Card token is required");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/bank-cards/" + bankCardToken, HyperwalletBankCard.class);
+    }
+
+    /**
      * Update Bank Card
      *
      * @param bankCard Bank Card object to create
@@ -425,23 +442,6 @@ public class Hyperwallet {
             throw new HyperwalletException("Bank Card token is required");
         }
         return apiClient.put(url + "/users/" + bankCard.getUserToken() + "/bank-cards/" + bankCard.getToken(), bankCard, HyperwalletBankCard.class);
-    }
-
-    /**
-     * Get Bank Card
-     *
-     * @param userToken        User token assigned
-     * @param bankCardToken Bank Card token
-     * @return HyperwalletBankCard Bank Card
-     */
-    public HyperwalletBankCard getBankCard(String userToken, String bankCardToken) {
-        if (StringUtils.isEmpty(userToken)) {
-            throw new HyperwalletException("User token is required");
-        }
-        if (StringUtils.isEmpty(bankCardToken)) {
-            throw new HyperwalletException("Bank Card token is required");
-        }
-        return apiClient.get(url + "/users/" + userToken + "/bank-cards/" + bankCardToken, HyperwalletBankCard.class);
     }
 
     /**
@@ -491,8 +491,8 @@ public class Hyperwallet {
      */
     public HyperwalletStatusTransition deactivateBankCard(String userToken, String bankCardToken, String notes) {
         return createBankCardStatusTransition(userToken,
-                                              bankCardToken,
-                                              new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.DE_ACTIVATED).notes(notes));
+                bankCardToken,
+                new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.DE_ACTIVATED).notes(notes));
     }
 
     /**
@@ -605,6 +605,23 @@ public class Hyperwallet {
     }
 
     /**
+     * Get Paper Check
+     *
+     * @param userToken        User token assigned
+     * @param paperCheckToken Paper Check token
+     * @return HyperwalletPaperCheck Paper Check
+     */
+    public HyperwalletPaperCheck getPaperCheck(String userToken, String paperCheckToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(paperCheckToken)) {
+            throw new HyperwalletException("Paper Check token is required");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/paper-checks/" + paperCheckToken, HyperwalletPaperCheck.class);
+    }
+
+    /**
      * Update Paper Check
      *
      * @param paperCheck Paper Check object to create
@@ -621,23 +638,6 @@ public class Hyperwallet {
             throw new HyperwalletException("Paper Check token is required");
         }
         return apiClient.put(url + "/users/" + paperCheck.getUserToken() + "/paper-checks/" + paperCheck.getToken(), paperCheck, HyperwalletPaperCheck.class);
-    }
-
-    /**
-     * Get Paper Check
-     *
-     * @param userToken        User token assigned
-     * @param paperCheckToken Paper Check token
-     * @return HyperwalletPaperCheck Paper Check
-     */
-    public HyperwalletPaperCheck getPaperCheck(String userToken, String paperCheckToken) {
-        if (StringUtils.isEmpty(userToken)) {
-            throw new HyperwalletException("User token is required");
-        }
-        if (StringUtils.isEmpty(paperCheckToken)) {
-            throw new HyperwalletException("Paper Check token is required");
-        }
-        return apiClient.get(url + "/users/" + userToken + "/paper-checks/" + paperCheckToken, HyperwalletPaperCheck.class);
     }
 
     /**
