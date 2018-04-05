@@ -62,6 +62,55 @@ public class HyperwalletIT {
     }
 
     //
+    // User
+    //
+    @Test
+    public void testListUserStatusTransitions() throws Exception {
+        String functionality = "listUserStatusTransitions";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletStatusTransition> returnValue;
+        try {
+            returnValue = client.listUserStatusTransitions("usr-2c059341-8281-4d30-a65d-a49d8e2a9b0f");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33")));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T01:55:34 UTC"))));
+        assertThat(returnValue.getData().get(0).getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getToStatus(), is(equalTo(DE_ACTIVATED)));
+    }
+
+    @Test
+    public void testGetUserStatusTransition() throws Exception {
+        String functionality = "getUserStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
+        transition.setNotes("Closing this account.");
+        transition.setTransition(DE_ACTIVATED);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.getUserStatusTransition("usr-2c059341-8281-4d30-a65d-a49d8e2a9b0f",
+                                                            "sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T02:04:17 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
+    }
+
+    //
     // Prepaid Card
     //
 
@@ -532,6 +581,33 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
     }
 
+    @Test
+    public void testGetPaperCheckStatusTransition() throws Exception {
+        String functionality = "getPaperCheckStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
+        transition.setNotes("Closing this account.");
+        transition.setTransition(DE_ACTIVATED);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.getPaperCheckStatusTransition("usr-1dea80c9-c73e-4490-91b7-097d4a07550f",
+                                                               "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442",
+                                                               "sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-30T19:50:49 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
+    }
+
     //
     // Payments
     //
@@ -605,33 +681,6 @@ public class HyperwalletIT {
         assertThat(returnValue.getTransition(), is(equalTo(COMPLETED)));
         assertThat(returnValue.getFromStatus(), is(equalTo(CREATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(COMPLETED)));
-    }
-
-    @Test
-    public void testGetPaperCheckStatusTransition() throws Exception {
-        String functionality = "getPaperCheckStatusTransition";
-        initMockServer(functionality);
-
-        HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
-        transition.setNotes("Closing this account.");
-        transition.setTransition(DE_ACTIVATED);
-
-        HyperwalletStatusTransition returnValue;
-        try {
-            returnValue = client.getPaperCheckStatusTransition("usr-1dea80c9-c73e-4490-91b7-097d4a07550f",
-                                                             "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442",
-                                                             "sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7");
-        } catch (Exception e) {
-            mockServer.verify(parseRequest(functionality));
-            throw e;
-        }
-
-        assertThat(returnValue.getToken(), is(equalTo("sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7")));
-        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-30T19:50:49 UTC"))));
-        assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
-        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
-        assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
-        assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
     }
 
     private void initMockServer(String functionality) throws IOException {
