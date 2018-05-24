@@ -4,7 +4,10 @@ Changelog
 0.3.0 (in progress)
 -------------------
 
-- TBD
+- Added Payment Status Transitions endpoint
+- Added Update Prepaid Card endpoint
+- Added Paper Checks endpoint
+- Added bank card endpoint
 
 0.2.0 (2017-03-07)
 ------------------

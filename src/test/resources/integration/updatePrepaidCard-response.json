@@ -1,0 +1,20 @@
+{
+  "token": "trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f",
+  "type": "BANK_CARD",
+  "status": "ACTIVATED",
+  "createdOn": "2017-11-09T22:50:14",
+  "transferMethodCountry": "US",
+  "transferMethodCurrency": "USD",
+  "cardPackage": "US8419889B2",
+  "cardType": "VIRTUAL",
+  "cardNumber": "************0114",
+  "cardBrand": "MASTERCARD",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-cards/trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f"
+    }
+  ]
+}

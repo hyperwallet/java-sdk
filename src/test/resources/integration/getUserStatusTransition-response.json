@@ -1,0 +1,15 @@
+{
+  "token": "sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33",
+  "createdOn": "2017-11-16T02:04:17",
+  "transition": "DE_ACTIVATED",
+  "fromStatus": "ACTIVATED",
+  "toStatus": "DE_ACTIVATED",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://uat-api.paylution.com/rest/v3/payments/usr-2c059341-8281-4d30-a65d-a49d8e2a9b0f/status-transitions/sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33"
+    }
+  ]
+}

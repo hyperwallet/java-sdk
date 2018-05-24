@@ -3,17 +3,23 @@ package com.hyperwallet.clientsdk.model;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 
+import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
 
-    public static enum Status {ACTIVATED, DE_ACTIVATED, SUSPENDED, UNSUSPENDED, LOST_OR_STOLEN, LOCKED, UNLOCKED}
+    public enum Status {
+        PRE_ACTIVATED, ACTIVATED, DE_ACTIVATED, FROZEN, SUSPENDED, UNSUSPENDED, LOST_OR_STOLEN, LOCKED, UNLOCKED,
+        CREATED, SCHEDULED, PENDING_ACCOUNT_ACTIVATION, PENDING_ID_VERIFICATION, PENDING_TAX_VERIFICATION,
+        PENDING_TRANSFER_METHOD_ACTION, PENDING_TRANSACTION_VERIFICATION, IN_PROGRESS, COMPLETED, FAILED,
+        RECALLED, RETURNED, EXPIRED, CANCELLED, VERIFIED, INVALID
+
+    }
 
     private String token;
 

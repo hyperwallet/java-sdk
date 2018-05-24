@@ -1,0 +1,47 @@
+{
+  "count": 2,
+  "offset": 0,
+  "limit": 10,
+  "data": [
+    {
+      "token": "sts-4f790461-2e07-45e8-852f-40229421b4d4",
+      "createdOn": "2017-11-16T01:55:34",
+      "transition": "COMPLETED",
+      "fromStatus": "CREATED",
+      "toStatus": "COMPLETED",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://uat-api.paylution.com/rest/v3/payments/pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f/status-transitions/sts-4f790461-2e07-45e8-852f-40229421b4d4"
+        }
+      ]
+    },
+    {
+      "token": "sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33",
+      "createdOn": "2017-11-16T02:04:17",
+      "transition": "RECALLED",
+      "fromStatus": "COMPLETED",
+      "toStatus": "RECALLED",
+      "notes": "Recalling the payment.",
+      "statusCode": "5",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://uat-api.paylution.com/rest/v3/payments/pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f/status-transitions/sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://uat-api.paylution.com/rest/v3/payments/pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f/status-transitions?offset=0&limit=10"
+    }
+  ]
+}

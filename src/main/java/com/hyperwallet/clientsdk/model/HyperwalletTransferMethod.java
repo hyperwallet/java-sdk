@@ -13,7 +13,7 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
 
-    public enum Type {BANK_ACCOUNT, WIRE_ACCOUNT, PREPAID_CARD}
+    public enum Type {BANK_ACCOUNT, WIRE_ACCOUNT, PREPAID_CARD, BANK_CARD, PAPER_CHECK}
 
     public enum Status {ACTIVATED, INVALID, DE_ACTIVATED, PRE_ACTIVATED, SUSPENDED, LOST_OR_STOLEN, QUEUED, DECLINED, LOCKED, COMPLIANCE_HOLE, KYC_HOLD}
 
