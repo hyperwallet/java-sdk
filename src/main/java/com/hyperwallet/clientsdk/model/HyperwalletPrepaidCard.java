@@ -1,6 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -22,6 +23,8 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     private String token;
 
     private HyperwalletTransferMethod.Status status;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone="UTC")
     private Date createdOn;
     private String transferMethodCountry;
     private String transferMethodCurrency;
@@ -31,6 +34,7 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     private String cardNumber;
     private Brand cardBrand;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", timezone="UTC")
     private Date dateOfExpiry;
 
     private String userToken;
