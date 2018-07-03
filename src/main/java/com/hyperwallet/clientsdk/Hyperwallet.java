@@ -814,6 +814,97 @@ public class Hyperwallet {
     }
 
     //--------------------------------------
+    // Transfers
+    //--------------------------------------
+
+    /**
+     * Create Transfer Request
+     *
+     * @param transfer HyperwalletTransfer object to create
+     * @return HyperwalletTransfer Transfer object created
+     */
+    public HyperwalletTransfer createTransfer(HyperwalletTransfer transfer) {
+        if (transfer == null) {
+            throw new HyperwalletException("Transfer is required");
+        }
+        if (StringUtils.isEmpty(transfer.getSourceToken())) {
+            throw new HyperwalletException("Source token is required");
+        }
+        if (StringUtils.isEmpty(transfer.getDestinationToken())) {
+            throw new HyperwalletException("Destination token is required");
+        }
+        if (StringUtils.isEmpty(transfer.getClientTransferId())) {
+            throw new HyperwalletException("ClientTransferId is required");
+        }
+        transfer = copy(transfer);
+        transfer.setStatus(null);
+        transfer.setCreatedOn(null);
+        transfer.setExpiresOn(null);
+        return apiClient.post(url + "/transfers", transfer, HyperwalletTransfer.class);
+    }
+
+    /**
+     * Get Transfer Request
+     *
+     * @param transferToken        Transfer token assigned
+     * @return HyperwalletTransfer Transfer
+     */
+    public HyperwalletTransfer getTransfer(String transferToken) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        return apiClient.get(url + "/transfers/" + transferToken, HyperwalletTransfer.class);
+    }
+
+    /**
+     * List Transfer Requests
+     *
+     * @param options   List filter option
+     * @return HyperwalletList of HyperwalletTransfer
+     */
+    public HyperwalletList<HyperwalletTransfer> listTransfers(HyperwalletTransferListOptions options) {
+        String url = paginate(this.url + "/transfers", options);
+        if (options != null) {
+            url = addParameter(url, "sourceToken", options.getSourceToken());
+            url = addParameter(url, "destinationToken", options.getDestinationToken());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransfer>>() {
+        });
+    }
+
+    /**
+     * List Transfer Requests
+     *
+     * @return HyperwalletList of HyperwalletTransfer
+     */
+    public HyperwalletList<HyperwalletTransfer> listTransfers() {
+        return listTransfers(null);
+    }
+
+    /**
+     * Create Transfer Status Transition
+     *
+     * @param transferToken        Transfer token assigned
+     * @return HyperwalletStatusTransition new status for Transfer Request
+     */
+    public HyperwalletStatusTransition createTransferStatusTransition(String transferToken, HyperwalletStatusTransition transition) {
+        if (transition == null) {
+            throw new HyperwalletException("Transition is required");
+        }
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        if (!StringUtils.isEmpty(transition.getToken())) {
+            throw new HyperwalletException("Status Transition token may not be present");
+        }
+        transition = copy(transition);
+        transition.setCreatedOn(null);
+        transition.setFromStatus(null);
+        transition.setToStatus(null);
+        return apiClient.post(url + "/transfers/" + transferToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+    }
+
+    //--------------------------------------
     // Bank Accounts
     //--------------------------------------
 
@@ -1593,6 +1684,11 @@ public class Hyperwallet {
     private HyperwalletTransferMethod copy(HyperwalletTransferMethod transferMethod) {
         transferMethod = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transferMethod), HyperwalletTransferMethod.class);
         return transferMethod;
+    }
+
+    private HyperwalletTransfer copy(HyperwalletTransfer transfer) {
+        transfer = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transfer), HyperwalletTransfer.class);
+        return transfer;
     }
 
 }

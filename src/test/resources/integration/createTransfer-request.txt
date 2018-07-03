@@ -1,0 +1,9 @@
+curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v3/transfers" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Content-Type: application/json" \
+-H "Accept: application/json" \
+-d "{
+  "sourceToken": "usr-c4292f1a-866f-4310-a289-b916853939de",
+  "destinationToken": "trm-ff53d939-49c3-412f-8d83-ab4f7e83d553",
+  "clientTransferId": "clientTransferId"
+}"
