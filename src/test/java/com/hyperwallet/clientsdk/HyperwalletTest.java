@@ -2767,6 +2767,281 @@ public class HyperwalletTest {
     }
 
     //--------------------------------------
+    // PayPal Accounts
+    //--------------------------------------
+
+    @Test
+    public void testCreatePayPalAccount_noPayPalAccount() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createPayPalAccount(null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("PayPal Account is required")));
+            assertThat(e.getMessage(), is(equalTo("PayPal Account is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePayPalAccount_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        try {
+            client.createPayPalAccount(payPalAccount);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePayPalAccount_noTransferMethodCountry() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount.setUserToken("test-user-token");
+        try {
+            client.createPayPalAccount(payPalAccount);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Transfer Method Country is required")));
+            assertThat(e.getMessage(), is(equalTo("Transfer Method Country is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePayPalAccount_noTransferMethodCurrency() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount.setUserToken("test-user-token");
+        payPalAccount.setTransferMethodCountry("test-transfer-method-country");
+        try {
+            client.createPayPalAccount(payPalAccount);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Transfer Method Currency is required")));
+            assertThat(e.getMessage(), is(equalTo("Transfer Method Currency is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePayPalAccount_noEmail() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount.setUserToken("test-user-token");
+        payPalAccount.setTransferMethodCountry("test-transfer-method-country");
+        payPalAccount.setTransferMethodCurrency("test-transfer-method-currency");
+        try {
+            client.createPayPalAccount(payPalAccount);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Email is required")));
+            assertThat(e.getMessage(), is(equalTo("Email is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePayPalAccount_withPayPalAccountToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount.setUserToken("test-user-token");
+        payPalAccount.setTransferMethodCountry("test-transfer-method-country");
+        payPalAccount.setTransferMethodCurrency("test-transfer-method-currency");
+        payPalAccount.setEmail("test-email");
+        payPalAccount.setToken("test-token");
+        try {
+            client.createPayPalAccount(payPalAccount);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("PayPal Account token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("PayPal Account token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreatePayPalAccount_noType() throws Exception {
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount.setUserToken("test-user-token");
+        payPalAccount.setTransferMethodCountry("test-transfer-method-country");
+        payPalAccount.setTransferMethodCurrency("test-transfer-method-currency");
+        payPalAccount.setEmail("test-email");
+        payPalAccount.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        payPalAccount.setCreatedOn(new Date());
+
+        HyperwalletPayPalAccount payPalAccountResponse = new HyperwalletPayPalAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(payPalAccountResponse);
+
+        HyperwalletPayPalAccount resp = client.createPayPalAccount(payPalAccount);
+        assertThat(resp, is(equalTo(payPalAccountResponse)));
+
+        ArgumentCaptor<HyperwalletPayPalAccount> argument = ArgumentCaptor.forClass(HyperwalletPayPalAccount.class);
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paypal-accounts"), argument.capture(), Mockito.eq(payPalAccount.getClass()));
+
+        HyperwalletPayPalAccount apiPayPalAccount = argument.getValue();
+        assertThat(apiPayPalAccount, is(notNullValue()));
+        assertThat(apiPayPalAccount.getUserToken(), is(equalTo("test-user-token")));
+        assertThat(apiPayPalAccount.getTransferMethodCountry(), is(equalTo("test-transfer-method-country")));
+        assertThat(apiPayPalAccount.getTransferMethodCurrency(), is(equalTo("test-transfer-method-currency")));
+        assertThat(apiPayPalAccount.getStatus(), is(nullValue()));
+        assertThat(apiPayPalAccount.getCreatedOn(), is(nullValue()));
+        assertThat(apiPayPalAccount.getType(), is(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT));
+    }
+
+    @Test
+    public void testCreatePayPalAccount_withType() throws Exception {
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount.setUserToken("test-user-token");
+        payPalAccount.setTransferMethodCountry("test-transfer-method-country");
+        payPalAccount.setTransferMethodCurrency("test-transfer-method-currency");
+        payPalAccount.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        payPalAccount.setType(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT);
+        payPalAccount.setEmail("test-email");
+        payPalAccount.setCreatedOn(new Date());
+
+        HyperwalletPayPalAccount payPalAccountResponse = new HyperwalletPayPalAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(payPalAccountResponse);
+
+        HyperwalletPayPalAccount resp = client.createPayPalAccount(payPalAccount);
+        assertThat(resp, is(equalTo(payPalAccountResponse)));
+
+        ArgumentCaptor<HyperwalletPayPalAccount> argument = ArgumentCaptor.forClass(HyperwalletPayPalAccount.class);
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paypal-accounts"), argument.capture(), Mockito.eq(payPalAccount.getClass()));
+
+        HyperwalletPayPalAccount apiPayPalAccount = argument.getValue();
+        assertThat(apiPayPalAccount, is(notNullValue()));
+        assertThat(apiPayPalAccount.getUserToken(), is(equalTo("test-user-token")));
+        assertThat(apiPayPalAccount.getTransferMethodCountry(), is(equalTo("test-transfer-method-country")));
+        assertThat(apiPayPalAccount.getTransferMethodCurrency(), is(equalTo("test-transfer-method-currency")));
+        assertThat(apiPayPalAccount.getStatus(), is(nullValue()));
+        assertThat(apiPayPalAccount.getCreatedOn(), is(nullValue()));
+        assertThat(apiPayPalAccount.getType(), is(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT));
+    }
+
+    @Test
+    public void testGetPayPalAccount_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getPayPalAccount(null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetPayPalAccount_noPayPalAccountToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getPayPalAccount("test-user-token", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("PayPal Account token is required")));
+            assertThat(e.getMessage(), is(equalTo("PayPal Account token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetPayPalAccount_successful() throws Exception {
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(payPalAccount);
+
+        HyperwalletPayPalAccount resp = client.getPayPalAccount("test-user-token", "test-paypal-account-token");
+        assertThat(resp, is(equalTo(payPalAccount)));
+
+        Mockito.verify(mockApiClient).get("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paypal-accounts/test-paypal-account-token", payPalAccount.getClass());
+    }
+
+    @Test
+    public void testListPayPalAccount_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listPayPalAccounts(null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListPayPalAccount_noListOptions() throws Exception {
+        HyperwalletList<HyperwalletPayPalAccount> response = new HyperwalletList<HyperwalletPayPalAccount>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletPayPalAccount> resp = client.listPayPalAccounts("test-user-token");
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paypal-accounts"), Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testListTransfer_withListOptions() throws Exception {
+        HyperwalletList<HyperwalletPayPalAccount> response = new HyperwalletList<HyperwalletPayPalAccount>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        options
+                .sortBy("test-sort-by")
+                .offset(5)
+                .limit(10)
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletPayPalAccount> resp = client.listPayPalAccounts("test-user-token", options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paypal-accounts?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"), Mockito.any(TypeReference.class));
+    }
+
+    //--------------------------------------
     // Bank Accounts
     //--------------------------------------
 

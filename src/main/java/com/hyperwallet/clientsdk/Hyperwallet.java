@@ -905,6 +905,87 @@ public class Hyperwallet {
     }
 
     //--------------------------------------
+    // PayPal Accounts
+    //--------------------------------------
+
+    /**
+     * Create PayPal Account Request
+     *
+     * @param payPalAccount HyperwalletPayPalAccount object to create
+     * @return HyperwalletPayPalAccount created PayPal account for the specified user
+     */
+    public HyperwalletPayPalAccount createPayPalAccount(HyperwalletPayPalAccount payPalAccount) {
+        if (payPalAccount == null) {
+            throw new HyperwalletException("PayPal Account is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getUserToken())) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getTransferMethodCountry())) {
+            throw new HyperwalletException("Transfer Method Country is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getTransferMethodCurrency())) {
+            throw new HyperwalletException("Transfer Method Currency is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getEmail())) {
+            throw new HyperwalletException("Email is required");
+        }
+        if (!StringUtils.isEmpty(payPalAccount.getToken())) {
+            throw new HyperwalletException("PayPal Account token may not be present");
+        }
+        if (payPalAccount.getType() == null) {
+            payPalAccount.setType(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT);
+        }
+        payPalAccount = copy(payPalAccount);
+        payPalAccount.setStatus(null);
+        payPalAccount.setCreatedOn(null);
+        return apiClient.post(url + "/users/" + payPalAccount.getUserToken() + "/paypal-accounts", payPalAccount, HyperwalletPayPalAccount.class);
+    }
+
+    /**
+     * Get PayPal Account Request
+     *
+     * @param userToken                 User token assigned
+     * @param payPalAccountToken        PayPal Account token assigned
+     * @return HyperwalletPayPalAccount PayPal Account
+     */
+    public HyperwalletPayPalAccount getPayPalAccount(String userToken, String payPalAccountToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(payPalAccountToken)) {
+            throw new HyperwalletException("PayPal Account token is required");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/paypal-accounts/" + payPalAccountToken, HyperwalletPayPalAccount.class);
+    }
+
+    /**
+     * List PayPal Accounts
+     *
+     * @param userToken         User token assigned
+     * @param options           List filter option
+     * @return HyperwalletList of HyperwalletPayPalAccount
+     */
+    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken, HyperwalletPaginationOptions options) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/paypal-accounts", options);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPayPalAccount>>() {
+        });
+    }
+
+    /**
+     * List PayPal Accounts
+     *
+     * @param userToken         User token assigned
+     * @return HyperwalletList of HyperwalletPayPalAccount
+     */
+    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken) {
+        return listPayPalAccounts(userToken, null);
+    }
+
+    //--------------------------------------
     // Bank Accounts
     //--------------------------------------
 
@@ -1689,6 +1770,11 @@ public class Hyperwallet {
     private HyperwalletTransfer copy(HyperwalletTransfer transfer) {
         transfer = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transfer), HyperwalletTransfer.class);
         return transfer;
+    }
+
+    private HyperwalletPayPalAccount copy(HyperwalletPayPalAccount payPalAccount) {
+        payPalAccount = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(payPalAccount), HyperwalletPayPalAccount.class);
+        return payPalAccount;
     }
 
 }

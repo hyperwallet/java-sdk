@@ -19,6 +19,7 @@ import static org.mockserver.model.JsonBody.json;
 import com.hyperwallet.clientsdk.model.HyperwalletBankCard;
 import com.hyperwallet.clientsdk.model.HyperwalletList;
 import com.hyperwallet.clientsdk.model.HyperwalletPaperCheck;
+import com.hyperwallet.clientsdk.model.HyperwalletPayPalAccount;
 import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition;
 import com.hyperwallet.clientsdk.model.HyperwalletTransfer;
@@ -748,6 +749,84 @@ public class HyperwalletIT {
         assertThat(returnValue.getFromStatus(), is(equalTo(QUOTED)));
         assertThat(returnValue.getToStatus(), is(equalTo(SCHEDULED)));
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
+    }
+
+    //
+    // PayPal Accounts
+    //
+
+    @Test
+    public void testCreatePayPalAccount() throws Exception {
+        String functionality = "createPayPalAccount";
+        initMockServer(functionality);
+
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount()
+                .userToken("usr-e7b61829-a73a-45dc-930e-afa8a56b923b")
+                .transferMethodCountry("US")
+                .transferMethodCurrency("USD")
+                .type(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)
+                .email("user@domain.com");
+
+        HyperwalletPayPalAccount returnValue;
+        try {
+            returnValue = client.createPayPalAccount(payPalAccount);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("trm-54b0db9c-5565-47f7-aee6-685e713595f3")));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2018-05-01T00:00:00 UTC"))));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getEmail(), is(equalTo("user@domain.com")));
+    }
+
+    @Test
+    public void testGetPayPalAccount() throws Exception {
+        String functionality = "getPayPalAccount";
+        initMockServer(functionality);
+
+        HyperwalletPayPalAccount returnValue;
+        try {
+            returnValue = client.getPayPalAccount("usr-e7b61829-a73a-45dc-930e-afa8a56b923b", "trm-54b0db9c-5565-47f7-aee6-685e713595f3");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("trm-54b0db9c-5565-47f7-aee6-685e713595f3")));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2018-05-01T00:00:00 UTC"))));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getEmail(), is(equalTo("user@domain.com")));
+    }
+
+    @Test
+    public void testListPayPalAccount() throws Exception {
+        String functionality = "listPayPalAccounts";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletPayPalAccount> returnValue;
+        try {
+            returnValue = client.listPayPalAccounts("usr-e7b61829-a73a-45dc-930e-afa8a56b923b");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-54b0db9c-5565-47f7-aee6-685e713595f3")));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2018-05-01T00:00:00 UTC"))));
+        assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getData().get(0).getEmail(), is(equalTo("user@domain.com")));
     }
 
     //
