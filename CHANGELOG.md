@@ -4,6 +4,8 @@ Changelog
 0.3.0 (in progress)
 -------------------
 
+- Added PayPal endpoint
+- Added Transfer endpoint
 - Added Payment Status Transitions endpoint
 - Added Update Prepaid Card endpoint
 - Added Paper Checks endpoint

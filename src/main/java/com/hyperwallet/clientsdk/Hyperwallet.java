@@ -814,6 +814,178 @@ public class Hyperwallet {
     }
 
     //--------------------------------------
+    // Transfers
+    //--------------------------------------
+
+    /**
+     * Create Transfer Request
+     *
+     * @param transfer HyperwalletTransfer object to create
+     * @return HyperwalletTransfer Transfer object created
+     */
+    public HyperwalletTransfer createTransfer(HyperwalletTransfer transfer) {
+        if (transfer == null) {
+            throw new HyperwalletException("Transfer is required");
+        }
+        if (StringUtils.isEmpty(transfer.getSourceToken())) {
+            throw new HyperwalletException("Source token is required");
+        }
+        if (StringUtils.isEmpty(transfer.getDestinationToken())) {
+            throw new HyperwalletException("Destination token is required");
+        }
+        if (StringUtils.isEmpty(transfer.getClientTransferId())) {
+            throw new HyperwalletException("ClientTransferId is required");
+        }
+        transfer = copy(transfer);
+        transfer.setStatus(null);
+        transfer.setCreatedOn(null);
+        transfer.setExpiresOn(null);
+        return apiClient.post(url + "/transfers", transfer, HyperwalletTransfer.class);
+    }
+
+    /**
+     * Get Transfer Request
+     *
+     * @param transferToken        Transfer token assigned
+     * @return HyperwalletTransfer Transfer
+     */
+    public HyperwalletTransfer getTransfer(String transferToken) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        return apiClient.get(url + "/transfers/" + transferToken, HyperwalletTransfer.class);
+    }
+
+    /**
+     * List Transfer Requests
+     *
+     * @param options   List filter option
+     * @return HyperwalletList of HyperwalletTransfer
+     */
+    public HyperwalletList<HyperwalletTransfer> listTransfers(HyperwalletTransferListOptions options) {
+        String url = paginate(this.url + "/transfers", options);
+        if (options != null) {
+            url = addParameter(url, "sourceToken", options.getSourceToken());
+            url = addParameter(url, "destinationToken", options.getDestinationToken());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransfer>>() {
+        });
+    }
+
+    /**
+     * List Transfer Requests
+     *
+     * @return HyperwalletList of HyperwalletTransfer
+     */
+    public HyperwalletList<HyperwalletTransfer> listTransfers() {
+        return listTransfers(null);
+    }
+
+    /**
+     * Create Transfer Status Transition
+     *
+     * @param transferToken        Transfer token assigned
+     * @return HyperwalletStatusTransition new status for Transfer Request
+     */
+    public HyperwalletStatusTransition createTransferStatusTransition(String transferToken, HyperwalletStatusTransition transition) {
+        if (transition == null) {
+            throw new HyperwalletException("Transition is required");
+        }
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        if (!StringUtils.isEmpty(transition.getToken())) {
+            throw new HyperwalletException("Status Transition token may not be present");
+        }
+        transition = copy(transition);
+        transition.setCreatedOn(null);
+        transition.setFromStatus(null);
+        transition.setToStatus(null);
+        return apiClient.post(url + "/transfers/" + transferToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+    }
+
+    //--------------------------------------
+    // PayPal Accounts
+    //--------------------------------------
+
+    /**
+     * Create PayPal Account Request
+     *
+     * @param payPalAccount HyperwalletPayPalAccount object to create
+     * @return HyperwalletPayPalAccount created PayPal account for the specified user
+     */
+    public HyperwalletPayPalAccount createPayPalAccount(HyperwalletPayPalAccount payPalAccount) {
+        if (payPalAccount == null) {
+            throw new HyperwalletException("PayPal Account is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getUserToken())) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getTransferMethodCountry())) {
+            throw new HyperwalletException("Transfer Method Country is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getTransferMethodCurrency())) {
+            throw new HyperwalletException("Transfer Method Currency is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getEmail())) {
+            throw new HyperwalletException("Email is required");
+        }
+        if (!StringUtils.isEmpty(payPalAccount.getToken())) {
+            throw new HyperwalletException("PayPal Account token may not be present");
+        }
+        if (payPalAccount.getType() == null) {
+            payPalAccount.setType(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT);
+        }
+        payPalAccount = copy(payPalAccount);
+        payPalAccount.setStatus(null);
+        payPalAccount.setCreatedOn(null);
+        return apiClient.post(url + "/users/" + payPalAccount.getUserToken() + "/paypal-accounts", payPalAccount, HyperwalletPayPalAccount.class);
+    }
+
+    /**
+     * Get PayPal Account Request
+     *
+     * @param userToken                 User token assigned
+     * @param payPalAccountToken        PayPal Account token assigned
+     * @return HyperwalletPayPalAccount PayPal Account
+     */
+    public HyperwalletPayPalAccount getPayPalAccount(String userToken, String payPalAccountToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(payPalAccountToken)) {
+            throw new HyperwalletException("PayPal Account token is required");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/paypal-accounts/" + payPalAccountToken, HyperwalletPayPalAccount.class);
+    }
+
+    /**
+     * List PayPal Accounts
+     *
+     * @param userToken         User token assigned
+     * @param options           List filter option
+     * @return HyperwalletList of HyperwalletPayPalAccount
+     */
+    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken, HyperwalletPaginationOptions options) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/paypal-accounts", options);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPayPalAccount>>() {
+        });
+    }
+
+    /**
+     * List PayPal Accounts
+     *
+     * @param userToken         User token assigned
+     * @return HyperwalletList of HyperwalletPayPalAccount
+     */
+    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken) {
+        return listPayPalAccounts(userToken, null);
+    }
+
+    //--------------------------------------
     // Bank Accounts
     //--------------------------------------
 
@@ -1593,6 +1765,16 @@ public class Hyperwallet {
     private HyperwalletTransferMethod copy(HyperwalletTransferMethod transferMethod) {
         transferMethod = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transferMethod), HyperwalletTransferMethod.class);
         return transferMethod;
+    }
+
+    private HyperwalletTransfer copy(HyperwalletTransfer transfer) {
+        transfer = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transfer), HyperwalletTransfer.class);
+        return transfer;
+    }
+
+    private HyperwalletPayPalAccount copy(HyperwalletPayPalAccount payPalAccount) {
+        payPalAccount = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(payPalAccount), HyperwalletPayPalAccount.class);
+        return payPalAccount;
     }
 
 }

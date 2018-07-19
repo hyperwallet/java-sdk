@@ -1,0 +1,34 @@
+{
+  "token": "trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b",
+  "status": "QUOTED",
+  "createdOn": "2017-10-31T22:32:57",
+  "clientTransferId": "clientTransferId",
+  "sourceToken": "usr-c4292f1a-866f-4310-a289-b916853939de",
+  "sourceAmount": "200.4",
+  "sourceFeeAmount": "20.3",
+  "sourceCurrency": "USD",
+  "destinationToken": "usr-c4292f1a-866f-4310-a289-b916853939de",
+  "destinationAmount": "100.2",
+  "destinationFeeAmount": "30.5",
+  "destinationCurrency": "USD",
+  "notes": "notes",
+  "memo": "memo",
+  "expiresOn": "2017-10-31T22:32:57",
+  "foreignExchanges": [
+    {
+      "sourceAmount": "100.00",
+      "sourceCurrency": "USD",
+      "destinationAmount": "63.49",
+      "destinationCurrency": "USD",
+      "rate": "0.79"
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-c4292f1a-866f-4310-a289-b916853939de/paper-checks/trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b"
+    }
+  ]
+}
