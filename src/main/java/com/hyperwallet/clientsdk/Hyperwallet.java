@@ -27,15 +27,30 @@ public class Hyperwallet {
     /**
      * Create Hyperwallet SDK instance
      *
+     * @param username       API key assigned
+     * @param password       API Password assigned
+     * @param programToken   API program token
+     * @param server         API server url
+     * @param connectTimeout connect timeout in ms
+     * @param readTimeout    read timeout in ms
+     */
+    public Hyperwallet(final String username, final String password, final String programToken, final String server,
+                       final int connectTimeout, final int readTimeout) {
+        apiClient = new HyperwalletApiClient(username, password, VERSION, connectTimeout, readTimeout);
+        this.programToken = programToken;
+        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v3" : server + "/rest/v3";
+    }
+
+    /**
+     * Create Hyperwallet SDK instance
+     *
      * @param username     API key assigned
      * @param password     API Password assigned
      * @param programToken API program token
-     * @param server          API serer url
+     * @param server       API server url
      */
     public Hyperwallet(final String username, final String password, final String programToken, final String server) {
-        apiClient = new HyperwalletApiClient(username, password, VERSION);
-        this.programToken = programToken;
-        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v3" : server + "/rest/v3";
+        this(username, password, programToken, server, -1, -1);
     }
 
     /**
@@ -52,11 +67,37 @@ public class Hyperwallet {
     /**
      * Create Hyperwallet SDK instance
      *
+     * @param username       API key assigned
+     * @param password       API password
+     * @param programToken   API program token assigned
+     * @param connectTimeout connect timeout in ms
+     * @param readTimeout    read timeout in ms
+     */
+    public Hyperwallet(final String username, final String password, final String programToken,
+                       final int connectTimeout, final int readTimeout) {
+        this(username, password, programToken, null, connectTimeout, readTimeout);
+    }
+
+    /**
+     * Create Hyperwallet SDK instance
+     *
      * @param username API key assigned
      * @param password API password
      */
     public Hyperwallet(final String username, final String password) {
         this(username, password, null);
+    }
+
+    /**
+     * Create Hyperwallet SDK instance
+     *
+     * @param username       API key assigned
+     * @param password       API password
+     * @param connectTimeout connect timeout in ms
+     * @param readTimeout    read timeout in ms
+     */
+    public Hyperwallet(final String username, final String password, final int connectTimeout, final int readTimeout) {
+        this(username, password, null, connectTimeout, readTimeout);
     }
 
     //--------------------------------------

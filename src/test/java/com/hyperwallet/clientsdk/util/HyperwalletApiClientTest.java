@@ -74,7 +74,7 @@ public class HyperwalletApiClientTest {
         }
 
         baseUrl = "http://localhost:" + mockServer.getPort();
-        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0");
+        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0", -1, -1);
     }
 
     @Test
