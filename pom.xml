@@ -191,6 +191,8 @@
                 <version>2.5.3</version>
                 <configuration>
                     <tagNameFormat>@{project.version}</tagNameFormat>
+                    <localCheckout>true</localCheckout>
+                    <pushChanges>false</pushChanges>
                     <releaseProfiles>ossrh</releaseProfiles>
                 </configuration>
             </plugin>
