@@ -29,7 +29,7 @@
         <url>https://github.com/hyperwallet/java-sdk</url>
         <connection>scm:git:git://github.com/hyperwallet/java-sdk.git</connection>
         <developerConnection>scm:git:git@github.com:hyperwallet/java-sdk.git</developerConnection>
-      <tag>0.3.0</tag>
+        <tag>0.3.0</tag>
   </scm>
 
     <developers>
