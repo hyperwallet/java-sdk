@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/hyperwallet/java-sdk.png?branch=master)](https://travis-ci.org/hyperwallet/java-sdk)
 [![Coverage Status](https://coveralls.io/repos/github/hyperwallet/java-sdk/badge.svg?branch=master)](https://coveralls.io/github/hyperwallet/java-sdk?branch=master)
-[![Maven Central](https://img.shields.io/maven-central/v/com.hyperwallet/sdk.svg?maxAge=2592000)]()
-[![Dependency Status](https://www.versioneye.com/user/projects/57730239752cd1004c595642/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57730239752cd1004c595642)
+[![Maven Central](https://img.shields.io/maven-central/v/com.hyperwallet/sdk.svg)]()
 
 Hyperwallet REST SDK (Beta)
 ===========================
