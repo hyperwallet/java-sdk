@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4.1 (in progress)
+0.5.0 (in progress)
 -------------------
 
 
