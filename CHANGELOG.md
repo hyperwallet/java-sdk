@@ -1,7 +1,11 @@
 Changelog
 =========
 
-0.4.0 (in progress)
+0.4.1 (in progress)
+-------------------
+
+
+0.4.0 (2018-10-11)
 -------------------
 
 - Added Layer7 encryption
