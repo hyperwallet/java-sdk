@@ -3,6 +3,7 @@ package com.hyperwallet.clientsdk;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
+import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -31,11 +32,25 @@ public class Hyperwallet {
      * @param password     API Password assigned
      * @param programToken API program token
      * @param server          API serer url
+     * @param hyperwalletEncryption API encryption data
      */
-    public Hyperwallet(final String username, final String password, final String programToken, final String server) {
-        apiClient = new HyperwalletApiClient(username, password, VERSION);
+    public Hyperwallet(final String username, final String password, final String programToken, final String server,
+                       final HyperwalletEncryption hyperwalletEncryption) {
+        apiClient = new HyperwalletApiClient(username, password, VERSION, hyperwalletEncryption);
         this.programToken = programToken;
         this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v3" : server + "/rest/v3";
+    }
+
+    /**
+     * Create Hyperwallet SDK instance
+     *
+     * @param username     API key assigned
+     * @param password     API Password assigned
+     * @param programToken API program token
+     * @param server          API serer url
+     */
+    public Hyperwallet(final String username, final String password, final String programToken, final String server) {
+        this(username, password, programToken, server, null);
     }
 
     /**
@@ -46,7 +61,20 @@ public class Hyperwallet {
      * @param programToken API program token assigned
      */
     public Hyperwallet(final String username, final String password, final String programToken) {
-        this(username, password, programToken, null);
+        this(username, password, programToken, null, null);
+    }
+
+    /**
+     * Create Hyperwallet SDK instance
+     *
+     * @param username     API key assigned
+     * @param password     API password
+     * @param programToken API program token assigned
+     * @param hyperwalletEncryption API encryption data
+     */
+    public Hyperwallet(final String username, final String password, final String programToken,
+                       final HyperwalletEncryption hyperwalletEncryption) {
+        this(username, password, programToken, null, hyperwalletEncryption);
     }
 
     /**

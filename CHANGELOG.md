@@ -7,6 +7,7 @@ Changelog
 0.3.0 (2018-10-10)
 -------------------
 
+- Added Layer7 encryption
 - Added PayPal endpoint
 - Added Transfer endpoint
 - Added Payment Status Transitions endpoint

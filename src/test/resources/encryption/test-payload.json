@@ -1,0 +1,8 @@
+{
+  "amount": "20.00",
+  "clientPaymentId": "test-client-payment-id",
+  "currency": "USD",
+  "destinationToken": "test-destination-token",
+  "programToken": "test-program-token",
+  "purpose": "test-purpose"
+}

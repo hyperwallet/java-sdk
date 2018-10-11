@@ -41,13 +41,13 @@ public class HyperwalletTest {
 
     @Test
     public void testConstructor_defaultServer() throws Exception {
-        Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "");
+        Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "", null);
         validateHyperwalletVariables(client, "test-username", "test-password", "https://api.sandbox.hyperwallet.com/rest/v3", "test-program-token");
     }
 
     @Test
     public void testConstructor_withCustomServer() throws Exception {
-        Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "http://test.de");
+        Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "http://test.de", null);
         validateHyperwalletVariables(client, "test-username", "test-password", "http://test.de/rest/v3", "test-program-token");
     }
 
