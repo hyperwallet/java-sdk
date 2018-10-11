@@ -1,7 +1,10 @@
 Changelog
 =========
 
-0.3.0 (in progress)
+0.4.0 (in progress)
+-------------------
+
+0.3.0 (2018-10-10)
 -------------------
 
 - Added PayPal endpoint
