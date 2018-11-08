@@ -13,6 +13,7 @@ public class HyperwalletException extends RuntimeException {
     private Response response = null;
     private String errorMessage;
     private String errorCode;
+    private List<String> relatedResources;
     private HyperwalletErrorList hyperwalletErrorList;
 
     public HyperwalletException(final Exception e) {
@@ -35,6 +36,7 @@ public class HyperwalletException extends RuntimeException {
         HyperwalletError error = this.hyperwalletErrorList.getErrors().get(0);
         errorCode = error.getCode();
         errorMessage = error.getMessage();
+        relatedResources = error.getRelatedResources();
     }
 
     public HyperwalletException(final String errorMessage) {
@@ -53,6 +55,10 @@ public class HyperwalletException extends RuntimeException {
 
     public String getErrorCode() {
         return errorCode;
+    }
+
+    public List<String> getRelatedResources() {
+        return relatedResources;
     }
 
     public List<HyperwalletError> getHyperwalletErrors() {
