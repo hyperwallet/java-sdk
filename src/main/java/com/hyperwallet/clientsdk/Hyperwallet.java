@@ -161,6 +161,20 @@ public class Hyperwallet {
     }
 
     /**
+     * Get Client Token
+     *
+     * @param token user account token
+     * @return HyperwalletClientToken retreived client token
+     */
+    public HyperwalletClientToken getClientToken(String token) {
+        if (StringUtils.isEmpty(token)) {
+            throw new HyperwalletException("User token is required");
+        }
+        String urlString = url + "/users/" + token + "/client-token";
+        return apiClient.post(urlString, HyperwalletClientToken.class);
+    }
+
+    /**
      * Get User Status Transition
      *
      * @param userToken             User token

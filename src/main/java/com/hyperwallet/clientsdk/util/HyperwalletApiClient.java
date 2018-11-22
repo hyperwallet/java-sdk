@@ -69,6 +69,16 @@ public class HyperwalletApiClient {
         }
     }
 
+    public <T> T post(final String url, final Class<T> type) {
+        Response response = null;
+        try {
+            response = getService(url, false).setBody("").postResource();
+            return processResponse(response, type);
+        } catch (IOException | JOSEException | ParseException e) {
+            throw new HyperwalletException(e);
+        }
+    }
+
     public <T> T post(final String url, final Object bodyObject, final Class<T> type) {
         Response response = null;
         try {
