@@ -69,21 +69,13 @@ public class HyperwalletApiClient {
         }
     }
 
-    public <T> T post(final String url, final Class<T> type) {
-        Response response = null;
-        try {
-            response = getService(url, false).setBody("").postResource();
-            return processResponse(response, type);
-        } catch (IOException | JOSEException | ParseException e) {
-            throw new HyperwalletException(e);
-        }
-    }
-
     public <T> T post(final String url, final Object bodyObject, final Class<T> type) {
         Response response = null;
         try {
-            String body = convert(bodyObject);
-            response = getService(url, false).setBody(encrypt(body)).postResource();
+            Request request = getService(url, false);
+            String body = bodyObject != null ? encrypt(convert(bodyObject)) : "";
+            request.setBody(body);
+            response = request.postResource();
             return processResponse(response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);

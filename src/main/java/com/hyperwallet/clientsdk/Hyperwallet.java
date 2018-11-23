@@ -171,7 +171,7 @@ public class Hyperwallet {
             throw new HyperwalletException("User token is required");
         }
         String urlString = url + "/users/" + token + "/client-token";
-        return apiClient.post(urlString, HyperwalletClientToken.class);
+        return apiClient.post(urlString, null, HyperwalletClientToken.class);
     }
 
     /**

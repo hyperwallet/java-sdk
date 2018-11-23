@@ -365,17 +365,17 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(hyperwalletClientToken);
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.any(), Mockito.any(Class.class))).thenReturn(hyperwalletClientToken);
 
         HyperwalletClientToken resp = client.getClientToken("test-user-token");
         assertThat(resp, is(equalTo(hyperwalletClientToken)));
 
         Mockito.verify(mockApiClient)
-                .post("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/client-token", hyperwalletClientToken.getClass());
+                .post("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/client-token", null, hyperwalletClientToken.getClass());
     }
 
     @Test
-    public void testGetUserClientToken_noParameters_noUserToken() throws Exception {
+    public void testGetUserClientToken_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
             client.getClientToken(null);
@@ -5455,5 +5455,4 @@ public class HyperwalletTest {
                 .country("test-country");
         return transferMethod;
     }
-
 }
