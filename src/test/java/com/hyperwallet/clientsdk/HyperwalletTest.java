@@ -41,13 +41,13 @@ public class HyperwalletTest {
 
     @Test
     public void testConstructor_defaultServer() throws Exception {
-        Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "");
+        Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "", null);
         validateHyperwalletVariables(client, "test-username", "test-password", "https://api.sandbox.hyperwallet.com/rest/v3", "test-program-token");
     }
 
     @Test
     public void testConstructor_withCustomServer() throws Exception {
-        Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "http://test.de");
+        Hyperwallet client = new Hyperwallet("test-username", "test-password", "test-program-token", "http://test.de", null);
         validateHyperwalletVariables(client, "test-username", "test-password", "http://test.de/rest/v3", "test-program-token");
     }
 
@@ -354,6 +354,37 @@ public class HyperwalletTest {
             assertThat(e.getResponse(), is(nullValue()));
             assertThat(e.getErrorMessage(), is(equalTo("Transition token is required")));
             assertThat(e.getMessage(), is(equalTo("Transition token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetUserClientToken_successful() throws Exception {
+        HyperwalletClientToken hyperwalletClientToken = new HyperwalletClientToken();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.any(), Mockito.any(Class.class))).thenReturn(hyperwalletClientToken);
+
+        HyperwalletClientToken resp = client.getClientToken("test-user-token");
+        assertThat(resp, is(equalTo(hyperwalletClientToken)));
+
+        Mockito.verify(mockApiClient)
+                .post("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/client-token", null, hyperwalletClientToken.getClass());
+    }
+
+    @Test
+    public void testGetUserClientToken_noUserToken() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getClientToken(null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
         }
     }
@@ -5424,6 +5455,4 @@ public class HyperwalletTest {
                 .country("test-country");
         return transferMethod;
     }
-
-
 }

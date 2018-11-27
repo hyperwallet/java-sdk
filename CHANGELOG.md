@@ -1,7 +1,16 @@
 Changelog
 =========
 
-0.3.0 (in progress)
+0.5.0 (in progress)
+-------------------
+
+
+0.4.0 (2018-10-11)
+-------------------
+
+- Added Layer7 encryption
+
+0.3.0 (2018-10-10)
 -------------------
 
 - Added PayPal endpoint

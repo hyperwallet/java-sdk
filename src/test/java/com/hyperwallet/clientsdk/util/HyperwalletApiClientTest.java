@@ -1,12 +1,14 @@
 package com.hyperwallet.clientsdk.util;
 
+import cc.protea.util.http.Response;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.hyperwallet.clientsdk.Hyperwallet;
 import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletBaseMonitor;
 import com.hyperwallet.clientsdk.model.HyperwalletError;
 import com.hyperwallet.clientsdk.model.HyperwalletPayment;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.matchers.Times;
 import org.mockserver.model.HttpRequest;
@@ -17,22 +19,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.testng.Assert.fail;
 
@@ -74,7 +70,7 @@ public class HyperwalletApiClientTest {
         }
 
         baseUrl = "http://localhost:" + mockServer.getPort();
-        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0");
+        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0", null);
     }
 
     @Test
@@ -858,5 +854,121 @@ public class HyperwalletApiClientTest {
                                         "    }")
         );
         hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, HyperwalletPayment.class);
+    }
+
+    @Test
+    public void testPost_200Response_withEncryption() throws Exception {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+        ClassLoader classLoader = getClass().getClassLoader();
+        String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
+        String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
+        HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                .clientPrivateKeySetLocation(clientPrivateKeysPath).hyperwalletKeySetLocation(hyperwalletKeysPath).build();
+        String testBody = "{\"test1\":\"value1\"}";
+        String encryptedBody = hyperwalletEncryption.encrypt(testBody);
+
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/jose+json")
+                        .withHeader("Content-Type", "application/jose+json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withHeader("Content-Type", "application/jose+json")
+                        .withBody(encryptedBody)
+        );
+
+
+        HyperwalletApiClient hyperwalletApiClientEnc = new HyperwalletApiClient(
+                "test-username", "test-password", "1.0", hyperwalletEncryption);
+        TestBody body = hyperwalletApiClientEnc.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+        assertThat(body, is(notNullValue()));
+        assertThat(body.test1, is(equalTo("value1")));
+        assertThat(body.test2, is(nullValue()));
+    }
+
+    @Test
+    public void checkErrorResponse() throws Exception {
+        Response errorResponse = new Response();
+        int responseCode = 500;
+        errorResponse.setResponseCode(responseCode);
+        String responseMessage = "something went wrong";
+        errorResponse.setResponseMessage(responseMessage);
+        errorResponse.setBody(getErrorResponseBodyString());
+        try {
+            hyperwalletApiClient.checkErrorResponse(errorResponse);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), not(String.valueOf(responseCode)));
+            assertThat(e.getErrorCode(), is("ERROR_CODE"));
+            assertThat(e.getErrorMessage(), not(equalTo("responseMessage")));
+            assertThat(e.getErrorMessage(), is(equalTo("ERROR_MESSAGE")));
+            assertThat(e.getHyperwalletErrors(), is(notNullValue()));
+            assertThat(e.getHyperwalletErrors().get(0).getRelatedResources(), is(notNullValue()));
+            assertThat(e.getHyperwalletErrors().get(0).getRelatedResources().get(0), is("relatedResource1"));
+            assertThat(e.getHyperwalletErrors().get(0).getRelatedResources().get(1), is("relatedResource2"));
+        }
+    }
+
+    private String getErrorResponseBodyString() throws JSONException {
+        JSONObject outer = new JSONObject();
+        JSONObject inner = new JSONObject();
+        inner.put("message", "ERROR_MESSAGE");
+        inner.put("code", "ERROR_CODE");
+        List<String> relatedResources = new ArrayList<>();
+        relatedResources.add("relatedResource1");
+        relatedResources.add("relatedResource2");
+        inner.put("relatedResources", relatedResources);
+        List<JSONObject> errors = new ArrayList<>();
+        errors.add(inner);
+        outer.put("errors", errors);
+        return outer.toString();
+    }
+
+    @Test
+    public void testPost_500Response_WithRelatedResources() throws JSONException {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("Content-Type", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0")
+                        .withBody(StringBody.exact("{\"test1\":\"value1\"}")),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(500)
+                        .withBody(getErrorResponseBodyString())
+        );
+
+        try {
+            hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expected HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), not(String.valueOf(500)));
+            assertThat(e.getErrorCode(), is(equalTo("ERROR_CODE")));
+            assertThat(e.getErrorMessage(), not(equalTo("Internal Server Error")));
+            assertThat(e.getErrorMessage(), is(equalTo("ERROR_MESSAGE")));
+            assertThat(e.getHyperwalletErrors(), is(notNullValue()));
+            assertThat(e.getHyperwalletErrors().get(0).getRelatedResources(), is(notNullValue()));
+            assertThat(e.getHyperwalletErrors().get(0).getRelatedResources().get(0), is("relatedResource1"));
+            assertThat(e.getHyperwalletErrors().get(0).getRelatedResources().get(1), is("relatedResource2"));
+            assertThat(e.getResponse(), is(notNullValue()));
+        }
     }
 }
