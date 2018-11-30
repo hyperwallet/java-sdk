@@ -142,6 +142,12 @@
             <artifactId>nimbus-jose-jwt</artifactId>
             <version>5.8</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <scope>test</scope>
+            <version>20180130</version>
+        </dependency>
     </dependencies>
 
     <build>
