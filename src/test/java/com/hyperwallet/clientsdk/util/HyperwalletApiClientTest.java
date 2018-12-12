@@ -1,5 +1,6 @@
 package com.hyperwallet.clientsdk.util;
 
+import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -976,6 +977,56 @@ public class HyperwalletApiClientTest {
             assertThat(e.getHyperwalletErrors().get(0).getRelatedResources().get(0), is("relatedResource1"));
             assertThat(e.getHyperwalletErrors().get(0).getRelatedResources().get(1), is("relatedResource2"));
             assertThat(e.getResponse(), is(notNullValue()));
+        }
+    }
+
+    @Test
+    public void testCheckContentType() {
+        Request request_noAccept = new Request(baseUrl);
+        Request request_jsonAccept = new Request(baseUrl).addHeader("Accept", "application/json");
+        Request request_joseAccept = new Request(baseUrl).addHeader("Accept", "application/jose+json");
+        Request request_someAccept = new Request(baseUrl).addHeader("Accept", "abc");
+        Response response_noContentType = new Response();
+        Response response_jsonContentType = new Response().addHeader("Content-Type", "application/json");
+        Response response_joseContentType = new Response().addHeader("Content-Type", "application/jose+json");
+        Response response_someContentType = new Response().addHeader("Content-Type", "abc");
+
+        //empty request header accept
+        testContentTypeWithException(request_noAccept, response_noContentType);
+        testContentTypeWithoutException(request_noAccept, response_jsonContentType);
+        testContentTypeWithException(request_noAccept, response_joseContentType);
+        testContentTypeWithException(request_noAccept, response_someContentType);
+
+        testContentTypeWithException(request_jsonAccept, response_noContentType);
+        testContentTypeWithoutException(request_jsonAccept, response_jsonContentType);
+        testContentTypeWithException(request_jsonAccept, response_joseContentType);
+        testContentTypeWithException(request_jsonAccept, response_someContentType);
+
+        testContentTypeWithException(request_joseAccept, response_noContentType);
+        testContentTypeWithoutException(request_joseAccept, response_jsonContentType);
+        testContentTypeWithoutException(request_joseAccept, response_joseContentType);
+        testContentTypeWithException(request_joseAccept, response_someContentType);
+
+        testContentTypeWithoutException(request_someAccept, response_noContentType);
+        testContentTypeWithoutException(request_someAccept, response_jsonContentType);
+        testContentTypeWithoutException(request_someAccept, response_joseContentType);
+        testContentTypeWithoutException(request_someAccept, response_someContentType);
+    }
+
+    private void testContentTypeWithException(final Request request, final Response response) {
+        try {
+            hyperwalletApiClient.checkContentType(request, response);
+            fail("Expected HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorMessage(), is(equalTo("Invalid Content-Type specified in Response Header")));
+        }
+    }
+
+    private void testContentTypeWithoutException(final Request request, final Response response) {
+        try {
+            hyperwalletApiClient.checkContentType(request, response);
+        } catch (HyperwalletException e) {
+            fail("Not Expected HyperwalletException");
         }
     }
 }
