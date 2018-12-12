@@ -126,6 +126,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(202)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", TestBody.class);
@@ -146,6 +147,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(204)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", TestBody.class);
@@ -169,6 +171,7 @@ public class HyperwalletApiClientTest {
                 HttpResponse.response()
                         .withStatusCode(400)
                         .withBody("{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", \"message\": \"test5\" }] }")
+                        .withHeader("Content-Type", "application/json")
         );
 
         try {
@@ -272,6 +275,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(202)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {});
@@ -291,6 +295,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(204)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {});
@@ -433,6 +438,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(204)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
@@ -587,6 +593,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(204)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);

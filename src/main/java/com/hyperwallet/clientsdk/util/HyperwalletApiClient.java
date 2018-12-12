@@ -99,8 +99,8 @@ public class HyperwalletApiClient {
 
     protected <T> T processResponse(final Request request, final Response response, final Class<T> type)
             throws ParseException, JOSEException, IOException {
-        checkContentType(request, response);
         checkErrorResponse(response);
+        checkContentType(request, response);
         if (response.getResponseCode() == 204) {
             return convert("{}", type);
         } else {
@@ -110,8 +110,8 @@ public class HyperwalletApiClient {
 
     protected <T> T processResponse(final Request request, final Response response, final TypeReference<T> type)
             throws ParseException, JOSEException, IOException {
-        checkContentType(request, response);
         checkErrorResponse(response);
+        checkContentType(request, response);
         if (response.getResponseCode() == 204) {
             return convert("{}", type);
         } else {
@@ -137,9 +137,11 @@ public class HyperwalletApiClient {
         String json = "application/json";
         String jose = "application/jose+json";
 
-        if ((StringUtils.isEmpty(requestAccept) && !responseContentType.equals(json)) ||
-                (requestAccept.equals(json) && !responseContentType.equals(json)) ||
-                (requestAccept.equals(jose) && !responseContentType.equals(json) && !responseContentType.equals(jose))) {
+        if ((StringUtils.isEmpty(requestAccept) && (StringUtils.isEmpty(responseContentType) || !responseContentType.equals(json))) ||
+                (!StringUtils.isEmpty(requestAccept) && requestAccept.equals(json) && (StringUtils.isEmpty(responseContentType)
+                        || !responseContentType.equals(json))) ||
+                (!StringUtils.isEmpty(requestAccept) && requestAccept.equals(jose) && (StringUtils.isEmpty(responseContentType) || !(
+                        responseContentType.equals(json) || responseContentType.equals(jose))))) {
             throw new HyperwalletException("Invalid Content-Type specified in Response Header");
         }
     }

@@ -1,30 +1,6 @@
 package com.hyperwallet.clientsdk;
 
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.ACTIVATED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.CANCELLED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.COMPLETED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.CREATED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.DE_ACTIVATED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.QUOTED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.RECALLED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.SCHEDULED;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.mockserver.integration.ClientAndServer.startClientAndServer;
-import static org.mockserver.model.Header.header;
-import static org.mockserver.model.JsonBody.json;
-
-import com.hyperwallet.clientsdk.model.HyperwalletBankCard;
-import com.hyperwallet.clientsdk.model.HyperwalletList;
-import com.hyperwallet.clientsdk.model.HyperwalletPaperCheck;
-import com.hyperwallet.clientsdk.model.HyperwalletPayPalAccount;
-import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
-import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition;
-import com.hyperwallet.clientsdk.model.HyperwalletTransfer;
-import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod;
-import com.hyperwallet.clientsdk.model.HyperwalletUser;
+import com.hyperwallet.clientsdk.model.*;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -40,6 +16,13 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.mockserver.integration.ClientAndServer.startClientAndServer;
+import static org.mockserver.model.Header.header;
+import static org.mockserver.model.JsonBody.json;
 
 public class HyperwalletIT {
 
@@ -913,7 +896,7 @@ public class HyperwalletIT {
 
     private HttpResponse parseResponse(String functionality) throws IOException {
         return HttpResponse.response()
-            .withStatusCode(HttpStatusCode.OK_200.code())
+                .withStatusCode(HttpStatusCode.OK_200.code()).withHeader("Content-Type", "application/json")
             .withBody(org.apache.commons.io.IOUtils.toString(getClass().getResourceAsStream("/integration/" + functionality + "-response.json")));
     }
 
