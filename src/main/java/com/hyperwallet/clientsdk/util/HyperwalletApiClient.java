@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletErrorList;
 import com.nimbusds.jose.JOSEException;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
@@ -43,71 +44,69 @@ public class HyperwalletApiClient {
     }
 
     public <T> T get(final String url, final Class<T> type) {
-        Response response = null;
         try {
-            response = getService(url, true).getResource();
-            return processResponse(response, type);
+            Request request = getService(url, true);
+            Response response = request.getResource();
+            return processResponse(request, response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
         }
     }
 
     public <T> T get(final String url, final TypeReference<T> type) {
-        Response response = null;
         try {
-            response = getService(url, true).getResource();
-            return processResponse(response, type);
+            Request request = getService(url, true);
+            Response response = request.getResource();
+            return processResponse(request, response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
         }
     }
 
     public <T> T put(final String url, final Object bodyObject, final Class<T> type) {
-        Response response = null;
         try {
-            String body = convert(bodyObject);
-            response = getService(url, false).setBody(encrypt(body)).putResource();
-            return processResponse(response, type);
+            String body = encrypt(convert(bodyObject));
+            Request request = getService(url, false).setBody(body);
+            Response response = request.putResource();
+            return processResponse(request, response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
         }
     }
 
     public <T> T post(final String url, final Object bodyObject, final Class<T> type) {
-        Response response = null;
         try {
-            Request request = getService(url, false);
             String body = bodyObject != null ? encrypt(convert(bodyObject)) : "";
-            request.setBody(body);
-            response = request.postResource();
-            return processResponse(response, type);
+            Request request = getService(url, false).setBody(body);
+            Response response = request.postResource();
+            return processResponse(request, response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
         }
     }
 
     public <T> T post(final String url, final Object bodyObject, final Class<T> type, HashMap<String,String> header) {
-        Response response = null;
         try {
-            String body = convert(bodyObject);
-            Request request = getService(url, false).setBody(encrypt(body));
+            String body = encrypt(convert(bodyObject));
+            Request request = getService(url, false).setBody(body);
             if (header != null) {
                 for (String key : header.keySet()) {
                     request = request.addHeader(key, header.get(key));
                 }
             }
 
-            response = request.postResource();
-            return processResponse(response, type);
+            Response response = request.postResource();
+            return processResponse(request, response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
         }
     }
 
-    protected <T> T processResponse(final Response response, final Class<T> type)
+    protected <T> T processResponse(final Request request, final Response response, final Class<T> type)
             throws ParseException, JOSEException, IOException {
         checkErrorResponse(response);
         checkResponseHeader(response);
+        checkContentType(request, response);
         if (response.getResponseCode() == 204) {
             return convert("{}", type);
         } else {
@@ -115,10 +114,11 @@ public class HyperwalletApiClient {
         }
     }
 
-    protected <T> T processResponse(final Response response, final TypeReference<T> type)
+    protected <T> T processResponse(final Request request, final Response response, final TypeReference<T> type)
             throws ParseException, JOSEException, IOException {
         checkErrorResponse(response);
         checkResponseHeader(response);
+        checkContentType(request, response);
         if (response.getResponseCode() == 204) {
             return convert("{}", type);
         } else {
@@ -142,6 +142,20 @@ public class HyperwalletApiClient {
         String contentTypeHeader = response.getHeader(CONTENT_TYPE_HEADER);
         if ((!isEncrypted && !contentTypeHeader.equals(VALID_JSON_CONTENT_TYPE)) ||
                 (isEncrypted && !contentTypeHeader.equals(VALID_JSON_JOSE_CONTENT_TYPE))) {
+            throw new HyperwalletException("Invalid Content-Type specified in Response Header");
+        }
+    }
+
+    protected void checkContentType(final Request request, final Response response) {
+        String requestAccept = request.getHeader("Accept");
+        String responseContentType = response.getHeader("Content-Type");
+        String json = "application/json";
+        String jose = "application/jose+json";
+        if ((StringUtils.isEmpty(requestAccept) && (StringUtils.isEmpty(responseContentType) || !responseContentType.equals(json))) ||
+                (!StringUtils.isEmpty(requestAccept) && requestAccept.equals(json) && (StringUtils.isEmpty(responseContentType)
+                        || !responseContentType.equals(json))) ||
+                (!StringUtils.isEmpty(requestAccept) && requestAccept.equals(jose) && (StringUtils.isEmpty(responseContentType) || !(
+                        responseContentType.equals(json) || responseContentType.equals(jose))))) {
             throw new HyperwalletException("Invalid Content-Type specified in Response Header");
         }
     }
