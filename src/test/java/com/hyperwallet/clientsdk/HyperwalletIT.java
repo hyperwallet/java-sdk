@@ -967,6 +967,7 @@ public class HyperwalletIT {
 
     private HttpResponse parseResponse(String functionality) throws IOException {
         return HttpResponse.response()
+            .withHeader("Content-Type", "application/json")
             .withStatusCode(HttpStatusCode.OK_200.code())
             .withBody(org.apache.commons.io.IOUtils.toString(getClass().getResourceAsStream("/integration/" + functionality + "-response.json")));
     }

@@ -126,6 +126,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(202)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", TestBody.class);
@@ -146,6 +147,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(204)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", TestBody.class);
@@ -272,6 +274,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(202)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {});
@@ -291,6 +294,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(204)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {});
@@ -433,6 +437,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(204)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
@@ -587,6 +592,7 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(204)
+                        .withHeader("Content-Type", "application/json")
         );
 
         TestBody body = hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
@@ -896,6 +902,47 @@ public class HyperwalletApiClientTest {
     }
 
     @Test
+    public void testPost_200Response_withEncryption_withWrongContentType() throws Exception {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+        ClassLoader classLoader = getClass().getClassLoader();
+        String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
+        String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
+        HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                .clientPrivateKeySetLocation(clientPrivateKeysPath).hyperwalletKeySetLocation(hyperwalletKeysPath).build();
+        String testBody = "{\"test1\":\"value1\"}";
+        String encryptedBody = hyperwalletEncryption.encrypt(testBody);
+
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/jose+json")
+                        .withHeader("Content-Type", "application/jose+json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withHeader("Content-Type", "wrongContentType")
+                        .withBody(encryptedBody)
+        );
+
+        HyperwalletApiClient hyperwalletApiClientEnc = new HyperwalletApiClient(
+                "test-username", "test-password", "1.0", hyperwalletEncryption);
+        try {
+            hyperwalletApiClientEnc.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expected HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorMessage(), is("Invalid Content-Type specified in Response Header"));
+            assertThat(e.getErrorCode(), is(nullValue()));
+        }
+    }
+
+    @Test
     public void checkErrorResponse() throws Exception {
         Response errorResponse = new Response();
         int responseCode = 500;
@@ -969,6 +1016,39 @@ public class HyperwalletApiClientTest {
             assertThat(e.getHyperwalletErrors().get(0).getRelatedResources().get(0), is("relatedResource1"));
             assertThat(e.getHyperwalletErrors().get(0).getRelatedResources().get(1), is("relatedResource2"));
             assertThat(e.getResponse(), is(notNullValue()));
+        }
+    }
+
+    @Test
+    public void testPost_200Response_WithWrongContentType() {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("Content-Type", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0")
+                        .withBody(StringBody.exact("{\"test1\":\"value1\"}")),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withHeader("Content-Type", "wrongContentType")
+                        .withBody("{ \"test1\": \"value1\" }")
+        );
+
+        try {
+            hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expected HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorMessage(), is("Invalid Content-Type specified in Response Header"));
+            assertThat(e.getErrorCode(), is(nullValue()));
         }
     }
 }
