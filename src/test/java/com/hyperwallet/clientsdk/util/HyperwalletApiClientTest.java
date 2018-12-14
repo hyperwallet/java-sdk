@@ -1063,19 +1063,23 @@ public class HyperwalletApiClientTest {
         Response response_jsonContentType = new Response().addHeader("Content-Type", "application/json");
         Response response_joseContentType = new Response().addHeader("Content-Type", "application/jose+json");
         Response response_someContentType = new Response().addHeader("Content-Type", "abc");
-        //empty request header accept
+
+        //request header accept - empty
         testContentTypeWithException(request_noAccept, response_noContentType);
         testContentTypeWithoutException(request_noAccept, response_jsonContentType);
         testContentTypeWithException(request_noAccept, response_joseContentType);
         testContentTypeWithException(request_noAccept, response_someContentType);
+        //request header accept - json
         testContentTypeWithException(request_jsonAccept, response_noContentType);
         testContentTypeWithoutException(request_jsonAccept, response_jsonContentType);
         testContentTypeWithException(request_jsonAccept, response_joseContentType);
         testContentTypeWithException(request_jsonAccept, response_someContentType);
+        //request header accept - jose
         testContentTypeWithException(request_joseAccept, response_noContentType);
         testContentTypeWithoutException(request_joseAccept, response_jsonContentType);
         testContentTypeWithoutException(request_joseAccept, response_joseContentType);
         testContentTypeWithException(request_joseAccept, response_someContentType);
+        //request header accept - something else (like text/plain)
         testContentTypeWithoutException(request_someAccept, response_noContentType);
         testContentTypeWithoutException(request_someAccept, response_jsonContentType);
         testContentTypeWithoutException(request_someAccept, response_joseContentType);
