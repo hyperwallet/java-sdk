@@ -82,6 +82,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User is required")));
             assertThat(e.getMessage(), is(equalTo("User is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -100,6 +101,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token may not be present")));
             assertThat(e.getMessage(), is(equalTo("User token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -200,6 +202,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -230,6 +233,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User is required")));
             assertThat(e.getMessage(), is(equalTo("User is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -247,6 +251,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -340,6 +345,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -355,6 +361,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transition token is required")));
             assertThat(e.getMessage(), is(equalTo("Transition token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -386,6 +393,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -416,6 +424,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -446,6 +455,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -510,6 +520,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -527,6 +538,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -546,6 +558,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card token may not be present")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -642,6 +655,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -657,6 +671,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -687,6 +702,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -717,6 +733,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -783,6 +800,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -805,6 +823,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -841,6 +860,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transition is required")));
             assertThat(e.getMessage(), is(equalTo("Transition is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -856,6 +876,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -871,6 +892,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -889,6 +911,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -933,6 +956,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -950,6 +974,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -968,6 +993,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1013,6 +1039,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1028,6 +1055,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1043,6 +1071,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transition token is required")));
             assertThat(e.getMessage(), is(equalTo("Transition token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1073,6 +1102,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1088,6 +1118,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1118,6 +1149,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1133,6 +1165,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1196,6 +1229,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Card is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Card is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1213,6 +1247,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1232,6 +1267,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Card token may not be present")));
             assertThat(e.getMessage(), is(equalTo("Bank Card token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1318,6 +1354,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Card is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Card is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1335,6 +1372,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1353,6 +1391,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1395,6 +1434,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1410,6 +1450,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1440,6 +1481,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1470,6 +1512,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1529,6 +1572,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1544,6 +1588,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1600,6 +1645,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transition is required")));
             assertThat(e.getMessage(), is(equalTo("Transition is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1615,6 +1661,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1630,6 +1677,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1648,6 +1696,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1692,6 +1741,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1707,6 +1757,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1722,6 +1773,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transition token is required")));
             assertThat(e.getMessage(), is(equalTo("Transition token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1752,6 +1804,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1767,6 +1820,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1797,6 +1851,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1812,6 +1867,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1875,6 +1931,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Paper Check is required")));
             assertThat(e.getMessage(), is(equalTo("Paper Check is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1892,6 +1949,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1911,6 +1969,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Paper Check token may not be present")));
             assertThat(e.getMessage(), is(equalTo("Paper Check token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -1983,6 +2042,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Paper Check is required")));
             assertThat(e.getMessage(), is(equalTo("Paper Check is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2000,6 +2060,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2018,6 +2079,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2058,6 +2120,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2073,6 +2136,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2103,6 +2167,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2133,6 +2198,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2192,6 +2258,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2207,6 +2274,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2263,6 +2331,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transition is required")));
             assertThat(e.getMessage(), is(equalTo("Transition is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2278,6 +2347,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2293,6 +2363,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2311,6 +2382,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2355,6 +2427,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2370,6 +2443,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2385,6 +2459,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transition token is required")));
             assertThat(e.getMessage(), is(equalTo("Transition token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2415,6 +2490,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2430,6 +2506,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2460,6 +2537,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2475,6 +2553,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getMessage(), is(equalTo("Paper Check token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2538,6 +2617,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transfer is required")));
             assertThat(e.getMessage(), is(equalTo("Transfer is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2555,6 +2635,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Source token is required")));
             assertThat(e.getMessage(), is(equalTo("Source token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2573,6 +2654,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Destination token is required")));
             assertThat(e.getMessage(), is(equalTo("Destination token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2592,6 +2674,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("ClientTransferId is required")));
             assertThat(e.getMessage(), is(equalTo("ClientTransferId is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2640,6 +2723,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transfer token is required")));
             assertThat(e.getMessage(), is(equalTo("Transfer token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2732,6 +2816,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transition is required")));
             assertThat(e.getMessage(), is(equalTo("Transition is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2747,6 +2832,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transfer token is required")));
             assertThat(e.getMessage(), is(equalTo("Transfer token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2765,6 +2851,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2813,6 +2900,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("PayPal Account is required")));
             assertThat(e.getMessage(), is(equalTo("PayPal Account is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2829,6 +2917,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2846,6 +2935,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transfer Method Country is required")));
             assertThat(e.getMessage(), is(equalTo("Transfer Method Country is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2864,6 +2954,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transfer Method Currency is required")));
             assertThat(e.getMessage(), is(equalTo("Transfer Method Currency is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2883,6 +2974,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Email is required")));
             assertThat(e.getMessage(), is(equalTo("Email is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2904,6 +2996,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("PayPal Account token may not be present")));
             assertThat(e.getMessage(), is(equalTo("PayPal Account token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -2986,6 +3079,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3001,6 +3095,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("PayPal Account token is required")));
             assertThat(e.getMessage(), is(equalTo("PayPal Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3031,6 +3126,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3088,6 +3184,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Account is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Account is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3105,6 +3202,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3124,6 +3222,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Account token may not be present")));
             assertThat(e.getMessage(), is(equalTo("Bank Account token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3167,6 +3266,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3182,6 +3282,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3213,6 +3314,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Account is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Account is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3230,6 +3332,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3248,6 +3351,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3288,6 +3392,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3318,6 +3423,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3377,6 +3483,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3392,6 +3499,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3427,6 +3535,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transition is required")));
             assertThat(e.getMessage(), is(equalTo("Transition is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3442,6 +3551,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3457,6 +3567,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3475,6 +3586,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3520,6 +3632,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3535,6 +3648,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3565,6 +3679,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3580,6 +3695,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getMessage(), is(equalTo("Bank Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3643,6 +3759,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3673,6 +3790,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3731,6 +3849,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Program token is required")));
             assertThat(e.getMessage(), is(equalTo("Program token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3746,6 +3865,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Account token is required")));
             assertThat(e.getMessage(), is(equalTo("Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3776,6 +3896,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Program token is required")));
             assertThat(e.getMessage(), is(equalTo("Program token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3791,6 +3912,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Account token is required")));
             assertThat(e.getMessage(), is(equalTo("Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3848,6 +3970,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3863,6 +3986,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3893,6 +4017,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3908,6 +4033,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid Card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3968,6 +4094,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Payment is required")));
             assertThat(e.getMessage(), is(equalTo("Payment is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -3986,6 +4113,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Payment token may not be present")));
             assertThat(e.getMessage(), is(equalTo("Payment token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4080,6 +4208,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Payment token is required")));
             assertThat(e.getMessage(), is(equalTo("Payment token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4173,6 +4302,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Program token is required")));
             assertThat(e.getMessage(), is(equalTo("Program token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4203,6 +4333,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transition is required")));
             assertThat(e.getMessage(), is(equalTo("Transition is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4218,6 +4349,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Payment token is required")));
             assertThat(e.getMessage(), is(equalTo("Payment token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4236,6 +4368,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getMessage(), is(equalTo("Status Transition token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4280,6 +4413,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Payment token is required")));
             assertThat(e.getMessage(), is(equalTo("Payment token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4295,6 +4429,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Transition token is required")));
             assertThat(e.getMessage(), is(equalTo("Transition token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4325,6 +4460,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Payment token is required")));
             assertThat(e.getMessage(), is(equalTo("Payment token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4355,6 +4491,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Payment token is required")));
             assertThat(e.getMessage(), is(equalTo("Payment token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4418,6 +4555,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Program token is required")));
             assertThat(e.getMessage(), is(equalTo("Program token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4433,6 +4571,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Account token is required")));
             assertThat(e.getMessage(), is(equalTo("Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4467,6 +4606,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4482,6 +4622,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Country is required")));
             assertThat(e.getMessage(), is(equalTo("Country is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4497,6 +4638,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Currency is required")));
             assertThat(e.getMessage(), is(equalTo("Currency is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4512,6 +4654,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Type is required")));
             assertThat(e.getMessage(), is(equalTo("Type is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4527,6 +4670,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Profile Type is required")));
             assertThat(e.getMessage(), is(equalTo("Profile Type is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4557,6 +4701,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4587,6 +4732,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4650,6 +4796,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Program token is required")));
             assertThat(e.getMessage(), is(equalTo("Program token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4665,6 +4812,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Account token is required")));
             assertThat(e.getMessage(), is(equalTo("Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4695,6 +4843,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Program token is required")));
             assertThat(e.getMessage(), is(equalTo("Program token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4710,6 +4859,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Account token is required")));
             assertThat(e.getMessage(), is(equalTo("Account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4770,6 +4920,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4800,6 +4951,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4860,6 +5012,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4875,6 +5028,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid card token is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4905,6 +5059,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4920,6 +5075,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Prepaid card token is required")));
             assertThat(e.getMessage(), is(equalTo("Prepaid card token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -4984,6 +5140,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("Webhook token is required")));
             assertThat(e.getMessage(), is(equalTo("Webhook token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -5149,6 +5306,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -5168,6 +5326,7 @@ public class HyperwalletTest {
                 assertThat(e.getErrorMessage(), is(equalTo("JSON token is required")));
                 assertThat(e.getMessage(), is(equalTo("JSON token is required")));
                 assertThat(e.getHyperwalletErrors(), is(nullValue()));
+                assertThat(e.getRelatedResources(), is(nullValue()));
             }
         }
     }
@@ -5186,6 +5345,7 @@ public class HyperwalletTest {
                 assertThat(e.getErrorMessage(), is(equalTo("JSON token is required")));
                 assertThat(e.getMessage(), is(equalTo("JSON token is required")));
                 assertThat(e.getHyperwalletErrors(), is(nullValue()));
+                assertThat(e.getRelatedResources(), is(nullValue()));
             }
         }
     }
@@ -5205,6 +5365,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
@@ -5223,6 +5384,7 @@ public class HyperwalletTest {
             assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
             assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
