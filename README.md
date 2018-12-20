@@ -26,7 +26,7 @@ Installation
 
 **Gradle**
 ```
-compile 'com.hyperwallet:sdk:0.4.0'
+compile 'com.hyperwallet:sdk:0.5.0'
 ```
 
 Documentation
