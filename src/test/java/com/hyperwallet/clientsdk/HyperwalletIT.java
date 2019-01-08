@@ -10,13 +10,17 @@ import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status
 import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.SCHEDULED;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
+import static org.testng.Assert.fail;
 
 import com.hyperwallet.clientsdk.model.HyperwalletBankCard;
+import com.hyperwallet.clientsdk.model.HyperwalletError;
 import com.hyperwallet.clientsdk.model.HyperwalletList;
 import com.hyperwallet.clientsdk.model.HyperwalletPaperCheck;
 import com.hyperwallet.clientsdk.model.HyperwalletPayPalAccount;
@@ -904,6 +908,56 @@ public class HyperwalletIT {
         assertThat(returnValue.getToStatus(), is(equalTo(COMPLETED)));
     }
 
+    //
+    // Response with error
+    //
+
+    @Test
+    public void testCreateBankCardWithErrorResponse() throws Exception {
+        String functionality = "createBankCardWithError";
+        initMockServerWithErrorResponse(functionality);
+
+        HyperwalletBankCard bankCard = new HyperwalletBankCard()
+                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+                .cardNumber("4216701111100114")
+                .dateOfExpiry(dateFormat.parse("2018-01-01T00:00:00 UTC"))
+                .transferMethodCountry("US")
+                .transferMethodCurrency("USD");
+
+        try {
+            client.createBankCard(bankCard);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(equalTo("DUPLICATE_EXTERNAL_ACCOUNT_CREATION")));
+            assertThat(e.getMessage(),
+                    is(equalTo("The information you provided is already registered with this user.")));
+            assertThat(e.getRelatedResources(), hasSize(5));
+            assertThat(e.getRelatedResources(), hasItems("trm-f3d38df1-adb7-4127-9858-e72ebe682a79",
+                    "trm-601b1401-4464-4f3f-97b3-09079ee7723b", "trm-66166e6e-c0cb-4161-b1cd-a7ec3f83dc17",
+                    "trm-41c559b6-c803-4213-b8b4-c54f0e72df17", "trm-76558de0-5703-41e0-bf3f-a335a5cf58be"));
+            assertThat(e.getHyperwalletErrors(), hasSize(1));
+            HyperwalletError error = e.getHyperwalletErrors().get(0);
+            assertThat(error.getCode(), is(equalTo("DUPLICATE_EXTERNAL_ACCOUNT_CREATION")));
+            assertThat(error.getFieldName(), is(nullValue()));
+            assertThat(error.getMessage(),
+                    is(equalTo("The information you provided is already registered with this user.")));
+            assertThat(error.getRelatedResources(), hasSize(5));
+            assertThat(error.getRelatedResources(), hasItems("trm-f3d38df1-adb7-4127-9858-e72ebe682a79",
+                    "trm-601b1401-4464-4f3f-97b3-09079ee7723b", "trm-66166e6e-c0cb-4161-b1cd-a7ec3f83dc17",
+                    "trm-41c559b6-c803-4213-b8b4-c54f0e72df17", "trm-76558de0-5703-41e0-bf3f-a335a5cf58be"));
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+    }
+
+    private void initMockServerWithErrorResponse(String functionality) throws IOException {
+        mockServer.reset();
+        mockServer
+                .when(parseRequest(functionality))
+                .respond(parseResponseWithErrorResponse(functionality));
+    }
+
     private void initMockServer(String functionality) throws IOException {
         mockServer.reset();
         mockServer
@@ -913,8 +967,16 @@ public class HyperwalletIT {
 
     private HttpResponse parseResponse(String functionality) throws IOException {
         return HttpResponse.response()
+            .withHeader("Content-Type", "application/json")
             .withStatusCode(HttpStatusCode.OK_200.code())
             .withBody(org.apache.commons.io.IOUtils.toString(getClass().getResourceAsStream("/integration/" + functionality + "-response.json")));
+    }
+
+    private HttpResponse parseResponseWithErrorResponse(String functionality) throws IOException {
+        return HttpResponse.response()
+                .withStatusCode(HttpStatusCode.NOT_FOUND_404.code())
+                .withBody(org.apache.commons.io.IOUtils.toString(
+                        getClass().getResourceAsStream("/integration/" + functionality + "-response.json")));
     }
 
     private HttpRequest parseRequest(String functionality) {

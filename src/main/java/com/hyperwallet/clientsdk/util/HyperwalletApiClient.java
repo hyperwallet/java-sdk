@@ -14,6 +14,10 @@ import java.util.HashMap;
 
 public class HyperwalletApiClient {
 
+    private static final String CONTENT_TYPE_HEADER = "Content-Type";
+    private static final String VALID_JSON_CONTENT_TYPE = "application/json";
+    private static final String VALID_JSON_JOSE_CONTENT_TYPE = "application/jose+json";
+
     private final String username;
     private final String password;
     private final String version;
@@ -103,6 +107,7 @@ public class HyperwalletApiClient {
     protected <T> T processResponse(final Response response, final Class<T> type)
             throws ParseException, JOSEException, IOException {
         checkErrorResponse(response);
+        checkResponseHeader(response);
         if (response.getResponseCode() == 204) {
             return convert("{}", type);
         } else {
@@ -113,6 +118,7 @@ public class HyperwalletApiClient {
     protected <T> T processResponse(final Response response, final TypeReference<T> type)
             throws ParseException, JOSEException, IOException {
         checkErrorResponse(response);
+        checkResponseHeader(response);
         if (response.getResponseCode() == 204) {
             return convert("{}", type);
         } else {
@@ -129,6 +135,14 @@ public class HyperwalletApiClient {
             } else {//unmapped errors
                 throw new HyperwalletException(response, response.getResponseCode(), response.getResponseMessage());
             }
+        }
+    }
+
+    private void checkResponseHeader(Response response) {
+        String contentTypeHeader = response.getHeader(CONTENT_TYPE_HEADER);
+        if ((!isEncrypted && !contentTypeHeader.equals(VALID_JSON_CONTENT_TYPE)) ||
+                (isEncrypted && !contentTypeHeader.equals(VALID_JSON_JOSE_CONTENT_TYPE))) {
+            throw new HyperwalletException("Invalid Content-Type specified in Response Header");
         }
     }
 
