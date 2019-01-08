@@ -1,9 +1,12 @@
 Changelog
 =========
 
-0.5.0 (in progress)
+0.5.0 (2018-12-20)
 -------------------
 
+- Restricted “Accept” & “Content-Type” headers to support only “application/json” or “application/jose+json”
+- Added Related resources “relatedResources” in error representation is added
+- Added Authentication token endpoint 
 
 0.4.0 (2018-10-11)
 -------------------
