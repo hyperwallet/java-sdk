@@ -161,17 +161,17 @@ public class Hyperwallet {
     }
 
     /**
-     * Get Client Token
+     * Get Authentication Token
      *
      * @param token user account token
-     * @return HyperwalletClientToken retreived client token
+     * @return HyperwalletAuthenticationToken retreived authentication token
      */
-    public HyperwalletClientToken getClientToken(String token) {
+    public HyperwalletAuthenticationToken getAuthenticationToken(String token) {
         if (StringUtils.isEmpty(token)) {
             throw new HyperwalletException("User token is required");
         }
-        String urlString = url + "/users/" + token + "/client-token";
-        return apiClient.post(urlString, null, HyperwalletClientToken.class);
+        String urlString = url + "/users/" + token + "/authentication-token";
+        return apiClient.post(urlString, null, HyperwalletAuthenticationToken.class);
     }
 
     /**
