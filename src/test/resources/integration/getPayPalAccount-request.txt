@@ -1,0 +1,3 @@
+curl -X "GET" "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-e7b61829-a73a-45dc-930e-afa8a56b923b/paypal-accounts/trm-54b0db9c-5565-47f7-aee6-685e713595f3" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Accept: application/json" \

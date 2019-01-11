@@ -1,0 +1,15 @@
+{
+  "errors": [
+    {
+      "code": "DUPLICATE_EXTERNAL_ACCOUNT_CREATION",
+      "message": "The information you provided is already registered with this user.",
+      "relatedResources": [
+        "trm-f3d38df1-adb7-4127-9858-e72ebe682a79",
+        "trm-601b1401-4464-4f3f-97b3-09079ee7723b",
+        "trm-66166e6e-c0cb-4161-b1cd-a7ec3f83dc17",
+        "trm-41c559b6-c803-4213-b8b4-c54f0e72df17",
+        "trm-76558de0-5703-41e0-bf3f-a335a5cf58be"
+      ]
+    }
+  ]
+}

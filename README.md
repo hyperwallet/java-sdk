@@ -1,13 +1,16 @@
 [![Build Status](https://travis-ci.org/hyperwallet/java-sdk.png?branch=master)](https://travis-ci.org/hyperwallet/java-sdk)
 [![Coverage Status](https://coveralls.io/repos/github/hyperwallet/java-sdk/badge.svg?branch=master)](https://coveralls.io/github/hyperwallet/java-sdk?branch=master)
-[![Maven Central](https://img.shields.io/maven-central/v/com.hyperwallet/sdk.svg?maxAge=2592000)]()
-[![Dependency Status](https://www.versioneye.com/user/projects/57730239752cd1004c595642/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/57730239752cd1004c595642)
+[![Maven Central](https://img.shields.io/maven-central/v/com.hyperwallet/sdk.svg)]()
 
 Hyperwallet REST SDK (Beta)
 ===========================
 
 A library to manage users, transfer methods and payments through the Hyperwallet API
 
+Prerequisites
+------------
+
+Hyperwallet's Java server SDK requires at minimum JDK (Java Development Kit) version 1.7 and above.
 
 Installation
 ------------
@@ -17,13 +20,13 @@ Installation
 <dependency>
     <groupId>com.hyperwallet</groupId>
     <artifactId>sdk</artifactId>
-    <version>0.2.0</version>
+    <version>0.5.0</version>
 </dependency>
 ```
 
 **Gradle**
 ```
-compile 'com.hyperwallet:sdk:0.2.0'
+compile 'com.hyperwallet:sdk:0.5.0'
 ```
 
 Documentation
@@ -38,7 +41,7 @@ API Overview
 To write an app using the SDK
 
 * Register for a sandbox account and get your username, password and program token at the [Hyperwallet Program Portal](https://portal.hyperwallet.com).
-* Add dependency `com.hyperwallet:sdk:0.2.0` to your `pom.xml` (or `build.gradle`).
+* Add dependency `com.hyperwallet:sdk:0.5.0` to your `pom.xml` (or `build.gradle`).
 
 * Create a instance of the Hyperwallet Client (with username, password and program token)
   ```java

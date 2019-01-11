@@ -1,6 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 @XmlRootElement
 public class HyperwalletError {
@@ -8,6 +9,7 @@ public class HyperwalletError {
     private String code;
     private String fieldName;
     private String message;
+    private List<String> relatedResources;
 
     public HyperwalletError() {
     }
@@ -23,6 +25,13 @@ public class HyperwalletError {
         this.message = message;
     }
 
+    public HyperwalletError(String code, String fieldName, String message, List<String> relatedResources) {
+        this.code = code;
+        this.fieldName = fieldName;
+        this.message = message;
+        this.relatedResources = relatedResources;
+    }
+
     public String getCode() {
         return code;
     }
@@ -33,5 +42,9 @@ public class HyperwalletError {
 
     public String getMessage() {
         return message;
+    }
+
+    public List<String> getRelatedResources() {
+        return relatedResources;
     }
 }
