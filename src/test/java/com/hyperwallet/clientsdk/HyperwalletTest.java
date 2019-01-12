@@ -129,6 +129,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser, is(notNullValue()));
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
+        assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(nullValue()));
     }
@@ -157,6 +158,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser, is(notNullValue()));
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
+        assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token")));
     }
@@ -186,6 +188,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser, is(notNullValue()));
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
+        assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token2")));
     }
