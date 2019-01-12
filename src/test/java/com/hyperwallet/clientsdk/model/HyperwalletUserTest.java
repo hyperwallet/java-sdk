@@ -1,5 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
+import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
+
 import java.util.Date;
 
 /**
@@ -12,6 +14,7 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
         user
                 .token("test-token")
                 .status(HyperwalletUser.Status.ACTIVATED)
+                .verificationStatus(VerificationStatus.VERIFIED)
                 .createdOn(new Date())
                 .clientUserId("test-client-user-id")
                 .profileType(HyperwalletUser.ProfileType.INDIVIDUAL)
