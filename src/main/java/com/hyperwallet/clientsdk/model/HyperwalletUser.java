@@ -23,7 +23,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     public static enum Status {PRE_ACTIVATED, ACTIVATED, LOCKED, FROZEN, DE_ACTIVATED}
 
-    public static enum VerificationStatus {EXPIRED, FAILED, UNDER_REVIEW, VERIFIED, REQUIRED, NOT_REQUIRED}
+    public static enum VerificationStatus {UNDER_REVIEW, VERIFIED, REQUIRED, NOT_REQUIRED}
 
     private String token;
     private Status status;
