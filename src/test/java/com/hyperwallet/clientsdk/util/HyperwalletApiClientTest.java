@@ -1149,7 +1149,7 @@ public class HyperwalletApiClientTest {
                 HttpResponse.response()
                         .withStatusCode(200)
                         .withHeader("Content-Type", "application/json;charset=utf-8")
-                        .withBody("{ \"test1\": \"value1\" }")
+                        .withBody("{\"test1\": \"value1\"}")
         );
 
         TestBody body = hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
