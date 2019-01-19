@@ -23,8 +23,11 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     public static enum Status {PRE_ACTIVATED, ACTIVATED, LOCKED, FROZEN, DE_ACTIVATED}
 
+    public static enum VerificationStatus {UNDER_REVIEW, VERIFIED, REQUIRED, NOT_REQUIRED}
+
     private String token;
     private Status status;
+    private VerificationStatus verificationStatus;
     private Date createdOn;
     private String clientUserId;
     private ProfileType profileType;
@@ -98,6 +101,27 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     public HyperwalletUser clearStatus() {
         clearField("status");
         status = null;
+        return this;
+    }
+
+    public VerificationStatus getVerificationStatus() {
+        return verificationStatus;
+    }
+
+    public void setVerificationStatus(VerificationStatus verificationStatus) {
+        addField("verificationStatus", verificationStatus);
+        this.verificationStatus = verificationStatus;
+    }
+
+    public HyperwalletUser verificationStatus(VerificationStatus verificationStatus) {
+        addField("verificationStatus", verificationStatus);
+        this.verificationStatus = verificationStatus;
+        return this;
+    }
+
+    public HyperwalletUser clearVerificationStatus() {
+        clearField("verificationStatus");
+        verificationStatus = null;
         return this;
     }
 

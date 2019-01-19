@@ -2,6 +2,7 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -109,6 +110,7 @@ public class HyperwalletTest {
     public void testCreateUser_withoutProgramToken() throws Exception {
         HyperwalletUser user = new HyperwalletUser();
         user.setStatus(HyperwalletUser.Status.ACTIVATED);
+        user.setVerificationStatus(VerificationStatus.VERIFIED);
         user.setCreatedOn(new Date());
         user.setFirstName("test-first-name");
 
@@ -117,10 +119,11 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(userResponse);
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(user);
 
         HyperwalletUser resp = client.createUser(user);
-        assertThat(resp, is(equalTo(userResponse)));
+        assertThat(resp, is(equalTo(user)));
+        assertThat(resp.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
 
         ArgumentCaptor<HyperwalletUser> argument = ArgumentCaptor.forClass(HyperwalletUser.class);
         Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users"), argument.capture(), Mockito.eq(user.getClass()));
@@ -129,6 +132,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser, is(notNullValue()));
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
+        assertThat(apiClientUser.getVerificationStatus(), is(VerificationStatus.VERIFIED));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(nullValue()));
     }
@@ -157,6 +161,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser, is(notNullValue()));
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
+        assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token")));
     }
@@ -186,6 +191,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser, is(notNullValue()));
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
+        assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token2")));
     }
