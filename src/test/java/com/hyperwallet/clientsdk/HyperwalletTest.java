@@ -372,26 +372,26 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testGetUserClientToken_successful() throws Exception {
-        HyperwalletClientToken hyperwalletClientToken = new HyperwalletClientToken();
+    public void testGetUserAuthenticationToken_successful() throws Exception {
+        HyperwalletAuthenticationToken hyperwalletAuthenticationToken = new HyperwalletAuthenticationToken();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.any(), Mockito.any(Class.class))).thenReturn(hyperwalletClientToken);
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.any(), Mockito.any(Class.class))).thenReturn(hyperwalletAuthenticationToken);
 
-        HyperwalletClientToken resp = client.getClientToken("test-user-token");
-        assertThat(resp, is(equalTo(hyperwalletClientToken)));
+        HyperwalletAuthenticationToken resp = client.getAuthenticationToken("test-user-token");
+        assertThat(resp, is(equalTo(hyperwalletAuthenticationToken)));
 
         Mockito.verify(mockApiClient)
-                .post("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/client-token", null, hyperwalletClientToken.getClass());
+                .post("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/authentication-token", null, hyperwalletAuthenticationToken.getClass());
     }
 
     @Test
-    public void testGetUserClientToken_noUserToken() throws Exception {
+    public void testGetUserAuthenticationToken_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.getClientToken(null);
+            client.getAuthenticationToken(null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));

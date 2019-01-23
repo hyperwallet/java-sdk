@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HyperwalletClientToken {
+public class HyperwalletAuthenticationToken {
 
     private String value;
 
