@@ -165,6 +165,7 @@ public class HyperwalletIT {
             .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
             .cardNumber("4216701111100114")
             .dateOfExpiry(dateFormat.parse("2018-01-01T00:00:00 UTC"))
+            .cvv("cvv")
             .transferMethodCountry("US")
             .transferMethodCurrency("USD");
 
@@ -186,6 +187,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getCardNumber(), is(equalTo("************0114")));
         assertThat(returnValue.getCardBrand(), is(equalTo(HyperwalletBankCard.Brand.VISA)));
         assertThat(returnValue.getDateOfExpiry(), is(equalTo(dateFormat.parse("2018-01-01T00:00:00 UTC"))));
+        assertThat(returnValue.getCvv(), is(equalTo("cvv")));
     }
 
     @Test
@@ -196,7 +198,8 @@ public class HyperwalletIT {
         HyperwalletBankCard bankCard = new HyperwalletBankCard()
             .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
             .token("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")
-            .dateOfExpiry(dateFormat.parse("2018-11-01T00:00:00 UTC"));
+            .dateOfExpiry(dateFormat.parse("2018-11-01T00:00:00 UTC"))
+            .cvv("cvv");
 
         HyperwalletBankCard returnValue;
         try {
@@ -216,6 +219,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getCardNumber(), is(equalTo("************0114")));
         assertThat(returnValue.getCardBrand(), is(equalTo(HyperwalletBankCard.Brand.VISA)));
         assertThat(returnValue.getDateOfExpiry(), is(equalTo(dateFormat.parse("2018-11-01T00:00:00 UTC"))));
+        assertThat(returnValue.getCvv(), is(equalTo("cvv")));
     }
 
     @Test
@@ -242,6 +246,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getCardNumber(), is(equalTo("************0114")));
         assertThat(returnValue.getCardBrand(), is(equalTo(HyperwalletBankCard.Brand.VISA)));
         assertThat(returnValue.getDateOfExpiry(), is(equalTo(dateFormat.parse("2018-12-01T00:00:00 UTC"))));
+        assertThat(returnValue.getCvv(), is(equalTo("cvv")));
     }
 
     @Test
@@ -268,6 +273,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getCardNumber(), is(equalTo("************0114")));
         assertThat(returnValue.getData().get(0).getCardBrand(), is(equalTo(HyperwalletBankCard.Brand.VISA)));
         assertThat(returnValue.getData().get(0).getDateOfExpiry(), is(equalTo(dateFormat.parse("2018-11-01T00:00:00 UTC"))));
+        assertThat(returnValue.getData().get(0).getCvv(), is(equalTo("cvv")));
     }
 
     @Test
@@ -921,6 +927,7 @@ public class HyperwalletIT {
                 .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
                 .cardNumber("4216701111100114")
                 .dateOfExpiry(dateFormat.parse("2018-01-01T00:00:00 UTC"))
+                .cvv("cvv")
                 .transferMethodCountry("US")
                 .transferMethodCurrency("USD");
 

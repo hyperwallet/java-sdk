@@ -19,6 +19,7 @@ public class HyperwalletBankCardTest extends BaseModelTest<HyperwalletBankCard> 
                 .cardBrand(HyperwalletBankCard.Brand.VISA)
 
                 .dateOfExpiry(new Date())
+                .cvv("cvv")
                 .userToken("test-user-token");
         return bankCard;
     }

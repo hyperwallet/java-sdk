@@ -14,6 +14,7 @@
       "cardNumber": "************0114",
       "cardBrand": "VISA",
       "dateOfExpiry": "2018-11",
+      "cvv": "cvv",
       "links": [
         {
           "params": {
@@ -34,6 +35,7 @@
       "cardNumber": "************0112",
       "cardBrand": "VISA",
       "dateOfExpiry": "2018-12",
+      "cvv": "cvv",
       "links": [
         {
           "params": {

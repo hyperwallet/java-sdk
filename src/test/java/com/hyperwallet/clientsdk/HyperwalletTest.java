@@ -1289,6 +1289,7 @@ public class HyperwalletTest {
         bankCard.setCardNumber("test-card-number");
         bankCard.setCardBrand(HyperwalletBankCard.Brand.VISA);
         bankCard.setDateOfExpiry(new Date());
+        bankCard.setCvv("cvv");
 
         HyperwalletBankCard bankCardResponse = new HyperwalletBankCard();
 
@@ -1325,6 +1326,7 @@ public class HyperwalletTest {
         bankCard.setCardNumber("test-card-number");
         bankCard.setCardBrand(HyperwalletBankCard.Brand.VISA);
         bankCard.setDateOfExpiry(new Date());
+        bankCard.setCvv("cvv");
 
         HyperwalletBankCard bankCardResponse = new HyperwalletBankCard();
 
