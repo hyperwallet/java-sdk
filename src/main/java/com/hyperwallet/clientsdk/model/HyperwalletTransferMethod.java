@@ -57,6 +57,7 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
     private String cardNumber;
     private HyperwalletPrepaidCard.Brand cardBrand;
     private Date dateOfExpiry;
+    private String cvv;
 
     private String userToken;
 
@@ -1301,6 +1302,27 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
     public HyperwalletTransferMethod clearDateOfExpiry() {
         clearField("dateOfExpiry");
         this.dateOfExpiry = null;
+        return this;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        addField("cvv", cvv);
+        this.cvv = cvv;
+    }
+
+    public HyperwalletTransferMethod cvv(String cvv) {
+        addField("cvv", cvv);
+        this.cvv = cvv;
+        return this;
+    }
+
+    public HyperwalletTransferMethod clearCvv() {
+        clearField("cvv");
+        this.cvv = null;
         return this;
     }
 
