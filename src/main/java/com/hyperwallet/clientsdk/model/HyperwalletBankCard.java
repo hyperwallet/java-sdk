@@ -30,6 +30,7 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     private CardType cardType;
     @JsonFormat(pattern = "yyyy-MM", timezone = "UTC")
     private Date dateOfExpiry;
+    private String cvv;
 
     private String userToken;
 
@@ -199,6 +200,27 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     public HyperwalletBankCard clearDateOfExpiry() {
         clearField("dateOfExpiry");
         this.dateOfExpiry = null;
+        return this;
+    }
+
+    public String getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(String cvv) {
+        addField("cvv", cvv);
+        this.cvv = cvv;
+    }
+
+    public HyperwalletBankCard cvv(String cvv) {
+        addField("cvv", cvv);
+        this.cvv = cvv;
+        return this;
+    }
+
+    public HyperwalletBankCard clearCvv() {
+        clearField("cvv");
+        this.cvv = null;
         return this;
     }
 

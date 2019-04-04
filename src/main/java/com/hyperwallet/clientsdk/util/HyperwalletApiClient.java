@@ -140,8 +140,8 @@ public class HyperwalletApiClient {
 
     private void checkResponseHeader(Response response) {
         String contentTypeHeader = response.getHeader(CONTENT_TYPE_HEADER);
-        if ((!isEncrypted && !contentTypeHeader.equals(VALID_JSON_CONTENT_TYPE)) ||
-                (isEncrypted && !contentTypeHeader.equals(VALID_JSON_JOSE_CONTENT_TYPE))) {
+        if ((!isEncrypted && !contentTypeHeader.contains(VALID_JSON_CONTENT_TYPE)) ||
+                (isEncrypted && !contentTypeHeader.contains(VALID_JSON_JOSE_CONTENT_TYPE))) {
             throw new HyperwalletException("Invalid Content-Type specified in Response Header");
         }
     }

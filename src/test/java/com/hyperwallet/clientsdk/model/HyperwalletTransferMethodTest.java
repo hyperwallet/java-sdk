@@ -49,6 +49,7 @@ public class HyperwalletTransferMethodTest extends BaseModelTest<HyperwalletTran
                 .cardNumber("test-card-number")
                 .cardBrand(HyperwalletPrepaidCard.Brand.VISA)
                 .dateOfExpiry(new Date())
+                .cvv("cvv")
 
                 .userToken("test-user-token")
                 .profileType(HyperwalletUser.ProfileType.INDIVIDUAL)

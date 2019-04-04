@@ -5,6 +5,7 @@ curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-c4292f1a-8
 -d "{
   "cardNumber": "4216701111100114",
   "dateOfExpiry": "2018-01",
+  "cvv": "123",
   "transferMethodCountry": "US",
   "transferMethodCurrency": "USD",
   "type": "BANK_CARD"
