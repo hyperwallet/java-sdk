@@ -573,6 +573,34 @@ public class HyperwalletApiClientTest {
     }
 
     @Test
+    public void testPost_200Response_withEmptyContentTypeAndBody_statusCode204() throws Exception {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("Content-Type", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0")
+                        .withBody(StringBody.exact("{\"test1\":\"value1\"}")),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(204)
+        );
+
+        TestBody body = hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+        assertThat(body, is(notNullValue()));
+        assertThat(body.test1, is(nullValue()));
+        assertThat(body.test2, is(nullValue()));
+    }
+
+    @Test
     public void testPost_204Response() {
         TestBody requestBody = new TestBody();
         requestBody.test1 = "value1";
@@ -898,6 +926,42 @@ public class HyperwalletApiClientTest {
         TestBody body = hyperwalletApiClientEnc.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
         assertThat(body, is(notNullValue()));
         assertThat(body.test1, is(equalTo("value1")));
+        assertThat(body.test2, is(nullValue()));
+    }
+
+    @Test
+    public void testPost_200Response_withEncryption_withEmptyContentTypeAndBody_statusCode204() throws Exception {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+        ClassLoader classLoader = getClass().getClassLoader();
+        String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
+        String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
+        HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                .clientPrivateKeySetLocation(clientPrivateKeysPath).hyperwalletKeySetLocation(hyperwalletKeysPath).build();
+        String testBody = "{\"test1\":\"value1\"}";
+        String encryptedBody = hyperwalletEncryption.encrypt(testBody);
+
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/jose+json")
+                        .withHeader("Content-Type", "application/jose+json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(204)
+        );
+
+        HyperwalletApiClient hyperwalletApiClientEnc = new HyperwalletApiClient(
+                "test-username", "test-password", "1.0", hyperwalletEncryption);
+        TestBody body = hyperwalletApiClientEnc.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+        assertThat(body, is(notNullValue()));
+        assertThat(body.test1, is(nullValue()));
         assertThat(body.test2, is(nullValue()));
     }
 
