@@ -31,7 +31,7 @@ public class Hyperwallet {
      * @param username     API key assigned
      * @param password     API Password assigned
      * @param programToken API program token
-     * @param server          API serer url
+     * @param server          API server url
      * @param hyperwalletEncryption API encryption data
      */
     public Hyperwallet(final String username, final String password, final String programToken, final String server,
