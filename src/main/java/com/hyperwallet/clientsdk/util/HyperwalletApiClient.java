@@ -111,7 +111,7 @@ public class HyperwalletApiClient {
         if (response.getResponseCode() == 204) {
             return convert("{}", type);
         } else {
-            return convert(response.getBody(), type);
+            return convert(decryptResponse(response.getBody()), type);
         }
     }
 
@@ -122,14 +122,14 @@ public class HyperwalletApiClient {
         if (response.getResponseCode() == 204) {
             return convert("{}", type);
         } else {
-            return convert(response.getBody(), type);
+            return convert(decryptResponse(response.getBody()), type);
         }
     }
 
     protected void checkErrorResponse(final Response response) throws ParseException, JOSEException, IOException {
         HyperwalletErrorList errorList = null;
         if (response.getResponseCode() >= 400) {
-            errorList = convert(response.getBody(), HyperwalletErrorList.class);
+            errorList = convert(decryptResponse(response.getBody()), HyperwalletErrorList.class);
             if (errorList != null) {
                 throw new HyperwalletException(response, errorList);
             } else {//unmapped errors
@@ -140,8 +140,10 @@ public class HyperwalletApiClient {
 
     private void checkResponseHeader(Response response) {
         String contentTypeHeader = response.getHeader(CONTENT_TYPE_HEADER);
-        if ((!isEncrypted && !contentTypeHeader.contains(VALID_JSON_CONTENT_TYPE)) ||
-                (isEncrypted && !contentTypeHeader.contains(VALID_JSON_JOSE_CONTENT_TYPE))) {
+        String expectedContentType = isEncrypted ? VALID_JSON_JOSE_CONTENT_TYPE : VALID_JSON_CONTENT_TYPE;
+        boolean invalidContentType = response.getResponseCode() != 204 && contentTypeHeader != null
+                && !contentTypeHeader.contains(expectedContentType);
+        if (invalidContentType) {
             throw new HyperwalletException("Invalid Content-Type specified in Response Header");
         }
     }
@@ -168,17 +170,15 @@ public class HyperwalletApiClient {
         }
     }
 
-    private <T> T convert(final String responseBody, final Class<T> type)
-            throws ParseException, JOSEException, IOException {
+    private <T> T convert(final String responseBody, final Class<T> type) {
         if (responseBody == null) {
             return null;
         }
-        return HyperwalletJsonUtil.fromJson(decryptResponse(responseBody), type);
+        return HyperwalletJsonUtil.fromJson(responseBody, type);
     }
 
-    private <T> T convert(final String responseBody, final TypeReference<T> type)
-            throws ParseException, JOSEException, IOException {
-        return HyperwalletJsonUtil.fromJson(decryptResponse(responseBody), type);
+    private <T> T convert(final String responseBody, final TypeReference<T> type) {
+        return HyperwalletJsonUtil.fromJson(responseBody, type);
     }
 
     private String convert(final Object object) {
@@ -190,6 +190,9 @@ public class HyperwalletApiClient {
     }
 
     private String decryptResponse(String responseBody) throws ParseException, IOException, JOSEException {
+        if (responseBody == null) {
+            return null;
+        }
         return isEncrypted ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
     }
 
