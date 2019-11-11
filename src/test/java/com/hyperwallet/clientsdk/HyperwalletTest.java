@@ -2893,6 +2893,96 @@ public class HyperwalletTest {
     }
 
     //--------------------------------------
+    // Transfer Refund
+    //--------------------------------------
+
+    @Test
+    public void testCreateTransferRefund_noTransferRefund() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createTransferRefund("transferToken",null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Transfer Refund is required")));
+            assertThat(e.getMessage(), is(equalTo("Transfer Refund is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreateTransferRefund_noTransferToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createTransferRefund(null,new HyperwalletTransferRefund());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Transfer token is required")));
+            assertThat(e.getMessage(), is(equalTo("Transfer token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreateTransferRefund_noClientRefundId() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createTransferRefund("transferToken",new HyperwalletTransferRefund());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("ClientRefundId is required")));
+            assertThat(e.getMessage(), is(equalTo("ClientRefundId is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreateTransferRefund_successful() throws Exception {
+        String clientRefundId = "clientRefundId";
+        double sourceAmount = 20.0;
+        String notes = "notes";
+        String memo = "memo";
+
+        HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund();
+        transferRefund.setClientRefundId(clientRefundId);
+        transferRefund.setSourceAmount(sourceAmount);
+        transferRefund.setNotes(notes);
+        transferRefund.setMemo(memo);
+
+        HyperwalletTransferRefund transferRefundResponse = new HyperwalletTransferRefund();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(transferRefundResponse);
+
+        String transferToken = "transferToken";
+        HyperwalletTransferRefund resp = client.createTransferRefund(transferToken, transferRefund);
+        assertThat(resp, is(equalTo(transferRefundResponse)));
+
+        ArgumentCaptor<HyperwalletTransferRefund> argument = ArgumentCaptor.forClass(HyperwalletTransferRefund.class);
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/transfers/" + transferToken + "/refunds"),
+                argument.capture(), Mockito.eq(transferRefund.getClass()));
+
+        HyperwalletTransferRefund apiTransfer = argument.getValue();
+        assertThat(apiTransfer, is(notNullValue()));
+        assertThat(apiTransfer.getClientRefundId(), is(equalTo(clientRefundId)));
+        assertThat(apiTransfer.getSourceAmount(), is(equalTo(sourceAmount)));
+        assertThat(apiTransfer.getNotes(), is(equalTo(notes)));
+        assertThat(apiTransfer.getMemo(), is(equalTo(memo)));
+        assertThat(apiTransfer.getCreatedOn(), is(nullValue()));
+        assertThat(apiTransfer.getStatus(), is(nullValue()));
+    }
+
+    //--------------------------------------
     // PayPal Accounts
     //--------------------------------------
 

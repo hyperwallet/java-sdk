@@ -19,16 +19,8 @@ import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
 import static org.testng.Assert.fail;
 
-import com.hyperwallet.clientsdk.model.HyperwalletBankCard;
-import com.hyperwallet.clientsdk.model.HyperwalletError;
-import com.hyperwallet.clientsdk.model.HyperwalletList;
-import com.hyperwallet.clientsdk.model.HyperwalletPaperCheck;
-import com.hyperwallet.clientsdk.model.HyperwalletPayPalAccount;
-import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
-import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition;
-import com.hyperwallet.clientsdk.model.HyperwalletTransfer;
-import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod;
-import com.hyperwallet.clientsdk.model.HyperwalletUser;
+import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferRefund.Status;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -759,6 +751,42 @@ public class HyperwalletIT {
         assertThat(returnValue.getFromStatus(), is(equalTo(QUOTED)));
         assertThat(returnValue.getToStatus(), is(equalTo(SCHEDULED)));
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
+    }
+
+    //
+    // Transfer Refunds
+    //
+
+    @Test
+    public void testCreateTransferRefund() throws Exception {
+        String functionality = "createTransferRefund";
+        initMockServer(functionality);
+
+        HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund()
+                .clientRefundId("clientRefundId")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456");
+
+        HyperwalletTransferRefund returnValue;
+        try {
+            returnValue = client.createTransferRefund("trf-dc6a19f7-1d24-434d-87ce-f1a960f3fbce", transferRefund);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is("trd-a159dc18-eb29-4530-8733-060c7feaad0f"));
+        assertThat(returnValue.getStatus(), is(Status.COMPLETED));
+        assertThat(returnValue.getClientRefundId(), is("clientRefundId"));
+        assertThat(returnValue.getSourceToken(), is("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f"));
+        assertThat(returnValue.getSourceAmount(), is(20.0));
+        assertThat(returnValue.getSourceCurrency(), is("USD"));
+        assertThat(returnValue.getDestinationToken(), is("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c"));
+        assertThat(returnValue.getDestinationAmount(), is(20.0));
+        assertThat(returnValue.getDestinationCurrency(), is("USD"));
+        assertThat(returnValue.getNotes(), is("Merchant Payment return to Wallet Balance"));
+        assertThat(returnValue.getMemo(), is("TransferReturn123456"));
+        assertThat(returnValue.getCreatedOn(), is(dateFormat.parse("2019-11-11T19:04:43 UTC")));
     }
 
     //

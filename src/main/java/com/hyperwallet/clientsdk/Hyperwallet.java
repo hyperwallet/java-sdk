@@ -947,6 +947,34 @@ public class Hyperwallet {
     }
 
     //--------------------------------------
+    // Transfer refunds
+    //--------------------------------------
+
+    /**
+     * Create Transfer Refund
+     *
+     * @param transferToken Transfer token assigned
+     * @param transferRefund Transfer Refund object to create
+     * @return Created Transfer Refund
+     */
+    public HyperwalletTransferRefund createTransferRefund(String transferToken, HyperwalletTransferRefund transferRefund) {
+        if (transferRefund == null) {
+            throw new HyperwalletException("Transfer Refund is required");
+        }
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        if (StringUtils.isEmpty(transferRefund.getClientRefundId())) {
+            throw new HyperwalletException("ClientRefundId is required");
+        }
+
+        transferRefund = copy(transferRefund);
+        transferRefund.setStatus(null);
+        transferRefund.setCreatedOn(null);
+        return apiClient.post(url + "/transfers/" + transferToken + "/refunds", transferRefund, HyperwalletTransferRefund.class);
+    }
+
+    //--------------------------------------
     // PayPal Accounts
     //--------------------------------------
 
@@ -1812,6 +1840,11 @@ public class Hyperwallet {
     private HyperwalletTransfer copy(HyperwalletTransfer transfer) {
         transfer = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transfer), HyperwalletTransfer.class);
         return transfer;
+    }
+
+    private HyperwalletTransferRefund copy(HyperwalletTransferRefund transferRefund) {
+        transferRefund = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transferRefund), HyperwalletTransferRefund.class);
+        return transferRefund;
     }
 
     private HyperwalletPayPalAccount copy(HyperwalletPayPalAccount payPalAccount) {

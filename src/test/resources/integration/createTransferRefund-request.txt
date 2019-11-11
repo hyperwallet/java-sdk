@@ -1,0 +1,9 @@
+curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v3/transfers/trf-dc6a19f7-1d24-434d-87ce-f1a960f3fbce/refunds" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Content-Type: application/json" \
+-H "Accept: application/json" \
+-d "{
+  "clientRefundId": "clientRefundId",
+  "notes": "Merchant Payment return to Wallet Balance",
+  "memo": "TransferReturn123456"
+}"
