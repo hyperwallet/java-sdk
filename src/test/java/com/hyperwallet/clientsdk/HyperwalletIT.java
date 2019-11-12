@@ -789,6 +789,34 @@ public class HyperwalletIT {
         assertThat(returnValue.getCreatedOn(), is(dateFormat.parse("2019-11-11T19:04:43 UTC")));
     }
 
+    @Test
+    public void testGetTransferRefund() throws Exception {
+        String functionality = "getTransferRefund";
+        initMockServer(functionality);
+
+        HyperwalletTransferRefund returnValue;
+        try {
+            returnValue = client.getTransferRefund("trf-639579d9-4fe8-4fbf-8e34-827d27697f64", "trd-19156720-01e8-4f1c-8ef3-7ced80672128");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is("trd-19156720-01e8-4f1c-8ef3-7ced80672128"));
+        assertThat(returnValue.getStatus(), is(Status.COMPLETED));
+        assertThat(returnValue.getClientRefundId(), is("1573548663"));
+        assertThat(returnValue.getSourceToken(), is("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f"));
+        assertThat(returnValue.getSourceAmount(), is(50.0));
+        assertThat(returnValue.getSourceCurrency(), is("USD"));
+        assertThat(returnValue.getDestinationToken(), is("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c"));
+        assertThat(returnValue.getDestinationAmount(), is(50.0));
+        assertThat(returnValue.getDestinationCurrency(), is("USD"));
+        assertThat(returnValue.getNotes(), is("Merchant Payment return to Wallet Balance"));
+        assertThat(returnValue.getMemo(), is("TransferReturn123456"));
+        assertThat(returnValue.getCreatedOn(), is(dateFormat.parse("2019-11-12T11:51:05 UTC")));
+    }
+
+
     //
     // PayPal Accounts
     //

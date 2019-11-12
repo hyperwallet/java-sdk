@@ -974,6 +974,25 @@ public class Hyperwallet {
         return apiClient.post(url + "/transfers/" + transferToken + "/refunds", transferRefund, HyperwalletTransferRefund.class);
     }
 
+
+    /**
+     * Get Transfer Refund
+     *
+     * @param transferToken Transfer token assigned
+     * @param transferRefundToken Transfer Refund token assigned
+     * @return Transfer Refund object
+     */
+    public HyperwalletTransferRefund getTransferRefund(String transferToken, String transferRefundToken) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        if (StringUtils.isEmpty(transferRefundToken)) {
+            throw new HyperwalletException("Transfer Refund token is required");
+        }
+
+        return apiClient.get(url + "/transfers/" + transferToken + "/refunds/" + transferRefundToken, HyperwalletTransferRefund.class);
+    }
+
     //--------------------------------------
     // PayPal Accounts
     //--------------------------------------

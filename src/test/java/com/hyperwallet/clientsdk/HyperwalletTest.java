@@ -2982,6 +2982,54 @@ public class HyperwalletTest {
         assertThat(apiTransfer.getStatus(), is(nullValue()));
     }
 
+    @Test
+    public void testGetTransferRefund_noTransferToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getTransferRefund(null, "transferRefundToken");
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Transfer token is required")));
+            assertThat(e.getMessage(), is(equalTo("Transfer token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetTransferRefund_noTransferRefundToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getTransferRefund("transferToken", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Transfer Refund token is required")));
+            assertThat(e.getMessage(), is(equalTo("Transfer Refund token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetTransferRefund_successful() throws Exception {
+        HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(transferRefund);
+
+        HyperwalletTransferRefund resp = client.getTransferRefund("transferToken", "transferRefundToken");
+        assertThat(resp, is(equalTo(transferRefund)));
+
+        Mockito.verify(mockApiClient).get("https://api.sandbox.hyperwallet.com/rest/v3/transfers/transferToken/refunds/transferRefundToken",
+                transferRefund.getClass());
+    }
+
     //--------------------------------------
     // PayPal Accounts
     //--------------------------------------
