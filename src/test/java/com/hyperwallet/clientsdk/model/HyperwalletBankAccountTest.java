@@ -22,7 +22,6 @@ public class HyperwalletBankAccountTest extends BaseModelTest<HyperwalletBankAcc
                 .branchName("test-branch-name")
                 .branchId("test-branch-id")
                 .bankAccountId("test-bank-account-id")
-                .bankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship.SELF)
                 .bankAccountPurpose("test-bank-account-purpose")
 
                 .branchAddressLine1("test-branch-address-line1")
