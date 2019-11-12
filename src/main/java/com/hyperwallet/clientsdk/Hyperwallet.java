@@ -993,6 +993,27 @@ public class Hyperwallet {
         return apiClient.get(url + "/transfers/" + transferToken + "/refunds/" + transferRefundToken, HyperwalletTransferRefund.class);
     }
 
+    /**
+     * List Transfer Refund Requests
+     *
+     * @param options   List filter option
+     * @return HyperwalletList of HyperwalletTransferRefund
+     */
+    public HyperwalletList<HyperwalletTransferRefund> listTransferRefunds(String transferToken, HyperwalletTransferRefundListOptions options) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+
+        String url = paginate(this.url + "/transfers/" + transferToken + "/refunds", options);
+        if (options != null) {
+            url = addParameter(url, "clientRefundId", options.getClientRefundId());
+            url = addParameter(url, "sourceToken", options.getSourceToken());
+            url = addParameter(url, "status", options.getStatus());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferRefund>>() {
+        });
+    }
+
     //--------------------------------------
     // PayPal Accounts
     //--------------------------------------
