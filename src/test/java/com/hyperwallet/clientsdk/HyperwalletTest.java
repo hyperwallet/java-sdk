@@ -113,6 +113,7 @@ public class HyperwalletTest {
         user.setVerificationStatus(VerificationStatus.VERIFIED);
         user.setCreatedOn(new Date());
         user.setFirstName("test-first-name");
+        user.setBusinessOperatingName("test-business-originated-name");
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
@@ -131,6 +132,7 @@ public class HyperwalletTest {
         HyperwalletUser apiClientUser = argument.getValue();
         assertThat(apiClientUser, is(notNullValue()));
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
+        assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-originated-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(VerificationStatus.VERIFIED));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
@@ -143,6 +145,7 @@ public class HyperwalletTest {
         user.setStatus(HyperwalletUser.Status.ACTIVATED);
         user.setCreatedOn(new Date());
         user.setFirstName("test-first-name");
+        user.setBusinessOperatingName("test-business-originated-name");
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
@@ -160,6 +163,7 @@ public class HyperwalletTest {
         HyperwalletUser apiClientUser = argument.getValue();
         assertThat(apiClientUser, is(notNullValue()));
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
+        assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-originated-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
@@ -172,6 +176,7 @@ public class HyperwalletTest {
         user.setStatus(HyperwalletUser.Status.ACTIVATED);
         user.setCreatedOn(new Date());
         user.setFirstName("test-first-name");
+        user.setBusinessOperatingName("test-business-operating-name");
         user.setProgramToken("test-program-token2");
 
         HyperwalletUser userResponse = new HyperwalletUser();
@@ -190,6 +195,7 @@ public class HyperwalletTest {
         HyperwalletUser apiClientUser = argument.getValue();
         assertThat(apiClientUser, is(notNullValue()));
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
+        assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
@@ -2097,6 +2103,7 @@ public class HyperwalletTest {
         paperCheck.setToken("test-bank-card-token");
         paperCheck.setUserToken("test-user-token");
         paperCheck.setAddressLine1("test-address-line1");
+        paperCheck.setBusinessOperatingName("test-bank-operating-name");
 
         HyperwalletPaperCheck paperCheckResponse = new HyperwalletPaperCheck();
 
@@ -2114,6 +2121,7 @@ public class HyperwalletTest {
         HyperwalletPaperCheck apiClientBankAccount = argument.getValue();
         assertThat(apiClientBankAccount, is(notNullValue()));
         assertThat(apiClientBankAccount.getAddressLine1(), is(equalTo("test-address-line1")));
+        assertThat(apiClientBankAccount.getBusinessOperatingName(), is(equalTo("test-bank-operating-name")));
     }
 
     @Test
@@ -3241,6 +3249,7 @@ public class HyperwalletTest {
         bankAccount.setStatus(HyperwalletBankAccount.Status.ACTIVATED);
         bankAccount.setCreatedOn(new Date());
         bankAccount.setFirstName("test-first-name");
+        bankAccount.setBusinessOperatingName("test-business-operating-name");
 
         HyperwalletBankAccount bankAccountResponse = new HyperwalletBankAccount();
 
@@ -3258,6 +3267,7 @@ public class HyperwalletTest {
         HyperwalletBankAccount apiClientBankAccount = argument.getValue();
         assertThat(apiClientBankAccount, is(notNullValue()));
         assertThat(apiClientBankAccount.getFirstName(), is(equalTo("test-first-name")));
+        assertThat(apiClientBankAccount.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientBankAccount.getStatus(), is(nullValue()));
         assertThat(apiClientBankAccount.getCreatedOn(), is(nullValue()));
     }
@@ -3369,6 +3379,7 @@ public class HyperwalletTest {
         bankAccount.setToken("test-bank-account-token");
         bankAccount.setUserToken("test-user-token");
         bankAccount.setFirstName("test-first-name");
+        bankAccount.setBusinessOperatingName("test-business-operating-name");
 
         HyperwalletBankAccount bankAccountResponse = new HyperwalletBankAccount();
 
@@ -3386,6 +3397,7 @@ public class HyperwalletTest {
         HyperwalletBankAccount apiClientBankAccount = argument.getValue();
         assertThat(apiClientBankAccount, is(notNullValue()));
         assertThat(apiClientBankAccount.getFirstName(), is(equalTo("test-first-name")));
+        assertThat(apiClientBankAccount.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
     }
 
     @Test
@@ -5455,6 +5467,7 @@ public class HyperwalletTest {
         assertThat(apiClientTransferMethod.getCardBrand(), is(nullValue()));
         assertThat(apiClientTransferMethod.getProfileType(), is(nullValue()));
         assertThat(apiClientTransferMethod.getBusinessName(), is(nullValue()));
+        assertThat(apiClientTransferMethod.getBusinessOperatingName(), is(nullValue()));
         assertThat(apiClientTransferMethod.getBusinessRegistrationId(), is(nullValue()));
         assertThat(apiClientTransferMethod.getBusinessRegistrationStateProvince(), is(nullValue()));
         assertThat(apiClientTransferMethod.getBusinessRegistrationCountry(), is(nullValue()));
@@ -5537,6 +5550,7 @@ public class HyperwalletTest {
         assertThat(apiClientTransferMethod.getUserToken(), is(equalTo("test-user-token")));
         assertThat(apiClientTransferMethod.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.INDIVIDUAL)));
         assertThat(apiClientTransferMethod.getBusinessName(), is(equalTo("test-business-name")));
+        assertThat(apiClientTransferMethod.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientTransferMethod.getBusinessRegistrationId(), is(equalTo("test-business-registration-id")));
         assertThat(apiClientTransferMethod.getBusinessRegistrationStateProvince(), is(equalTo("test-business-registration-state-province")));
         assertThat(apiClientTransferMethod.getBusinessRegistrationCountry(), is(equalTo("test-business-registration-country")));
@@ -5600,6 +5614,7 @@ public class HyperwalletTest {
                 .userToken("test-user-token")
                 .profileType(HyperwalletUser.ProfileType.INDIVIDUAL)
                 .businessName("test-business-name")
+                .businessOperatingName("test-business-operating-name")
                 .businessRegistrationId("test-business-registration-id")
                 .businessRegistrationStateProvince("test-business-registration-state-province")
                 .businessRegistrationCountry("test-business-registration-country")

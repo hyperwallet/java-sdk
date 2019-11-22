@@ -29,6 +29,7 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
     private HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship;
     private HyperwalletUser.BusinessContactRole businessContactRole;
     private String businessName;
+    private String businessOperatingName;
     private String businessRegistrationCountry;
     private String businessRegistrationId;
     private String businessRegistrationStateProvince;
@@ -305,6 +306,27 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
     public HyperwalletPaperCheck clearBusinessName() {
         clearField("businessName");
         this.businessName = null;
+        return this;
+    }
+
+    public String getBusinessOperatingName() {
+        return businessOperatingName;
+    }
+
+    public void setBusinessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+    }
+
+    public HyperwalletPaperCheck businessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+        return this;
+    }
+
+    public HyperwalletPaperCheck clearBusinessOperatingName() {
+        clearField("businessOperatingName");
+        businessOperatingName = null;
         return this;
     }
 
