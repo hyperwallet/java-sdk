@@ -26,7 +26,6 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
     private Boolean isDefaultTransferMethod;
     private String addressLine1;
     private String addressLine2;
-    private HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship;
     private HyperwalletUser.BusinessContactRole businessContactRole;
     private String businessName;
     private String businessRegistrationCountry;
@@ -242,27 +241,6 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
     public HyperwalletPaperCheck clearAddressLine2() {
         clearField("addressLine2");
         this.addressLine2 = null;
-        return this;
-    }
-
-    public HyperwalletTransferMethod.BankAccountRelationship getBankAccountRelationship() {
-        return bankAccountRelationship;
-    }
-
-    public void setBankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship) {
-        addField("bankAccountRelationship", bankAccountRelationship);
-        this.bankAccountRelationship = bankAccountRelationship;
-    }
-
-    public HyperwalletPaperCheck bankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship) {
-        addField("bankAccountRelationship", bankAccountRelationship);
-        this.bankAccountRelationship = bankAccountRelationship;
-        return this;
-    }
-
-    public HyperwalletPaperCheck clearBankAccountRelationship() {
-        clearField("bankAccountRelationship");
-        this.bankAccountRelationship = null;
         return this;
     }
 

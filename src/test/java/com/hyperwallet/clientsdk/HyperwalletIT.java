@@ -404,7 +404,6 @@ public class HyperwalletIT {
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getBankAccountRelationship(), is(equalTo(HyperwalletTransferMethod.BankAccountRelationship.SELF)));
         assertThat(returnValue.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.INDIVIDUAL)));
         assertThat(returnValue.getFirstName(), is(equalTo("Some")));
         assertThat(returnValue.getLastName(), is(equalTo("Guy")));
@@ -442,7 +441,6 @@ public class HyperwalletIT {
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:42:46 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getBankAccountRelationship(), is(equalTo(HyperwalletTransferMethod.BankAccountRelationship.SELF)));
         assertThat(returnValue.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.INDIVIDUAL)));
         assertThat(returnValue.getFirstName(), is(equalTo("Some")));
         assertThat(returnValue.getLastName(), is(equalTo("Guy")));
@@ -475,7 +473,6 @@ public class HyperwalletIT {
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getBankAccountRelationship(), is(equalTo(HyperwalletTransferMethod.BankAccountRelationship.SELF)));
         assertThat(returnValue.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.INDIVIDUAL)));
         assertThat(returnValue.getFirstName(), is(equalTo("Some")));
         assertThat(returnValue.getLastName(), is(equalTo("Guy")));
@@ -508,7 +505,6 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getData().get(0).getBankAccountRelationship(), is(equalTo(HyperwalletTransferMethod.BankAccountRelationship.SELF)));
         assertThat(returnValue.getData().get(0).getProfileType(), is(equalTo(HyperwalletUser.ProfileType.INDIVIDUAL)));
         assertThat(returnValue.getData().get(0).getFirstName(), is(equalTo("Some")));
         assertThat(returnValue.getData().get(0).getLastName(), is(equalTo("Guy")));
