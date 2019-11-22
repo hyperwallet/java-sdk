@@ -113,7 +113,7 @@ public class HyperwalletTest {
         user.setVerificationStatus(VerificationStatus.VERIFIED);
         user.setCreatedOn(new Date());
         user.setFirstName("test-first-name");
-        user.setBusinessOperatingName("test-business-originated-name");
+        user.setBusinessOperatingName("test-business-operating-name");
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
@@ -132,7 +132,7 @@ public class HyperwalletTest {
         HyperwalletUser apiClientUser = argument.getValue();
         assertThat(apiClientUser, is(notNullValue()));
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
-        assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-originated-name")));
+        assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(VerificationStatus.VERIFIED));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
@@ -145,7 +145,7 @@ public class HyperwalletTest {
         user.setStatus(HyperwalletUser.Status.ACTIVATED);
         user.setCreatedOn(new Date());
         user.setFirstName("test-first-name");
-        user.setBusinessOperatingName("test-business-originated-name");
+        user.setBusinessOperatingName("test-business-operating-name");
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
@@ -163,7 +163,7 @@ public class HyperwalletTest {
         HyperwalletUser apiClientUser = argument.getValue();
         assertThat(apiClientUser, is(notNullValue()));
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
-        assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-originated-name")));
+        assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
