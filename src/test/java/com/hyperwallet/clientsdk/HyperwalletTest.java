@@ -2896,6 +2896,15 @@ public class HyperwalletTest {
     // Transfer Refund
     //--------------------------------------
 
+    private void checkHyperwalletException(HyperwalletException actual, HyperwalletException expected) {
+        assertThat(actual.getErrorCode(), is(expected.getErrorCode()));
+        assertThat(actual.getResponse(), is(expected.getResponse()));
+        assertThat(actual.getErrorMessage(), is(expected.getErrorMessage()));
+        assertThat(actual.getMessage(), is(expected.getMessage()));
+        assertThat(actual.getHyperwalletErrors(), is(expected.getHyperwalletErrors()));
+        assertThat(actual.getRelatedResources(), is(expected.getRelatedResources()));
+    }
+
     @Test
     public void testCreateTransferRefund_noTransferRefund() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -2903,12 +2912,8 @@ public class HyperwalletTest {
             client.createTransferRefund("transferToken",null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getErrorCode(), is(nullValue()));
-            assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("Transfer Refund is required")));
-            assertThat(e.getMessage(), is(equalTo("Transfer Refund is required")));
-            assertThat(e.getHyperwalletErrors(), is(nullValue()));
-            assertThat(e.getRelatedResources(), is(nullValue()));
+            HyperwalletException expectedException = new HyperwalletException("Transfer Refund is required");
+            checkHyperwalletException(e, expectedException);
         }
     }
 
@@ -2919,12 +2924,8 @@ public class HyperwalletTest {
             client.createTransferRefund(null,new HyperwalletTransferRefund());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getErrorCode(), is(nullValue()));
-            assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("Transfer token is required")));
-            assertThat(e.getMessage(), is(equalTo("Transfer token is required")));
-            assertThat(e.getHyperwalletErrors(), is(nullValue()));
-            assertThat(e.getRelatedResources(), is(nullValue()));
+            HyperwalletException expectedException = new HyperwalletException("Transfer token is required");
+            checkHyperwalletException(e, expectedException);
         }
     }
 
@@ -2935,12 +2936,8 @@ public class HyperwalletTest {
             client.createTransferRefund("transferToken",new HyperwalletTransferRefund());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getErrorCode(), is(nullValue()));
-            assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("ClientRefundId is required")));
-            assertThat(e.getMessage(), is(equalTo("ClientRefundId is required")));
-            assertThat(e.getHyperwalletErrors(), is(nullValue()));
-            assertThat(e.getRelatedResources(), is(nullValue()));
+            HyperwalletException expectedException = new HyperwalletException("ClientRefundId is required");
+            checkHyperwalletException(e, expectedException);
         }
     }
 
@@ -2989,12 +2986,8 @@ public class HyperwalletTest {
             client.getTransferRefund(null, "transferRefundToken");
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getErrorCode(), is(nullValue()));
-            assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("Transfer token is required")));
-            assertThat(e.getMessage(), is(equalTo("Transfer token is required")));
-            assertThat(e.getHyperwalletErrors(), is(nullValue()));
-            assertThat(e.getRelatedResources(), is(nullValue()));
+            HyperwalletException expectedException = new HyperwalletException("Transfer token is required");
+            checkHyperwalletException(e, expectedException);
         }
     }
 
@@ -3005,12 +2998,8 @@ public class HyperwalletTest {
             client.getTransferRefund("transferToken", null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getErrorCode(), is(nullValue()));
-            assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("Transfer Refund token is required")));
-            assertThat(e.getMessage(), is(equalTo("Transfer Refund token is required")));
-            assertThat(e.getHyperwalletErrors(), is(nullValue()));
-            assertThat(e.getRelatedResources(), is(nullValue()));
+            HyperwalletException expectedException = new HyperwalletException("Transfer Refund token is required");
+            checkHyperwalletException(e, expectedException);
         }
     }
 
@@ -3108,12 +3097,8 @@ public class HyperwalletTest {
             client.listTransferRefunds(null, new HyperwalletTransferRefundListOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getErrorCode(), is(nullValue()));
-            assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("Transfer token is required")));
-            assertThat(e.getMessage(), is(equalTo("Transfer token is required")));
-            assertThat(e.getHyperwalletErrors(), is(nullValue()));
-            assertThat(e.getRelatedResources(), is(nullValue()));
+            HyperwalletException expectedException = new HyperwalletException("Transfer token is required");
+            checkHyperwalletException(e, expectedException);
         }
     }
 

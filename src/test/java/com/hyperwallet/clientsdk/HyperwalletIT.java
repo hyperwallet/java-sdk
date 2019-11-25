@@ -775,18 +775,36 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getToken(), is("trd-a159dc18-eb29-4530-8733-060c7feaad0f"));
-        assertThat(returnValue.getStatus(), is(Status.COMPLETED));
-        assertThat(returnValue.getClientRefundId(), is("clientRefundId"));
-        assertThat(returnValue.getSourceToken(), is("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f"));
-        assertThat(returnValue.getSourceAmount(), is(20.0));
-        assertThat(returnValue.getSourceCurrency(), is("USD"));
-        assertThat(returnValue.getDestinationToken(), is("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c"));
-        assertThat(returnValue.getDestinationAmount(), is(20.0));
-        assertThat(returnValue.getDestinationCurrency(), is("USD"));
-        assertThat(returnValue.getNotes(), is("Merchant Payment return to Wallet Balance"));
-        assertThat(returnValue.getMemo(), is("TransferReturn123456"));
-        assertThat(returnValue.getCreatedOn(), is(dateFormat.parse("2019-11-11T19:04:43 UTC")));
+        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
+                .token("trd-a159dc18-eb29-4530-8733-060c7feaad0f")
+                .status(Status.COMPLETED)
+                .clientRefundId("clientRefundId")
+                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
+                .sourceAmount(20.0)
+                .sourceCurrency("USD")
+                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
+                .destinationAmount(20.0)
+                .destinationCurrency("USD")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456")
+                .createdOn(dateFormat.parse("2019-11-11T19:04:43 UTC"));
+
+        checkTransferRefund(returnValue, expectedValue);
+    }
+
+    private void checkTransferRefund(HyperwalletTransferRefund actual, HyperwalletTransferRefund expected) {
+        assertThat(actual.getToken(), is(expected.getToken()));
+        assertThat(actual.getStatus(), is(expected.getStatus()));
+        assertThat(actual.getClientRefundId(), is(expected.getClientRefundId()));
+        assertThat(actual.getSourceToken(), is(expected.getSourceToken()));
+        assertThat(actual.getSourceAmount(), is(expected.getSourceAmount()));
+        assertThat(actual.getSourceCurrency(), is(expected.getSourceCurrency()));
+        assertThat(actual.getDestinationToken(), is(expected.getDestinationToken()));
+        assertThat(actual.getDestinationAmount(), is(expected.getDestinationAmount()));
+        assertThat(actual.getDestinationCurrency(), is(expected.getDestinationCurrency()));
+        assertThat(actual.getNotes(), is(expected.getNotes()));
+        assertThat(actual.getMemo(), is(expected.getMemo()));
+        assertThat(actual.getCreatedOn(), is(expected.getCreatedOn()));
     }
 
     @Test
@@ -802,18 +820,21 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getToken(), is("trd-19156720-01e8-4f1c-8ef3-7ced80672128"));
-        assertThat(returnValue.getStatus(), is(Status.COMPLETED));
-        assertThat(returnValue.getClientRefundId(), is("1573548663"));
-        assertThat(returnValue.getSourceToken(), is("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f"));
-        assertThat(returnValue.getSourceAmount(), is(50.0));
-        assertThat(returnValue.getSourceCurrency(), is("USD"));
-        assertThat(returnValue.getDestinationToken(), is("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c"));
-        assertThat(returnValue.getDestinationAmount(), is(50.0));
-        assertThat(returnValue.getDestinationCurrency(), is("USD"));
-        assertThat(returnValue.getNotes(), is("Merchant Payment return to Wallet Balance"));
-        assertThat(returnValue.getMemo(), is("TransferReturn123456"));
-        assertThat(returnValue.getCreatedOn(), is(dateFormat.parse("2019-11-12T11:51:05 UTC")));
+        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
+                .token("trd-19156720-01e8-4f1c-8ef3-7ced80672128")
+                .status(Status.COMPLETED)
+                .clientRefundId("1573548663")
+                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
+                .sourceAmount(50.0)
+                .sourceCurrency("USD")
+                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
+                .destinationAmount(50.0)
+                .destinationCurrency("USD")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456")
+                .createdOn(dateFormat.parse("2019-11-12T11:51:05 UTC"));
+
+        checkTransferRefund(returnValue, expectedValue);
     }
 
     @Test
@@ -830,18 +851,22 @@ public class HyperwalletIT {
         }
 
         assertThat(returnValue.getCount(), is(equalTo(2)));
-        assertThat(returnValue.getData().get(0).getToken(), is("trd-e59d19d4-eccb-4160-b04c-4f11c83f99f0"));
-        assertThat(returnValue.getData().get(0).getStatus(), is(Status.COMPLETED));
-        assertThat(returnValue.getData().get(0).getClientRefundId(), is("1573566270"));
-        assertThat(returnValue.getData().get(0).getSourceToken(), is("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f"));
-        assertThat(returnValue.getData().get(0).getSourceAmount(), is(50.0));
-        assertThat(returnValue.getData().get(0).getSourceCurrency(), is("USD"));
-        assertThat(returnValue.getData().get(0).getDestinationToken(), is("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c"));
-        assertThat(returnValue.getData().get(0).getDestinationAmount(), is(50.0));
-        assertThat(returnValue.getData().get(0).getDestinationCurrency(), is("USD"));
-        assertThat(returnValue.getData().get(0).getNotes(), is("Merchant Payment return to Wallet Balance"));
-        assertThat(returnValue.getData().get(0).getMemo(), is("TransferReturn123456"));
-        assertThat(returnValue.getData().get(0).getCreatedOn(), is(dateFormat.parse("2019-11-12T16:44:30 UTC")));
+
+        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
+                .token("trd-e59d19d4-eccb-4160-b04c-4f11c83f99f0")
+                .status(Status.COMPLETED)
+                .clientRefundId("1573566270")
+                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
+                .sourceAmount(50.0)
+                .sourceCurrency("USD")
+                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
+                .destinationAmount(50.0)
+                .destinationCurrency("USD")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456")
+                .createdOn(dateFormat.parse("2019-11-12T16:44:30 UTC"));
+
+        checkTransferRefund(returnValue.getData().get(0), expectedValue);
     }
 
     //
