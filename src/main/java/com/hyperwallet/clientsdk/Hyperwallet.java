@@ -1035,7 +1035,20 @@ public class Hyperwallet {
      * @return HyperwalletStatusTransition deactivated PayPal account
      */
     public HyperwalletStatusTransition deactivatePayPalAccount(String userToken, String payPalAccountToken) {
-        return createPayPalAccountStatusTransition(userToken, payPalAccountToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.DE_ACTIVATED));
+        return deactivatePayPalAccount(userToken, payPalAccountToken, null);
+    }
+
+    /**
+     * Deactivate a PayPal Account
+     *
+     * @param userToken          User token
+     * @param payPalAccountToken PayPal Account token
+     * @return The status transition
+     */
+    public HyperwalletStatusTransition deactivatePayPalAccount(String userToken, String payPalAccountToken, String notes) {
+        return createPayPalAccountStatusTransition(userToken,
+                payPalAccountToken,
+                new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.DE_ACTIVATED).notes(notes));
     }
 
     /**
@@ -1054,7 +1067,7 @@ public class Hyperwallet {
             throw new HyperwalletException("User token is required");
         }
         if (StringUtils.isEmpty(payPalAccountToken)) {
-            throw new HyperwalletException("PayPal Account is required");
+            throw new HyperwalletException("PayPal Account token is required");
         }
         if (!StringUtils.isEmpty(transition.getToken())) {
             throw new HyperwalletException("Status Transition token may not be present");
