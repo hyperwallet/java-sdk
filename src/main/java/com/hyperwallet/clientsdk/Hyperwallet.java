@@ -1076,7 +1076,7 @@ public class Hyperwallet {
         transition.setCreatedOn(null);
         transition.setFromStatus(null);
         transition.setToStatus(null);
-        return apiClient.post(url + "/users/" + userToken + "/PayPal-accounts/" + payPalAccountToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+        return apiClient.post(url + "/users/" + userToken + "/paypal-accounts/" + payPalAccountToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
     }
 
     /**
@@ -1097,7 +1097,7 @@ public class Hyperwallet {
         if (StringUtils.isEmpty(statusTransitionToken)) {
             throw new HyperwalletException("Transition token is required");
         }
-        return apiClient.get(url + "/users/" + userToken + "/PayPal-accounts/" + payPalAccountToken + "/status-transitions/" + statusTransitionToken, HyperwalletStatusTransition.class);
+        return apiClient.get(url + "/users/" + userToken + "/paypal-accounts/" + payPalAccountToken + "/status-transitions/" + statusTransitionToken, HyperwalletStatusTransition.class);
     }
 
     /**
@@ -1126,7 +1126,7 @@ public class Hyperwallet {
         if (StringUtils.isEmpty(payPalAccountToken)) {
             throw new HyperwalletException("PayPal Account token is required");
         }
-        String url = paginate(this.url + "/users/" + userToken + "/PayPal-accounts/" + payPalAccountToken + "/status-transitions", options);
+        String url = paginate(this.url + "/users/" + userToken + "/paypal-accounts/" + payPalAccountToken + "/status-transitions", options);
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
         });
     }
