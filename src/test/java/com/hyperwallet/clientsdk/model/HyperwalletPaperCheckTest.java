@@ -16,7 +16,6 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
 
                 .addressLine1("test-address-line1")
                 .addressLine2("test-address-line2")
-                .bankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship.SELF)
                 .businessContactRole(HyperwalletUser.BusinessContactRole.OWNER)
                 .businessName("test-business-name")
                 .businessOperatingName("test-business-operating-name")

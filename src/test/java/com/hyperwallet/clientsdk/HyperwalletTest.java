@@ -5443,7 +5443,6 @@ public class HyperwalletTest {
         assertThat(apiClientTransferMethod.getBranchName(), is(nullValue()));
         assertThat(apiClientTransferMethod.getBranchId(), is(nullValue()));
         assertThat(apiClientTransferMethod.getBankAccountId(), is(nullValue()));
-        assertThat(apiClientTransferMethod.getBankAccountRelationship(), is(nullValue()));
         assertThat(apiClientTransferMethod.getBankAccountPurpose(), is(nullValue()));
         assertThat(apiClientTransferMethod.getBranchAddressLine1(), is(nullValue()));
         assertThat(apiClientTransferMethod.getBranchAddressLine2(), is(nullValue()));
@@ -5525,7 +5524,6 @@ public class HyperwalletTest {
         assertThat(apiClientTransferMethod.getBranchName(), is(equalTo("test-branch-name")));
         assertThat(apiClientTransferMethod.getBranchId(), is(equalTo("test-branch-id")));
         assertThat(apiClientTransferMethod.getBankAccountId(), is(equalTo("test-bank-account-id")));
-        assertThat(apiClientTransferMethod.getBankAccountRelationship(), is(equalTo(HyperwalletTransferMethod.BankAccountRelationship.SELF)));
         assertThat(apiClientTransferMethod.getBankAccountPurpose(), is(equalTo("test-bank-account-purpose")));
         assertThat(apiClientTransferMethod.getBranchAddressLine1(), is(equalTo("test-branch-address-line1")));
         assertThat(apiClientTransferMethod.getBranchAddressLine2(), is(equalTo("test-branch-address-line2")));
@@ -5588,7 +5586,6 @@ public class HyperwalletTest {
                 .branchName("test-branch-name")
                 .branchId("test-branch-id")
                 .bankAccountId("test-bank-account-id")
-                .bankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship.SELF)
                 .bankAccountPurpose("test-bank-account-purpose")
                 .branchAddressLine1("test-branch-address-line1")
                 .branchAddressLine2("test-branch-address-line2")
