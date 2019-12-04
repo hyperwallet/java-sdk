@@ -496,7 +496,7 @@ public class Hyperwallet {
     /**
      * Get Bank Card
      *
-     * @param userToken        User token assigned
+     * @param userToken     User token assigned
      * @param bankCardToken Bank Card token
      * @return HyperwalletBankCard Bank Card
      */
@@ -1039,11 +1039,12 @@ public class Hyperwallet {
     }
 
     /**
-     * Deactivate a PayPal Account
+     * Deactivate PayPal Account
      *
      * @param userToken          User token
      * @param payPalAccountToken PayPal Account token
-     * @return The status transition
+     * @param notes              Comments regarding the status change
+     * @return HyperwalletStatusTransition deactivated PayPal account
      */
     public HyperwalletStatusTransition deactivatePayPalAccount(String userToken, String payPalAccountToken, String notes) {
         return createPayPalAccountStatusTransition(userToken,

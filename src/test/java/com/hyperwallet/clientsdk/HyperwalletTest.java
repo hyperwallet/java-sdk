@@ -3282,7 +3282,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testCreatePayPalAccountStatusTransition_noPaperCheckToken() {
+    public void testCreatePayPalAccountStatusTransition_noPayPalAccountToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
             client.createPayPalAccountStatusTransition("test-user-token", null, new HyperwalletStatusTransition());
@@ -3362,7 +3362,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testGetPayPalAccountStatusTransition_noPaperCheckToken() {
+    public void testGetPayPalAccountStatusTransition_noPayPalAccountToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
             client.getPayPalAccountStatusTransition("test-user-token", null, null);
@@ -3425,7 +3425,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListPayPalAccountStatusTransitions_noParameters_noPaperCheckToken() throws Exception {
+    public void testListPayPalAccountStatusTransitions_noParameters_noPayPalAccountToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
             client.listPayPalAccountStatusTransitions("test-user-token", null);
@@ -3472,7 +3472,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListPayPalAccountStatusTransitions_withParameters_noPaperCheckToken() throws Exception {
+    public void testListPayPalAccountStatusTransitions_withParameters_noPayPalAccountToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
             client.listPayPalAccountStatusTransitions("test-user-token", null, new HyperwalletPaginationOptions());
