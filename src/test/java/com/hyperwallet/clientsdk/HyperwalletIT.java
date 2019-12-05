@@ -404,9 +404,10 @@ public class HyperwalletIT {
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.INDIVIDUAL)));
+        assertThat(returnValue.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.BUSINESS)));
         assertThat(returnValue.getFirstName(), is(equalTo("Some")));
         assertThat(returnValue.getLastName(), is(equalTo("Guy")));
+        assertThat(returnValue.getBusinessOperatingName(), is(equalTo("ABC Framing")));
         assertThat(returnValue.getDateOfBirth(), is(equalTo(dateFormat.parse("1991-01-01T00:00:00 UTC"))));
         assertThat(returnValue.getAddressLine1(), is(equalTo("575 Market Street")));
         assertThat(returnValue.getCity(), is(equalTo("San Francisco")));
@@ -441,9 +442,10 @@ public class HyperwalletIT {
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:42:46 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.INDIVIDUAL)));
+        assertThat(returnValue.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.BUSINESS)));
         assertThat(returnValue.getFirstName(), is(equalTo("Some")));
         assertThat(returnValue.getLastName(), is(equalTo("Guy")));
+        assertThat(returnValue.getBusinessOperatingName(), is(equalTo("ABC Framing")));
         assertThat(returnValue.getDateOfBirth(), is(equalTo(dateFormat.parse("1991-01-01T00:00:00 UTC"))));
         assertThat(returnValue.getAddressLine1(), is(equalTo("123 Other Street")));
         assertThat(returnValue.getCity(), is(equalTo("Far Away Land")));
@@ -473,9 +475,10 @@ public class HyperwalletIT {
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.INDIVIDUAL)));
+        assertThat(returnValue.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.BUSINESS)));
         assertThat(returnValue.getFirstName(), is(equalTo("Some")));
         assertThat(returnValue.getLastName(), is(equalTo("Guy")));
+        assertThat(returnValue.getBusinessOperatingName(), is(equalTo("ABC Framing")));
         assertThat(returnValue.getDateOfBirth(), is(equalTo(dateFormat.parse("1991-01-01T00:00:00 UTC"))));
         assertThat(returnValue.getAddressLine1(), is(equalTo("575 Market Street")));
         assertThat(returnValue.getCity(), is(equalTo("San Francisco")));
@@ -505,9 +508,10 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getData().get(0).getProfileType(), is(equalTo(HyperwalletUser.ProfileType.INDIVIDUAL)));
+        assertThat(returnValue.getData().get(0).getProfileType(), is(equalTo(HyperwalletUser.ProfileType.BUSINESS)));
         assertThat(returnValue.getData().get(0).getFirstName(), is(equalTo("Some")));
         assertThat(returnValue.getData().get(0).getLastName(), is(equalTo("Guy")));
+        assertThat(returnValue.getData().get(0).getBusinessOperatingName(), is(equalTo("ABC Framing")));
         assertThat(returnValue.getData().get(0).getDateOfBirth(), is(equalTo(dateFormat.parse("1991-01-01T00:00:00 UTC"))));
         assertThat(returnValue.getData().get(0).getAddressLine1(), is(equalTo("575 Market Street")));
         assertThat(returnValue.getData().get(0).getCity(), is(equalTo("San Francisco")));

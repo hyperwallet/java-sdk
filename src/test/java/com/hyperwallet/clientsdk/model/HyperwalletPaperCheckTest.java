@@ -18,6 +18,7 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
                 .addressLine2("test-address-line2")
                 .businessContactRole(HyperwalletUser.BusinessContactRole.OWNER)
                 .businessName("test-business-name")
+                .businessOperatingName("test-business-operating-name")
                 .businessRegistrationCountry("test-business-registration-country")
                 .businessRegistrationId("test-business-registration-id")
                 .businessRegistrationStateProvince("test-business-registration-state-province")

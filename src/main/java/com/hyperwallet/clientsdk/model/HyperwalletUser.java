@@ -34,6 +34,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     private BusinessType businessType;
     private String businessName;
+    private String businessOperatingName;
     private String businessRegistrationId;
     private String businessRegistrationStateProvince;
     private String businessRegistrationCountry;
@@ -227,6 +228,27 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     public HyperwalletUser clearBusinessName() {
         clearField("businessName");
         businessName = null;
+        return this;
+    }
+
+    public String getBusinessOperatingName() {
+        return businessOperatingName;
+    }
+
+    public void setBusinessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+    }
+
+    public HyperwalletUser businessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+        return this;
+    }
+
+    public HyperwalletUser clearBusinessOperatingName() {
+        clearField("businessOperatingName");
+        businessOperatingName = null;
         return this;
     }
 

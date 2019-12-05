@@ -60,6 +60,7 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
 
     private HyperwalletUser.ProfileType profileType;
     private String businessName;
+    private String businessOperatingName;
     private String businessRegistrationId;
     private String businessRegistrationStateProvince;
     private String businessRegistrationCountry;
@@ -732,6 +733,27 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
     public HyperwalletTransferMethod clearBusinessName() {
         clearField("businessName");
         businessName = null;
+        return this;
+    }
+
+    public String getBusinessOperatingName() {
+        return businessOperatingName;
+    }
+
+    public void setBusinessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+    }
+
+    public HyperwalletTransferMethod businessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+        return this;
+    }
+
+    public HyperwalletTransferMethod clearBusinessOperatingName() {
+        clearField("businessOperatingName");
+        businessOperatingName = null;
         return this;
     }
 
