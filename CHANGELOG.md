@@ -1,7 +1,15 @@
 Changelog
 =========
 
-1.3.0
+1.4.0
+-------------------
+- Fix TypeError thrown when response status is 204 No content
+- Add CVV field to the SDK
+- Remove Relationship field from Server SDK
+- Add Business Operating Name Field to User
+- Add PayPal account status transitions
+
+1.3.0 (2019-01-28)
 -------------------
 - Added field "VerificationStatus" to User
 - Client-token endpoint renamed to authentication-token
