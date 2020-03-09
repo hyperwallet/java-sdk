@@ -17,7 +17,8 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     public static enum ProfileType {INDIVIDUAL, BUSINESS, UNKNOWN}
 
-    public static enum BusinessType {CORPORATION, PARTNERSHIP}
+    public static enum BusinessType {CORPORATION, PARTNERSHIP, CANADIAN_REGISTERED_CHARITY, PUBLIC_COMPANY, PRIVATE_COMPANY,
+        NOT_FOR_PROFIT_ORGANIZATION, GOVERNMENT_ENTITY}
 
     public static enum BusinessContactRole {DIRECTOR, OWNER, OTHER}
 
