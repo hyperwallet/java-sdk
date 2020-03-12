@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.4.1
+-------------------
+- Added support for new businessType field values. 
+
 1.4.0
 -------------------
 - Fix TypeError thrown when response status is 204 No content
