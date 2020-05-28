@@ -1418,6 +1418,7 @@ public class Hyperwallet {
         }
         payment = copy(payment);
         payment.setCreatedOn(null);
+        payment.setStatus(null);
         return apiClient.post(url + "/payments", payment, HyperwalletPayment.class);
     }
 
