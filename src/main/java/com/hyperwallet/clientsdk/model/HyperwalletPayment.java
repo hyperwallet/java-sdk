@@ -13,12 +13,8 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletPayment extends HyperwalletBaseMonitor {
 
-    public static enum Status {CREATED, SCHEDULED, PENDING_ACCOUNT_ACTIVATION, PENDING_TAX_VERIFICATION,
-        PENDING_TRANSFER_METHOD_ACTION, PENDING_TRANSACTION_VERIFICATION, IN_PROGRESS, COMPLETED,
-        CANCELLED, FAILED, RECALLED, RETURNED, EXPIRED}
-
     private String token;
-    private Status status;
+    private String status;
 
     private Date createdOn;
     private Double amount;
@@ -53,16 +49,16 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         addField("status", status);
         this.status = status;
     }
 
-    public HyperwalletPayment status(Status status) {
+    public HyperwalletPayment status(String status) {
         addField("status", status);
         this.status = status;
         return this;

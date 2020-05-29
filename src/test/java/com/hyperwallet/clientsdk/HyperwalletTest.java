@@ -3931,7 +3931,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testCreateBankAccountStatusTransition_noBankAccountToken() {
+    public void     testCreateBankAccountStatusTransition_noBankAccountToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
             client.createBankAccountStatusTransition("test-user-token", null, new HyperwalletStatusTransition());
@@ -4524,7 +4524,7 @@ public class HyperwalletTest {
         HyperwalletPayment payment = new HyperwalletPayment();
         payment.setCreatedOn(new Date());
         payment.setCurrency("test-currency");
-        payment.setStatus(HyperwalletPayment.Status.COMPLETED);
+        payment.setStatus("COMPLETED");
 
         HyperwalletPayment paymentResponse = new HyperwalletPayment();
 
@@ -4553,7 +4553,7 @@ public class HyperwalletTest {
         payment.setCreatedOn(new Date());
         payment.setCurrency("test-currency");
         payment.setProgramToken("test-program-token2");
-        payment.setStatus(HyperwalletPayment.Status.COMPLETED);
+        payment.setStatus("COMPLETED");
 
         HyperwalletPayment paymentResponse = new HyperwalletPayment();
 
