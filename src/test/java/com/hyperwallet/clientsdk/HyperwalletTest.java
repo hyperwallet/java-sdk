@@ -3931,7 +3931,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void     testCreateBankAccountStatusTransition_noBankAccountToken() {
+    public void testCreateBankAccountStatusTransition_noBankAccountToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
             client.createBankAccountStatusTransition("test-user-token", null, new HyperwalletStatusTransition());
