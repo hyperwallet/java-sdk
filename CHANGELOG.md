@@ -1,5 +1,8 @@
 Changelog
 =========
+1.4.2
+------------------
+- Added status param to HyperwalletPayment
 
 1.4.1
 -------------------
