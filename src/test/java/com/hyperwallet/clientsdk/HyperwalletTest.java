@@ -4513,6 +4513,7 @@ public class HyperwalletTest {
 
         HyperwalletPayment apiClientPayment = argument.getValue();
         assertThat(apiClientPayment, is(notNullValue()));
+        assertThat(apiClientPayment.getStatus(), is(nullValue()));
         assertThat(apiClientPayment.getCurrency(), is(equalTo("test-currency")));
         assertThat(apiClientPayment.getCreatedOn(), is(nullValue()));
         assertThat(apiClientPayment.getProgramToken(), is(nullValue()));
@@ -4523,6 +4524,7 @@ public class HyperwalletTest {
         HyperwalletPayment payment = new HyperwalletPayment();
         payment.setCreatedOn(new Date());
         payment.setCurrency("test-currency");
+        payment.setStatus("COMPLETED");
 
         HyperwalletPayment paymentResponse = new HyperwalletPayment();
 
@@ -4539,6 +4541,7 @@ public class HyperwalletTest {
 
         HyperwalletPayment apiClientPayment = argument.getValue();
         assertThat(apiClientPayment, is(notNullValue()));
+        assertThat(apiClientPayment.getStatus(), is(notNullValue()));
         assertThat(apiClientPayment.getCurrency(), is(equalTo("test-currency")));
         assertThat(apiClientPayment.getCreatedOn(), is(nullValue()));
         assertThat(apiClientPayment.getProgramToken(), is(equalTo("test-program-token")));
@@ -4550,6 +4553,7 @@ public class HyperwalletTest {
         payment.setCreatedOn(new Date());
         payment.setCurrency("test-currency");
         payment.setProgramToken("test-program-token2");
+        payment.setStatus("COMPLETED");
 
         HyperwalletPayment paymentResponse = new HyperwalletPayment();
 
@@ -4566,6 +4570,7 @@ public class HyperwalletTest {
 
         HyperwalletPayment apiClientPayment = argument.getValue();
         assertThat(apiClientPayment, is(notNullValue()));
+        assertThat(apiClientPayment.getStatus(), is(notNullValue()));
         assertThat(apiClientPayment.getCurrency(), is(equalTo("test-currency")));
         assertThat(apiClientPayment.getCreatedOn(), is(nullValue()));
         assertThat(apiClientPayment.getProgramToken(), is(equalTo("test-program-token2")));
