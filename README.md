@@ -20,7 +20,7 @@ Installation
 <dependency>
     <groupId>com.hyperwallet</groupId>
     <artifactId>sdk</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.2</version>
 </dependency>
 ```
 
