@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -155,7 +156,19 @@ public class Hyperwallet {
      * @return HyperwalletList of HyperwalletUser
      */
     public HyperwalletList<HyperwalletUser> listUsers(HyperwalletPaginationOptions options) {
+        return listUsers(options, new HashMap<String, String>());
+    }
+
+    /**
+     * List Users
+     *
+     * @param options List filter option
+     * @param params Custom filter options
+     * @return HyperwalletList of HyperwalletUser
+     */
+    public HyperwalletList<HyperwalletUser> listUsers(HyperwalletPaginationOptions options, Map<String, String> params) {
         String url = paginate(this.url + "/users", options);
+        url = addParameters(url, params);
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {
         });
     }
@@ -1871,6 +1884,14 @@ public class Hyperwallet {
         return url + (url.indexOf("?") == -1 ? "?" : "&") + key + "=" + value;
     }
 
+    private String addParameters(String url, Map<String, String> params)
+    {
+        for (Map.Entry<String, String> param : params.entrySet()) {
+            url = addParameter(url, param.getKey(), param.getValue());
+        }
+        return url;
+    }
+
     private String convert(Date in) {
         if (in == null) {
             return null;
@@ -1943,5 +1964,4 @@ public class Hyperwallet {
         payPalAccount = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(payPalAccount), HyperwalletPayPalAccount.class);
         return payPalAccount;
     }
-
 }
