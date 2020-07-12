@@ -3131,6 +3131,84 @@ public class HyperwalletTest {
     }
 
     @Test
+    public void testUpdatePayPalAccount_noPayPalAccount() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePayPalAccount(null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("PayPal Account is required")));
+            assertThat(e.getMessage(), is(equalTo("PayPal Account is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePayPalAccount_noUserToken() {
+        HyperwalletPayPalAccount account = new HyperwalletPayPalAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePayPalAccount(account);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePayPalAccount_noPayPalAccountToken() {
+        HyperwalletPayPalAccount account = new HyperwalletPayPalAccount();
+        account.setUserToken("test-user-token");
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePayPalAccount(account);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("PayPal Account token is required")));
+            assertThat(e.getMessage(), is(equalTo("PayPal Account token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePayPalAccount_successful() throws Exception {
+        HyperwalletPayPalAccount account = new HyperwalletPayPalAccount();
+        account.setToken("test-paypal-account-token");
+        account.setUserToken("test-user-token");
+        account.setEmail("test-email");
+
+        HyperwalletPayPalAccount accountResponse = new HyperwalletPayPalAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(accountResponse);
+
+        HyperwalletPayPalAccount resp = client.updatePayPalAccount(account);
+        assertThat(resp, is(equalTo(accountResponse)));
+
+        ArgumentCaptor<HyperwalletPayPalAccount> argument = ArgumentCaptor.forClass(HyperwalletPayPalAccount.class);
+        Mockito.verify(mockApiClient).put(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paypal-accounts/test-paypal-account-token"), argument.capture(), Mockito.eq(account.getClass()));
+
+        HyperwalletPayPalAccount apiClientBankAccount = argument.getValue();
+        assertThat(apiClientBankAccount, is(notNullValue()));
+        assertThat(apiClientBankAccount.getEmail(), is(equalTo("test-email")));
+    }
+
+    @Test
     public void testListPayPalAccount_noUserToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {

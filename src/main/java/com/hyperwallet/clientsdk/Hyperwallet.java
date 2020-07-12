@@ -1002,6 +1002,26 @@ public class Hyperwallet {
     }
 
     /**
+     * Updates the PayPal Account's email address
+     *
+     * @param account PayPal Account to update.
+     *
+     * @return HyperwalletPayPalAccount updated PayPal Account
+     */
+    public HyperwalletPayPalAccount updatePayPalAccount(HyperwalletPayPalAccount account) {
+        if (account == null) {
+            throw new HyperwalletException("PayPal Account is required");
+        }
+        if (StringUtils.isEmpty(account.getUserToken())) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(account.getToken())) {
+            throw new HyperwalletException("PayPal Account token is required");
+        }
+        return apiClient.put(url + "/users/" + account.getUserToken() + "/paypal-accounts/" + account.getToken(), account, HyperwalletPayPalAccount.class);
+    }
+
+    /**
      * List PayPal Accounts
      *
      * @param userToken         User token assigned
