@@ -4,7 +4,7 @@
 
     <groupId>com.hyperwallet</groupId>
     <artifactId>sdk</artifactId>
-    <version>1.4.2</version>
+    <version>2.4.2</version>
     <packaging>jar</packaging>
 
     <name>hyperwallet-java-sdk</name>
@@ -86,7 +86,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <testng.version>6.10</testng.version>
         <mockito.version>2.2.28</mockito.version>
-        <protea.http.version>[0.2,)</protea.http.version>
         <jackson.jaxrs.json.provider.version>2.5.3</jackson.jaxrs.json.provider.version>
         <org.apache.commons.commons-lang3.version>3.5</org.apache.commons.commons-lang3.version>
     </properties>
@@ -121,11 +120,6 @@
             <artifactId>mockserver-netty</artifactId>
             <version>3.10.4</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cc.protea.foundation.http</groupId>
-            <artifactId>http</artifactId>
-            <version>${protea.http.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>

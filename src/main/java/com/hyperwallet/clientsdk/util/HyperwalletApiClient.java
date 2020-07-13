@@ -9,6 +9,7 @@ import com.nimbusds.jose.JOSEException;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
+import java.net.Proxy;
 import java.text.ParseException;
 import java.util.HashMap;
 
@@ -18,14 +19,16 @@ public class HyperwalletApiClient {
     private static final String VALID_JSON_CONTENT_TYPE = "application/json";
     private static final String VALID_JSON_JOSE_CONTENT_TYPE = "application/jose+json";
 
-    private final String username;
-    private final String password;
-    private final String version;
-    private final HyperwalletEncryption hyperwalletEncryption;
-    private final boolean isEncrypted;
+    private  String username;
+    private  String password;
+    private  String version;
+    private  HyperwalletEncryption hyperwalletEncryption;
+    private  boolean isEncrypted;
+
+    private  Proxy proxy;
 
     public HyperwalletApiClient(final String username, final String password, final String version) {
-        this(username, password, version, null);
+        this(username, password, version, null, null);
     }
 
     public HyperwalletApiClient(final String username, final String password, final String version,
@@ -35,6 +38,25 @@ public class HyperwalletApiClient {
         this.version = version;
         this.hyperwalletEncryption = hyperwalletEncryption;
         this.isEncrypted = hyperwalletEncryption != null;
+
+        // TLS fix
+        if (System.getProperty("java.version").startsWith("1.7.")) {
+            System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+        }
+    }
+
+    public HyperwalletApiClient(final String username, final String password, final String version, Proxy proxy) {
+        this(username, password, version, null, proxy);
+    }
+
+    public HyperwalletApiClient(final String username, final String password, final String version,
+                                HyperwalletEncryption hyperwalletEncryption, Proxy proxy) {
+        this.username = username;
+        this.password = password;
+        this.version = version;
+        this.hyperwalletEncryption = hyperwalletEncryption;
+        this.isEncrypted = hyperwalletEncryption != null;
+        this.proxy = proxy;
 
         // TLS fix
         if (System.getProperty("java.version").startsWith("1.7.")) {
@@ -156,19 +178,28 @@ public class HyperwalletApiClient {
 
     private Request getService(final String url, boolean isHttpGet) {
         String contentType = "application/" + ((isEncrypted) ? "jose+json" : "json");
+        Request  request = null;
+        if (this.proxy == null) {
+            request = new Request(url);
+        } else {
+            request = new Request(url, proxy);
+        }
         if (isHttpGet) {
-            return new Request(url)
+            request = request
                     .addHeader("Authorization", getAuthorizationHeader())
                     .addHeader("Accept", contentType)
                     .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
         } else {
-            return new Request(url)
+            request = request
+                    .addHeader("Authorization", getAuthorizationHeader())
                     .addHeader("Authorization", getAuthorizationHeader())
                     .addHeader("Accept", contentType)
                     .addHeader("Content-Type", contentType)
                     .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
         }
+        return request;
     }
+
 
     private <T> T convert(final String responseBody, final Class<T> type) {
         if (responseBody == null) {
