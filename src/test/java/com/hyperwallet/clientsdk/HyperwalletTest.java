@@ -353,16 +353,16 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
-        Map<String, String> customParams = new HashMap<>();
-        customParams.put("email", "test-email");
+        HyperwalletUserListOptions options = new HyperwalletUserListOptions();
+        options.setLimit(100);
+        options.setEmail("test-email");
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletUser> resp = client.listUsers(options, customParams);
+        HyperwalletList<HyperwalletUser> resp = client.listUsers(options);
         assertThat(resp, is(equalTo(response)));
 
-        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users?email=test-email"), Mockito.any(TypeReference.class));
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users?limit=100&email=test-email"), Mockito.any(TypeReference.class));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
 import java.util.Date;
+import java.util.Map;
 
 public class HyperwalletPaginationOptions {
 

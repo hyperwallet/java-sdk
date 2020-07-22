@@ -156,19 +156,22 @@ public class Hyperwallet {
      * @return HyperwalletList of HyperwalletUser
      */
     public HyperwalletList<HyperwalletUser> listUsers(HyperwalletPaginationOptions options) {
-        return listUsers(options, new HashMap<String, String>());
+        String url = paginate(this.url + "/users", options);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {
+        });
     }
 
     /**
      * List Users
      *
      * @param options List filter option
-     * @param params Custom filter options
      * @return HyperwalletList of HyperwalletUser
      */
-    public HyperwalletList<HyperwalletUser> listUsers(HyperwalletPaginationOptions options, Map<String, String> params) {
+    public HyperwalletList<HyperwalletUser> listUsers(HyperwalletUserListOptions options) {
         String url = paginate(this.url + "/users", options);
-        url = addParameters(url, params);
+        if (options != null) {
+            url = addParameters(url, options.getParameters());
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {
         });
     }
