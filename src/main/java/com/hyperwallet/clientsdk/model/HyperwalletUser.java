@@ -17,7 +17,8 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     public static enum ProfileType {INDIVIDUAL, BUSINESS, UNKNOWN}
 
-    public static enum BusinessType {CORPORATION, PARTNERSHIP}
+    public static enum BusinessType {CORPORATION, PARTNERSHIP, CANADIAN_REGISTERED_CHARITY, PUBLIC_COMPANY, PRIVATE_COMPANY,
+        NOT_FOR_PROFIT_ORGANIZATION, GOVERNMENT_ENTITY}
 
     public static enum BusinessContactRole {DIRECTOR, OWNER, OTHER}
 
@@ -34,6 +35,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     private BusinessType businessType;
     private String businessName;
+    private String businessOperatingName;
     private String businessRegistrationId;
     private String businessRegistrationStateProvince;
     private String businessRegistrationCountry;
@@ -227,6 +229,27 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     public HyperwalletUser clearBusinessName() {
         clearField("businessName");
         businessName = null;
+        return this;
+    }
+
+    public String getBusinessOperatingName() {
+        return businessOperatingName;
+    }
+
+    public void setBusinessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+    }
+
+    public HyperwalletUser businessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+        return this;
+    }
+
+    public HyperwalletUser clearBusinessOperatingName() {
+        clearField("businessOperatingName");
+        businessOperatingName = null;
         return this;
     }
 

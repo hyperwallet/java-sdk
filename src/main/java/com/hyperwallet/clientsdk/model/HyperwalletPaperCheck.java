@@ -26,9 +26,9 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
     private Boolean isDefaultTransferMethod;
     private String addressLine1;
     private String addressLine2;
-    private HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship;
     private HyperwalletUser.BusinessContactRole businessContactRole;
     private String businessName;
+    private String businessOperatingName;
     private String businessRegistrationCountry;
     private String businessRegistrationId;
     private String businessRegistrationStateProvince;
@@ -245,27 +245,6 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletTransferMethod.BankAccountRelationship getBankAccountRelationship() {
-        return bankAccountRelationship;
-    }
-
-    public void setBankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship) {
-        addField("bankAccountRelationship", bankAccountRelationship);
-        this.bankAccountRelationship = bankAccountRelationship;
-    }
-
-    public HyperwalletPaperCheck bankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship) {
-        addField("bankAccountRelationship", bankAccountRelationship);
-        this.bankAccountRelationship = bankAccountRelationship;
-        return this;
-    }
-
-    public HyperwalletPaperCheck clearBankAccountRelationship() {
-        clearField("bankAccountRelationship");
-        this.bankAccountRelationship = null;
-        return this;
-    }
-
     public HyperwalletUser.BusinessContactRole getBusinessContactRole() {
         return businessContactRole;
     }
@@ -305,6 +284,27 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
     public HyperwalletPaperCheck clearBusinessName() {
         clearField("businessName");
         this.businessName = null;
+        return this;
+    }
+
+    public String getBusinessOperatingName() {
+        return businessOperatingName;
+    }
+
+    public void setBusinessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+    }
+
+    public HyperwalletPaperCheck businessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+        return this;
+    }
+
+    public HyperwalletPaperCheck clearBusinessOperatingName() {
+        clearField("businessOperatingName");
+        businessOperatingName = null;
         return this;
     }
 

@@ -17,8 +17,6 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
 
     public enum Status {ACTIVATED, INVALID, DE_ACTIVATED, PRE_ACTIVATED, SUSPENDED, LOST_OR_STOLEN, QUEUED, DECLINED, LOCKED, COMPLIANCE_HOLE, KYC_HOLD, VERIFIED}
 
-    public enum BankAccountRelationship {SELF, JOINT_ACCOUNT, SPOUSE, RELATIVE, BUSINESS_PARTNER, UPLINE, DOWNLINE, OTHER, OWN_COMPANY, BILL_PAYMENT}
-
     public enum CardType {PERSONALIZED, INSTANT_ISSUE, VIRTUAL}
 
     private String token;
@@ -33,7 +31,6 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
     private String branchName;
     private String branchId;
     private String bankAccountId;
-    private BankAccountRelationship bankAccountRelationship;
     private String bankAccountPurpose;
     private String branchAddressLine1;
     private String branchAddressLine2;
@@ -63,6 +60,7 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
 
     private HyperwalletUser.ProfileType profileType;
     private String businessName;
+    private String businessOperatingName;
     private String businessRegistrationId;
     private String businessRegistrationStateProvince;
     private String businessRegistrationCountry;
@@ -315,27 +313,6 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
     public HyperwalletTransferMethod clearBankAccountId() {
         clearField("bankAccountId");
         bankAccountId = null;
-        return this;
-    }
-
-    public BankAccountRelationship getBankAccountRelationship() {
-        return bankAccountRelationship;
-    }
-
-    public void setBankAccountRelationship(BankAccountRelationship bankAccountRelationship) {
-        addField("bankAccountRelationship", bankAccountRelationship);
-        this.bankAccountRelationship = bankAccountRelationship;
-    }
-
-    public HyperwalletTransferMethod bankAccountRelationship(BankAccountRelationship bankAccountRelationship) {
-        addField("bankAccountRelationship", bankAccountRelationship);
-        this.bankAccountRelationship = bankAccountRelationship;
-        return this;
-    }
-
-    public HyperwalletTransferMethod clearBankAccountRelationship() {
-        clearField("bankAccountRelationship");
-        bankAccountRelationship = null;
         return this;
     }
 
@@ -756,6 +733,27 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
     public HyperwalletTransferMethod clearBusinessName() {
         clearField("businessName");
         businessName = null;
+        return this;
+    }
+
+    public String getBusinessOperatingName() {
+        return businessOperatingName;
+    }
+
+    public void setBusinessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+    }
+
+    public HyperwalletTransferMethod businessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+        return this;
+    }
+
+    public HyperwalletTransferMethod clearBusinessOperatingName() {
+        clearField("businessOperatingName");
+        businessOperatingName = null;
         return this;
     }
 
