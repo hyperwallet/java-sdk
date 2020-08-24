@@ -4,7 +4,7 @@
 
     <groupId>com.hyperwallet</groupId>
     <artifactId>sdk</artifactId>
-    <version>1.4.4-SNAPSHOT</version>
+    <version>1.4.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>hyperwallet-java-sdk</name>

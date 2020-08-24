@@ -1137,7 +1137,7 @@ public class Hyperwallet {
     //--------------------------------------
 
     /**
-     * Create Venmo Account Request
+     * Create Venmo Account
      *
      * @param venmoAccount HyperwalletVenmoAccount object to create
      * @return HyperwalletVenmoAccount created venmo account for the specified user
@@ -1158,7 +1158,7 @@ public class Hyperwallet {
         if (StringUtils.isEmpty(venmoAccount.getAccountId())) {
             throw new HyperwalletException("Account is required");
         }
-        if (!StringUtils.isEmpty(venmoAccount.getToken())) {
+        if (StringUtils.isNotEmpty(venmoAccount.getToken())) {
             throw new HyperwalletException("Venmo Account token may not be present");
         }
         if (venmoAccount.getType() == null) {
@@ -1171,7 +1171,7 @@ public class Hyperwallet {
     }
 
     /**
-     * Get Venmo Account Request
+     * Get Venmo Account
      *
      * @param userToken         User token assigned
      * @param venmoAccountToken venmo Account token assigned
@@ -1216,8 +1216,8 @@ public class Hyperwallet {
     /**
      * Update Venmo Account
      *
-     * @param venmoAccount Bank Account to update.
-     * @return HyperwalletVenmoAccount updated Bank Account
+     * @param venmoAccount Venmo Account to Update.
+     * @return HyperwalletVenmoAccount Updated Venmo Account
      */
     public HyperwalletVenmoAccount updateVenmoAccount(HyperwalletVenmoAccount venmoAccount) {
         if (venmoAccount == null) {
@@ -1237,7 +1237,7 @@ public class Hyperwallet {
      * Deactivate Venmo Account
      *
      * @param userToken         User token
-     * @param venmoAccountToken venmo Account token
+     * @param venmoAccountToken Venmo account token
      * @return HyperwalletStatusTransition deactivated venmo account
      */
     public HyperwalletStatusTransition deactivateVenmoAccount(String userToken, String venmoAccountToken) {
@@ -1248,7 +1248,7 @@ public class Hyperwallet {
      * Deactivate Venmo Account
      *
      * @param userToken         User token
-     * @param venmoAccountToken venmo Account token
+     * @param venmoAccountToken Venmo account token
      * @param notes             Comments regarding the status change
      * @return HyperwalletStatusTransition deactivated venmo account
      */
@@ -1262,7 +1262,7 @@ public class Hyperwallet {
      * Create Venmo Account Status Transition
      *
      * @param userToken         User token
-     * @param venmoAccountToken Venmo Account token
+     * @param venmoAccountToken Venmo account token
      * @param transition        Status transition information
      * @return HyperwalletStatusTransition new status for venmo Account
      */
@@ -1275,7 +1275,7 @@ public class Hyperwallet {
             throw new HyperwalletException("User token is required");
         }
         if (StringUtils.isEmpty(venmoAccountToken)) {
-            throw new HyperwalletException("venmo Account token is required");
+            throw new HyperwalletException("Venmo account token is required");
         }
         if (!StringUtils.isEmpty(transition.getToken())) {
             throw new HyperwalletException("Status Transition token may not be present");
@@ -1289,10 +1289,10 @@ public class Hyperwallet {
     }
 
     /**
-     * Get venmo Account Status Transition
+     * Get Venmo Account Status Transition
      *
      * @param userToken             User token
-     * @param venmoAccountToken     venmo Account token
+     * @param venmoAccountToken     Venmo account token
      * @param statusTransitionToken Status transition token
      * @return HyperwalletStatusTransition
      */
@@ -1301,7 +1301,7 @@ public class Hyperwallet {
             throw new HyperwalletException("User token is required");
         }
         if (StringUtils.isEmpty(venmoAccountToken)) {
-            throw new HyperwalletException("venmo Account token is required");
+            throw new HyperwalletException("Venmo account token is required");
         }
         if (StringUtils.isEmpty(statusTransitionToken)) {
             throw new HyperwalletException("Transition token is required");
@@ -1314,7 +1314,7 @@ public class Hyperwallet {
      * List All Venmo Account Status Transition information
      *
      * @param userToken         User token
-     * @param venmoAccountToken venmo Account token
+     * @param venmoAccountToken Venmo account token
      * @return HyperwalletList of HyperwalletStatusTransition
      */
     public HyperwalletList<HyperwalletStatusTransition> listVenmoAccountStatusTransitions(String userToken, String venmoAccountToken) {
@@ -1325,7 +1325,7 @@ public class Hyperwallet {
      * List Venmo Account Status Transition information
      *
      * @param userToken         User token
-     * @param venmoAccountToken Venmo Account token
+     * @param venmoAccountToken Venmo account token
      * @param options           List filter option
      * @return HyperwalletList of HyperwalletStatusTransition
      */
@@ -1335,7 +1335,7 @@ public class Hyperwallet {
             throw new HyperwalletException("User token is required");
         }
         if (StringUtils.isEmpty(venmoAccountToken)) {
-            throw new HyperwalletException("venmo Account token is required");
+            throw new HyperwalletException("Venmo account token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/venmo-accounts/" + venmoAccountToken + "/status-transitions", options);
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {

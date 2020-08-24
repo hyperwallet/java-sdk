@@ -3862,8 +3862,8 @@ public class HyperwalletTest {
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
             assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("venmo Account token is required")));
-            assertThat(e.getMessage(), is(equalTo("venmo Account token is required")));
+            assertThat(e.getErrorMessage(), is(equalTo("Venmo account token is required")));
+            assertThat(e.getMessage(), is(equalTo("Venmo account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
@@ -3957,8 +3957,8 @@ public class HyperwalletTest {
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
             assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("venmo Account token is required")));
-            assertThat(e.getMessage(), is(equalTo("venmo Account token is required")));
+            assertThat(e.getErrorMessage(), is(equalTo("Venmo account token is required")));
+            assertThat(e.getMessage(), is(equalTo("Venmo account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
@@ -4040,8 +4040,8 @@ public class HyperwalletTest {
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
             assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("venmo Account token is required")));
-            assertThat(e.getMessage(), is(equalTo("venmo Account token is required")));
+            assertThat(e.getErrorMessage(), is(equalTo("Venmo account token is required")));
+            assertThat(e.getMessage(), is(equalTo("Venmo account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
@@ -4107,8 +4107,8 @@ public class HyperwalletTest {
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
             assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("venmo Account token is required")));
-            assertThat(e.getMessage(), is(equalTo("venmo Account token is required")));
+            assertThat(e.getErrorMessage(), is(equalTo("Venmo account token is required")));
+            assertThat(e.getMessage(), is(equalTo("Venmo account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
@@ -4157,8 +4157,8 @@ public class HyperwalletTest {
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
             assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("venmo Account token is required")));
-            assertThat(e.getMessage(), is(equalTo("venmo Account token is required")));
+            assertThat(e.getErrorMessage(), is(equalTo("Venmo account token is required")));
+            assertThat(e.getMessage(), is(equalTo("Venmo account token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
@@ -4212,8 +4212,86 @@ public class HyperwalletTest {
 
         Mockito.verify(mockApiClient).get(Mockito
                         .eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/venmo-accounts/test-venmo-account-token/status"
-                        + "-transitions?createdBefore=2020-08-20T23:20:26Z&sortBy=test-sort-by&offset=5"),
+                                + "-transitions?createdBefore=2020-08-20T23:20:26Z&sortBy=test-sort-by&offset=5"),
                 Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testUpdateVenmoAccount_noVenmoAccount() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updateVenmoAccount(null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Venmo Account is required")));
+            assertThat(e.getMessage(), is(equalTo("Venmo Account is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdateVenmoAccount_noUserToken() {
+        HyperwalletVenmoAccount venmoAccount = new HyperwalletVenmoAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updateVenmoAccount(venmoAccount);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdateVenmoAccount_noVenmoAccountToken() {
+        HyperwalletVenmoAccount venmoAccount = new HyperwalletVenmoAccount();
+        venmoAccount.setUserToken("test-user-token");
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updateVenmoAccount(venmoAccount);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Venmo Account token is required")));
+            assertThat(e.getMessage(), is(equalTo("Venmo Account token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdateVenmoAccount_successful() throws Exception {
+        HyperwalletVenmoAccount venmoAccount = new HyperwalletVenmoAccount();
+        venmoAccount.setToken("test-venmo-account-token");
+        venmoAccount.setUserToken("test-user-token");
+
+        HyperwalletVenmoAccount venmoAccountResponse = new HyperwalletVenmoAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(venmoAccountResponse);
+
+        HyperwalletVenmoAccount resp = client.updateVenmoAccount(venmoAccount);
+        assertThat(resp, is(equalTo(venmoAccountResponse)));
+
+        ArgumentCaptor<HyperwalletVenmoAccount> argument = ArgumentCaptor.forClass(HyperwalletVenmoAccount.class);
+        Mockito.verify(mockApiClient)
+                .put(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/venmo-accounts/test-venmo-account-token"),
+                        argument.capture(), Mockito.eq(venmoAccount.getClass()));
+
+        HyperwalletVenmoAccount apiClientVenmoAccount = argument.getValue();
+        assertThat(apiClientVenmoAccount, is(notNullValue()));
     }
 
     //--------------------------------------
