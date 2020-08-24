@@ -14,6 +14,7 @@ import java.util.Date;
 public class HyperwalletPayment extends HyperwalletBaseMonitor {
 
     private String token;
+    private String status;
 
     private Date createdOn;
     private Double amount;
@@ -45,6 +46,27 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     public HyperwalletPayment clearToken() {
         clearField("token");
         this.token = null;
+        return this;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        addField("status", status);
+        this.status = status;
+    }
+
+    public HyperwalletPayment status(String status) {
+        addField("status", status);
+        this.status = status;
+        return this;
+    }
+
+    public HyperwalletPayment clearStatus() {
+        clearField("status");
+        status = null;
         return this;
     }
 

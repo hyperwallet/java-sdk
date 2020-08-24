@@ -22,7 +22,6 @@ public class HyperwalletBankAccountTest extends BaseModelTest<HyperwalletBankAcc
                 .branchName("test-branch-name")
                 .branchId("test-branch-id")
                 .bankAccountId("test-bank-account-id")
-                .bankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship.SELF)
                 .bankAccountPurpose("test-bank-account-purpose")
 
                 .branchAddressLine1("test-branch-address-line1")
@@ -48,6 +47,7 @@ public class HyperwalletBankAccountTest extends BaseModelTest<HyperwalletBankAcc
                 .profileType(HyperwalletUser.ProfileType.INDIVIDUAL)
 
                 .businessName("test-business-name")
+                .businessOperatingName("test-business-operating-name")
                 .businessRegistrationId("test-business-registration-id")
                 .businessRegistrationStateProvince("test-business-registration-state-province")
                 .businessRegistrationCountry("test-business-registration-country")

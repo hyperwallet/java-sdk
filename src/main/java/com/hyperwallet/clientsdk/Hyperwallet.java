@@ -19,7 +19,7 @@ import java.util.TimeZone;
  */
 public class Hyperwallet {
 
-    public static final String VERSION = "0.1.0";
+    public static final String VERSION = "1.4.2";
 
     private final HyperwalletApiClient apiClient;
     private final String programToken;
@@ -496,7 +496,7 @@ public class Hyperwallet {
     /**
      * Get Bank Card
      *
-     * @param userToken        User token assigned
+     * @param userToken     User token assigned
      * @param bankCardToken Bank Card token
      * @return HyperwalletBankCard Bank Card
      */
@@ -1093,6 +1093,111 @@ public class Hyperwallet {
      */
     public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken) {
         return listPayPalAccounts(userToken, null);
+    }
+
+    /**
+     * Deactivate PayPal Account
+     *
+     * @param userToken          User token
+     * @param payPalAccountToken PayPal Account token
+     * @return HyperwalletStatusTransition deactivated PayPal account
+     */
+    public HyperwalletStatusTransition deactivatePayPalAccount(String userToken, String payPalAccountToken) {
+        return deactivatePayPalAccount(userToken, payPalAccountToken, null);
+    }
+
+    /**
+     * Deactivate PayPal Account
+     *
+     * @param userToken          User token
+     * @param payPalAccountToken PayPal Account token
+     * @param notes              Comments regarding the status change
+     * @return HyperwalletStatusTransition deactivated PayPal account
+     */
+    public HyperwalletStatusTransition deactivatePayPalAccount(String userToken, String payPalAccountToken, String notes) {
+        return createPayPalAccountStatusTransition(userToken,
+                payPalAccountToken,
+                new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.DE_ACTIVATED).notes(notes));
+    }
+
+    /**
+     * Create PayPal Account Status Transition
+     *
+     * @param userToken          User token
+     * @param payPalAccountToken PayPal Account token
+     * @param transition         Status transition information
+     * @return HyperwalletStatusTransition new status for PayPal Account
+     */
+    public HyperwalletStatusTransition createPayPalAccountStatusTransition(String userToken, String payPalAccountToken, HyperwalletStatusTransition transition) {
+        if (transition == null) {
+            throw new HyperwalletException("Transition is required");
+        }
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(payPalAccountToken)) {
+            throw new HyperwalletException("PayPal Account token is required");
+        }
+        if (!StringUtils.isEmpty(transition.getToken())) {
+            throw new HyperwalletException("Status Transition token may not be present");
+        }
+        transition = copy(transition);
+        transition.setCreatedOn(null);
+        transition.setFromStatus(null);
+        transition.setToStatus(null);
+        return apiClient.post(url + "/users/" + userToken + "/paypal-accounts/" + payPalAccountToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * Get PayPal Account Status Transition
+     *
+     * @param userToken             User token
+     * @param payPalAccountToken    PayPal Account token
+     * @param statusTransitionToken Status transition token
+     * @return HyperwalletStatusTransition
+     */
+    public HyperwalletStatusTransition getPayPalAccountStatusTransition(String userToken, String payPalAccountToken, String statusTransitionToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(payPalAccountToken)) {
+            throw new HyperwalletException("PayPal Account token is required");
+        }
+        if (StringUtils.isEmpty(statusTransitionToken)) {
+            throw new HyperwalletException("Transition token is required");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/paypal-accounts/" + payPalAccountToken + "/status-transitions/" + statusTransitionToken, HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * List All PayPal Account Status Transition information
+     *
+     * @param userToken          User token
+     * @param payPalAccountToken PayPal Account token
+     * @return HyperwalletList of HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listPayPalAccountStatusTransitions(String userToken, String payPalAccountToken) {
+        return listPayPalAccountStatusTransitions(userToken, payPalAccountToken, null);
+    }
+
+    /**
+     * List PayPal Account Status Transition information
+     *
+     * @param userToken          User token
+     * @param payPalAccountToken PayPal Account token
+     * @param options            List filter option
+     * @return HyperwalletList of HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listPayPalAccountStatusTransitions(String userToken, String payPalAccountToken, HyperwalletPaginationOptions options) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(payPalAccountToken)) {
+            throw new HyperwalletException("PayPal Account token is required");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/paypal-accounts/" + payPalAccountToken + "/status-transitions", options);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
+        });
     }
 
     //--------------------------------------

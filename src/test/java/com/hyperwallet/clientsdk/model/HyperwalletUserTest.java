@@ -21,6 +21,7 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
 
                 .businessType(HyperwalletUser.BusinessType.CORPORATION)
                 .businessName("test-business-name")
+                .businessOperatingName("test-business-operating-name")
                 .businessRegistrationId("test-business-registration-id")
                 .businessRegistrationStateProvince("test-business-registration-state-province")
                 .businessRegistrationCountry("test-business-registration-country")

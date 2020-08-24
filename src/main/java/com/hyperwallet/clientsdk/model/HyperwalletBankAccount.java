@@ -30,7 +30,6 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     private String branchName;
     private String branchId;
     private String bankAccountId;
-    private HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship;
     private String bankAccountPurpose;
 
     private String branchAddressLine1;
@@ -56,6 +55,7 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     private HyperwalletUser.ProfileType profileType;
 
     private String businessName;
+    private String businessOperatingName;
     private String businessRegistrationId;
     private String businessRegistrationStateProvince;
     private String businessRegistrationCountry;
@@ -308,27 +308,6 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     public HyperwalletBankAccount clearBankAccountId() {
         clearField("bankAccountId");
         bankAccountId = null;
-        return this;
-    }
-
-    public HyperwalletTransferMethod.BankAccountRelationship getBankAccountRelationship() {
-        return bankAccountRelationship;
-    }
-
-    public void setBankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship) {
-        addField("bankAccountRelationship", bankAccountRelationship);
-        this.bankAccountRelationship = bankAccountRelationship;
-    }
-
-    public HyperwalletBankAccount bankAccountRelationship(HyperwalletTransferMethod.BankAccountRelationship bankAccountRelationship) {
-        addField("bankAccountRelationship", bankAccountRelationship);
-        this.bankAccountRelationship = bankAccountRelationship;
-        return this;
-    }
-
-    public HyperwalletBankAccount clearBankAccountRelationship() {
-        clearField("bankAccountRelationship");
-        bankAccountRelationship = null;
         return this;
     }
 
@@ -749,6 +728,27 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     public HyperwalletBankAccount clearBusinessName() {
         clearField("businessName");
         businessName = null;
+        return this;
+    }
+
+    public String getBusinessOperatingName() {
+        return businessOperatingName;
+    }
+
+    public void setBusinessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+    }
+
+    public HyperwalletBankAccount businessOperatingName(String businessOperatingName) {
+        addField("businessOperatingName", businessOperatingName);
+        this.businessOperatingName = businessOperatingName;
+        return this;
+    }
+
+    public HyperwalletBankAccount clearBusinessOperatingName() {
+        clearField("businessOperatingName");
+        businessOperatingName = null;
         return this;
     }
 
