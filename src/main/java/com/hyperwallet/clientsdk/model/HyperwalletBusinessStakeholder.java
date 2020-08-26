@@ -28,31 +28,28 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
     private String isDirector;
     private String isUltimateBeneficialOwner;
     private String isSeniorManagingOfficial;
-    private BusinessStakeHolderAccountStatus status;
-    private VerificationStatus verificationStatus;
-    private Date createdOn;
-    private ProfileType profileType;
+  //  private BusinessStakeHolderAccountStatus status;
+  //  private VerificationStatus verificationStatus;
+  //  private Date createdOn;
+    private String profileType;
 
     private String firstName;
     private String middleName;
     private String lastName;
     private Date dateOfBirth;
-    private String countryOfBirth;
-    private String countryOfNationality;
-    private Gender gender;
     private String phoneNumber;
     private String mobileNumber;
     private String email;
     private String governmentId;
-    private GovernmentIdType governmentIdType;
-    private String driversLicenseId;
+    private String governmentIdType;
     private String addressLine1;
     private String addressLine2;
     private String city;
     private String stateProvince;
     private String country;
+    private String countryOfBirth;
+    private String countryOfNationality;
     private String postalCode;
-
 
     public String getToken() {
         return token;
@@ -165,79 +162,79 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public BusinessStakeHolderAccountStatus getStatus() {
-        return status;
-    }
+//    public BusinessStakeHolderAccountStatus getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(BusinessStakeHolderAccountStatus status) {
+//        addField("status", status);
+//        this.status = status;
+//    }
+//
+//    public HyperwalletBusinessStakeholder status(BusinessStakeHolderAccountStatus status) {
+//        addField("status", status);
+//        this.status = status;
+//        return this;
+//    }
+//
+//    public HyperwalletBusinessStakeholder clearStatus() {
+//        clearField("status");
+//        status = null;
+//        return this;
+//    }
 
-    public void setStatus(BusinessStakeHolderAccountStatus status) {
-        addField("status", status);
-        this.status = status;
-    }
+//    public VerificationStatus getVerificationStatus() {
+//        return verificationStatus;
+//    }
+//
+//    public void setVerificationStatus(VerificationStatus verificationStatus) {
+//        addField("verificationStatus", verificationStatus);
+//        this.verificationStatus = verificationStatus;
+//    }
+//
+//    public HyperwalletBusinessStakeholder verificationStatus(VerificationStatus verificationStatus) {
+//        addField("verificationStatus", verificationStatus);
+//        this.verificationStatus = verificationStatus;
+//        return this;
+//    }
+//
+//    public HyperwalletBusinessStakeholder clearVerificationStatus() {
+//        clearField("verificationStatus");
+//        verificationStatus = null;
+//        return this;
+//    }
 
-    public HyperwalletBusinessStakeholder status(BusinessStakeHolderAccountStatus status) {
-        addField("status", status);
-        this.status = status;
-        return this;
-    }
+//    public Date getCreatedOn() {
+//        return createdOn;
+//    }
+//
+//    public void setCreatedOn(Date createdOn) {
+//        addField("createdOn", createdOn);
+//        this.createdOn = createdOn;
+//    }
+//
+//    public HyperwalletBusinessStakeholder createdOn(Date createdOn) {
+//        addField("createdOn", createdOn);
+//        this.createdOn = createdOn;
+//        return this;
+//    }
+//
+//    public HyperwalletBusinessStakeholder clearCreatedOn() {
+//        clearField("createdOn");
+//        createdOn = null;
+//        return this;
+//    }
 
-    public HyperwalletBusinessStakeholder clearStatus() {
-        clearField("status");
-        status = null;
-        return this;
-    }
-
-    public VerificationStatus getVerificationStatus() {
-        return verificationStatus;
-    }
-
-    public void setVerificationStatus(VerificationStatus verificationStatus) {
-        addField("verificationStatus", verificationStatus);
-        this.verificationStatus = verificationStatus;
-    }
-
-    public HyperwalletBusinessStakeholder verificationStatus(VerificationStatus verificationStatus) {
-        addField("verificationStatus", verificationStatus);
-        this.verificationStatus = verificationStatus;
-        return this;
-    }
-
-    public HyperwalletBusinessStakeholder clearVerificationStatus() {
-        clearField("verificationStatus");
-        verificationStatus = null;
-        return this;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        addField("createdOn", createdOn);
-        this.createdOn = createdOn;
-    }
-
-    public HyperwalletBusinessStakeholder createdOn(Date createdOn) {
-        addField("createdOn", createdOn);
-        this.createdOn = createdOn;
-        return this;
-    }
-
-    public HyperwalletBusinessStakeholder clearCreatedOn() {
-        clearField("createdOn");
-        createdOn = null;
-        return this;
-    }
-
-    public ProfileType getProfileType() {
+    public String getProfileType() {
         return profileType;
     }
 
-    public void setProfileType(ProfileType profileType) {
+    public void setProfileType(String profileType) {
         addField("profileType", profileType);
         this.profileType = profileType;
     }
 
-    public HyperwalletBusinessStakeholder profileType(ProfileType profileType) {
+    public HyperwalletBusinessStakeholder profileType(String profileType) {
         addField("profileType", profileType);
         this.profileType = profileType;
         return this;
@@ -375,26 +372,26 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        addField("gender", gender);
-        this.gender = gender;
-    }
-
-    public HyperwalletBusinessStakeholder gender(Gender gender) {
-        addField("gender", gender);
-        this.gender = gender;
-        return this;
-    }
-
-    public HyperwalletBusinessStakeholder clearGender() {
-        clearField("gender");
-        gender = null;
-        return this;
-    }
+//    public Gender getGender() {
+//        return gender;
+//    }
+//
+//    public void setGender(Gender gender) {
+//        addField("gender", gender);
+//        this.gender = gender;
+//    }
+//
+//    public HyperwalletBusinessStakeholder gender(Gender gender) {
+//        addField("gender", gender);
+//        this.gender = gender;
+//        return this;
+//    }
+//
+//    public HyperwalletBusinessStakeholder clearGender() {
+//        clearField("gender");
+//        gender = null;
+//        return this;
+//    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -480,21 +477,21 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public String getDriversLicenseId() {
-        return driversLicenseId;
-    }
+//    public String getDriversLicenseId() {
+//        return driversLicenseId;
+//    }
 
 
-    public GovernmentIdType getGovernmentIdType() {
+    public String getGovernmentIdType() {
         return governmentIdType;
     }
 
-    public void setGovernmentIdType(GovernmentIdType governmentIdType) {
+    public void setGovernmentIdType(String governmentIdType) {
         addField("governmentIdType", governmentIdType);
         this.governmentIdType = governmentIdType;
     }
 
-    public HyperwalletBusinessStakeholder governmentIdType(GovernmentIdType governmentIdType) {
+    public HyperwalletBusinessStakeholder governmentIdType(String governmentIdType) {
         addField("governmentIdType", governmentIdType);
         this.governmentIdType = governmentIdType;
         return this;
@@ -506,22 +503,22 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public void setDriversLicenseId(String driversLicenseId) {
-        addField("driversLicenseId", driversLicenseId);
-        this.driversLicenseId = driversLicenseId;
-    }
+//    public void setDriversLicenseId(String driversLicenseId) {
+//        addField("driversLicenseId", driversLicenseId);
+//        this.driversLicenseId = driversLicenseId;
+//    }
 
-    public HyperwalletBusinessStakeholder driversLicenseId(String driversLicenseId) {
-        addField("driversLicenseId", driversLicenseId);
-        this.driversLicenseId = driversLicenseId;
-        return this;
-    }
-
-    public HyperwalletBusinessStakeholder clearDriversLicenseId() {
-        clearField("driversLicenseId");
-        driversLicenseId = null;
-        return this;
-    }
+//    public HyperwalletBusinessStakeholder driversLicenseId(String driversLicenseId) {
+//        addField("driversLicenseId", driversLicenseId);
+//        this.driversLicenseId = driversLicenseId;
+//        return this;
+//    }
+//
+//    public HyperwalletBusinessStakeholder clearDriversLicenseId() {
+//        clearField("driversLicenseId");
+//        driversLicenseId = null;
+//        return this;
+//    }
 
     public String getAddressLine1() {
         return addressLine1;
