@@ -37,7 +37,7 @@ public class Hyperwallet {
                        final HyperwalletEncryption hyperwalletEncryption) {
         apiClient = new HyperwalletApiClient(username, password, VERSION, hyperwalletEncryption);
         this.programToken = programToken;
-        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v3" : server + "/rest/v3";
+        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v4" : server + "/rest/v4";
    //     this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v4" : server + "/rest/v4";
     }
 
@@ -184,7 +184,8 @@ public class Hyperwallet {
      * @param userToken String
      * @return HyperwalletBusinessStakeholder created Stakeholder
      */
-    public HyperwalletBusinessStakeholder createBusinessStakeholder(HyperwalletBusinessStakeholder stakeholder, String userToken) {
+    public HyperwalletBusinessStakeholder createBusinessStakeholder(String userToken, HyperwalletBusinessStakeholder stakeholder) {
+        System.out.println("--Business Stakeholder - create");
         if (stakeholder == null) {
             throw new HyperwalletException("Stakeholder is required");
         }
@@ -193,8 +194,24 @@ public class Hyperwallet {
         }
         stakeholder = copy(stakeholder);
         stakeholder.setStatus(null);
-        stakeholder.setCreatedOn(null);
+        stakxeholder.setCreatedOn(null);
         return apiClient.post(url + "/users/"+ userToken + "/business-stakeholders", stakeholder, HyperwalletBusinessStakeholder.class);
+    }
+
+    /**
+     * Update User
+     *
+     * @param user Hyperwallet User representation object
+     * @return HyperwalletUser updated user object
+     */
+    public HyperwalletUser updateBusinessStakeholder(HyperwalletBusinessStakeholder stakeholder) {
+        if (user == null) {
+            throw new HyperwalletException("User is required");
+        }
+        if (StringUtils.isEmpty(user.getToken())) {
+            throw new HyperwalletException("User token is required");
+        }
+        return apiClient.put(url + "/users/" + user.getToken(), user, HyperwalletUser.class);
     }
 
     /**
