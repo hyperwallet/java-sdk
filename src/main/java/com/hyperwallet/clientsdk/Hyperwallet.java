@@ -178,7 +178,7 @@ public class Hyperwallet {
     }
 
     /**
-     *  Create Business Stake Holder
+     *  Create Business Stakeholder
      *
      * @param stakeholder Hyperwallet Stakeholder representation
      * @param userToken String
@@ -193,8 +193,8 @@ public class Hyperwallet {
             throw new HyperwalletException("User token may not be present");
         }
         stakeholder = copy(stakeholder);
-        stakeholder.setStatus(null);
-        stakxeholder.setCreatedOn(null);
+ //       stakeholder.setStatus(null);
+ //       stakeholder.setCreatedOn(null);
         return apiClient.post(url + "/users/"+ userToken + "/business-stakeholders", stakeholder, HyperwalletBusinessStakeholder.class);
     }
 
@@ -204,15 +204,15 @@ public class Hyperwallet {
      * @param user Hyperwallet User representation object
      * @return HyperwalletUser updated user object
      */
-    public HyperwalletUser updateBusinessStakeholder(HyperwalletBusinessStakeholder stakeholder) {
-        if (user == null) {
-            throw new HyperwalletException("User is required");
-        }
-        if (StringUtils.isEmpty(user.getToken())) {
-            throw new HyperwalletException("User token is required");
-        }
-        return apiClient.put(url + "/users/" + user.getToken(), user, HyperwalletUser.class);
-    }
+//    public HyperwalletUser updateBusinessStakeholder(HyperwalletBusinessStakeholder stakeholder) {
+//        if (stakeholder == null) {
+//            throw new HyperwalletException("User is required");
+//        }
+//        if (StringUtils.isEmpty(stakeholder.getToken())) {
+//            throw new HyperwalletException("User token is required");
+//        }
+//        return apiClient.put(url + "/users/" + user.getToken(), user, HyperwalletUser.class);
+//    }
 
     /**
      * Get Authentication Token
