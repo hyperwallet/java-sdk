@@ -1,5 +1,10 @@
 Changelog
 =========
+1.5.0
+------------------
+- Added Venmo Accounts
+
+
 1.4.2
 ------------------
 - Added status param to HyperwalletPayment
