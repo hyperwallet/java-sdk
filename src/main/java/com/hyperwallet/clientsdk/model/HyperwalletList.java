@@ -1,30 +1,42 @@
 package com.hyperwallet.clientsdk.model;
 
-import java.util.ArrayList;
+import javax.ws.rs.core.Link;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.List;
 
 public class HyperwalletList<T> {
 
-    private int count;
-    private int offset;
+    private boolean hasNextPage;
+    private boolean hasPreviousPage;
     private int limit;
+    private List<T> data;
+    private List<HyperwalletHateoasLink> links;
 
-    private List<T> data = new ArrayList<T>();
-
-    public int getCount() {
-        return count;
+    public List<HyperwalletHateoasLink> getLinks() {
+        return links;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setLinks(List<HyperwalletHateoasLink> links) {
+        this.links = links;
     }
 
-    public int getOffset() {
-        return offset;
+    public HyperwalletList() {
     }
 
-    public void setOffset(int offset) {
-        this.offset = offset;
+    public boolean isHasPreviousPage() {
+        return hasPreviousPage;
+    }
+
+    public void setHasPreviousPage(boolean hasPreviousPage) {
+        this.hasPreviousPage = hasPreviousPage;
+    }
+
+    public boolean isHasNextPage() {
+        return hasNextPage;
+    }
+
+    public void setHasNextPage(boolean hasNextPage) {
+        this.hasNextPage = hasNextPage;
     }
 
     public int getLimit() {
@@ -42,4 +54,5 @@ public class HyperwalletList<T> {
     public void setData(List<T> data) {
         this.data = data;
     }
+
 }
