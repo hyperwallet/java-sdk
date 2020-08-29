@@ -38,7 +38,10 @@ public class Hyperwallet {
                        final HyperwalletEncryption hyperwalletEncryption) {
         apiClient = new HyperwalletApiClient(username, password, VERSION, hyperwalletEncryption);
         this.programToken = programToken;
-        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v3" : server + "/rest/v3";
+
+        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v4" : server + "/rest/v4";
+  //      this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v3" : server + "/rest/v3";
+
     }
 
     /**
@@ -155,9 +158,12 @@ public class Hyperwallet {
      * @return HyperwalletList of HyperwalletUser
      */
     public HyperwalletList<HyperwalletUser> listUsers(HyperwalletPaginationOptions options) {
+        String url_V4 = "https://api.sandbox.hyperwallet.com/rest/v4";
         String url = paginate(this.url + "/users", options);
-        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {
+        HyperwalletList<HyperwalletUser> list = apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {
         });
+
+        return list;
     }
 
     /**

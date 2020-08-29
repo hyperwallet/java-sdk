@@ -18,22 +18,39 @@ public class HyperwalletListTest {
     @Test
     public void testHyperwalletList() {
         HyperwalletList<String> list = new HyperwalletList<String>();
-        assertThat(list.getCount(), is(equalTo(0)));
+        assertThat(list.isHasNextPage(), is(equalTo(false)));
+        assertThat(list.isHasPreviousPage(), is(equalTo(false)));
         assertThat(list.getLimit(), is(equalTo(0)));
-        assertThat(list.getOffset(), is(equalTo(0)));
         assertThat(list.getData(), is(Matchers.<String>empty()));
 
-        list.setCount(1);
+        assertThat(list.isHasNextPage(), is(equalTo(false)));
+        assertThat(list.isHasPreviousPage(), is(equalTo(false)));
         list.setLimit(2);
-        list.setOffset(3);
         List<String> strList = new ArrayList<String>();
         strList.add("test");
         list.setData(strList);
 
-        assertThat(list.getCount(), is(equalTo(1)));
+        assertThat(list.isHasNextPage(), is(equalTo(false)));
+        assertThat(list.isHasPreviousPage(), is(equalTo(false)));
         assertThat(list.getLimit(), is(equalTo(2)));
-        assertThat(list.getOffset(), is(equalTo(3)));
         assertThat(list.getData(), is(equalTo(strList)));
+
+        assertThat(list.isHasNextPage(), is(equalTo(false)));
+        assertThat(list.isHasPreviousPage(), is(equalTo(false)));
+        assertThat(list.getLimit(), is(equalTo(2)));
+        assertThat(list.getData(), is(equalTo(strList)));
+
+        for(int i=0; i < 200; i++){
+            strList.add("test" + i);
+        }
+        list.setData(strList);
+        System.out.println("Size of list = " + strList.size() );
+//        assertThat(list.isHasNextPage(), is(equalTo(true)));
+//        assertThat(list.isHasPreviousPage(), is(equalTo(false)));
+//        assertThat(list.getLimit(), is(equalTo(100)));
+//        assertThat(list.getData(), is(equalTo(strList)));
+
+
     }
 
 }
