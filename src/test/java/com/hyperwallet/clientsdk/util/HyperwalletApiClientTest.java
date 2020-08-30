@@ -1285,7 +1285,7 @@ public class HyperwalletApiClientTest {
             Client mockClient = createAndInjectWebResourceClient(hyperwalletApiClient);
 
             WebResource webResource = mock(WebResource.class);
-            when(mockClient.resource("http://localhost:2016/documentUpload")).thenReturn(webResource);
+            when(mockClient.resource(baseUrl + "/documentUpload")).thenReturn(webResource);
             WebResource.Builder builder = mock(WebResource.Builder.class);
             when(webResource.type(MediaType.MULTIPART_FORM_DATA_TYPE)).thenReturn(builder);
 
