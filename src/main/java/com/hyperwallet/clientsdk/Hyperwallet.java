@@ -6,6 +6,7 @@ import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -38,7 +39,7 @@ public class Hyperwallet {
                        final HyperwalletEncryption hyperwalletEncryption) {
         apiClient = new HyperwalletApiClient(username, password, VERSION, hyperwalletEncryption);
         this.programToken = programToken;
-        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v3" : server + "/rest/v3";
+        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v4" : server + "/rest/v4";
     }
 
     /**
@@ -1922,6 +1923,24 @@ public class Hyperwallet {
     private HyperwalletPayPalAccount copy(HyperwalletPayPalAccount payPalAccount) {
         payPalAccount = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(payPalAccount), HyperwalletPayPalAccount.class);
         return payPalAccount;
+    }
+
+    //--------------------------------------
+    // Upload documents for user endpoint
+    //--------------------------------------
+
+    /**
+     * Upload documents
+     *
+     * @param userToken userToken for which documents to be uploaded
+     * @param multiPart multipart FormdataMultipart to get uploaded
+     * @return HyperwalletUser user object with document upload status
+     */
+    public HyperwalletUser documentUpload(String userToken, FormDataMultiPart multiPart) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is not present");
+        }
+        return apiClient.put(url + "/users/" + userToken, multiPart, HyperwalletUser.class);
     }
 
 }
