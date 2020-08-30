@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
     <name>hyperwallet-java-sdk</name>
-    <description>An SDK implementation in Java for the v3 REST APIs.</description>
+    <description>An SDK implementation in Java for the v4 REST APIs.</description>
 
     <url>https://github.com/hyperwallet/java-sdk</url>
 

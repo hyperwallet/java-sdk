@@ -1,3 +1,3 @@
-curl -X "GET" "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-f695ef43-9614-4e17-9269-902c234616c3/paypal-accounts/trm-da21954a-3910-4d70-b83d-0c2d96104394/status-transitions/sts-70ddc78a-0c14-4a72-8390-75d49ff376f2" \
+curl -X "GET" "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-f695ef43-9614-4e17-9269-902c234616c3/paypal-accounts/trm-da21954a-3910-4d70-b83d-0c2d96104394/status-transitions/sts-70ddc78a-0c14-4a72-8390-75d49ff376f2" \
 -u testuser@12345678:myAccPassw0rd \
 -H "Accept: application/json"  \
