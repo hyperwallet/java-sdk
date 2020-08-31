@@ -10,7 +10,7 @@ import org.junit.Test;
 import java.util.Date;
 
 
-public class HyperwalletBusinessStakeholderTest extends BaseModelTest<HyperwalletBusinessStakeholder>  {
+public class HyperwalletBusinessStakeholderTest {
 
     protected HyperwalletBusinessStakeholder createBaseModel() {
 
@@ -45,7 +45,6 @@ public class HyperwalletBusinessStakeholderTest extends BaseModelTest<Hyperwalle
      return stakeholder;
  }
 
-    @Override
     protected Class<HyperwalletBusinessStakeholder> createModelClass() {
         return HyperwalletBusinessStakeholder.class;
     }
