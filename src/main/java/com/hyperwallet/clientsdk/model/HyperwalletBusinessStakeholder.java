@@ -2,8 +2,6 @@ package com.hyperwallet.clientsdk.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
-import com.hyperwallet.clientsdk.model.HyperwalletUser;
-//import com.hyperwallet.clientsdk.model.HyperwalletUser.ProfileType;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -75,7 +73,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public boolean getIsBusinessContact() {
+    public Boolean getIsBusinessContact() {
         return isBusinessContact;
     }
 
@@ -84,7 +82,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         this.isBusinessContact = isBusinessContact;
     }
 
-    public HyperwalletBusinessStakeholder isBusinessContact(boolean isBusinessContact) {
+    public HyperwalletBusinessStakeholder isBusinessContact(Boolean isBusinessContact) {
         addField("isBusinessContact", isBusinessContact);
         this.isBusinessContact = isBusinessContact;
         return this;
@@ -96,22 +94,16 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public boolean getIsDirector() {
+    public Boolean getIsDirector() {
         return isDirector;
     }
 
-    public void setIsDirector(boolean isDirector) {
-//        if(isDirector == null){
-//            isDirector = new Boolean("false");
-//        }
+    public void setIsDirector(Boolean isDirector) {
         addField("isDirector", isDirector);
         this.isDirector = isDirector;
     }
 
-    public HyperwalletBusinessStakeholder isDirector(boolean isDirector) {
-//        if(isDirector == null){
-//            isDirector = new Boolean("false");
-//        }
+    public HyperwalletBusinessStakeholder isDirector(Boolean isDirector) {
         addField("isBusinessContact", isDirector);
         this.isDirector = isDirector;
         return this;
@@ -123,16 +115,16 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public boolean getIsUltimateBeneficialOwner() {
+    public Boolean getIsUltimateBeneficialOwner() {
         return isUltimateBeneficialOwner;
     }
 
-    public void setIsUltimateBeneficialOwner(boolean isUltimateBeneficialOwner) {
+    public void setIsUltimateBeneficialOwner(Boolean isUltimateBeneficialOwner) {
         addField("isUltimateBeneficialOwner", isUltimateBeneficialOwner);
         this.isUltimateBeneficialOwner = isUltimateBeneficialOwner;
     }
 
-    public HyperwalletBusinessStakeholder isUltimateBeneficialOwner(boolean isUltimateBeneficialOwner) {
+    public HyperwalletBusinessStakeholder isUltimateBeneficialOwner(Boolean isUltimateBeneficialOwner) {
         addField("isUltimateBeneficialOwner", isUltimateBeneficialOwner);
         this.isUltimateBeneficialOwner = isUltimateBeneficialOwner;
         return this;
@@ -144,7 +136,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public boolean getIsSeniorManagingOfficial() {
+    public Boolean getIsSeniorManagingOfficial() {
         return isSeniorManagingOfficial;
     }
 
@@ -161,7 +153,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
 
     public HyperwalletBusinessStakeholder clearIsSeniorManagingOfficial() {
         clearField("isSeniorManagingOfficial");
-        isSeniorManagingOfficial = Boolean.parseBoolean(null);
+        isSeniorManagingOfficial = false;
         return this;
     }
 
