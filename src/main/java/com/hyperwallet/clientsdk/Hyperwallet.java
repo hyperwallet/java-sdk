@@ -193,26 +193,51 @@ public class Hyperwallet {
             throw new HyperwalletException("User token may not be present");
         }
         stakeholder = copy(stakeholder);
- //       stakeholder.setStatus(null);
- //       stakeholder.setCreatedOn(null);
         return apiClient.post(url + "/users/"+ userToken + "/business-stakeholders", stakeholder, HyperwalletBusinessStakeholder.class);
     }
 
     /**
-     * Update User
+     *  Update Business Stakeholder
      *
-     * @param user Hyperwallet User representation object
-     * @return HyperwalletUser updated user object
+     * @param userToken String
+     * @param stakeholder Hyperwallet Stakeholder representation
+     * @return HyperwalletBusinessStakeholder updated Stakeholder
      */
-//    public HyperwalletUser updateBusinessStakeholder(HyperwalletBusinessStakeholder stakeholder) {
-//        if (stakeholder == null) {
-//            throw new HyperwalletException("User is required");
-//        }
-//        if (StringUtils.isEmpty(stakeholder.getToken())) {
-//            throw new HyperwalletException("User token is required");
-//        }
-//        return apiClient.put(url + "/users/" + user.getToken(), user, HyperwalletUser.class);
-//    }
+    public HyperwalletBusinessStakeholder updateBusinessStakeholder(String userToken, HyperwalletBusinessStakeholder stakeholder) {
+        System.out.println("--Business Stakeholder - update");
+        if (stakeholder == null) {
+            throw new HyperwalletException("Stakeholder is required");
+        }
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        stakeholder = copy(stakeholder);
+        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + stakeholder.getToken(), stakeholder, HyperwalletBusinessStakeholder.class);
+    }
+
+    /**
+     * List BusinessStakeholders
+     *
+     * @param userToken String
+     * @return HyperwalletList of HyperwalletBusinessStakeholder
+     */
+    public HyperwalletList<HyperwalletBusinessStakeholder> listBusinessStakeholders(String userToken) {
+        return listBusinessStakeholders(userToken, null);
+    }
+
+    /**
+     * List BusinessStakeholders
+     *
+     * @param userToken String
+     * @param options List filter option
+     * @return HyperwalletList of HyperwalletBusinessStakeholder
+     */
+    public HyperwalletList<HyperwalletBusinessStakeholder> listBusinessStakeholders(String userToken, HyperwalletPaginationOptions options) {
+        String url = paginate(this.url + "/users/" + userToken + "/business-stakeholders", options);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBusinessStakeholder>>() {
+        });
+    }
+
 
     /**
      * Get Authentication Token
