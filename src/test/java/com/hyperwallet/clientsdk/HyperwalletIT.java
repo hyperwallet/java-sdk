@@ -104,7 +104,7 @@ public class HyperwalletIT {
         HyperwalletStatusTransition returnValue;
         try {
             returnValue = client.getUserStatusTransition("usr-2c059341-8281-4d30-a65d-a49d8e2a9b0f",
-                    "sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33");
+                                                            "sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -127,9 +127,9 @@ public class HyperwalletIT {
         initMockServer(functionality);
 
         HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard()
-                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
-                .token("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")
-                .cardPackage("US8419889B2");
+            .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+            .token("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")
+            .cardPackage("US8419889B2");
 
         HyperwalletPrepaidCard returnValue;
         try {
@@ -162,12 +162,12 @@ public class HyperwalletIT {
         initMockServer(functionality);
 
         HyperwalletBankCard bankCard = new HyperwalletBankCard()
-                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
-                .cardNumber("4216701111100114")
-                .dateOfExpiry(dateFormat.parse("2018-01-01T00:00:00 UTC"))
-                .cvv("123")
-                .transferMethodCountry("US")
-                .transferMethodCurrency("USD");
+            .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+            .cardNumber("4216701111100114")
+            .dateOfExpiry(dateFormat.parse("2018-01-01T00:00:00 UTC"))
+            .cvv("123")
+            .transferMethodCountry("US")
+            .transferMethodCurrency("USD");
 
         HyperwalletBankCard returnValue;
         try {
@@ -196,10 +196,10 @@ public class HyperwalletIT {
         initMockServer(functionality);
 
         HyperwalletBankCard bankCard = new HyperwalletBankCard()
-                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
-                .token("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")
-                .dateOfExpiry(dateFormat.parse("2018-11-01T00:00:00 UTC"))
-                .cvv("123");
+            .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+            .token("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")
+            .dateOfExpiry(dateFormat.parse("2018-11-01T00:00:00 UTC"))
+            .cvv("123");
 
         HyperwalletBankCard returnValue;
         try {
@@ -230,7 +230,7 @@ public class HyperwalletIT {
         HyperwalletBankCard returnValue;
         try {
             returnValue = client.getBankCard("usr-c4292f1a-866f-4310-a289-b916853939de",
-                    "trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f");
+                                             "trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -284,8 +284,8 @@ public class HyperwalletIT {
         HyperwalletStatusTransition returnValue;
         try {
             returnValue = client.deactivateBankCard("usr-f695ef43-9614-4e17-9269-902c234616c3",
-                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26",
-                    "Closing this account.");
+                                                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26",
+                                                    "Closing this account.");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -307,7 +307,7 @@ public class HyperwalletIT {
         HyperwalletList<HyperwalletStatusTransition> returnValue;
         try {
             returnValue = client.listBankCardStatusTransitions("usr-f695ef43-9614-4e17-9269-902c234616c3",
-                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26");
+                                                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -334,8 +334,8 @@ public class HyperwalletIT {
         HyperwalletStatusTransition returnValue;
         try {
             returnValue = client.createBankCardStatusTransition("usr-f695ef43-9614-4e17-9269-902c234616c3",
-                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26",
-                    transition);
+                                                                "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26",
+                                                                transition);
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -361,8 +361,8 @@ public class HyperwalletIT {
         HyperwalletStatusTransition returnValue;
         try {
             returnValue = client.getBankCardStatusTransition("usr-f695ef43-9614-4e17-9269-902c234616c3",
-                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26",
-                    "sts-1825afa2-61f1-4860-aa69-a65b9d14f556");
+                                                                "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26",
+                                                             "sts-1825afa2-61f1-4860-aa69-a65b9d14f556");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -386,9 +386,9 @@ public class HyperwalletIT {
         initMockServer(functionality);
 
         HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck()
-                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
-                .transferMethodCountry("US")
-                .transferMethodCurrency("USD");
+            .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+            .transferMethodCountry("US")
+            .transferMethodCurrency("USD");
 
         HyperwalletPaperCheck returnValue;
         try {
@@ -423,10 +423,10 @@ public class HyperwalletIT {
         initMockServer(functionality);
 
         HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck()
-                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
-                .token("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")
-                .addressLine1("123 Other Street")
-                .city("Far Away Land");
+            .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+            .token("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")
+            .addressLine1("123 Other Street")
+            .city("Far Away Land");
 
         HyperwalletPaperCheck returnValue;
         try {
@@ -463,7 +463,7 @@ public class HyperwalletIT {
         HyperwalletPaperCheck returnValue;
         try {
             returnValue = client.getPaperCheck("usr-c4292f1a-866f-4310-a289-b916853939de",
-                    "trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b");
+                                             "trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -529,8 +529,8 @@ public class HyperwalletIT {
         HyperwalletStatusTransition returnValue;
         try {
             returnValue = client.deactivatePaperCheck("usr-1dea80c9-c73e-4490-91b7-097d4a07550f",
-                    "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442",
-                    "Closing check.");
+                                                      "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442",
+                                                    "Closing check.");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -552,7 +552,7 @@ public class HyperwalletIT {
         HyperwalletList<HyperwalletStatusTransition> returnValue;
         try {
             returnValue = client.listPaperCheckStatusTransitions("usr-1dea80c9-c73e-4490-91b7-097d4a07550f",
-                    "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442");
+                                                               "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -579,8 +579,8 @@ public class HyperwalletIT {
         HyperwalletStatusTransition returnValue;
         try {
             returnValue = client.createPaperCheckStatusTransition("usr-1dea80c9-c73e-4490-91b7-097d4a07550f",
-                    "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442",
-                    transition);
+                                                                "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442",
+                                                                transition);
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -606,8 +606,8 @@ public class HyperwalletIT {
         HyperwalletStatusTransition returnValue;
         try {
             returnValue = client.getPaperCheckStatusTransition("usr-1dea80c9-c73e-4490-91b7-097d4a07550f",
-                    "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442",
-                    "sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7");
+                                                               "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442",
+                                                               "sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -974,7 +974,7 @@ public class HyperwalletIT {
         HyperwalletStatusTransition returnValue;
         try {
             returnValue = client.createPaymentStatusTransition("pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f",
-                    transition);
+                                                                transition);
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -1000,7 +1000,7 @@ public class HyperwalletIT {
         HyperwalletStatusTransition returnValue;
         try {
             returnValue = client.getPaymentStatusTransition("pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f",
-                    "sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33");
+                                                             "sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -1067,15 +1067,15 @@ public class HyperwalletIT {
     private void initMockServer(String functionality) throws IOException {
         mockServer.reset();
         mockServer
-                .when(parseRequest(functionality))
-                .respond(parseResponse(functionality));
+            .when(parseRequest(functionality))
+            .respond(parseResponse(functionality));
     }
 
     private HttpResponse parseResponse(String functionality) throws IOException {
         return HttpResponse.response()
-                .withHeader("Content-Type", "application/json")
-                .withStatusCode(HttpStatusCode.OK_200.code())
-                .withBody(org.apache.commons.io.IOUtils.toString(getClass().getResourceAsStream("/integration/" + functionality + "-response.json")));
+            .withHeader("Content-Type", "application/json")
+            .withStatusCode(HttpStatusCode.OK_200.code())
+            .withBody(org.apache.commons.io.IOUtils.toString(getClass().getResourceAsStream("/integration/" + functionality + "-response.json")));
     }
 
     private HttpResponse parseResponseWithErrorResponse(String functionality) throws IOException {
@@ -1115,9 +1115,9 @@ public class HyperwalletIT {
         }
 
         HttpRequest request = HttpRequest.request()
-                .withHeader(header("Authorization", ".*" ))
-                .withMethod(method)
-                .withPath(url);
+            .withHeader(header("Authorization", ".*" ))
+            .withMethod(method)
+            .withPath(url);
         for(Map.Entry<String, String> header: headers.entrySet()){
             request = request.withHeader(header.getKey(), header.getValue());
         }
