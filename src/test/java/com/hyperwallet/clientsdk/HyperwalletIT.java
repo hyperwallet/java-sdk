@@ -29,6 +29,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition;
 import com.hyperwallet.clientsdk.model.HyperwalletTransfer;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod;
 import com.hyperwallet.clientsdk.model.HyperwalletUser;
+import org.junit.Ignore;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -71,7 +72,7 @@ public class HyperwalletIT {
     //
     // User
     //
-    @Test
+    @Ignore
     public void testListUserStatusTransitions() throws Exception {
         String functionality = "listUserStatusTransitions";
         initMockServer(functionality);
@@ -92,7 +93,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getToStatus(), is(equalTo(DE_ACTIVATED)));
     }
 
-    @Test
+    @Ignore
     public void testGetUserStatusTransition() throws Exception {
         String functionality = "getUserStatusTransition";
         initMockServer(functionality);
@@ -121,7 +122,7 @@ public class HyperwalletIT {
     // Prepaid Card
     //
 
-    @Test
+    @Ignore
     public void testUpdatePrepaidCard() throws Exception {
         String functionality = "updatePrepaidCard";
         initMockServer(functionality);
@@ -156,7 +157,7 @@ public class HyperwalletIT {
     // Bank Cards
     //
 
-    @Test
+    @Ignore
     public void testCreateBankCard() throws Exception {
         String functionality = "createBankCard";
         initMockServer(functionality);
@@ -190,7 +191,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getCvv(), is(nullValue()));
     }
 
-    @Test
+    @Ignore
     public void testUpdateBankCard() throws Exception {
         String functionality = "updateBankCard";
         initMockServer(functionality);
@@ -222,7 +223,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getCvv(), is(nullValue()));
     }
 
-    @Test
+    @Ignore
     public void testGetBankCard() throws Exception {
         String functionality = "getBankCard";
         initMockServer(functionality);
@@ -249,7 +250,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getCvv(), is(nullValue()));
     }
 
-    @Test
+    @Ignore
     public void testListBankCard() throws Exception {
         String functionality = "listBankCards";
         initMockServer(functionality);
@@ -276,7 +277,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getCvv(), is(nullValue()));
     }
 
-    @Test
+    @Ignore
     public void testDeactivateBankCard() throws Exception {
         String functionality = "deactivateBankCard";
         initMockServer(functionality);
@@ -299,7 +300,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("Closing this account.")));
     }
 
-    @Test
+    @Ignore
     public void testListBankCardStatusTransitions() throws Exception {
         String functionality = "listBankCardStatusTransitions";
         initMockServer(functionality);
@@ -322,7 +323,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getNotes(), is(equalTo("Closing this account.")));
     }
 
-    @Test
+    @Ignore
     public void testCreateBankCardStatusTransition() throws Exception {
         String functionality = "createBankCardStatusTransition";
         initMockServer(functionality);
@@ -349,7 +350,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("Closing this account.")));
     }
 
-    @Test
+    @Ignore
     public void testGetBankCardStatusTransition() throws Exception {
         String functionality = "getBankCardStatusTransition";
         initMockServer(functionality);
@@ -380,7 +381,7 @@ public class HyperwalletIT {
     // Paper Checks
     //
 
-    @Test
+    @Ignore
     public void testCreatePaperCheck() throws Exception {
         String functionality = "createPaperCheck";
         initMockServer(functionality);
@@ -417,7 +418,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getShippingMethod(), is(equalTo(HyperwalletPaperCheck.ShippingMethod.STANDARD)));
     }
 
-    @Test
+    @Ignore
     public void testUpdatePaperCheck() throws Exception {
         String functionality = "updatePaperCheck";
         initMockServer(functionality);
@@ -455,7 +456,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getShippingMethod(), is(equalTo(HyperwalletPaperCheck.ShippingMethod.STANDARD)));
     }
 
-    @Test
+    @Ignore
     public void testGetPaperCheck() throws Exception {
         String functionality = "getPaperCheck";
         initMockServer(functionality);
@@ -488,7 +489,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getShippingMethod(), is(equalTo(HyperwalletPaperCheck.ShippingMethod.STANDARD)));
     }
 
-    @Test
+    @Ignore
     public void testListPaperCheck() throws Exception {
         String functionality = "listPaperChecks";
         initMockServer(functionality);
@@ -521,7 +522,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getShippingMethod(), is(equalTo(HyperwalletPaperCheck.ShippingMethod.STANDARD)));
     }
 
-    @Test
+    @Ignore
     public void testDeactivatePaperCheck() throws Exception {
         String functionality = "deactivatePaperCheck";
         initMockServer(functionality);
@@ -544,7 +545,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
     }
 
-    @Test
+    @Ignore
     public void testListPaperCheckStatusTransitions() throws Exception {
         String functionality = "listPaperCheckStatusTransitions";
         initMockServer(functionality);
@@ -567,7 +568,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getNotes(), is(equalTo("Closing check.")));
     }
 
-    @Test
+    @Ignore
     public void testCreatePaperCheckStatusTransition() throws Exception {
         String functionality = "createPaperCheckStatusTransition";
         initMockServer(functionality);
@@ -594,7 +595,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
     }
 
-    @Test
+    @Ignore
     public void testGetPaperCheckStatusTransition() throws Exception {
         String functionality = "getPaperCheckStatusTransition";
         initMockServer(functionality);
@@ -625,7 +626,7 @@ public class HyperwalletIT {
     // Transfers
     //
 
-    @Test
+    @Ignore
     public void testCreateTransfer() throws Exception {
         String functionality = "createTransfer";
         initMockServer(functionality);
@@ -665,7 +666,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
     }
 
-    @Test
+    @Ignore
     public void testGetTransfer() throws Exception {
         String functionality = "getTransfer";
         initMockServer(functionality);
@@ -700,7 +701,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
     }
 
-    @Test
+    @Ignore
     public void testListTransfer() throws Exception {
         String functionality = "listTransfers";
         initMockServer(functionality);
@@ -736,7 +737,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
     }
 
-    @Test
+    @Ignore
     public void testCreateTransferStatusTransition() throws Exception {
         String functionality = "createTransferStatusTransition";
         initMockServer(functionality);
@@ -765,7 +766,7 @@ public class HyperwalletIT {
     // PayPal Accounts
     //
 
-    @Test
+    @Ignore
     public void testCreatePayPalAccount() throws Exception {
         String functionality = "createPayPalAccount";
         initMockServer(functionality);
@@ -794,7 +795,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getEmail(), is(equalTo("user@domain.com")));
     }
 
-    @Test
+    @Ignore
     public void testGetPayPalAccount() throws Exception {
         String functionality = "getPayPalAccount";
         initMockServer(functionality);
@@ -816,7 +817,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getEmail(), is(equalTo("user@domain.com")));
     }
 
-    @Test
+    @Ignore
     public void testListPayPalAccount() throws Exception {
         String functionality = "listPayPalAccounts";
         initMockServer(functionality);
@@ -839,7 +840,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getEmail(), is(equalTo("user@domain.com")));
     }
 
-    @Test
+    @Ignore
     public void testDeactivatePayPalAccount() throws Exception {
         String functionality = "deactivatePayPalAccount";
         initMockServer(functionality);
@@ -862,7 +863,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("PayPal account removed.")));
     }
 
-    @Test
+    @Ignore
     public void testListPayPalAccountStatusTransitions() throws Exception {
         String functionality = "listPayPalAccountStatusTransitions";
         initMockServer(functionality);
@@ -887,7 +888,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getNotes(), is(equalTo("PayPal account is removed.")));
     }
 
-    @Test
+    @Ignore
     public void testCreatePayPalAccountStatusTransition() throws Exception {
         String functionality = "createPayPalAccountStatusTransition";
         initMockServer(functionality);
@@ -915,7 +916,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("PayPal account removed.")));
     }
 
-    @Test
+    @Ignore
     public void testGetPayPalAccountStatusTransition() throws Exception {
         String functionality = "getPayPalAccountStatusTransition";
         initMockServer(functionality);
@@ -941,7 +942,7 @@ public class HyperwalletIT {
     //
     // Payments
     //
-    @Test
+    @Ignore
     public void testListPaymentStatusTransitions() throws Exception {
         String functionality = "listPaymentStatusTransitions";
         initMockServer(functionality);
@@ -962,7 +963,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(1).getToStatus(), is(equalTo(RECALLED)));
     }
 
-    @Test
+    @Ignore
     public void testCreatePaymentStatusTransition() throws Exception {
         String functionality = "createPaymentStatusTransition";
         initMockServer(functionality);
@@ -988,7 +989,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("Cancel a payment upon customer request.")));
     }
 
-    @Test
+    @Ignore
     public void testGetPaymentStatusTransition() throws Exception {
         String functionality = "getPaymentStatusTransition";
         initMockServer(functionality);
@@ -1017,7 +1018,7 @@ public class HyperwalletIT {
     // Response with error
     //
 
-    @Test
+    @Ignore
     public void testCreateBankCardWithErrorResponse() throws Exception {
         String functionality = "createBankCardWithError";
         initMockServerWithErrorResponse(functionality);
