@@ -1302,7 +1302,58 @@ public class HyperwalletApiClientTest {
 
             hyperwalletApiClient.put(baseUrl + "/documentUpload", multiPart, HyperwalletUser.class);
         } catch (Exception exception) {
-            System.out.println("Exception occured while uploading the document");
+        }
+    }
+
+
+    @Test
+    public void testDocumentUploadWithError() {
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+            String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
+            String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
+
+            HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                    .clientPrivateKeySetLocation(clientPrivateKeysPath).hyperwalletKeySetLocation(hyperwalletKeysPath).build();
+            String testBody = "{\"test1\":\"value1\"}";
+            String encryptedBody = hyperwalletEncryption.encrypt(testBody);
+
+            HyperwalletApiClient hyperwalletApiClientEnc = new HyperwalletApiClient(
+                    "test-username", "test-password", "1.0", hyperwalletEncryption);
+
+            FormDataMultiPart multiPart = new FormDataMultiPart();
+            net.minidev.json.JSONObject jsonObject = new net.minidev.json.JSONObject();
+            jsonObject.put("type", "LETTER_OF_AUTHORIZATION");
+            jsonObject.put("category", "AUTHORIZATION");
+            List<net.minidev.json.JSONObject> jsonObjectList = new ArrayList<>();
+            jsonObjectList.add(jsonObject);
+            net.minidev.json.JSONObject jsonObject1 = new net.minidev.json.JSONObject();
+            jsonObject1.put("documents", jsonObjectList);
+            BodyPart data =
+                    new FormDataBodyPart(FormDataContentDisposition.name("data").build(), jsonObject1.toString(), MediaType.APPLICATION_JSON_TYPE);
+            multiPart.bodyPart(data);
+
+            Client mockClient = createAndInjectWebResourceClient(hyperwalletApiClientEnc);
+
+            WebResource webResource = mock(WebResource.class);
+            when(mockClient.resource(baseUrl + "/documentUpload")).thenReturn(webResource);
+            WebResource.Builder builder = mock(WebResource.Builder.class);
+            when(webResource.type(MediaType.MULTIPART_FORM_DATA_TYPE)).thenReturn(builder);
+
+            InBoundHeaders headers = new InBoundHeaders();
+            headers.put(HttpHeaders.CONTENT_TYPE, Collections.singletonList("application/jose+json"));
+
+            ClientResponse clientResponse = mock(ClientResponse.class);
+
+            when(builder.put(ClientResponse.class, multiPart)).thenReturn(clientResponse);
+            when(clientResponse.getStatus()).thenReturn(200);
+
+            when(clientResponse.getEntity(String.class)).thenReturn("{result: \"Success\"}");
+            when(clientResponse.getHeaders()).thenReturn(headers);
+
+            hyperwalletApiClientEnc.put(baseUrl + "/documentUpload", multiPart, HyperwalletUser.class);
+        } catch (Exception exception) {
+            assertThat(exception.getMessage(), is("java.text.ParseException: Invalid serialized unsecured/JWS/JWE object: Missing part delimiters"));
         }
     }
 
