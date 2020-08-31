@@ -1271,12 +1271,12 @@ public class HyperwalletApiClientTest {
     public void testDocumentUpload() {
         try {
             FormDataMultiPart multiPart = new FormDataMultiPart();
-            net.minidev.json.JSONObject jsonObject = new net.minidev.json.JSONObject();
+            JSONObject jsonObject = new JSONObject();
             jsonObject.put("type", "LETTER_OF_AUTHORIZATION");
             jsonObject.put("category", "AUTHORIZATION");
-            List<net.minidev.json.JSONObject> jsonObjectList = new ArrayList<>();
+            List<JSONObject> jsonObjectList = new ArrayList<>();
             jsonObjectList.add(jsonObject);
-            net.minidev.json.JSONObject jsonObject1 = new net.minidev.json.JSONObject();
+            JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("documents", jsonObjectList);
             BodyPart data =
                     new FormDataBodyPart(FormDataContentDisposition.name("data").build(), jsonObject1.toString(), MediaType.APPLICATION_JSON_TYPE);
@@ -1297,7 +1297,18 @@ public class HyperwalletApiClientTest {
             when(builder.put(ClientResponse.class, multiPart)).thenReturn(clientResponse);
             when(clientResponse.getStatus()).thenReturn(200);
 
-            when(clientResponse.getEntity(String.class)).thenReturn("{result: \"Success\"}");
+            String hyperwalletUser = "{\n"
+                    + "  \"documents\": [\n"
+                    + "    {\n"
+                    + "      \"category\": \"AUTHORIZATION\",\n"
+                    + "      \"country\": \"CA\",\n"
+                    + "      \"type\": \"LETTER_OF_AUTHORIZATION\",\n"
+                    + "      \"status\": \"NEW\"\n"
+                    + "    }\n"
+                    + "  ]\n"
+                    + "}";
+
+            when(clientResponse.getEntity(String.class)).thenReturn(hyperwalletUser);
             when(clientResponse.getHeaders()).thenReturn(headers);
 
             hyperwalletApiClient.put(baseUrl + "/documentUpload", multiPart, HyperwalletUser.class);
@@ -1322,12 +1333,13 @@ public class HyperwalletApiClientTest {
                     "test-username", "test-password", "1.0", hyperwalletEncryption);
 
             FormDataMultiPart multiPart = new FormDataMultiPart();
-            net.minidev.json.JSONObject jsonObject = new net.minidev.json.JSONObject();
+            JSONObject jsonObject = new JSONObject();
             jsonObject.put("type", "LETTER_OF_AUTHORIZATION");
             jsonObject.put("category", "AUTHORIZATION");
-            List<net.minidev.json.JSONObject> jsonObjectList = new ArrayList<>();
+            List<JSONObject> jsonObjectList = new ArrayList<>();
             jsonObjectList.add(jsonObject);
-            net.minidev.json.JSONObject jsonObject1 = new net.minidev.json.JSONObject();
+
+            JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("documents", jsonObjectList);
             BodyPart data =
                     new FormDataBodyPart(FormDataContentDisposition.name("data").build(), jsonObject1.toString(), MediaType.APPLICATION_JSON_TYPE);

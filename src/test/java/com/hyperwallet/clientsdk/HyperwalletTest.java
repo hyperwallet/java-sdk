@@ -2,6 +2,10 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.DocumentVerificationDocumentsRepresentation.ECountryCode;
+import com.hyperwallet.clientsdk.model.DocumentVerificationDocumentsRepresentation.EDocumentCategory;
+import com.hyperwallet.clientsdk.model.DocumentVerificationDocumentsRepresentation.EIdentityVerificationType;
+import com.hyperwallet.clientsdk.model.DocumentVerificationDocumentsRepresentation.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -15,10 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -6228,15 +6229,27 @@ public class HyperwalletTest {
     public void testDocumentUpload_successful() throws Exception {
         try {
             Hyperwallet client = new Hyperwallet("test-username", "test-password");
+
             HyperwalletUser hyperwalletUser = new HyperwalletUser();
+            DocumentVerificationDocumentsRepresentation documentVerificationDocumentsRepresentation =
+                    new DocumentVerificationDocumentsRepresentation();
+            documentVerificationDocumentsRepresentation.category(EDocumentCategory.AUTHORIZATION)
+                    .type(EIdentityVerificationType.LETTER_OF_AUTHORIZATION)
+                    .country(ECountryCode.CA).status(EKycDocumentVerificationStatus.NEW);
+            List<DocumentVerificationDocumentsRepresentation> documentVerificationDocumentsRepresentationList = new ArrayList<>();
+            documentVerificationDocumentsRepresentationList.add(documentVerificationDocumentsRepresentation);
+            hyperwalletUser.setDocuments(documentVerificationDocumentsRepresentationList);
 
             HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+            Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(FormDataMultiPart.class), Mockito.any(Class.class)))
+                    .thenReturn(hyperwalletUser);
 
-            Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(hyperwalletUser);
-
-            client.documentUpload("test-token", new FormDataMultiPart());
+            HyperwalletUser hyperwalletUserresponse = client.documentUpload("test-token", new FormDataMultiPart());
+            hyperwalletUserresponse.getDocuments().get(0).getCategory().equals(EDocumentCategory.AUTHORIZATION);
+            hyperwalletUserresponse.getDocuments().get(0).getType().equals(EIdentityVerificationType.LETTER_OF_AUTHORIZATION);
+            hyperwalletUserresponse.getDocuments().get(0).getCountry().equals(ECountryCode.CA);
+            hyperwalletUserresponse.getDocuments().get(0).getStatus().equals(EKycDocumentVerificationStatus.NEW);
         } catch (HyperwalletException e) {
-            System.out.println("Hi this is Ravi");
         }
     }
 }
