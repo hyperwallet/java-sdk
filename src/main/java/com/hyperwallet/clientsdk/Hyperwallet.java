@@ -38,7 +38,6 @@ public class Hyperwallet {
         apiClient = new HyperwalletApiClient(username, password, VERSION, hyperwalletEncryption);
         this.programToken = programToken;
         this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v4" : server + "/rest/v4";
-   //     this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v4" : server + "/rest/v4";
     }
 
     /**
@@ -161,23 +160,6 @@ public class Hyperwallet {
     }
 
     /**
-     * Get User Status Transition
-     *
-     * @param userToken             User token
-     * @param statusTransitionToken Status transition token
-     * @return HyperwalletStatusTransition
-     */
-    public HyperwalletStatusTransition listgetUserStatusTransition(String userToken, String statusTransitionToken) {
-        if (StringUtils.isEmpty(userToken)) {
-            throw new HyperwalletException("User token is required");
-        }
-        if (StringUtils.isEmpty(statusTransitionToken)) {
-            throw new HyperwalletException("Transition token is required");
-        }
-        return apiClient.get(url + "/users/" + userToken + "/status-transitions/" + statusTransitionToken, HyperwalletStatusTransition.class);
-    }
-
-    /**
      *  Create Business Stakeholder
      *
      * @param stakeholder Hyperwallet Stakeholder representation
@@ -185,11 +167,10 @@ public class Hyperwallet {
      * @return HyperwalletBusinessStakeholder created Stakeholder
      */
     public HyperwalletBusinessStakeholder createBusinessStakeholder(String userToken, HyperwalletBusinessStakeholder stakeholder) {
-        System.out.println("--Business Stakeholder - create");
-        if (stakeholder == null) {
+        if (null == stakeholder) {
             throw new HyperwalletException("Stakeholder is required");
         }
-        if (userToken == null) {
+        if (null == userToken) {
             throw new HyperwalletException("User token may not be present");
         }
         stakeholder = copy(stakeholder);
@@ -204,12 +185,14 @@ public class Hyperwallet {
      * @return HyperwalletBusinessStakeholder updated Stakeholder
      */
     public HyperwalletBusinessStakeholder updateBusinessStakeholder(String userToken, HyperwalletBusinessStakeholder stakeholder) {
-        System.out.println("--Business Stakeholder - update");
         if (stakeholder == null) {
             throw new HyperwalletException("Stakeholder is required");
         }
         if (userToken == null) {
             throw new HyperwalletException("User token may not be present");
+        }
+        if (stakeholder.getToken() == null || stakeholder.getToken().equals("")) {
+            throw new HyperwalletException("Stakeholder token may not be present");
         }
         stakeholder = copy(stakeholder);
         return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + stakeholder.getToken(), stakeholder, HyperwalletBusinessStakeholder.class);
@@ -222,6 +205,9 @@ public class Hyperwallet {
      * @return HyperwalletList of HyperwalletBusinessStakeholder
      */
     public HyperwalletList<HyperwalletBusinessStakeholder> listBusinessStakeholders(String userToken) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
         return listBusinessStakeholders(userToken, null);
     }
 
@@ -233,6 +219,9 @@ public class Hyperwallet {
      * @return HyperwalletList of HyperwalletBusinessStakeholder
      */
     public HyperwalletList<HyperwalletBusinessStakeholder> listBusinessStakeholders(String userToken, HyperwalletPaginationOptions options) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
         String url = paginate(this.url + "/users/" + userToken + "/business-stakeholders", options);
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBusinessStakeholder>>() {
         });
