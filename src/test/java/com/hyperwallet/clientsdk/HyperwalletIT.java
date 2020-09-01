@@ -1,34 +1,7 @@
 package com.hyperwallet.clientsdk;
 
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.ACTIVATED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.CANCELLED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.COMPLETED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.CREATED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.DE_ACTIVATED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.QUOTED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.RECALLED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.SCHEDULED;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.mockserver.integration.ClientAndServer.startClientAndServer;
-import static org.mockserver.model.Header.header;
-import static org.mockserver.model.JsonBody.json;
-import static org.testng.Assert.fail;
-
-import com.hyperwallet.clientsdk.model.HyperwalletBankCard;
-import com.hyperwallet.clientsdk.model.HyperwalletError;
-import com.hyperwallet.clientsdk.model.HyperwalletList;
-import com.hyperwallet.clientsdk.model.HyperwalletPaperCheck;
-import com.hyperwallet.clientsdk.model.HyperwalletPayPalAccount;
-import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
-import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition;
-import com.hyperwallet.clientsdk.model.HyperwalletTransfer;
-import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod;
-import com.hyperwallet.clientsdk.model.HyperwalletUser;
+import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferRefund.Status;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -44,6 +17,14 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.mockserver.integration.ClientAndServer.startClientAndServer;
+import static org.mockserver.model.Header.header;
+import static org.mockserver.model.JsonBody.json;
+import static org.testng.Assert.fail;
 
 public class HyperwalletIT {
 
@@ -759,6 +740,121 @@ public class HyperwalletIT {
         assertThat(returnValue.getFromStatus(), is(equalTo(QUOTED)));
         assertThat(returnValue.getToStatus(), is(equalTo(SCHEDULED)));
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
+    }
+
+    //
+    // Transfer Refunds
+    //
+    @Test
+    public void testCreateTransferRefund() throws Exception {
+        String functionality = "createTransferRefund";
+        initMockServer(functionality);
+
+        HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund()
+                .clientRefundId("clientRefundId")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456");
+
+        HyperwalletTransferRefund returnValue;
+        try {
+            returnValue = client.createTransferRefund("trf-dc6a19f7-1d24-434d-87ce-f1a960f3fbce", transferRefund);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
+                .token("trd-a159dc18-eb29-4530-8733-060c7feaad0f")
+                .status(Status.COMPLETED)
+                .clientRefundId("clientRefundId")
+                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
+                .sourceAmount(20.0)
+                .sourceCurrency("USD")
+                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
+                .destinationAmount(20.0)
+                .destinationCurrency("USD")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456")
+                .createdOn(dateFormat.parse("2019-11-11T19:04:43 UTC"));
+
+        checkTransferRefund(returnValue, expectedValue);
+    }
+
+    private void checkTransferRefund(HyperwalletTransferRefund actual, HyperwalletTransferRefund expected) {
+        assertThat(actual.getToken(), is(expected.getToken()));
+        assertThat(actual.getStatus(), is(expected.getStatus()));
+        assertThat(actual.getClientRefundId(), is(expected.getClientRefundId()));
+        assertThat(actual.getSourceToken(), is(expected.getSourceToken()));
+        assertThat(actual.getSourceAmount(), is(expected.getSourceAmount()));
+        assertThat(actual.getSourceCurrency(), is(expected.getSourceCurrency()));
+        assertThat(actual.getDestinationToken(), is(expected.getDestinationToken()));
+        assertThat(actual.getDestinationAmount(), is(expected.getDestinationAmount()));
+        assertThat(actual.getDestinationCurrency(), is(expected.getDestinationCurrency()));
+        assertThat(actual.getNotes(), is(expected.getNotes()));
+        assertThat(actual.getMemo(), is(expected.getMemo()));
+        assertThat(actual.getCreatedOn(), is(expected.getCreatedOn()));
+    }
+
+    @Test
+    public void testGetTransferRefund() throws Exception {
+        String functionality = "getTransferRefund";
+        initMockServer(functionality);
+
+        HyperwalletTransferRefund returnValue;
+        try {
+            returnValue = client.getTransferRefund("trf-639579d9-4fe8-4fbf-8e34-827d27697f64", "trd-19156720-01e8-4f1c-8ef3-7ced80672128");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
+                .token("trd-19156720-01e8-4f1c-8ef3-7ced80672128")
+                .status(Status.COMPLETED)
+                .clientRefundId("1573548663")
+                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
+                .sourceAmount(50.0)
+                .sourceCurrency("USD")
+                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
+                .destinationAmount(50.0)
+                .destinationCurrency("USD")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456")
+                .createdOn(dateFormat.parse("2019-11-12T11:51:05 UTC"));
+
+        checkTransferRefund(returnValue, expectedValue);
+    }
+
+    @Test
+    public void testListTransferRefunds() throws Exception {
+        String functionality = "listTransferRefunds";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletTransferRefund> returnValue;
+        try {
+            returnValue = client.listTransferRefunds("trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb", null);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getCount(), is(equalTo(2)));
+
+        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
+                .token("trd-e59d19d4-eccb-4160-b04c-4f11c83f99f0")
+                .status(Status.COMPLETED)
+                .clientRefundId("1573566270")
+                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
+                .sourceAmount(50.0)
+                .sourceCurrency("USD")
+                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
+                .destinationAmount(50.0)
+                .destinationCurrency("USD")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456")
+                .createdOn(dateFormat.parse("2019-11-12T16:44:30 UTC"));
+
+        checkTransferRefund(returnValue.getData().get(0), expectedValue);
     }
 
     //

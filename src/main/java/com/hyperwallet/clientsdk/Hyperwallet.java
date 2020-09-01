@@ -947,6 +947,73 @@ public class Hyperwallet {
     }
 
     //--------------------------------------
+    // Transfer refunds
+    //--------------------------------------
+
+    /**
+     * Create Transfer Refund
+     *
+     * @param transferToken  Transfer token assigned
+     * @param transferRefund Transfer Refund object to create
+     * @return Created Transfer Refund
+     */
+    public HyperwalletTransferRefund createTransferRefund(String transferToken, HyperwalletTransferRefund transferRefund) {
+        if (transferRefund == null) {
+            throw new HyperwalletException("Transfer Refund is required");
+        }
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        if (StringUtils.isEmpty(transferRefund.getClientRefundId())) {
+            throw new HyperwalletException("ClientRefundId is required");
+        }
+
+        transferRefund = copy(transferRefund);
+        transferRefund.setStatus(null);
+        transferRefund.setCreatedOn(null);
+        return apiClient.post(url + "/transfers/" + transferToken + "/refunds", transferRefund, HyperwalletTransferRefund.class);
+    }
+
+    /**
+     * Get Transfer Refund
+     *
+     * @param transferToken       Transfer token assigned
+     * @param transferRefundToken Transfer Refund token assigned
+     * @return Transfer Refund object
+     */
+    public HyperwalletTransferRefund getTransferRefund(String transferToken, String transferRefundToken) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        if (StringUtils.isEmpty(transferRefundToken)) {
+            throw new HyperwalletException("Transfer Refund token is required");
+        }
+
+        return apiClient.get(url + "/transfers/" + transferToken + "/refunds/" + transferRefundToken, HyperwalletTransferRefund.class);
+    }
+
+    /**
+     * List Transfer Refund Requests
+     *
+     * @param options List filter option
+     * @return HyperwalletList of HyperwalletTransferRefund
+     */
+    public HyperwalletList<HyperwalletTransferRefund> listTransferRefunds(String transferToken, HyperwalletTransferRefundListOptions options) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+
+        String url = paginate(this.url + "/transfers/" + transferToken + "/refunds", options);
+        if (options != null) {
+            url = addParameter(url, "clientRefundId", options.getClientRefundId());
+            url = addParameter(url, "sourceToken", options.getSourceToken());
+            url = addParameter(url, "status", options.getStatus());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferRefund>>() {
+        });
+    }
+
+    //--------------------------------------
     // PayPal Accounts
     //--------------------------------------
 
@@ -1924,4 +1991,8 @@ public class Hyperwallet {
         return payPalAccount;
     }
 
+    private HyperwalletTransferRefund copy(HyperwalletTransferRefund transferRefund) {
+        transferRefund = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transferRefund), HyperwalletTransferRefund.class);
+        return transferRefund;
+    }
 }
