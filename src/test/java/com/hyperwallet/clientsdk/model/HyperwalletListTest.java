@@ -19,27 +19,27 @@ public class HyperwalletListTest {
     @Test
     public void testHyperwalletList() {
         HyperwalletList<String> list = new HyperwalletList<String>();
-        assertThat(list.isHasNextPage(), is(equalTo(false)));
-        assertThat(list.isHasPreviousPage(), is(equalTo(false)));
+        assertThat(list.hasNextPage(), is(equalTo(false)));
+        assertThat(list.hasPreviousPage(), is(equalTo(false)));
         assertThat(list.getLimit(), is(equalTo(0)));
         assertThat(list.getData(), is(nullValue()));
         assertThat(list.getLinks(), is(not(nullValue())));
 
-        assertThat(list.isHasNextPage(), is(equalTo(false)));
-        assertThat(list.isHasPreviousPage(), is(equalTo(false)));
+        assertThat(list.hasNextPage(), is(equalTo(false)));
+        assertThat(list.hasPreviousPage(), is(equalTo(false)));
         list.setLimit(2);
         List<String> dataList = new ArrayList<String>();
         dataList.add("test");
         list.setData(dataList);
 
-        assertThat(list.isHasNextPage(), is(equalTo(false)));
-        assertThat(list.isHasPreviousPage(), is(equalTo(false)));
+        assertThat(list.hasNextPage(), is(equalTo(false)));
+        assertThat(list.hasPreviousPage(), is(equalTo(false)));
         assertThat(list.getLimit(), is(equalTo(2)));
         assertThat(list.getData(), is(equalTo(dataList)));
         assertThat(list.getData(), Matchers.<String>hasSize(1));
 
-        assertThat(list.isHasNextPage(), is(equalTo(false)));
-        assertThat(list.isHasPreviousPage(), is(equalTo(false)));
+        assertThat(list.hasNextPage(), is(equalTo(false)));
+        assertThat(list.hasPreviousPage(), is(equalTo(false)));
         assertThat(list.getLimit(), is(equalTo(2)));
         assertThat(list.getData(), is(equalTo(dataList)));
 
@@ -50,17 +50,17 @@ public class HyperwalletListTest {
         }
         list.setData(dataList);
         list.setHasNextPage(true);
-        HyperwalletHateoasLink link = new HyperwalletHateoasLink();
+        HyperwalletLink link = new HyperwalletLink();
         link.setHref("https://localhost:8181/users?limit=10");
         Map<String, String> params = new HashMap<String, String>();
         params.put("rel", "self");
         link.setParams(params);
         list.getLinks().add(link);
-        List<HyperwalletHateoasLink> hateoasLinks = new ArrayList<HyperwalletHateoasLink>();
+        List<HyperwalletLink> hateoasLinks = new ArrayList<HyperwalletLink>();
         hateoasLinks.add(link);
 
-        assertThat(list.isHasNextPage(), is(equalTo(true)));
-        assertThat(list.isHasPreviousPage(), is(equalTo(false)));
+        assertThat(list.hasNextPage(), is(equalTo(true)));
+        assertThat(list.hasPreviousPage(), is(equalTo(false)));
         assertThat(list.getLimit(), is(equalTo(10)));
         assertThat(list.getData(), is(equalTo(dataList)));
         assertThat(list.getData(), Matchers.<String>hasSize(10));
@@ -73,7 +73,7 @@ public class HyperwalletListTest {
         list.setData(dataList);
         list.setHasNextPage(false);
         list.setHasPreviousPage(true);
-        link = new HyperwalletHateoasLink();
+        link = new HyperwalletLink();
         link.setHref("https://localhost:8181/users?after=trf-w234-2342-234&limit=10");
         params = new HashMap<String, String>();
         params.put("rel", "next");
@@ -81,8 +81,8 @@ public class HyperwalletListTest {
 
         hateoasLinks.add(link);
         list.setLinks(hateoasLinks);
-        assertThat(list.isHasNextPage(), is(equalTo(false)));
-        assertThat(list.isHasPreviousPage(), is(equalTo(true)));
+        assertThat(list.hasNextPage(), is(equalTo(false)));
+        assertThat(list.hasPreviousPage(), is(equalTo(true)));
         assertThat(list.getLimit(), is(equalTo(10)));
         assertThat(list.getData(), is(equalTo(dataList)));
         assertThat(list.getData(), Matchers.<String>hasSize(20));
