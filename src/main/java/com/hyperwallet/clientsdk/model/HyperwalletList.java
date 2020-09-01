@@ -9,12 +9,12 @@ public class HyperwalletList<T> {
     private boolean hasPreviousPage;
     private int limit;
     private List<T> data;
-    private List<HyperwalletHateoasLink> links = new ArrayList<HyperwalletHateoasLink>();
+    private List<HyperwalletLink> links = new ArrayList<HyperwalletLink>();
 
     public HyperwalletList() {
     }
 
-    public boolean isHasNextPage() {
+    public boolean hasNextPage() {
         return hasNextPage;
     }
 
@@ -22,7 +22,7 @@ public class HyperwalletList<T> {
         this.hasNextPage = hasNextPage;
     }
 
-    public boolean isHasPreviousPage() {
+    public boolean hasPreviousPage() {
         return hasPreviousPage;
     }
 
@@ -46,11 +46,11 @@ public class HyperwalletList<T> {
         this.data = data;
     }
 
-    public List<HyperwalletHateoasLink> getLinks() {
+    public List<HyperwalletLink> getLinks() {
         return links;
     }
 
-    public void setLinks(List<HyperwalletHateoasLink> links) {
+    public void setLinks(List<HyperwalletLink> links) {
         this.links = links;
     }
 
