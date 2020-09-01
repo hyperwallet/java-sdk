@@ -1,4 +1,4 @@
-curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-cards" \
+curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-cards" \
 -u testuser@12345678:myAccPassw0rd \
 -H "Content-Type: application/json" \
 -H "Accept: application/json" \
