@@ -3,12 +3,17 @@ package com.hyperwallet.clientsdk.model;
 import java.util.List;
 import java.util.Map;
 
-public class HyperwalletHateoasLink{
+/**
+ * @author amylavarapu
+ * HyperwalletLink represents HATEOAS links
+ */
+
+public class HyperwalletLink {
 
     public Map<String, String> params;
     public String href;
 
-    public HyperwalletHateoasLink() {
+    public HyperwalletLink() {
     }
 
     public Map<String, String> getParams() {
