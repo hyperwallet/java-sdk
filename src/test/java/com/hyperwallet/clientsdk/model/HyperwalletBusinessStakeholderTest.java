@@ -10,7 +10,7 @@ import org.junit.Test;
 import java.util.Date;
 
 
-public class HyperwalletBusinessStakeholderTest {
+public class HyperwalletBusinessStakeholderTest extends BaseModelTest<HyperwalletBusinessStakeholder>{
 
     protected HyperwalletBusinessStakeholder createBaseModel() {
 
