@@ -62,16 +62,6 @@ public class HyperwalletApiClient {
         }
     }
 
-    public <T> T getlist(final String url, final TypeReference<T> type) {
-        Response response = null;
-        try {
-            response = getService(url, true).getResource();
-            return processResponse(response, type);
-        } catch (IOException | JOSEException | ParseException e) {
-            throw new HyperwalletException(e);
-        }
-    }
-
     public <T> T put(final String url, final Object bodyObject, final Class<T> type) {
         Response response = null;
         try {
@@ -136,17 +126,6 @@ public class HyperwalletApiClient {
         }
     }
 
-    protected <T> T processResponseList(final Response response, final TypeReference<T> type)
-            throws ParseException, JOSEException, IOException {
-        checkErrorResponse(response);
-        checkResponseHeader(response);
-        if (response.getResponseCode() == 204) {
-            return convert("{}", type);
-        } else {
-            return convert(decryptResponse(response.getBody()), type);
-        }
-    }
-
     protected void checkErrorResponse(final Response response) throws ParseException, JOSEException, IOException {
         HyperwalletErrorList errorList = null;
         if (response.getResponseCode() >= 400) {
@@ -199,10 +178,6 @@ public class HyperwalletApiClient {
     }
 
     private <T> T convert(final String responseBody, final TypeReference<T> type) {
-        return HyperwalletJsonUtil.fromJson(responseBody, type);
-    }
-
-    private <T> T convertList(final String responseBody, final TypeReference<T> type) {
         return HyperwalletJsonUtil.fromJson(responseBody, type);
     }
 
