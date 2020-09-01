@@ -866,7 +866,9 @@ public class HyperwalletApiClientTest {
                                         "        \"params\" : {\n" +
                                         "          \"rel\" : \"self\"\n" +
                                         "        },\n" +
-                                        "        \"href\" : \"https://maelle.paylution.com/rest/v3/payments/pmt-81aad61a-03ff-4995-a2fc-6a6e2d8911af\"\n" +
+                                        "        \"href\" : \"https://maelle.paylution"
+                                        + ".com/rest/v4/payments/pmt-81aad61a-03ff-4995-a2fc-6a6e2d8911af\"\n"
+                                        +
                                         "      } ]\n" +
                                         "    }    {\n" +
                                         "      \"token\" : \"pmt-81aad61a-03ff-4995-a2fc-6a6e2d8911af\",\n" +
@@ -883,7 +885,9 @@ public class HyperwalletApiClientTest {
                                         "        \"params\" : {\n" +
                                         "          \"rel\" : \"self\"\n" +
                                         "        },\n" +
-                                        "        \"href\" : \"https://maelle.paylution.com/rest/v3/payments/pmt-81aad61a-03ff-4995-a2fc-6a6e2d8911af\"\n" +
+                                        "        \"href\" : \"https://maelle.paylution"
+                                        + ".com/rest/v4/payments/pmt-81aad61a-03ff-4995-a2fc-6a6e2d8911af\"\n"
+                                        +
                                         "      } ]\n" +
                                         "    }")
         );
