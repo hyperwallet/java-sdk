@@ -58,7 +58,7 @@ public class HyperwalletTest {
 
     @Test
     public void testLisUser_noTLSIssues() {
-        Hyperwallet client = new Hyperwallet("test-username", "test-password","test-program-token","https://api.sandbox.hyperwallet.com/rest/v4" );
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
             client.listUsers();
             fail("Expect HyperwalletException");
@@ -71,7 +71,7 @@ public class HyperwalletTest {
     // Users
     //--------------------------------------
 
-    //   @Test
+    @Test
     public void testCreateUser_noUser() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
@@ -289,9 +289,8 @@ public class HyperwalletTest {
     @Test
     public void testListUsers_noParameters() throws Exception {
         HyperwalletList<HyperwalletUser> response = new HyperwalletList<HyperwalletUser>();
-        String program_token = "test-program-token";
-        String custom_server = "https://api.sandbox.hyperwallet.com/rest/v4";
-        Hyperwallet client = new Hyperwallet("test-username", "test-password", program_token, custom_server);
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
@@ -305,8 +304,8 @@ public class HyperwalletTest {
     @Test
     public void testListUsers_withParameters() throws Exception {
         HyperwalletList<HyperwalletUser> response = new HyperwalletList<HyperwalletUser>();
-        String custom_server = "https://api.sandbox.hyperwallet.com/rest/v4";
-        Hyperwallet client = new Hyperwallet("test-username", "test-password", custom_server);
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
