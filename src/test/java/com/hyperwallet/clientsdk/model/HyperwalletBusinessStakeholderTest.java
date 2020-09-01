@@ -18,6 +18,9 @@ public class HyperwalletBusinessStakeholderTest {
         stakeholder
                 .token("test-token")
                 .isBusinessContact(true)
+                .isDirector(true)
+                .isUltimateBeneficialOwner(true)
+                .isSeniorManagingOfficial(true)
                 .status(Status.ACTIVATED)
                 .verificationStatus(VerificationStatus.REQUIRED)
                 .createdOn(new Date())
