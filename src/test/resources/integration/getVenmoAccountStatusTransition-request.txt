@@ -1,0 +1,3 @@
+curl -X "GET" "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-6838bf6a-4917-46c5-b924-b9fa4153d645/venmo-accounts/trm-f6dd5ef3-c534-4d28-bc2e-ddd15822e20f/status-transitions/sts-6a8c70b6-3634-4d83-beac-ea7050311ed1" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Accept: application/json"  \
