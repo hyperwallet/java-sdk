@@ -167,10 +167,10 @@ public class Hyperwallet {
      * @return HyperwalletBusinessStakeholder created Stakeholder
      */
     public HyperwalletBusinessStakeholder createBusinessStakeholder(String userToken, HyperwalletBusinessStakeholder stakeholder) {
-        if (null == stakeholder) {
+        if (stakeholder == null) {
             throw new HyperwalletException("Stakeholder is required");
         }
-        if (null == userToken) {
+        if (userToken == null) {
             throw new HyperwalletException("User token may not be present");
         }
         stakeholder = copy(stakeholder);
