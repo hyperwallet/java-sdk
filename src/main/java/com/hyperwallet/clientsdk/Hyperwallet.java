@@ -20,7 +20,6 @@ import java.util.TimeZone;
 public class Hyperwallet {
 
     public static final String VERSION = "1.4.2";
-
     private final HyperwalletApiClient apiClient;
     private final String programToken;
     private final String url;
@@ -38,7 +37,7 @@ public class Hyperwallet {
                        final HyperwalletEncryption hyperwalletEncryption) {
         apiClient = new HyperwalletApiClient(username, password, VERSION, hyperwalletEncryption);
         this.programToken = programToken;
-        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v3" : server + "/rest/v3";
+        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v4" : server + "/rest/v4";
     }
 
     /**
@@ -159,6 +158,76 @@ public class Hyperwallet {
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {
         });
     }
+
+    /**
+     * Create Business Stakeholder
+     *
+     * @param stakeholder Hyperwallet Stakeholder representation
+     * @param userToken   String
+     * @return HyperwalletBusinessStakeholder created Stakeholder
+     */
+    public HyperwalletBusinessStakeholder createBusinessStakeholder(String userToken, HyperwalletBusinessStakeholder stakeholder) {
+        if (stakeholder == null) {
+            throw new HyperwalletException("Stakeholder is required");
+        }
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        stakeholder = copy(stakeholder);
+        return apiClient.post(url + "/users/" + userToken + "/business-stakeholders", stakeholder, HyperwalletBusinessStakeholder.class);
+    }
+
+    /**
+     * Update Business Stakeholder
+     *
+     * @param userToken   String
+     * @param stakeholder Hyperwallet Stakeholder representation
+     * @return HyperwalletBusinessStakeholder updated Stakeholder
+     */
+    public HyperwalletBusinessStakeholder updateBusinessStakeholder(String userToken, HyperwalletBusinessStakeholder stakeholder) {
+        if (stakeholder == null) {
+            throw new HyperwalletException("Stakeholder is required");
+        }
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        if (stakeholder.getToken() == null || stakeholder.getToken().equals("")) {
+            throw new HyperwalletException("Stakeholder token may not be present");
+        }
+        stakeholder = copy(stakeholder);
+        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + stakeholder.getToken(), stakeholder,
+                HyperwalletBusinessStakeholder.class);
+    }
+
+    /**
+     * List BusinessStakeholders
+     *
+     * @param userToken String
+     * @return HyperwalletList of HyperwalletBusinessStakeholder
+     */
+    public HyperwalletList<HyperwalletBusinessStakeholder> listBusinessStakeholders(String userToken) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        return listBusinessStakeholders(userToken, null);
+    }
+
+    /**
+     * List BusinessStakeholders
+     *
+     * @param userToken String
+     * @param options   List filter option
+     * @return HyperwalletList of HyperwalletBusinessStakeholder
+     */
+    public HyperwalletList<HyperwalletBusinessStakeholder> listBusinessStakeholders(String userToken, HyperwalletPaginationOptions options) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/business-stakeholders", options);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBusinessStakeholder>>() {
+        });
+    }
+
 
     /**
      * Get Authentication Token
@@ -1953,6 +2022,11 @@ public class Hyperwallet {
 
     private HyperwalletPrepaidCard copy(HyperwalletPrepaidCard method) {
         method = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(method), HyperwalletPrepaidCard.class);
+        return method;
+    }
+
+    private HyperwalletBusinessStakeholder copy(HyperwalletBusinessStakeholder method) {
+        method = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(method), HyperwalletBusinessStakeholder.class);
         return method;
     }
 
