@@ -6209,6 +6209,300 @@ public class HyperwalletTest {
         return transferMethod;
     }
 
+    //--------------------------------------
+    // Business Stakeholders
+    //--------------------------------------
+
+    private HyperwalletBusinessStakeholder createStakeholderObj() {
+        HyperwalletBusinessStakeholder stakeholder = new HyperwalletBusinessStakeholder();
+
+        stakeholder.setIsBusinessContact(true);
+        stakeholder.setIsDirector(false);
+        stakeholder.setIsUltimateBeneficialOwner(false);
+        stakeholder.setIsSeniorManagingOfficial(false);
+        stakeholder.setProfileType(HyperwalletBusinessStakeholder.ProfileType.INDIVIDUAL);
+        stakeholder.setFirstName("TestKK");
+        stakeholder.setMiddleName("KK");
+        stakeholder.setLastName("TestKK");
+        stakeholder.setDateOfBirth(new Date());
+        stakeholder.setPhoneNumber("3103322333");
+        stakeholder.setMobileNumber(("31052341241"));
+        stakeholder.setEmail("swerw@sefrew.com");
+        stakeholder.setGovernmentId("333333333");
+        stakeholder.setGovernmentIdType(HyperwalletBusinessStakeholder.GovernmentIdType.PASSPORT);
+        stakeholder.setGender(HyperwalletBusinessStakeholder.Gender.FEMALE);
+        stakeholder.setAddressLine1("456 Main St");
+        stakeholder.setAddressLine2("45zd Maine");
+        stakeholder.setCity("San Jose");
+        stakeholder.setStateProvince("CA");
+        stakeholder.setCountry("US");
+        stakeholder.setPostalCode("22222");
+        stakeholder.setCountryOfBirth("US");
+        stakeholder.setCountryOfNationality("US");
+        return stakeholder;
+    }
+
+
+    @Test
+    public void testCreateBusinessStakeholder_noUserToken() {
+        HyperwalletBusinessStakeholder stakeholder = createStakeholderObj();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createBusinessStakeholder(null, stakeholder);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+
+    }
+
+    @Test
+    public void testCreateBusinessStakeholder_noStakeholder() {
+        String token = "test-token";
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createBusinessStakeholder(token, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Stakeholder is required")));
+            assertThat(e.getMessage(), is(equalTo("Stakeholder is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreateBusinessStakeholder_noParams() {
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createBusinessStakeholder(null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Stakeholder is required")));
+            assertThat(e.getMessage(), is(equalTo("Stakeholder is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testCreateBusinessStakeholder() {
+
+        String token = "test-token";
+        HyperwalletBusinessStakeholder stakeholder = createStakeholderObj();
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            HyperwalletBusinessStakeholder response = client.createBusinessStakeholder(token, stakeholder);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorMessage(), is(equalTo("The information entered does not match our records. Please try again.")));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdateBusinessStakeholder_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletBusinessStakeholder stakeholder = new HyperwalletBusinessStakeholder();
+        try {
+            client.updateBusinessStakeholder(null, stakeholder);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdateBusinessStakeholder_noStakeholder() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        String userToken = "test-token";
+        try {
+            client.updateBusinessStakeholder(userToken, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Stakeholder is required")));
+            assertThat(e.getMessage(), is(equalTo("Stakeholder is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdateBusinessStakeholder_noStakeholderToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletBusinessStakeholder stakeholder = new HyperwalletBusinessStakeholder();
+        String userToken = "test-token";
+        try {
+            client.updateBusinessStakeholder(userToken, stakeholder);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Stakeholder token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("Stakeholder token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdateBusinessStakeholder_blankStakeholderToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletBusinessStakeholder stakeholder = createStakeholderObj();
+        stakeholder.setToken("");
+        String userToken = "test-token";
+        try {
+            client.updateBusinessStakeholder(userToken, stakeholder);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Stakeholder token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("Stakeholder token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListBusinessStakeholders_noUserToken() throws Exception {
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listBusinessStakeholders(null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+
+    }
+
+    @Test
+    public void testUpdateBusinessStakeholder() {
+
+        String token = "test-token";
+        HyperwalletBusinessStakeholder stakeholder = createStakeholderObj();
+        stakeholder.setToken("stk-token");
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            HyperwalletBusinessStakeholder response = client.updateBusinessStakeholder(token, stakeholder);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorMessage(), is(equalTo("The information entered does not match our records. Please try again.")));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListBusinessStakeholders_noUserTokennoOptions() throws Exception {
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listBusinessStakeholders(null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+
+    }
+
+    @Test
+    public void testListBusinessStakeholders_withUserTokenNoOptions() throws Exception {
+
+        String token = "test-token";
+        HyperwalletList<HyperwalletBusinessStakeholder> response = new HyperwalletList<HyperwalletBusinessStakeholder>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletBusinessStakeholder> resp = client.listBusinessStakeholders(token);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/users/" + token + "/business-stakeholders"),
+                Mockito.any(TypeReference.class));
+
+    }
+
+    @Test
+    public void testListBusinessStakeholders_withUserTokenAndOptions() throws Exception {
+
+        String token = "test-token";
+        HyperwalletList<HyperwalletBusinessStakeholder> response = new HyperwalletList<HyperwalletBusinessStakeholder>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        options
+                .sortBy("createdOn")
+                .offset(5)
+                .limit(10)
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletBusinessStakeholder> resp = client.listBusinessStakeholders(token, options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/users/" + token
+                        + "/business-stakeholders?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=createdOn&offset=5&limit=10"),
+                Mockito.any(TypeReference.class));
+
+    }
+
+    @Test
+    public void testListBusinessStakeholders_withUserTokenAndSomeOptions() throws Exception {
+
+        String token = "test-token";
+        HyperwalletList<HyperwalletBusinessStakeholder> response = new HyperwalletList<HyperwalletBusinessStakeholder>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        options
+                .limit(10)
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletBusinessStakeholder> resp = client.listBusinessStakeholders(token, options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/users/" + token
+                + "/business-stakeholders?createdBefore=2016-06-29T17:58:26Z&limit=10"), Mockito.any(TypeReference.class));
+
+    }
+
     @Test
     public void testDocumentUpload_noUserToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -6252,4 +6546,5 @@ public class HyperwalletTest {
         } catch (HyperwalletException e) {
         }
     }
+
 }
