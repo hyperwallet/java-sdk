@@ -1207,7 +1207,7 @@ public class Hyperwallet {
      * Create Venmo Account
      *
      * @param venmoAccount HyperwalletVenmoAccount object to create
-     * @return HyperwalletVenmoAccount created venmo account for the specified user
+     * @return HyperwalletVenmoAccount created Venmo account for the specified user
      */
     public HyperwalletVenmoAccount createVenmoAccount(HyperwalletVenmoAccount venmoAccount) {
         if (venmoAccount == null) {
@@ -2207,8 +2207,8 @@ public class Hyperwallet {
     }
 
     private HyperwalletVenmoAccount copy(HyperwalletVenmoAccount venmoAccount) {
-        venmoAccount = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(venmoAccount), HyperwalletVenmoAccount.class);
-        return venmoAccount;
+        return HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(venmoAccount), HyperwalletVenmoAccount.class);
+
     }
 
 }
