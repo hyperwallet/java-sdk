@@ -1241,8 +1241,8 @@ public class Hyperwallet {
      * Get Venmo Account
      *
      * @param userToken         User token assigned
-     * @param venmoAccountToken venmo Account token assigned
-     * @return HyperwalletVenmoAccount venmo Account
+     * @param venmoAccountToken Venmo Account token assigned
+     * @return HyperwalletVenmoAccount Venmo Account
      */
     public HyperwalletVenmoAccount getVenmoAccount(String userToken, String venmoAccountToken) {
         if (StringUtils.isEmpty(userToken)) {
@@ -1317,7 +1317,7 @@ public class Hyperwallet {
      * @param userToken         User token
      * @param venmoAccountToken Venmo account token
      * @param notes             Comments regarding the status change
-     * @return HyperwalletStatusTransition deactivated venmo account
+     * @return HyperwalletStatusTransition deactivated Venmo account
      */
     public HyperwalletStatusTransition deactivateVenmoAccount(String userToken, String venmoAccountToken, String notes) {
         return createVenmoAccountStatusTransition(userToken,
@@ -1331,7 +1331,7 @@ public class Hyperwallet {
      * @param userToken         User token
      * @param venmoAccountToken Venmo account token
      * @param transition        Status transition information
-     * @return HyperwalletStatusTransition new status for venmo Account
+     * @return HyperwalletStatusTransition new status for Venmo Account
      */
     public HyperwalletStatusTransition createVenmoAccountStatusTransition(String userToken, String venmoAccountToken,
             HyperwalletStatusTransition transition) {
