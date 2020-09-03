@@ -1321,7 +1321,6 @@ public class HyperwalletApiClientTest {
         assertEquals(response.getDocuments().get(0).getType(), EIdentityVerificationType.LETTER_OF_AUTHORIZATION);
         assertEquals(response.getDocuments().get(0).getCountry(), ECountryCode.CA);
         assertEquals(response.getDocuments().get(0).getStatus(), EKycDocumentVerificationStatus.NEW);
-        System.out.println("");
     }
 
 
