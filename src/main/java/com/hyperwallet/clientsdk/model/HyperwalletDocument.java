@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DocumentVerificationDocumentsRepresentation {
+public class HyperwalletDocument {
 
     public static enum EIdentityVerificationType {
         DRIVERS_LICENSE,
@@ -73,7 +73,7 @@ public class DocumentVerificationDocumentsRepresentation {
         this.category = category;
     }
 
-    public DocumentVerificationDocumentsRepresentation category(EDocumentCategory category) {
+    public HyperwalletDocument category(EDocumentCategory category) {
         setCategory(category);
         return this;
     }
@@ -86,7 +86,7 @@ public class DocumentVerificationDocumentsRepresentation {
         this.type = type;
     }
 
-    public DocumentVerificationDocumentsRepresentation type(EIdentityVerificationType type) {
+    public HyperwalletDocument type(EIdentityVerificationType type) {
         setType(type);
         return this;
     }
@@ -99,7 +99,7 @@ public class DocumentVerificationDocumentsRepresentation {
         this.country = country;
     }
 
-    public DocumentVerificationDocumentsRepresentation country(ECountryCode country) {
+    public HyperwalletDocument country(ECountryCode country) {
         setCountry(country);
         return this;
     }
@@ -112,7 +112,7 @@ public class DocumentVerificationDocumentsRepresentation {
         this.status = status;
     }
 
-    public DocumentVerificationDocumentsRepresentation status(EKycDocumentVerificationStatus status) {
+    public HyperwalletDocument status(EKycDocumentVerificationStatus status) {
         setStatus(status);
         return this;
     }

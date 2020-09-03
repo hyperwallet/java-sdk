@@ -1,9 +1,9 @@
 package com.hyperwallet.clientsdk.model;
 
-import com.hyperwallet.clientsdk.model.DocumentVerificationDocumentsRepresentation.ECountryCode;
-import com.hyperwallet.clientsdk.model.DocumentVerificationDocumentsRepresentation.EDocumentCategory;
-import com.hyperwallet.clientsdk.model.DocumentVerificationDocumentsRepresentation.EIdentityVerificationType;
-import com.hyperwallet.clientsdk.model.DocumentVerificationDocumentsRepresentation.EKycDocumentVerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.ECountryCode;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 
 import java.util.ArrayList;
@@ -17,11 +17,11 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
 
     protected HyperwalletUser createBaseModel() {
         HyperwalletUser user = new HyperwalletUser();
-        DocumentVerificationDocumentsRepresentation documentVerificationDocumentsRepresentation = new DocumentVerificationDocumentsRepresentation();
-        documentVerificationDocumentsRepresentation.category(EDocumentCategory.AUTHORIZATION).type(EIdentityVerificationType.LETTER_OF_AUTHORIZATION)
+        HyperwalletDocument hyperwalletDocument = new HyperwalletDocument();
+        hyperwalletDocument.category(EDocumentCategory.AUTHORIZATION).type(EIdentityVerificationType.LETTER_OF_AUTHORIZATION)
                 .country(ECountryCode.CA).status(EKycDocumentVerificationStatus.NEW);
-        List<DocumentVerificationDocumentsRepresentation> documentVerificationDocumentsRepresentationList = new ArrayList<>();
-        documentVerificationDocumentsRepresentationList.add(documentVerificationDocumentsRepresentation);
+        List<HyperwalletDocument> hyperwalletDocumentList = new ArrayList<>();
+        hyperwalletDocumentList.add(hyperwalletDocument);
         user
                 .token("test-token")
                 .status(HyperwalletUser.Status.ACTIVATED)
@@ -65,7 +65,7 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .language("test-language")
                 .programToken("test-program-token")
                 .timeZone("GMT")
-                .documents(documentVerificationDocumentsRepresentationList);
+                .documents(hyperwalletDocumentList);
 
         return user;
     }
