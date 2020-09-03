@@ -17,7 +17,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
 
     public static enum ProfileType {INDIVIDUAL}
 
-    public static enum GovernmentIdType {PASSPORT,NATIONAL_ID_CARD}
+    public static enum GovernmentIdType {PASSPORT, NATIONAL_ID_CARD}
 
     public static enum Status {ACTIVATED, DE_ACTIVATED}
 
@@ -157,7 +157,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-     public Status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -473,7 +473,6 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
     }
 
 
-
     public GovernmentIdType getGovernmentIdType() {
         return governmentIdType;
     }
@@ -495,7 +494,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-        public String getDriversLicenseId() {
+    public String getDriversLicenseId() {
         return driversLicenseId;
     }
 

@@ -1,16 +1,11 @@
 package com.hyperwallet.clientsdk.model;
 
-import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.ProfileType;
-import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.Status;
-import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.VerificationStatus;
-import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.GovernmentIdType;
-import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.Gender;
-import org.junit.Test;
+import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.*;
 
 import java.util.Date;
 
 
-public class HyperwalletBusinessStakeholderTest extends BaseModelTest<HyperwalletBusinessStakeholder>{
+public class HyperwalletBusinessStakeholderTest extends BaseModelTest<HyperwalletBusinessStakeholder> {
 
     protected HyperwalletBusinessStakeholder createBaseModel() {
 
@@ -45,8 +40,8 @@ public class HyperwalletBusinessStakeholderTest extends BaseModelTest<Hyperwalle
                 .country("US")
                 .postalCode("22222");
 
-     return stakeholder;
- }
+        return stakeholder;
+    }
 
     protected Class<HyperwalletBusinessStakeholder> createModelClass() {
         return HyperwalletBusinessStakeholder.class;

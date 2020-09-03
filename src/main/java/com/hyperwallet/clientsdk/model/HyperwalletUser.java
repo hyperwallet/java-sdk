@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
@@ -63,6 +64,8 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     private String country;
     private String language;
     private String programToken;
+    private String timeZone;
+    private List<HyperwalletDocument> documents;
 
     public String getToken() {
         return token;
@@ -796,6 +799,48 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     public HyperwalletUser clearProgramToken() {
         clearField("programToken");
         programToken = null;
+        return this;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        addField("timeZone", timeZone);
+        this.timeZone = timeZone;
+    }
+
+    public HyperwalletUser timeZone(String timeZone) {
+        addField("timeZone", timeZone);
+        this.timeZone = timeZone;
+        return this;
+    }
+
+    public HyperwalletUser clearTimeZone() {
+        clearField("timeZone");
+        timeZone = null;
+        return this;
+    }
+
+    public List<HyperwalletDocument> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<HyperwalletDocument> documents) {
+        addField("documents", documents);
+        this.documents = documents;
+    }
+
+    public HyperwalletUser documents(List<HyperwalletDocument> documents) {
+        addField("documents", documents);
+        this.documents = documents;
+        return this;
+    }
+
+    public HyperwalletUser clearDocuments() {
+        clearField("documents");
+        documents = null;
         return this;
     }
 }
