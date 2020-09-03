@@ -1,13 +1,10 @@
 package com.hyperwallet.clientsdk.model;
 
-import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.ProfileType;
-import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.Status;
-import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.VerificationStatus;
-import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.GovernmentIdType;
-import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.Gender;
-import org.junit.Test;
+import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class HyperwalletBusinessStakeholderTest extends BaseModelTest<HyperwalletBusinessStakeholder>{
@@ -15,6 +12,10 @@ public class HyperwalletBusinessStakeholderTest extends BaseModelTest<Hyperwalle
     protected HyperwalletBusinessStakeholder createBaseModel() {
 
         HyperwalletBusinessStakeholder stakeholder = new HyperwalletBusinessStakeholder();
+        VerificationDocument verificationDocument = new VerificationDocument();
+        verificationDocument.category("IDENTIFICATION").type("DRIVERS_LICENSE").status("NEW").country("AL");
+        List<VerificationDocument> verificationDocumentList = new ArrayList<>();
+        verificationDocumentList.add(verificationDocument);
         stakeholder
                 .token("test-token")
                 .isBusinessContact(true)
@@ -43,10 +44,12 @@ public class HyperwalletBusinessStakeholderTest extends BaseModelTest<Hyperwalle
                 .city("San Jose")
                 .stateProvince("CA")
                 .country("US")
-                .postalCode("22222");
+                .postalCode("22222")
+                .documents(verificationDocumentList);
+        ;
 
-     return stakeholder;
- }
+        return stakeholder;
+    }
 
     protected Class<HyperwalletBusinessStakeholder> createModelClass() {
         return HyperwalletBusinessStakeholder.class;

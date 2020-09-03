@@ -6,6 +6,7 @@ import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -225,6 +226,26 @@ public class Hyperwallet {
         String url = paginate(this.url + "/users/" + userToken + "/business-stakeholders", options);
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBusinessStakeholder>>() {
         });
+    }
+
+    /**
+     * Uploading documents for Business Stakeholder
+     *
+     * @param userToken                String
+     * @param businessStakeholderToken Hyperwallet Stakeholder representation
+     * @param multiPart                FormdataMultipart to get uploaded
+     * @return HyperwalletBusinessStakeholder updated Stakeholder with document status
+     */
+    public HyperwalletBusinessStakeholder uploadDocumentBusinessStakeholder(String userToken, String businessStakeholderToken,
+            FormDataMultiPart multiPart) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        if (businessStakeholderToken == null) {
+            throw new HyperwalletException("BusinessStakeholderToken is required");
+        }
+        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, multiPart,
+                HyperwalletBusinessStakeholder.class);
     }
 
 
