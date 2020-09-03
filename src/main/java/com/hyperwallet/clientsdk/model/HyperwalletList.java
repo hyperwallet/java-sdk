@@ -5,26 +5,29 @@ import java.util.List;
 
 public class HyperwalletList<T> {
 
-    private int count;
-    private int offset;
+    private boolean hasNextPage;
+    private boolean hasPreviousPage;
     private int limit;
+    private List<T> data;
+    private List<HyperwalletLink> links = new ArrayList<HyperwalletLink>();
 
-    private List<T> data = new ArrayList<T>();
-
-    public int getCount() {
-        return count;
+    public HyperwalletList() {
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public boolean hasNextPage() {
+        return hasNextPage;
     }
 
-    public int getOffset() {
-        return offset;
+    public void setHasNextPage(boolean hasNextPage) {
+        this.hasNextPage = hasNextPage;
     }
 
-    public void setOffset(int offset) {
-        this.offset = offset;
+    public boolean hasPreviousPage() {
+        return hasPreviousPage;
+    }
+
+    public void setHasPreviousPage(boolean hasPreviousPage) {
+        this.hasPreviousPage = hasPreviousPage;
     }
 
     public int getLimit() {
@@ -42,4 +45,13 @@ public class HyperwalletList<T> {
     public void setData(List<T> data) {
         this.data = data;
     }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        this.links = links;
+    }
+
 }
