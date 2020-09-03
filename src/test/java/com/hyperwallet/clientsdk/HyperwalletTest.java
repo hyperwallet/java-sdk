@@ -8,7 +8,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerification
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.testng.annotations.DataProvider;
