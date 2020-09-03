@@ -1199,6 +1199,27 @@ public class Hyperwallet {
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
         });
     }
+
+    /**
+     * Update PayPal Account
+     *
+     * @param payPalAccount PayPal Account to Update.
+     * @return HyperwalletPayPalAccount Updated PayPal Account
+     */
+    public HyperwalletPayPalAccount updatePayPalAccount(HyperwalletPayPalAccount payPalAccount) {
+        if (payPalAccount == null) {
+            throw new HyperwalletException("PayPal Account is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getUserToken())) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getToken())) {
+            throw new HyperwalletException("PayPal Account token is required");
+        }
+        return apiClient.put(url + "/users/" + payPalAccount.getUserToken() + "/paypal-accounts/" + payPalAccount.getToken(), payPalAccount,
+                HyperwalletPayPalAccount.class);
+    }
+
     //--------------------------------------
     // Venmo Accounts
     //--------------------------------------
