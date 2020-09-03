@@ -5,8 +5,8 @@ import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
+import com.sun.jersey.multipart.FormDataMultiPart;
 import org.apache.commons.lang3.StringUtils;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
