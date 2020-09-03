@@ -993,7 +993,9 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
+        assertThat(returnValue.getLimit(), is(equalTo(10)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b")));
         assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
         assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.VENMO_ACCOUNT)));
@@ -1065,9 +1067,8 @@ public class HyperwalletIT {
             mockServer.verify(parseRequest(functionality));
             throw e;
         }
-
-        assertThat(returnValue.getCount(), is(equalTo(1)));
-        assertThat(returnValue.getOffset(), is(equalTo(0)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getLimit(), is(equalTo(10)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-6a8c70b6-3634-4d83-beac-ea7050311ed1")));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2019-01-09T22:50:14 UTC"))));
