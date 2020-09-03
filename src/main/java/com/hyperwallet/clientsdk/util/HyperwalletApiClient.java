@@ -212,8 +212,7 @@ public class HyperwalletApiClient {
 
     public WebResource getWebResource(final String url) {
         client.addFilter(new HTTPBasicAuthFilter(this.username, this.password));
-        webResource = client.resource(url);
-        return webResource;
+        return client.resource(url);
     }
 
     public <T> T put(final String url, final FormDataMultiPart formDataMultiPart, final Class<T> type) {

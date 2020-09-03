@@ -65,7 +65,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     private String language;
     private String programToken;
     private String timeZone;
-    private List<DocumentVerificationDocumentsRepresentation> documents;
+    private List<HyperwalletDocument> documents;
 
     public String getToken() {
         return token;
@@ -823,16 +823,16 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public List<DocumentVerificationDocumentsRepresentation> getDocuments() {
+    public List<HyperwalletDocument> getDocuments() {
         return documents;
     }
 
-    public void setDocuments(List<DocumentVerificationDocumentsRepresentation> documents) {
+    public void setDocuments(List<HyperwalletDocument> documents) {
         addField("documents", documents);
         this.documents = documents;
     }
 
-    public HyperwalletUser documents(List<DocumentVerificationDocumentsRepresentation> documents) {
+    public HyperwalletUser documents(List<HyperwalletDocument> documents) {
         addField("documents", documents);
         this.documents = documents;
         return this;

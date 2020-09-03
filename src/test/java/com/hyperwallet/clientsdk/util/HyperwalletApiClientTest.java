@@ -4,10 +4,11 @@ import cc.protea.util.http.Response;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.HyperwalletException;
-import com.hyperwallet.clientsdk.model.HyperwalletBaseMonitor;
-import com.hyperwallet.clientsdk.model.HyperwalletError;
-import com.hyperwallet.clientsdk.model.HyperwalletPayment;
-import com.hyperwallet.clientsdk.model.HyperwalletUser;
+import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.ECountryCode;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -45,7 +46,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 /**
  * @author fkrauthan
@@ -1268,18 +1269,17 @@ public class HyperwalletApiClientTest {
     }
 
     @Test
-    public void testDocumentUpload() {
-        try {
-            FormDataMultiPart multiPart = new FormDataMultiPart();
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("type", "LETTER_OF_AUTHORIZATION");
-            jsonObject.put("category", "AUTHORIZATION");
-            List<JSONObject> jsonObjectList = new ArrayList<>();
-            jsonObjectList.add(jsonObject);
-            JSONObject jsonObject1 = new JSONObject();
-            jsonObject1.put("documents", jsonObjectList);
-            BodyPart data =
-                    new FormDataBodyPart(FormDataContentDisposition.name("data").build(), jsonObject1.toString(), MediaType.APPLICATION_JSON_TYPE);
+    public void testDocumentUpload() throws Exception {
+        FormDataMultiPart multiPart = new FormDataMultiPart();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type", "LETTER_OF_AUTHORIZATION");
+        jsonObject.put("category", "AUTHORIZATION");
+        List<JSONObject> jsonObjectList = new ArrayList<>();
+        jsonObjectList.add(jsonObject);
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("documents", jsonObjectList);
+        BodyPart data =
+                new FormDataBodyPart(FormDataContentDisposition.name("data").build(), jsonObject1.toString(), MediaType.APPLICATION_JSON_TYPE);
             multiPart.bodyPart(data);
 
             Client mockClient = createAndInjectWebResourceClient(hyperwalletApiClient);
@@ -1308,12 +1308,20 @@ public class HyperwalletApiClientTest {
                     + "  ]\n"
                     + "}";
 
-            when(clientResponse.getEntity(String.class)).thenReturn(hyperwalletUser);
-            when(clientResponse.getHeaders()).thenReturn(headers);
+        when(clientResponse.getEntity(String.class)).thenReturn(hyperwalletUser);
+        when(clientResponse.getHeaders()).thenReturn(headers);
 
-            hyperwalletApiClient.put(baseUrl + "/documentUpload", multiPart, HyperwalletUser.class);
-        } catch (Exception exception) {
-        }
+        HyperwalletUser response = hyperwalletApiClient.put(baseUrl + "/documentUpload", multiPart, HyperwalletUser.class);
+        List<HyperwalletDocument> hyperwalletDocumentList = response.getDocuments();
+        assertNull(response.getToken());
+        assertNull(response.getStatus());
+        assertNull(response.getVerificationStatus());
+        assertEquals(response.getDocuments().size(), 1);
+        assertEquals(response.getDocuments().get(0).getCategory(), EDocumentCategory.AUTHORIZATION);
+        assertEquals(response.getDocuments().get(0).getType(), EIdentityVerificationType.LETTER_OF_AUTHORIZATION);
+        assertEquals(response.getDocuments().get(0).getCountry(), ECountryCode.CA);
+        assertEquals(response.getDocuments().get(0).getStatus(), EKycDocumentVerificationStatus.NEW);
+        System.out.println("");
     }
 
 
