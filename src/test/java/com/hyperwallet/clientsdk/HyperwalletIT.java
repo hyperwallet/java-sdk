@@ -64,7 +64,8 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33")));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T01:55:34 UTC"))));
         assertThat(returnValue.getData().get(0).getTransition(), is(equalTo(DE_ACTIVATED)));
@@ -242,7 +243,8 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getCount(), is(equalTo(2)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
         assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
         assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
@@ -293,7 +295,8 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-1825afa2-61f1-4860-aa69-a65b9d14f556")));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T00:55:57 UTC"))));
         assertThat(returnValue.getData().get(0).getTransition(), is(equalTo(DE_ACTIVATED)));
@@ -481,7 +484,8 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")));
         assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.PAPER_CHECK)));
         assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
@@ -538,7 +542,8 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7")));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-30T19:50:49 UTC"))));
         assertThat(returnValue.getData().get(0).getTransition(), is(equalTo(DE_ACTIVATED)));
@@ -693,7 +698,8 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")));
         assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransfer.Status.QUOTED)));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
@@ -809,7 +815,8 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-54b0db9c-5565-47f7-aee6-685e713595f3")));
         assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
         assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)));
@@ -856,8 +863,8 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getCount(), is(equalTo(1)));
-        assertThat(returnValue.getOffset(), is(equalTo(0)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getLimit(), is(equalTo(10)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-70ddc78a-0c14-4a72-8390-75d49ff376f2")));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2018-10-30T18:50:20 UTC"))));
@@ -1136,7 +1143,8 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.getCount(), is(equalTo(2)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getData().get(1).getToken(), is(equalTo("sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33")));
         assertThat(returnValue.getData().get(1).getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T02:04:17 UTC"))));
         assertThat(returnValue.getData().get(1).getTransition(), is(equalTo(RECALLED)));
