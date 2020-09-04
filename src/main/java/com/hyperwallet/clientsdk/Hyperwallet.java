@@ -5,6 +5,7 @@ import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
+import com.sun.jersey.multipart.FormDataMultiPart;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
@@ -160,10 +161,10 @@ public class Hyperwallet {
     }
 
     /**
-     *  Create Business Stakeholder
+     * Create Business Stakeholder
      *
      * @param stakeholder Hyperwallet Stakeholder representation
-     * @param userToken String
+     * @param userToken   String
      * @return HyperwalletBusinessStakeholder created Stakeholder
      */
     public HyperwalletBusinessStakeholder createBusinessStakeholder(String userToken, HyperwalletBusinessStakeholder stakeholder) {
@@ -174,13 +175,13 @@ public class Hyperwallet {
             throw new HyperwalletException("User token may not be present");
         }
         stakeholder = copy(stakeholder);
-        return apiClient.post(url + "/users/"+ userToken + "/business-stakeholders", stakeholder, HyperwalletBusinessStakeholder.class);
+        return apiClient.post(url + "/users/" + userToken + "/business-stakeholders", stakeholder, HyperwalletBusinessStakeholder.class);
     }
 
     /**
-     *  Update Business Stakeholder
+     * Update Business Stakeholder
      *
-     * @param userToken String
+     * @param userToken   String
      * @param stakeholder Hyperwallet Stakeholder representation
      * @return HyperwalletBusinessStakeholder updated Stakeholder
      */
@@ -195,7 +196,8 @@ public class Hyperwallet {
             throw new HyperwalletException("Stakeholder token may not be present");
         }
         stakeholder = copy(stakeholder);
-        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + stakeholder.getToken(), stakeholder, HyperwalletBusinessStakeholder.class);
+        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + stakeholder.getToken(), stakeholder,
+                HyperwalletBusinessStakeholder.class);
     }
 
     /**
@@ -215,7 +217,7 @@ public class Hyperwallet {
      * List BusinessStakeholders
      *
      * @param userToken String
-     * @param options List filter option
+     * @param options   List filter option
      * @return HyperwalletList of HyperwalletBusinessStakeholder
      */
     public HyperwalletList<HyperwalletBusinessStakeholder> listBusinessStakeholders(String userToken, HyperwalletPaginationOptions options) {
@@ -2124,8 +2126,28 @@ public class Hyperwallet {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Json-Cache-Token", jsonCacheToken);
 
-        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
+        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class,
+                headers);
     }
+
+    //--------------------------------------
+    // Upload documents for user endpoint
+    //--------------------------------------
+
+    /**
+     * Upload documents
+     *
+     * @param userToken userToken for which documents to be uploaded
+     * @param multiPart multipart FormdataMultipart to get uploaded
+     * @return HyperwalletUser user object with document upload status
+     */
+    public HyperwalletUser documentUpload(String userToken, FormDataMultiPart multiPart) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is not present");
+        }
+        return apiClient.put(url + "/users/" + userToken, multiPart, HyperwalletUser.class);
+    }
+
     //--------------------------------------
     // Internal utils
     //--------------------------------------
@@ -2229,7 +2251,6 @@ public class Hyperwallet {
 
     private HyperwalletVenmoAccount copy(HyperwalletVenmoAccount venmoAccount) {
         return HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(venmoAccount), HyperwalletVenmoAccount.class);
-
     }
 
 }
