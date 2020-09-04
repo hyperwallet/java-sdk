@@ -23,7 +23,8 @@ public class HyperwalletPaymentTest extends BaseModelTest<HyperwalletPayment> {
 
                 .destinationToken("test-destination-token")
                 .programToken("test-program-token")
-                .clientPaymentId("test-client-payment-id");
+                .clientPaymentId("test-client-payment-id")
+                .expiresOn(new Date());
         return payment;
     }
 
