@@ -3,6 +3,9 @@ package com.hyperwallet.clientsdk;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.BusinessStakeholderVerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.LetterOfAuthorizationStatus;
+
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -21,6 +24,7 @@ import java.util.TimeZone;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.nullValue;
 import static org.testng.Assert.fail;
 
 /**
@@ -111,6 +115,8 @@ public class HyperwalletTest {
         HyperwalletUser user = new HyperwalletUser();
         user.setStatus(HyperwalletUser.Status.ACTIVATED);
         user.setVerificationStatus(VerificationStatus.VERIFIED);
+        user.setBusinessStakeholderVerificationStatus(BusinessStakeholderVerificationStatus.VERIFIED);
+        user.setLetterOfAuthorizationStatus(LetterOfAuthorizationStatus.VERIFIED);
         user.setCreatedOn(new Date());
         user.setFirstName("test-first-name");
         user.setBusinessOperatingName("test-business-operating-name");
@@ -125,6 +131,9 @@ public class HyperwalletTest {
         HyperwalletUser resp = client.createUser(user);
         assertThat(resp, is(equalTo(user)));
         assertThat(resp.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
+        assertThat(resp.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
+        assertThat(resp.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+
 
         ArgumentCaptor<HyperwalletUser> argument = ArgumentCaptor.forClass(HyperwalletUser.class);
         Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/users"), argument.capture(), Mockito.eq(user.getClass()));
@@ -135,6 +144,8 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(VerificationStatus.VERIFIED));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(BusinessStakeholderVerificationStatus.VERIFIED));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(LetterOfAuthorizationStatus.VERIFIED));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(nullValue()));
     }
@@ -166,6 +177,8 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token")));
     }
@@ -198,6 +211,8 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token2")));
     }

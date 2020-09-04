@@ -24,11 +24,19 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     public static enum Status {PRE_ACTIVATED, ACTIVATED, LOCKED, FROZEN, DE_ACTIVATED}
 
-    public static enum VerificationStatus {UNDER_REVIEW, VERIFIED, REQUIRED, NOT_REQUIRED}
+    public static enum VerificationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED}
+
+    public static enum BusinessStakeholderVerificationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, READY_FOR_REVIEW}
+
+    public static enum LetterOfAuthorizationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, READY_FOR_REVIEW}
+
 
     private String token;
     private Status status;
     private VerificationStatus verificationStatus;
+    private BusinessStakeholderVerificationStatus businessStakeholderVerificationStatus;
+    private LetterOfAuthorizationStatus letterOfAuthorizationStatus;
+
     private Date createdOn;
     private String clientUserId;
     private ProfileType profileType;
@@ -124,6 +132,49 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     public HyperwalletUser clearVerificationStatus() {
         clearField("verificationStatus");
         verificationStatus = null;
+        return this;
+    }
+
+
+    public BusinessStakeholderVerificationStatus getBusinessStakeholderVerificationStatus() {
+        return businessStakeholderVerificationStatus;
+    }
+
+    public void setBusinessStakeholderVerificationStatus(BusinessStakeholderVerificationStatus businessStakeholderVerificationStatus) {
+        addField("businessStakeholderVerificationStatus", businessStakeholderVerificationStatus);
+        this.businessStakeholderVerificationStatus = businessStakeholderVerificationStatus;
+    }
+
+    public HyperwalletUser businessStakeholderVerificationStatus(BusinessStakeholderVerificationStatus businessStakeholderVerificationStatus) {
+        addField("businessStakeholderVerificationStatus", businessStakeholderVerificationStatus);
+        this.businessStakeholderVerificationStatus = businessStakeholderVerificationStatus;
+        return this;
+    }
+
+    public HyperwalletUser clearBusinessStakeholderVerificationStatus() {
+        clearField("businessStakeholderVerificationStatus");
+        this.businessStakeholderVerificationStatus = null;
+        return this;
+    }
+
+    public LetterOfAuthorizationStatus getLetterOfAuthorizationStatus() {
+        return letterOfAuthorizationStatus;
+    }
+
+    public void setLetterOfAuthorizationStatus(LetterOfAuthorizationStatus letterOfAuthorizationStatus) {
+        addField("letterOfAuthorizationStatus", letterOfAuthorizationStatus);
+        this.letterOfAuthorizationStatus = letterOfAuthorizationStatus;
+    }
+
+    public HyperwalletUser letterOfAuthorizationStatus(LetterOfAuthorizationStatus letterOfAuthorizationStatus) {
+        addField("letterOfAuthorizationStatus", letterOfAuthorizationStatus);
+        this.letterOfAuthorizationStatus = letterOfAuthorizationStatus;
+        return this;
+    }
+
+    public HyperwalletUser clearLetterOfAuthorizationStatus() {
+        clearField("letterOfAuthorizationStatus");
+        this.letterOfAuthorizationStatus = null;
         return this;
     }
 
