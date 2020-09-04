@@ -17,6 +17,7 @@ public class HyperwalletReceiptTest {
     @Test
     public void testHyperwalletReceipt() {
         HyperwalletReceipt receipt = new HyperwalletReceipt();
+        assertThat(receipt.getToken(), is(nullValue()));
         assertThat(receipt.getJournalId(), is(nullValue()));
         assertThat(receipt.getType(), is(nullValue()));
         assertThat(receipt.getCreatedOn(), is(nullValue()));
@@ -36,6 +37,7 @@ public class HyperwalletReceiptTest {
 
         Date creationDate = new Date();
 
+        receipt.setJournalId("test-token");
         receipt.setJournalId("test-journal-id");
         receipt.setType(HyperwalletReceipt.Type.ANNUAL_FEE);
         receipt.setCreatedOn(creationDate);
@@ -49,6 +51,7 @@ public class HyperwalletReceiptTest {
         receipt.setForeignExchangeCurrency("USD");
         receipt.setDetails(detailsMap);
 
+        assertThat(receipt.getToken(), is(equalTo("test-token")));
         assertThat(receipt.getJournalId(), is(equalTo("test-journal-id")));
         assertThat(receipt.getType(), is(equalTo(HyperwalletReceipt.Type.ANNUAL_FEE)));
         assertThat(receipt.getCreatedOn(), is(equalTo(creationDate)));

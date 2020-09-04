@@ -200,29 +200,27 @@ public class HyperwalletReceipt {
 
     }
 
+    private String token;
     private String journalId;
-
     private Type type;
-
     private Date createdOn;
-
     private Entry entry;
-
     private String sourceToken;
-
     private String destinationToken;
-
     private Double amount;
-
     private Double fee;
-
     private String currency;
-
     private Double foreignExchangeRate;
-
     private String foreignExchangeCurrency;
-
     private Map<String, String> details = new HashMap<String, String>();
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getJournalId() {
         return journalId;
