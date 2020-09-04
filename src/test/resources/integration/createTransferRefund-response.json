@@ -16,7 +16,7 @@
       "params": {
         "rel": "self"
       },
-      "href": "https://api.sandbox.hyperwallet.com/rest/v3/transfers/trf-dc6a19f7-1d24-434d-87ce-f1a960f3fbce/refunds/trd-a159dc18-eb29-4530-8733-060c7feaad0f"
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-dc6a19f7-1d24-434d-87ce-f1a960f3fbce/refunds/trd-a159dc18-eb29-4530-8733-060c7feaad0f"
     }
   ]
 }

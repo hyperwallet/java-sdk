@@ -21,7 +21,7 @@
           "params": {
             "rel": "self"
           },
-          "href": "https://localhost:8181/rest/v3/transfers/trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb/refunds/trd-e59d19d4-eccb-4160-b04c-4f11c83f99f0"
+          "href": "https://localhost:8181/rest/v4/transfers/trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb/refunds/trd-e59d19d4-eccb-4160-b04c-4f11c83f99f0"
         }
       ]
     },
@@ -43,7 +43,7 @@
           "params": {
             "rel": "self"
           },
-          "href": "https://api.sandbox.hyperwallet.com/rest/v3/transfers/trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb/refunds/trd-686baee1-b56c-49d8-bd57-cd47ee0085f2"
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb/refunds/trd-686baee1-b56c-49d8-bd57-cd47ee0085f2"
         }
       ]
     }
@@ -53,7 +53,7 @@
       "params": {
         "rel": "self"
       },
-      "href": "https://api.sandbox.hyperwallet.com/rest/v3/transfers/trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb/refunds?offset=0&limit=10"
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb/refunds?offset=0&limit=10"
     }
   ]
 }
