@@ -2,8 +2,13 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.ECountryCode;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
+import com.sun.jersey.multipart.FormDataMultiPart;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.testng.annotations.DataProvider;
@@ -14,13 +19,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 /**
@@ -7254,6 +7257,47 @@ public class HyperwalletTest {
         assertThat(apiClientVenmoAccount, is(notNullValue()));
     }
 
+    @Test
+    public void testDocumentUpload_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.documentUpload(null, new FormDataMultiPart());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is not present")));
+            assertThat(e.getMessage(), is(equalTo("User token is not present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testDocumentUpload_successful() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+
+        HyperwalletUser hyperwalletUser = new HyperwalletUser();
+        HyperwalletDocument hyperwalletDocument =
+                new HyperwalletDocument();
+        hyperwalletDocument.category(EDocumentCategory.AUTHORIZATION)
+                .type(EIdentityVerificationType.LETTER_OF_AUTHORIZATION)
+                .country(ECountryCode.CA).status(EKycDocumentVerificationStatus.NEW);
+        List<HyperwalletDocument> hyperwalletDocumentList = new ArrayList<>();
+        hyperwalletDocumentList.add(hyperwalletDocument);
+        hyperwalletUser.setDocuments(hyperwalletDocumentList);
+
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(FormDataMultiPart.class), Mockito.any(Class.class)))
+                .thenReturn(hyperwalletUser);
+
+        HyperwalletUser hyperwalletUserresponse = client.documentUpload("test-token", new FormDataMultiPart());
+        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCategory().equals(EDocumentCategory.AUTHORIZATION));
+        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getType().equals(EIdentityVerificationType.LETTER_OF_AUTHORIZATION));
+        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCountry().equals(ECountryCode.CA));
+        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getStatus().equals(EKycDocumentVerificationStatus.NEW));
+    }
+
     //--------------------------------------
     // Transfer Refund
     //--------------------------------------
@@ -7380,7 +7424,6 @@ public class HyperwalletTest {
         Mockito.verify(mockApiClient).get("https://api.sandbox.hyperwallet.com/rest/v4/transfers/transferToken/refunds/transferRefundToken",
                 transferRefund.getClass());
     }
-
 
     @Test
     public void testListTransferRefunds_noParameters() throws Exception {
