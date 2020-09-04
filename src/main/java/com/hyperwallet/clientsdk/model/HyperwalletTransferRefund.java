@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
@@ -27,6 +28,7 @@ public class HyperwalletTransferRefund extends HyperwalletBaseMonitor {
     private Date createdOn;
     private String notes;
     private String memo;
+    private List<HyperwalletLink> links;
 
     public String getToken() {
         return token;
@@ -277,6 +279,27 @@ public class HyperwalletTransferRefund extends HyperwalletBaseMonitor {
     public HyperwalletTransferRefund clearMemo() {
         clearField("memo");
         this.memo = null;
+        return this;
+    }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+    }
+
+    public HyperwalletTransferRefund links(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+        return this;
+    }
+
+    public HyperwalletTransferRefund clearLinks() {
+        clearField("links");
+        this.links = null;
         return this;
     }
 }
