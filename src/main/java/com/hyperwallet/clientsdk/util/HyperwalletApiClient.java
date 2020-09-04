@@ -12,8 +12,8 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.internal.MultiPartWriter;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.impl.MultiPartWriter;
 
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.DatatypeConverter;
@@ -76,7 +76,7 @@ public class HyperwalletApiClient {
         }
     }
 
-    public WebResource getWebResource(final String url) {
+    private WebResource getWebResource(final String url) {
         client.addFilter(new HTTPBasicAuthFilter(this.username, this.password));
         return client.resource(url);
     }
@@ -228,5 +228,4 @@ public class HyperwalletApiClient {
         }
         return isEncrypted ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
     }
-
 }

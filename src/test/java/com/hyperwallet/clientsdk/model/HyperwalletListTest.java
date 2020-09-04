@@ -4,9 +4,9 @@ import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -44,7 +44,7 @@ public class HyperwalletListTest {
         assertThat(list.getData(), is(equalTo(dataList)));
 
         list.setLimit(10);
-        for(int i=1; i < list.getLimit(); i++) {
+        for (int i = 1; i < list.getLimit(); i++) {
 
             dataList.add("test" + i);
         }
@@ -67,7 +67,7 @@ public class HyperwalletListTest {
         assertThat(list.getLinks().get(0).getHref(), is(equalTo(link.getHref())));
         assertThat(list.getLinks().get(0).getParams().get("rel"), is(equalTo("self")));
 
-        for(int i=0; i < list.getLimit(); i++) {
+        for (int i = 0; i < list.getLimit(); i++) {
             dataList.add("test" + i);
         }
         list.setData(dataList);

@@ -18,7 +18,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
 
     public static enum ProfileType {INDIVIDUAL}
 
-    public static enum GovernmentIdType {PASSPORT,NATIONAL_ID_CARD}
+    public static enum GovernmentIdType {PASSPORT, NATIONAL_ID_CARD}
 
     public static enum Status {ACTIVATED, DE_ACTIVATED}
 
@@ -52,7 +52,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
     private String stateProvince;
     private String country;
     private String postalCode;
-    private List<VerificationDocument> documents;
+    private List<HyperwalletVerificationDocument> documents;
 
     public String getToken() {
         return token;
@@ -159,7 +159,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-     public Status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -475,7 +475,6 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
     }
 
 
-
     public GovernmentIdType getGovernmentIdType() {
         return governmentIdType;
     }
@@ -497,7 +496,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-        public String getDriversLicenseId() {
+    public String getDriversLicenseId() {
         return driversLicenseId;
     }
 
@@ -644,16 +643,16 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public List<VerificationDocument> getDocuments() {
+    public List<HyperwalletVerificationDocument> getDocuments() {
         return documents;
     }
 
-    public void setDocuments(List<VerificationDocument> documents) {
+    public void setDocuments(List<HyperwalletVerificationDocument> documents) {
         addField("documents", documents);
         this.documents = documents;
     }
 
-    public HyperwalletBusinessStakeholder documents(List<VerificationDocument> documents) {
+    public HyperwalletBusinessStakeholder documents(List<HyperwalletVerificationDocument> documents) {
         addField("documents", documents);
         this.documents = documents;
         return this;
@@ -661,7 +660,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
 
     public HyperwalletBusinessStakeholder clearDocuments() {
         clearField("documents");
-        documents = null;
+        this.documents = null;
         return this;
     }
 }

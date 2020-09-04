@@ -7,15 +7,15 @@ import java.util.Date;
 import java.util.List;
 
 
-public class HyperwalletBusinessStakeholderTest extends BaseModelTest<HyperwalletBusinessStakeholder>{
+public class HyperwalletBusinessStakeholderTest extends BaseModelTest<HyperwalletBusinessStakeholder> {
 
     protected HyperwalletBusinessStakeholder createBaseModel() {
 
         HyperwalletBusinessStakeholder stakeholder = new HyperwalletBusinessStakeholder();
-        VerificationDocument verificationDocument = new VerificationDocument();
-        verificationDocument.category("IDENTIFICATION").type("DRIVERS_LICENSE").status("NEW").country("AL");
-        List<VerificationDocument> verificationDocumentList = new ArrayList<>();
-        verificationDocumentList.add(verificationDocument);
+        HyperwalletVerificationDocument hyperWalletVerificationDocument = new HyperwalletVerificationDocument();
+        hyperWalletVerificationDocument.category("IDENTIFICATION").type("DRIVERS_LICENSE").status("NEW").country("AL");
+        List<HyperwalletVerificationDocument> hyperwalletVerificationDocumentList = new ArrayList<>();
+        hyperwalletVerificationDocumentList.add(hyperWalletVerificationDocument);
         stakeholder
                 .token("test-token")
                 .isBusinessContact(true)
@@ -45,7 +45,7 @@ public class HyperwalletBusinessStakeholderTest extends BaseModelTest<Hyperwalle
                 .stateProvince("CA")
                 .country("US")
                 .postalCode("22222")
-                .documents(verificationDocumentList);
+                .documents(hyperwalletVerificationDocumentList);
         ;
 
         return stakeholder;

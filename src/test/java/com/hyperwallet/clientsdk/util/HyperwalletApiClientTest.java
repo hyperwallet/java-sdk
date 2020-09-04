@@ -5,14 +5,18 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.ECountryCode;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.core.header.InBoundHeaders;
-import org.glassfish.jersey.media.multipart.BodyPart;
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.BodyPart;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.mockserver.integration.ClientAndServer;
@@ -1265,6 +1269,114 @@ public class HyperwalletApiClientTest {
     }
 
     @Test
+    public void testDocumentUpload() throws Exception {
+        FormDataMultiPart multiPart = new FormDataMultiPart();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type", "LETTER_OF_AUTHORIZATION");
+        jsonObject.put("category", "AUTHORIZATION");
+        List<JSONObject> jsonObjectList = new ArrayList<>();
+        jsonObjectList.add(jsonObject);
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("documents", jsonObjectList);
+        BodyPart data =
+                new FormDataBodyPart(FormDataContentDisposition.name("data").build(), jsonObject1.toString(), MediaType.APPLICATION_JSON_TYPE);
+        multiPart.bodyPart(data);
+
+        Client mockClient = createAndInjectWebResourceClient(hyperwalletApiClient);
+
+        WebResource webResource = mock(WebResource.class);
+        when(mockClient.resource(baseUrl + "/documentUpload")).thenReturn(webResource);
+        WebResource.Builder builder = mock(WebResource.Builder.class);
+        when(webResource.type(MediaType.MULTIPART_FORM_DATA_TYPE)).thenReturn(builder);
+
+        InBoundHeaders headers = new InBoundHeaders();
+        headers.put(HttpHeaders.CONTENT_TYPE, Collections.singletonList("application/json"));
+
+        ClientResponse clientResponse = mock(ClientResponse.class);
+
+        when(builder.put(ClientResponse.class, multiPart)).thenReturn(clientResponse);
+        when(clientResponse.getStatus()).thenReturn(200);
+
+        String hyperwalletUser = "{\n"
+                + "  \"documents\": [\n"
+                + "    {\n"
+                + "      \"category\": \"AUTHORIZATION\",\n"
+                + "      \"country\": \"CA\",\n"
+                + "      \"type\": \"LETTER_OF_AUTHORIZATION\",\n"
+                + "      \"status\": \"NEW\"\n"
+                + "    }\n"
+                + "  ]\n"
+                + "}";
+
+        when(clientResponse.getEntity(String.class)).thenReturn(hyperwalletUser);
+        when(clientResponse.getHeaders()).thenReturn(headers);
+
+        HyperwalletUser response = hyperwalletApiClient.put(baseUrl + "/documentUpload", multiPart, HyperwalletUser.class);
+        List<HyperwalletDocument> hyperwalletDocumentList = response.getDocuments();
+        assertNull(response.getToken());
+        assertNull(response.getStatus());
+        assertNull(response.getVerificationStatus());
+        assertEquals(response.getDocuments().size(), 1);
+        assertEquals(response.getDocuments().get(0).getCategory(), EDocumentCategory.AUTHORIZATION);
+        assertEquals(response.getDocuments().get(0).getType(), EIdentityVerificationType.LETTER_OF_AUTHORIZATION);
+        assertEquals(response.getDocuments().get(0).getCountry(), ECountryCode.CA);
+        assertEquals(response.getDocuments().get(0).getStatus(), EKycDocumentVerificationStatus.NEW);
+    }
+
+
+    @Test
+    public void testDocumentUploadWithError() {
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+            String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
+            String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
+
+            HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                    .clientPrivateKeySetLocation(clientPrivateKeysPath).hyperwalletKeySetLocation(hyperwalletKeysPath).build();
+            String testBody = "{\"test1\":\"value1\"}";
+            String encryptedBody = hyperwalletEncryption.encrypt(testBody);
+
+            HyperwalletApiClient hyperwalletApiClientEnc = new HyperwalletApiClient(
+                    "test-username", "test-password", "1.0", hyperwalletEncryption);
+
+            FormDataMultiPart multiPart = new FormDataMultiPart();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("type", "LETTER_OF_AUTHORIZATION");
+            jsonObject.put("category", "AUTHORIZATION");
+            List<JSONObject> jsonObjectList = new ArrayList<>();
+            jsonObjectList.add(jsonObject);
+
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("documents", jsonObjectList);
+            BodyPart data =
+                    new FormDataBodyPart(FormDataContentDisposition.name("data").build(), jsonObject1.toString(), MediaType.APPLICATION_JSON_TYPE);
+            multiPart.bodyPart(data);
+
+            Client mockClient = createAndInjectWebResourceClient(hyperwalletApiClientEnc);
+
+            WebResource webResource = mock(WebResource.class);
+            when(mockClient.resource(baseUrl + "/documentUpload")).thenReturn(webResource);
+            WebResource.Builder builder = mock(WebResource.Builder.class);
+            when(webResource.type(MediaType.MULTIPART_FORM_DATA_TYPE)).thenReturn(builder);
+
+            InBoundHeaders headers = new InBoundHeaders();
+            headers.put(HttpHeaders.CONTENT_TYPE, Collections.singletonList("application/jose+json"));
+
+            ClientResponse clientResponse = mock(ClientResponse.class);
+
+            when(builder.put(ClientResponse.class, multiPart)).thenReturn(clientResponse);
+            when(clientResponse.getStatus()).thenReturn(200);
+
+            when(clientResponse.getEntity(String.class)).thenReturn("{result: \"Success\"}");
+            when(clientResponse.getHeaders()).thenReturn(headers);
+
+            hyperwalletApiClientEnc.put(baseUrl + "/documentUpload", multiPart, HyperwalletUser.class);
+        } catch (Exception exception) {
+            assertThat(exception.getMessage(), is("java.text.ParseException: Invalid serialized unsecured/JWS/JWE object: Missing part delimiters"));
+        }
+    }
+
+    @Test
     public void testUploadDocumentBusinessStakeholder() throws Exception {
         FormDataMultiPart multiPart = new FormDataMultiPart();
         JSONObject jsonObject = new JSONObject();
@@ -1312,7 +1424,7 @@ public class HyperwalletApiClientTest {
         HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse = hyperwalletApiClient
                 .put(baseUrl + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, multiPart,
                         HyperwalletBusinessStakeholder.class);
-        List<VerificationDocument> verificationDocumentList = hyperwalletBusinessStakeholderResponse.getDocuments();
+        List<HyperwalletVerificationDocument> hyperwalletVerificationDocumentList = hyperwalletBusinessStakeholderResponse.getDocuments();
         assertNull(hyperwalletBusinessStakeholderResponse.getToken());
         assertNull(hyperwalletBusinessStakeholderResponse.getStatus());
         assertNull(hyperwalletBusinessStakeholderResponse.getVerificationStatus());
@@ -1385,4 +1497,6 @@ public class HyperwalletApiClientTest {
         apiClientField.set(client, mock);
         return mock;
     }
+
+
 }

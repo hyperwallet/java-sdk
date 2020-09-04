@@ -10,18 +10,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JsonInclude(Include.NON_NULL)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class VerificationDocument {
+public class HyperwalletVerificationDocument {
 
     private String category;
     private String type;
     private String status;
     private String country;
 
-    public VerificationDocument() {
+    public HyperwalletVerificationDocument() {
 
     }
 
-    public VerificationDocument(String category, String type, String status) {
+    public HyperwalletVerificationDocument(String category, String type, String status) {
         this.category = category;
         this.type = type;
         this.status = status;
@@ -35,7 +35,7 @@ public class VerificationDocument {
         this.category = category;
     }
 
-    public VerificationDocument category(String category) {
+    public HyperwalletVerificationDocument category(String category) {
         setCategory(category);
         return this;
     }
@@ -48,7 +48,7 @@ public class VerificationDocument {
         this.type = type;
     }
 
-    public VerificationDocument type(String type) {
+    public HyperwalletVerificationDocument type(String type) {
         setType(type);
         return this;
     }
@@ -61,7 +61,7 @@ public class VerificationDocument {
         this.status = status;
     }
 
-    public VerificationDocument status(String status) {
+    public HyperwalletVerificationDocument status(String status) {
         setStatus(status);
         return this;
     }
@@ -74,7 +74,7 @@ public class VerificationDocument {
         this.country = country;
     }
 
-    public VerificationDocument country(String country) {
+    public HyperwalletVerificationDocument country(String country) {
         setCountry(country);
         return this;
     }

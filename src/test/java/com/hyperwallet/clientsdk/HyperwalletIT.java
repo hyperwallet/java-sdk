@@ -289,7 +289,7 @@ public class HyperwalletIT {
         HyperwalletList<HyperwalletStatusTransition> returnValue;
         try {
             returnValue = client.listBankCardStatusTransitions("usr-f695ef43-9614-4e17-9269-902c234616c3",
-                                                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26");
+                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -536,7 +536,7 @@ public class HyperwalletIT {
         HyperwalletList<HyperwalletStatusTransition> returnValue;
         try {
             returnValue = client.listPaperCheckStatusTransitions("usr-1dea80c9-c73e-4490-91b7-097d4a07550f",
-                                                               "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442");
+                    "trm-9e2e1a06-a33b-4c2f-9933-893ae21db442");
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
