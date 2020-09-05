@@ -45,6 +45,7 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .email("test-email")
 
                 .governmentId("test-government-id")
+                .governmentIdType(HyperwalletUser.GovernmentIdType.NATIONAL_ID_CARD)
                 .passportId("test-passport-id")
                 .driversLicenseId("test-drivers-license-id")
                 .employerId("test-employer-id")

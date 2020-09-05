@@ -5,7 +5,7 @@ import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.BusinessStakeholderVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.LetterOfAuthorizationStatus;
-
+import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -117,6 +117,7 @@ public class HyperwalletTest {
         user.setVerificationStatus(VerificationStatus.VERIFIED);
         user.setBusinessStakeholderVerificationStatus(BusinessStakeholderVerificationStatus.VERIFIED);
         user.setLetterOfAuthorizationStatus(LetterOfAuthorizationStatus.VERIFIED);
+        user.setGovernmentIdType(GovernmentIdType.NATIONAL_ID_CARD);
         user.setCreatedOn(new Date());
         user.setFirstName("test-first-name");
         user.setBusinessOperatingName("test-business-operating-name");
@@ -133,6 +134,9 @@ public class HyperwalletTest {
         assertThat(resp.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
         assertThat(resp.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
         assertThat(resp.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(resp.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
+        assertThat(resp.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(resp.getGovernmentIdType(), is(equalTo(GovernmentIdType.NATIONAL_ID_CARD)));
 
 
         ArgumentCaptor<HyperwalletUser> argument = ArgumentCaptor.forClass(HyperwalletUser.class);
@@ -143,9 +147,12 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
-        assertThat(apiClientUser.getVerificationStatus(), is(VerificationStatus.VERIFIED));
-        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(BusinessStakeholderVerificationStatus.VERIFIED));
-        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(LetterOfAuthorizationStatus.VERIFIED));
+        assertThat(apiClientUser.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(apiClientUser.getGovernmentIdType(), is(equalTo(GovernmentIdType.NATIONAL_ID_CARD)));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(nullValue()));
     }
@@ -179,6 +186,9 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getGovernmentIdType(), is(nullValue()));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token")));
     }
@@ -191,6 +201,7 @@ public class HyperwalletTest {
         user.setFirstName("test-first-name");
         user.setBusinessOperatingName("test-business-operating-name");
         user.setProgramToken("test-program-token2");
+        user.setProfileType(HyperwalletUser.ProfileType.BUSINESS);
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
@@ -212,7 +223,9 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
-        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.FAILED)));
+        System.out.println("================="+equalTo(LetterOfAuthorizationStatus.FAILED));
+        assertThat(apiClientUser.getGovernmentIdType(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token2")));
     }

@@ -30,6 +30,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     public static enum LetterOfAuthorizationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, READY_FOR_REVIEW}
 
+    public static enum GovernmentIdType {PASSPORT, NATIONAL_ID_CARD}
 
     private String token;
     private Status status;
@@ -45,8 +46,8 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     private String businessName;
     private String businessOperatingName;
     private String businessRegistrationId;
-    private String businessRegistrationStateProvince;
     private String businessRegistrationCountry;
+    private String businessRegistrationStateProvince;
     private BusinessContactRole businessContactRole;
 
     private String firstName;
@@ -60,6 +61,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     private String mobileNumber;
     private String email;
     private String governmentId;
+    private GovernmentIdType governmentIdType;
     private String passportId;
     private String driversLicenseId;
     private String employerId;
@@ -618,6 +620,29 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
         governmentId = null;
         return this;
     }
+
+
+    public GovernmentIdType getGovernmentIdType() {
+        return governmentIdType;
+    }
+
+    public void setGovernmentIdType(GovernmentIdType governmentIdType) {
+        addField("governmentIdType", governmentIdType);
+        this.governmentIdType = governmentIdType;
+    }
+
+    public HyperwalletUser governmentIdType(GovernmentIdType governmentIdType) {
+        addField("governmentIdType", governmentIdType);
+        this.governmentIdType = governmentIdType;
+        return this;
+    }
+
+    public HyperwalletUser clearGovernmentIdType() {
+        clearField("governmentIdType");
+        this.governmentIdType = null;
+        return this;
+    }
+
 
     public String getPassportId() {
         return passportId;
