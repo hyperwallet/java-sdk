@@ -1,6 +1,6 @@
 {
-  "count": 1,
-  "offset": 0,
+  "hasNextPage": "false",
+  "hasPreviousPage": "false",
   "limit": 10,
   "data":[
     {
