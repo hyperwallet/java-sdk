@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -213,6 +214,7 @@ public class HyperwalletReceipt {
     private Double foreignExchangeRate;
     private String foreignExchangeCurrency;
     private Map<String, String> details = new HashMap<String, String>();
+    private List<HyperwalletLink> links;
 
     public String getToken() {
         return token;
@@ -316,5 +318,13 @@ public class HyperwalletReceipt {
 
     public void setDetails(Map<String, String> details) {
         this.details = details;
+    }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        this.links = links;
     }
 }

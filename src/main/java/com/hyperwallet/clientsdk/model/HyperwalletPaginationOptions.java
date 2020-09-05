@@ -7,7 +7,6 @@ public class HyperwalletPaginationOptions {
     private Date createdBefore;
     private Date createdAfter;
     private String sortBy;
-    private Integer offset;
     private Integer limit;
 
     public Date getCreatedBefore() {
@@ -46,19 +45,6 @@ public class HyperwalletPaginationOptions {
 
     public HyperwalletPaginationOptions sortBy(String sortBy) {
         this.sortBy = sortBy;
-        return this;
-    }
-
-    public Integer getOffset() {
-        return offset;
-    }
-
-    public void setOffset(Integer offset) {
-        this.offset = offset;
-    }
-
-    public HyperwalletPaginationOptions offset(Integer offset) {
-        this.offset = offset;
         return this;
     }
 
