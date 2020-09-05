@@ -122,6 +122,7 @@ public class HyperwalletTest {
         user.setFirstName("test-first-name");
         user.setBusinessOperatingName("test-business-operating-name");
 
+
         HyperwalletUser userResponse = new HyperwalletUser();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -202,6 +203,7 @@ public class HyperwalletTest {
         user.setBusinessOperatingName("test-business-operating-name");
         user.setProgramToken("test-program-token2");
         user.setProfileType(HyperwalletUser.ProfileType.BUSINESS);
+        user.setLetterOfAuthorizationStatus(LetterOfAuthorizationStatus.VERIFIED);
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
@@ -223,8 +225,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
-        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.FAILED)));
-        System.out.println("================="+equalTo(LetterOfAuthorizationStatus.FAILED));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
         assertThat(apiClientUser.getGovernmentIdType(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token2")));
