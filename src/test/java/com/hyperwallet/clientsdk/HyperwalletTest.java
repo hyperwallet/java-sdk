@@ -301,6 +301,8 @@ public class HyperwalletTest {
         HyperwalletUser user = new HyperwalletUser();
         user.setToken("test-user-token");
         user.setFirstName("test-first-name");
+        user.setBusinessStakeholderVerificationStatus(BusinessStakeholderVerificationStatus.UNDER_REVIEW);
+        user.setGovernmentIdType(GovernmentIdType.NATIONAL_ID_CARD);
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
