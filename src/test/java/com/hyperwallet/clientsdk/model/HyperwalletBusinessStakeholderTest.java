@@ -2,6 +2,7 @@ package com.hyperwallet.clientsdk.model;
 
 import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -38,7 +39,8 @@ public class HyperwalletBusinessStakeholderTest extends BaseModelTest<Hyperwalle
                 .city("San Jose")
                 .stateProvince("CA")
                 .country("US")
-                .postalCode("22222");
+                .postalCode("22222")
+                .links(new ArrayList<HyperwalletLink>());
 
         return stakeholder;
     }

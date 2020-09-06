@@ -6240,6 +6240,7 @@ public class HyperwalletTest {
         stakeholder.setPostalCode("22222");
         stakeholder.setCountryOfBirth("US");
         stakeholder.setCountryOfNationality("US");
+        stakeholder.setLinks(new ArrayList<HyperwalletLink>());
         return stakeholder;
     }
 
@@ -6465,7 +6466,6 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
                 .sortBy("createdOn")
-                .offset(5)
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -6476,7 +6476,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/users/" + token
-                        + "/business-stakeholders?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=createdOn&offset=5&limit=10"),
+                        + "/business-stakeholders?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=createdOn&limit=10"),
                 Mockito.any(TypeReference.class));
 
     }
