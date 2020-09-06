@@ -1,6 +1,7 @@
 package com.hyperwallet.clientsdk;
 
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -13,9 +14,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -628,6 +627,16 @@ public class HyperwalletIT {
             throw e;
         }
 
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/paper-checks/trm-59f67c62-fd06-497e"
+                        + "-a9ea-99d6eb38b12b");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
         assertThat(returnValue.getToken(), is(equalTo("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")));
         assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransfer.Status.QUOTED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
@@ -643,11 +652,21 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("notes")));
         assertThat(returnValue.getMemo(), is(equalTo("memo")));
         assertThat(returnValue.getExpiresOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
-        assertThat(returnValue.getForeignExchanges().get(0).getSourceAmount(), is(equalTo(100.00)));
-        assertThat(returnValue.getForeignExchanges().get(0).getSourceCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getForeignExchanges().get(0).getDestinationAmount(), is(equalTo(63.49)));
-        assertThat(returnValue.getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
+
+        ForeignExchange foreignExchange = returnValue.getForeignExchanges().get(0);
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo(100.00)));
+        assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(63.49)));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getRate(), is(equalTo(0.79)));
+
+        if (returnValue.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = returnValue.getLinks().get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertThat(actualHyperwalletLink.getParams().keySet(), is(equalTo(expectedHyperwalletLink.getParams().keySet())));
+            assertThat(actualHyperwalletLink.getParams().values(), is(equalTo(expectedHyperwalletLink.getParams().values())));
+        }
     }
 
     @Test
@@ -663,6 +682,16 @@ public class HyperwalletIT {
             throw e;
         }
 
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/paper-checks/trm-59f67c62-fd06-497e"
+                        + "-a9ea-99d6eb38b12b");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
         assertThat(returnValue.getToken(), is(equalTo("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")));
         assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransfer.Status.QUOTED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
@@ -678,11 +707,21 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("notes")));
         assertThat(returnValue.getMemo(), is(equalTo("memo")));
         assertThat(returnValue.getExpiresOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
-        assertThat(returnValue.getForeignExchanges().get(0).getSourceAmount(), is(equalTo(100.00)));
-        assertThat(returnValue.getForeignExchanges().get(0).getSourceCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getForeignExchanges().get(0).getDestinationAmount(), is(equalTo(63.49)));
-        assertThat(returnValue.getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
+
+        ForeignExchange foreignExchange = returnValue.getForeignExchanges().get(0);
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo(100.00)));
+        assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(63.49)));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getRate(), is(equalTo(0.79)));
+
+        if (returnValue.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = returnValue.getLinks().get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertThat(actualHyperwalletLink.getParams().keySet(), is(equalTo(expectedHyperwalletLink.getParams().keySet())));
+            assertThat(actualHyperwalletLink.getParams().values(), is(equalTo(expectedHyperwalletLink.getParams().values())));
+        }
     }
 
     @Test
@@ -698,28 +737,50 @@ public class HyperwalletIT {
             throw e;
         }
 
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/paper-checks/trm-59f67c62-fd06-497e"
+                        + "-a9ea-99d6eb38b12b");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
         assertThat(returnValue.hasNextPage(), is(equalTo(false)));
         assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
-        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")));
-        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransfer.Status.QUOTED)));
-        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
-        assertThat(returnValue.getData().get(0).getClientTransferId(), is(equalTo("clientTransferId")));
-        assertThat(returnValue.getData().get(0).getSourceToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getData().get(0).getSourceAmount(), is(equalTo(200.4)));
-        assertThat(returnValue.getData().get(0).getSourceFeeAmount(), is(equalTo(20.3)));
-        assertThat(returnValue.getData().get(0).getSourceCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getData().get(0).getDestinationToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getData().get(0).getDestinationAmount(), is(equalTo(100.2)));
-        assertThat(returnValue.getData().get(0).getDestinationFeeAmount(), is(equalTo(30.5)));
-        assertThat(returnValue.getData().get(0).getDestinationCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getData().get(0).getNotes(), is(equalTo("notes")));
-        assertThat(returnValue.getData().get(0).getMemo(), is(equalTo("memo")));
-        assertThat(returnValue.getData().get(0).getExpiresOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
-        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getSourceAmount(), is(equalTo(100.00)));
-        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getSourceCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getDestinationAmount(), is(equalTo(63.49)));
-        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
+
+        HyperwalletTransfer hyperwalletTransfer = returnValue.getData().get(0);
+        assertThat(hyperwalletTransfer.getToken(), is(equalTo("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")));
+        assertThat(hyperwalletTransfer.getStatus(), is(equalTo(HyperwalletTransfer.Status.QUOTED)));
+        assertThat(hyperwalletTransfer.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
+        assertThat(hyperwalletTransfer.getClientTransferId(), is(equalTo("clientTransferId")));
+        assertThat(hyperwalletTransfer.getSourceToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
+        assertThat(hyperwalletTransfer.getSourceAmount(), is(equalTo(200.4)));
+        assertThat(hyperwalletTransfer.getSourceFeeAmount(), is(equalTo(20.3)));
+        assertThat(hyperwalletTransfer.getSourceCurrency(), is(equalTo("USD")));
+        assertThat(hyperwalletTransfer.getDestinationToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
+        assertThat(hyperwalletTransfer.getDestinationAmount(), is(equalTo(100.2)));
+        assertThat(hyperwalletTransfer.getDestinationFeeAmount(), is(equalTo(30.5)));
+        assertThat(hyperwalletTransfer.getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(hyperwalletTransfer.getNotes(), is(equalTo("notes")));
+        assertThat(hyperwalletTransfer.getMemo(), is(equalTo("memo")));
+        assertThat(hyperwalletTransfer.getExpiresOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
+
+        ForeignExchange foreignExchange = hyperwalletTransfer.getForeignExchanges().get(0);
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo(100.00)));
+        assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(63.49)));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getRate(), is(equalTo(0.79)));
+
+        if (returnValue.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = returnValue.getLinks().get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertThat(actualHyperwalletLink.getParams().keySet(), is(equalTo(expectedHyperwalletLink.getParams().keySet())));
+            assertThat(actualHyperwalletLink.getParams().values(), is(equalTo(expectedHyperwalletLink.getParams().values())));
+        }
     }
 
     @Test
@@ -739,12 +800,30 @@ public class HyperwalletIT {
             throw e;
         }
 
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-1dea80c9-c73e-4490-91b7-097d4a07550f/paper-checks/trm-9e2e1a06-a33b-4c2f"
+                        + "-9933-893ae21db442/status-transitions/sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
         assertThat(returnValue.getToken(), is(equalTo("sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7")));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-30T19:50:49 UTC"))));
         assertThat(returnValue.getTransition(), is(equalTo(SCHEDULED)));
         assertThat(returnValue.getFromStatus(), is(equalTo(QUOTED)));
         assertThat(returnValue.getToStatus(), is(equalTo(SCHEDULED)));
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
+
+        if (returnValue.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = returnValue.getLinks().get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertThat(actualHyperwalletLink.getParams().keySet(), is(equalTo(expectedHyperwalletLink.getParams().keySet())));
+            assertThat(actualHyperwalletLink.getParams().values(), is(equalTo(expectedHyperwalletLink.getParams().values())));
+        }
     }
 
     //

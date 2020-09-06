@@ -2,7 +2,9 @@ package com.hyperwallet.clientsdk.model;
 
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -13,13 +15,17 @@ import static org.hamcrest.Matchers.*;
 public class HyperwalletStatusTransitionTest extends BaseModelTest<HyperwalletStatusTransition> {
     protected HyperwalletStatusTransition createBaseModel() {
         HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
+        List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLinkList.add(hyperwalletLink);
         transition
                 .token("test-token")
                 .transition(HyperwalletStatusTransition.Status.ACTIVATED)
                 .fromStatus(HyperwalletStatusTransition.Status.LOCKED)
                 .toStatus(HyperwalletStatusTransition.Status.ACTIVATED)
                 .createdOn(new Date())
-                .notes("test-notes");
+                .notes("test-notes")
+                .links(hyperwalletLinkList);
         return transition;
     }
 
