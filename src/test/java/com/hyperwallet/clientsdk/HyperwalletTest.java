@@ -6216,6 +6216,12 @@ public class HyperwalletTest {
 
     private HyperwalletBusinessStakeholder createStakeholderObj() {
         HyperwalletBusinessStakeholder stakeholder = new HyperwalletBusinessStakeholder();
+        Map<String,String> params = new HashMap<String,String>();
+        params.put("rel","self");
+        List<HyperwalletLink> links = new ArrayList<HyperwalletLink>();
+        HyperwalletLink link = new HyperwalletLink();
+        link.setHref("https://api.sandbox.hyperwallet.com/rest/v4/users/business-stakeholders");
+        links.add(link);
 
         stakeholder.setIsBusinessContact(true);
         stakeholder.setIsDirector(false);
@@ -6240,7 +6246,7 @@ public class HyperwalletTest {
         stakeholder.setPostalCode("22222");
         stakeholder.setCountryOfBirth("US");
         stakeholder.setCountryOfNationality("US");
-        stakeholder.setLinks(new ArrayList<HyperwalletLink>());
+        stakeholder.setLinks(links);
         return stakeholder;
     }
 
