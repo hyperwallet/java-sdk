@@ -22,6 +22,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
 public class HyperwalletIT {
@@ -630,8 +631,7 @@ public class HyperwalletIT {
         List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLink.setHref(
-                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/paper-checks/trm-59f67c62-fd06-497e"
-                        + "-a9ea-99d6eb38b12b");
+                "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-59f67c62-fd06-497e-a9ea-99d6eb38b12b");
         Map<String, String> mapParams = new HashMap<>();
         mapParams.put("rel", "self");
         hyperwalletLink.setParams(mapParams);
@@ -662,10 +662,9 @@ public class HyperwalletIT {
 
         if (returnValue.getLinks() != null) {
             HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
             assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertThat(actualHyperwalletLink.getParams().keySet(), is(equalTo(expectedHyperwalletLink.getParams().keySet())));
-            assertThat(actualHyperwalletLink.getParams().values(), is(equalTo(expectedHyperwalletLink.getParams().values())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
         }
     }
 
@@ -685,8 +684,7 @@ public class HyperwalletIT {
         List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLink.setHref(
-                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/paper-checks/trm-59f67c62-fd06-497e"
-                        + "-a9ea-99d6eb38b12b");
+                "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-59f67c62-fd06-497e-a9ea-99d6eb38b12b");
         Map<String, String> mapParams = new HashMap<>();
         mapParams.put("rel", "self");
         hyperwalletLink.setParams(mapParams);
@@ -717,10 +715,9 @@ public class HyperwalletIT {
 
         if (returnValue.getLinks() != null) {
             HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
             assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertThat(actualHyperwalletLink.getParams().keySet(), is(equalTo(expectedHyperwalletLink.getParams().keySet())));
-            assertThat(actualHyperwalletLink.getParams().values(), is(equalTo(expectedHyperwalletLink.getParams().values())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
         }
     }
 
@@ -740,8 +737,7 @@ public class HyperwalletIT {
         List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLink.setHref(
-                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/paper-checks/trm-59f67c62-fd06-497e"
-                        + "-a9ea-99d6eb38b12b");
+                "https://api.sandbox.hyperwallet.com/rest/v4/transfers?offset=0&limit=10");
         Map<String, String> mapParams = new HashMap<>();
         mapParams.put("rel", "self");
         hyperwalletLink.setParams(mapParams);
@@ -776,10 +772,9 @@ public class HyperwalletIT {
 
         if (returnValue.getLinks() != null) {
             HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
             assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertThat(actualHyperwalletLink.getParams().keySet(), is(equalTo(expectedHyperwalletLink.getParams().keySet())));
-            assertThat(actualHyperwalletLink.getParams().values(), is(equalTo(expectedHyperwalletLink.getParams().values())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
         }
     }
 
@@ -803,8 +798,8 @@ public class HyperwalletIT {
         List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLink.setHref(
-                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-1dea80c9-c73e-4490-91b7-097d4a07550f/paper-checks/trm-9e2e1a06-a33b-4c2f"
-                        + "-9933-893ae21db442/status-transitions/sts-ed2207f0-39cc-493f-9cd0-24998de0c0f7");
+                "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trr-9e2e1a06-a33b-4c2f-9933-893ae21db442/status-transitions/sts-ed2207f0"
+                        + "-39cc-493f-9cd0-24998de0c0f7");
         Map<String, String> mapParams = new HashMap<>();
         mapParams.put("rel", "self");
         hyperwalletLink.setParams(mapParams);
@@ -819,10 +814,9 @@ public class HyperwalletIT {
 
         if (returnValue.getLinks() != null) {
             HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
             assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertThat(actualHyperwalletLink.getParams().keySet(), is(equalTo(expectedHyperwalletLink.getParams().keySet())));
-            assertThat(actualHyperwalletLink.getParams().values(), is(equalTo(expectedHyperwalletLink.getParams().values())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
         }
     }
 
