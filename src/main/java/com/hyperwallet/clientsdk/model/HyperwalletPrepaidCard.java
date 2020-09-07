@@ -1,12 +1,14 @@
 package com.hyperwallet.clientsdk.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
@@ -30,10 +32,11 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     private String cardPackage;
     private String cardNumber;
     private Brand cardBrand;
-
+    @JsonFormat(pattern = "yyyy-MM", timezone = "UTC")
     private Date dateOfExpiry;
 
     private String userToken;
+    private List<HyperwalletLink> links;
 
     public HyperwalletTransferMethod.Type getType() {
         return type;
@@ -284,6 +287,27 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     public HyperwalletPrepaidCard clearUserToken() {
         clearField("userToken");
         this.userToken = null;
+        return this;
+    }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+    }
+
+    public HyperwalletPrepaidCard links(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+        return this;
+    }
+
+    public HyperwalletPrepaidCard clearLinks() {
+        clearField("links");
+        this.links = null;
         return this;
     }
 }

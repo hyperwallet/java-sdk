@@ -1,6 +1,8 @@
 package com.hyperwallet.clientsdk.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author fkrauthan
@@ -8,6 +10,9 @@ import java.util.Date;
 public class HyperwalletPrepaidCardTest extends BaseModelTest<HyperwalletPrepaidCard> {
     protected HyperwalletPrepaidCard createBaseModel() {
         HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard();
+        List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLinkList.add(hyperwalletLink);
         prepaidCard
                 .token("test-token")
                 .type(HyperwalletTransferMethod.Type.PREPAID_CARD)
@@ -23,7 +28,8 @@ public class HyperwalletPrepaidCardTest extends BaseModelTest<HyperwalletPrepaid
                 .cardBrand(HyperwalletPrepaidCard.Brand.VISA)
 
                 .dateOfExpiry(new Date())
-                .userToken("test-user-token");
+                .userToken("test-user-token")
+                .links(hyperwalletLinkList);
         return prepaidCard;
     }
 
