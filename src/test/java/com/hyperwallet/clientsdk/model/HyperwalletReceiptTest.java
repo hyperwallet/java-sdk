@@ -35,13 +35,13 @@ public class HyperwalletReceiptTest {
         assertThat(receipt.getDetails().isEmpty(), is(equalTo(true)));
         assertThat(receipt.getLinks(), is(nullValue()));
 
-        Map<String, String> detailsMap = new HashMap<>();
+        Map<String, String> detailsMap = new HashMap<String, String>();
         detailsMap.put(HyperwalletReceipt.DetailFieldKey.BANK_NAME.key(), "test");
         HyperwalletLink link = new HyperwalletLink();
         link.setHref("https://localhost:8181/test");
-        Map<String, String> rel = new HashMap<>();
-        rel.put("rel","self");
-        link.setParams(rel);
+        Map<String, String> params = new HashMap<>();
+        params.put("rel","self");
+        link.setParams(params);
         List<HyperwalletLink> links = new ArrayList<HyperwalletLink>();
         links.add(link);
 
