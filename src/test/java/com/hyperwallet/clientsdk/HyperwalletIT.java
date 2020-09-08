@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
 public class HyperwalletIT {
@@ -1144,8 +1145,7 @@ public class HyperwalletIT {
         List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLink.setHref(
-                "https://uat-api.paylution.com/rest/v4/payments/pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f/status-transitions/sts-4f790461-2e07-45e8"
-                        + "-852f-40229421b4d4");
+                "https://uat-api.paylution.com/rest/v4/payments/pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f/status-transitions?offset=0&limit=10");
         Map<String, String> mapParams = new HashMap<>();
         mapParams.put("rel", "self");
         hyperwalletLink.setParams(mapParams);
@@ -1160,10 +1160,9 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(1).getToStatus(), is(equalTo(RECALLED)));
         if (returnValue.getLinks() != null) {
             HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
             assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertThat(actualHyperwalletLink.getParams().keySet(), is(equalTo(expectedHyperwalletLink.getParams().keySet())));
-            assertThat(actualHyperwalletLink.getParams().values(), is(equalTo(expectedHyperwalletLink.getParams().values())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
         }
     }
 
@@ -1202,10 +1201,9 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("Cancel a payment upon customer request.")));
         if (returnValue.getLinks() != null) {
             HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
             assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertThat(actualHyperwalletLink.getParams().keySet(), is(equalTo(expectedHyperwalletLink.getParams().keySet())));
-            assertThat(actualHyperwalletLink.getParams().values(), is(equalTo(expectedHyperwalletLink.getParams().values())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
         }
     }
 
@@ -1243,10 +1241,9 @@ public class HyperwalletIT {
         assertThat(returnValue.getToStatus(), is(equalTo(COMPLETED)));
         if (returnValue.getLinks() != null) {
             HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
             assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertThat(actualHyperwalletLink.getParams().keySet(), is(equalTo(expectedHyperwalletLink.getParams().keySet())));
-            assertThat(actualHyperwalletLink.getParams().values(), is(equalTo(expectedHyperwalletLink.getParams().values())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
         }
     }
 
