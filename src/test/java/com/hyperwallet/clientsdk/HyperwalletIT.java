@@ -1,6 +1,9 @@
 package com.hyperwallet.clientsdk;
 
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletBankAccount.Type;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.Gender;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.ProfileType;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -13,9 +16,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,6 +24,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
 public class HyperwalletIT {
@@ -1247,6 +1249,275 @@ public class HyperwalletIT {
             throw e;
         }
     }
+
+    //
+    // Bank Accounts
+    //
+
+    @Test
+    public void testCreateBankAccount() throws Exception {
+        String functionality = "createBankAccount";
+        initMockServer(functionality);
+
+        HyperwalletBankAccount bankAccount = new HyperwalletBankAccount()
+                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+                .transferMethodCountry("US")
+                .transferMethodCurrency("USD")
+                .type(Type.BANK_ACCOUNT)
+                .branchId("021000021")
+                .bankAccountId("1234")
+                .bankAccountPurpose("SAVINGS");
+        HyperwalletBankAccount returnValue;
+        try {
+            returnValue = client.createBankAccount(bankAccount);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts/trm-2bd0b56d-e111-4d12"
+                        + "-bd24-d77fc02b9f4f");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        assertThat(returnValue.getToken(), is(equalTo("trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f")));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletBankAccount.Type.BANK_ACCOUNT)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletBankAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-08T15:01:07 UTC"))));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getBankName(), is(equalTo("JPMORGAN CHASE BANK")));
+        assertThat(returnValue.getBranchId(), is(equalTo("021000021")));
+        assertThat(returnValue.getBankAccountId(), is(equalTo("1599557466")));
+        assertThat(returnValue.getBankAccountPurpose(), is(equalTo("SAVINGS")));
+        assertThat(returnValue.getUserToken(), is(equalTo("usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad")));
+        assertThat(returnValue.getProfileType(), is(equalTo(ProfileType.INDIVIDUAL)));
+        assertThat(returnValue.getFirstName(), is(equalTo("firstName")));
+        assertThat(returnValue.getLastName(), is(equalTo("lastName")));
+        assertThat(returnValue.getDateOfBirth(), is(equalTo(dateFormat.parse("2000-09-08T15:01:07 UTC"))));
+        assertThat(returnValue.getGender(), is(equalTo(Gender.MALE)));
+        assertThat(returnValue.getPhoneNumber(), is(equalTo("605-555-1323")));
+        assertThat(returnValue.getMobileNumber(), is(equalTo("605-555-1323")));
+        assertThat(returnValue.getGovernmentId(), is(equalTo("444444444")));
+        assertThat(returnValue.getAddressLine1(), is(equalTo("1234 IndividualAddress St")));
+        assertThat(returnValue.getAddressLine2(), is(equalTo("1234 AddressLineTwo St")));
+        assertThat(returnValue.getCity(), is(equalTo("Test1111")));
+        assertThat(returnValue.getStateProvince(), is(equalTo("CA")));
+        assertThat(returnValue.getCountry(), is(equalTo("US")));
+        assertThat(returnValue.getPostalCode(), is(equalTo("12345")));
+        if (returnValue.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+        }
+    }
+
+    @Test
+    public void testGetBankAccount() throws Exception {
+        String functionality = "getBankAccount";
+        initMockServer(functionality);
+
+        HyperwalletBankAccount returnValue;
+
+        try {
+            String userToken = "usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad";
+            String transferMethodToken = "trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f";
+            returnValue = client.getBankAccount(userToken, transferMethodToken);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts/trm-2bd0b56d-e111-4d12"
+                        + "-bd24-d77fc02b9f4f");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        assertThat(returnValue.getToken(), is(equalTo("trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f")));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletBankAccount.Type.BANK_ACCOUNT)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletBankAccount.Status.DE_ACTIVATED)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-08T15:01:07 UTC"))));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getBankName(), is(equalTo("JPMORGAN CHASE BANK")));
+        assertThat(returnValue.getBranchId(), is(equalTo("021000021")));
+        assertThat(returnValue.getBankAccountId(), is(equalTo("1599557466")));
+        assertThat(returnValue.getBankAccountPurpose(), is(equalTo("SAVINGS")));
+        assertThat(returnValue.getUserToken(), is(equalTo("usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad")));
+        assertThat(returnValue.getProfileType(), is(equalTo(ProfileType.INDIVIDUAL)));
+        assertThat(returnValue.getFirstName(), is(equalTo("firstName")));
+        assertThat(returnValue.getLastName(), is(equalTo("lastName")));
+        assertThat(returnValue.getDateOfBirth(), is(equalTo(dateFormat.parse("2000-09-08T15:01:07 UTC"))));
+        assertThat(returnValue.getGender(), is(equalTo(Gender.MALE)));
+        assertThat(returnValue.getPhoneNumber(), is(equalTo("605-555-1323")));
+        assertThat(returnValue.getMobileNumber(), is(equalTo("605-555-1323")));
+        assertThat(returnValue.getGovernmentId(), is(equalTo("444444444")));
+        assertThat(returnValue.getAddressLine1(), is(equalTo("1234 IndividualAddress St")));
+        assertThat(returnValue.getAddressLine2(), is(equalTo("1234 AddressLineTwo St")));
+        assertThat(returnValue.getCity(), is(equalTo("Test1111")));
+        assertThat(returnValue.getStateProvince(), is(equalTo("CA")));
+        assertThat(returnValue.getCountry(), is(equalTo("US")));
+        assertThat(returnValue.getPostalCode(), is(equalTo("12345")));
+        if (returnValue.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+        }
+    }
+
+    @Test
+    public void testGetBankAccountLists() throws Exception {
+        String functionality = "listBankAccounts";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletBankAccount> bankAccountHyperwalletList;
+
+        try {
+            String userToken = "usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad";
+            bankAccountHyperwalletList = client.listBankAccounts(userToken);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts/trm-2bd0b56d-e111-4d12"
+                        + "-bd24-d77fc02b9f4f");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        HyperwalletBankAccount returnValue = bankAccountHyperwalletList.getData().get(0);
+        assertThat(returnValue.getToken(), is(equalTo("trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f")));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletBankAccount.Type.BANK_ACCOUNT)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletBankAccount.Status.DE_ACTIVATED)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-08T15:01:07 UTC"))));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getBankName(), is(equalTo("JPMORGAN CHASE BANK")));
+        assertThat(returnValue.getBranchId(), is(equalTo("021000021")));
+        assertThat(returnValue.getBankAccountId(), is(equalTo("1599557466")));
+        assertThat(returnValue.getBankAccountPurpose(), is(equalTo("SAVINGS")));
+        assertThat(returnValue.getUserToken(), is(equalTo("usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad")));
+        assertThat(returnValue.getProfileType(), is(equalTo(ProfileType.INDIVIDUAL)));
+        assertThat(returnValue.getFirstName(), is(equalTo("firstName")));
+        assertThat(returnValue.getLastName(), is(equalTo("lastName")));
+        assertThat(returnValue.getDateOfBirth(), is(equalTo(dateFormat.parse("2000-09-08T15:01:07 UTC"))));
+        assertThat(returnValue.getGender(), is(equalTo(Gender.MALE)));
+        assertThat(returnValue.getPhoneNumber(), is(equalTo("605-555-1323")));
+        assertThat(returnValue.getMobileNumber(), is(equalTo("605-555-1323")));
+        assertThat(returnValue.getGovernmentId(), is(equalTo("444444444")));
+        assertThat(returnValue.getAddressLine1(), is(equalTo("1234 IndividualAddress St")));
+        assertThat(returnValue.getAddressLine2(), is(equalTo("1234 AddressLineTwo St")));
+        assertThat(returnValue.getCity(), is(equalTo("Test1111")));
+        assertThat(returnValue.getStateProvince(), is(equalTo("CA")));
+        assertThat(returnValue.getCountry(), is(equalTo("US")));
+        assertThat(returnValue.getPostalCode(), is(equalTo("12345")));
+        if (returnValue.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+        }
+        HyperwalletLink hyperwalletLink1 = bankAccountHyperwalletList.getLinks().get(0);
+        assertThat(hyperwalletLink1.getHref(),
+                is(equalTo("https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts?limit=100")));
+        assertEquals(hyperwalletLink1.getParams(), hyperwalletLinks.get(0).getParams());
+    }
+
+    @Test
+    public void testDeactivateBankAccount() throws Exception {
+        String functionality = "deactivateBankAccount";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            String userToken = "usr-c4292f1a-866f-4310-a289-b916853939de";
+            String bankAccountToken = "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26";
+            returnValue = client.deactivateBankAccount(userToken, bankAccountToken);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-f695ef43-9614-4e17-9269-902c234616c3/bank-accounts/trm-d69300ef-5011-486b"
+                        + "-bd2e-bfd8b20fef26/status-transitions/sts-1825afa2-61f1-4860-aa69-a65b9d14f556");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        if (returnValue.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+        }
+    }
+
+    @Test
+    public void testListBankAccountStatusTransitions() throws Exception {
+        String functionality = "listBankAccountStatusTransitions";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletStatusTransition> hyperwalletStatusTransitionHyperwalletList;
+        try {
+            String userToken = "usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad";
+            String bankAccountToken = "trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f";
+            hyperwalletStatusTransitionHyperwalletList = client.listBankAccountStatusTransitions(userToken, bankAccountToken);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts/trm-2bd0b56d-e111-4d12"
+                        + "-bd24-d77fc02b9f4f/status-transitions/sts-1834b075-ee3c-4c00-b1dc-a517fe8a87ab");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        HyperwalletStatusTransition returnValue = hyperwalletStatusTransitionHyperwalletList.getData().get(0);
+        assertThat(returnValue.getToken(), is(equalTo("sts-1834b075-ee3c-4c00-b1dc-a517fe8a87ab")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-08T15:01:58 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getNotes(), is(equalTo("Deactivating card")));
+        if (returnValue.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+        }
+        HyperwalletLink hyperwalletLink1 = hyperwalletStatusTransitionHyperwalletList.getLinks().get(0);
+        assertThat(hyperwalletLink1.getHref(), is(equalTo(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts/trm-2bd0b56d-e111-4d12"
+                        + "-bd24-d77fc02b9f4f/status-transitions?limit=100")));
+        assertEquals(hyperwalletLink1.getParams(), hyperwalletLinks.get(0).getParams());
+    }
+
 
     private void initMockServerWithErrorResponse(String functionality) throws IOException {
         mockServer.reset();
