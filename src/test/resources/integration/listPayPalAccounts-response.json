@@ -20,5 +20,13 @@
         }
       ]
     }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-e7b61829-a73a-45dc-930e-afa8a56b923b/paypal-accounts?offset=0&limit=10"
+    }
   ]
 }
