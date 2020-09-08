@@ -5,11 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HyperwalletWebhookNotification {
+public class HyperwalletWebhookNotification extends HyperwalletBaseMonitor {
 
     public static enum Type {
 
@@ -71,6 +72,7 @@ public class HyperwalletWebhookNotification {
     private String type;
     private Date createdOn;
     private Object object;
+    private List<HyperwalletLink> links;
 
     public String getToken() {
         return token;
@@ -102,5 +104,26 @@ public class HyperwalletWebhookNotification {
 
     public void setObject(Object object) {
         this.object = object;
+    }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+    }
+
+    public HyperwalletWebhookNotification links(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+        return this;
+    }
+
+    public HyperwalletWebhookNotification clearLinks() {
+        clearField("links");
+        this.links = null;
+        return this;
     }
 }
