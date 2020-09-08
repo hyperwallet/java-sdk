@@ -5308,7 +5308,6 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
                 .sortBy("test-sort-by")
-                .offset(5)
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -5319,7 +5318,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/transfer-method-configurations?userToken=test-user-token&createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/transfer-method-configurations?userToken=test-user-token&createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -5333,7 +5332,6 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
                 .sortBy("test-sort-by")
-                .offset(5)
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
@@ -5342,7 +5340,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/transfer-method-configurations?userToken=test-user-token&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/transfer-method-configurations?userToken=test-user-token&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by"),
                 Mockito.any(TypeReference.class));
     }
 
