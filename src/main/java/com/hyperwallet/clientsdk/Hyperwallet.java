@@ -52,7 +52,6 @@ public class Hyperwallet {
     public Hyperwallet(final String username, final String password, final String programToken, final String server) {
         this(username, password, programToken, server, null);
     }
-
     /**
      * Create Hyperwallet SDK instance
      *
