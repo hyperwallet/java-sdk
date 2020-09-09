@@ -10,7 +10,7 @@ import java.util.Map;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HyperwalletWebhookNotification extends HyperwalletBaseMonitor {
+public class HyperwalletWebhookNotification {
 
     public static enum Type {
 
@@ -111,19 +111,11 @@ public class HyperwalletWebhookNotification extends HyperwalletBaseMonitor {
     }
 
     public void setLinks(List<HyperwalletLink> links) {
-        addField("links", links);
         this.links = links;
     }
 
     public HyperwalletWebhookNotification links(List<HyperwalletLink> links) {
-        addField("links", links);
-        this.links = links;
-        return this;
-    }
-
-    public HyperwalletWebhookNotification clearLinks() {
-        clearField("links");
-        this.links = null;
+        setLinks(links);
         return this;
     }
 }
