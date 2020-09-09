@@ -1,8 +1,8 @@
 {
-  "count": 1,
-  "offset": 0,
+  "hasNextPage": false,
+  "hasPreviousPage": false,
   "limit": 10,
-  "data":[
+  "data": [
     {
       "token": "trm-54b0db9c-5565-47f7-aee6-685e713595f3",
       "type": "PAYPAL_ACCOUNT",
@@ -26,7 +26,7 @@
       "params": {
         "rel": "self"
       },
-      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-e7b61829-a73a-45dc-930e-afa8a56b923b/paypal-accounts?offset=0&limit=10"
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-e7b61829-a73a-45dc-930e-afa8a56b923b/paypal-accounts?limit=10"
     }
   ]
 }
