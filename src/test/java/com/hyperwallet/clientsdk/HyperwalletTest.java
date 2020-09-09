@@ -1537,8 +1537,9 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletBankCardListOptions options = new HyperwalletBankCardListOptions();
         options
+            .status("ACTIVATED")
             .sortBy("test-sort-by")
             .offset(5)
             .limit(10)
