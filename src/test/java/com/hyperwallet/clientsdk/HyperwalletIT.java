@@ -19,16 +19,7 @@ import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
 import static org.testng.Assert.fail;
 
-import com.hyperwallet.clientsdk.model.HyperwalletBankCard;
-import com.hyperwallet.clientsdk.model.HyperwalletError;
-import com.hyperwallet.clientsdk.model.HyperwalletList;
-import com.hyperwallet.clientsdk.model.HyperwalletPaperCheck;
-import com.hyperwallet.clientsdk.model.HyperwalletPayPalAccount;
-import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
-import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition;
-import com.hyperwallet.clientsdk.model.HyperwalletTransfer;
-import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod;
-import com.hyperwallet.clientsdk.model.HyperwalletUser;
+import com.hyperwallet.clientsdk.model.*;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -41,9 +32,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class HyperwalletIT {
 
@@ -256,8 +245,19 @@ public class HyperwalletIT {
         initMockServer(functionality);
 
         HyperwalletList<HyperwalletBankCard> returnValue;
+
+        HyperwalletBankCardListOptions options = new HyperwalletBankCardListOptions();
+        options
+                .status("ACTIVATED")
+                .sortBy("test-sort-by")
+                .offset(5)
+                .limit(10)
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+
         try {
-            returnValue = client.listBankCards("usr-c4292f1a-866f-4310-a289-b916853939de");
+            returnValue = client.listBankCards("usr-c4292f1a-866f-4310-a289-b916853939de",options);
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -276,6 +276,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getCardBrand(), is(equalTo(HyperwalletBankCard.Brand.VISA)));
         assertThat(returnValue.getData().get(0).getDateOfExpiry(), is(equalTo(dateFormat.parse("2018-11-01T00:00:00 UTC"))));
         assertThat(returnValue.getData().get(0).getCvv(), is(nullValue()));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
     }
 
     @Test
@@ -1130,6 +1131,12 @@ public class HyperwalletIT {
             request = request.withHeader(header.getKey(), header.getValue());
         }
         return body == null? request : request.withBody(json(body));
+    }
+
+    private Date convertStringToDate(String date) throws Exception {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return dateFormat.parse(date);
     }
 
 }
