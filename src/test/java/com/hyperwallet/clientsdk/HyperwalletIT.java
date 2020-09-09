@@ -250,7 +250,6 @@ public class HyperwalletIT {
         options
                 .status("ACTIVATED")
                 .sortBy("test-sort-by")
-                .offset(5)
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -263,8 +262,8 @@ public class HyperwalletIT {
             throw e;
         }
 
-        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
-        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
+        assertThat(returnValue.hasNextPage(), is(equalTo(true)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(true)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
         assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
         assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
@@ -276,7 +275,6 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getCardBrand(), is(equalTo(HyperwalletBankCard.Brand.VISA)));
         assertThat(returnValue.getData().get(0).getDateOfExpiry(), is(equalTo(dateFormat.parse("2018-11-01T00:00:00 UTC"))));
         assertThat(returnValue.getData().get(0).getCvv(), is(nullValue()));
-        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
     }
 
     @Test

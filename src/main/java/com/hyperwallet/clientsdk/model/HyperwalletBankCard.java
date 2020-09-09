@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 
 import java.util.Date;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,6 +23,8 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     private String token;
     private HyperwalletTransferMethod.Status status;
     private Date createdOn;
+    private List<HyperwalletLink> links;
+
 
     private String transferMethodCountry;
     private String transferMethodCurrency;
@@ -117,6 +120,29 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
         this.createdOn = null;
         return this;
     }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+    }
+
+    public HyperwalletBankCard links(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+        return this;
+    }
+
+    public HyperwalletBankCard clearLinks() {
+        clearField("links");
+        this.links = null;
+        return this;
+    }
+
+
 
     public String getTransferMethodCountry() {
         return transferMethodCountry;
