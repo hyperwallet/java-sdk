@@ -5,15 +5,17 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HyperwalletProgram {
+public class HyperwalletProgram extends HyperwalletBaseMonitor{
 
     private String token;
     private Date createdOn;
     private String name;
     private String parentToken;
+    private List<HyperwalletLink> links;
 
     public String getToken() {
         return token;
@@ -64,6 +66,26 @@ public class HyperwalletProgram {
 
     public HyperwalletProgram parentToken(String parentToken) {
         this.parentToken = parentToken;
+        return this;
+    }
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+    }
+
+    public HyperwalletProgram links(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+        return this;
+    }
+
+    public HyperwalletProgram clearLinks() {
+        clearField("links");
+        this.links = null;
         return this;
     }
 }
