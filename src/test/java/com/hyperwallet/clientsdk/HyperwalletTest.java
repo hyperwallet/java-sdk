@@ -23,7 +23,8 @@ import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * @author fkrauthan
@@ -385,7 +386,6 @@ public class HyperwalletTest {
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
-
 
     @Test
     public void testGetUserAuthenticationToken_successful() throws Exception {

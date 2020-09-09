@@ -10,10 +10,6 @@ public class HyperwalletAuthenticationToken {
 
     private String value;
 
-    /**
-     * Method to set value in the Json response
-     * @return String of authentication token
-     */
     public String getValue() {
         return value;
     }
