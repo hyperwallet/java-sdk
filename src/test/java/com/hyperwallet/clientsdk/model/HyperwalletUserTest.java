@@ -5,6 +5,9 @@ import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.BusinessStakeholderVerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.LetterOfAuthorizationStatus;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +29,8 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .token("test-token")
                 .status(HyperwalletUser.Status.ACTIVATED)
                 .verificationStatus(VerificationStatus.VERIFIED)
+                .businessStakeholderVerificationStatus(HyperwalletUser.BusinessStakeholderVerificationStatus.VERIFIED)
+                .letterOfAuthorizationStatus(HyperwalletUser.LetterOfAuthorizationStatus.VERIFIED)
                 .createdOn(new Date())
                 .clientUserId("test-client-user-id")
                 .profileType(HyperwalletUser.ProfileType.INDIVIDUAL)
@@ -51,6 +56,7 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .email("test-email")
 
                 .governmentId("test-government-id")
+                .governmentIdType(HyperwalletUser.GovernmentIdType.NATIONAL_ID_CARD)
                 .passportId("test-passport-id")
                 .driversLicenseId("test-drivers-license-id")
                 .employerId("test-employer-id")
