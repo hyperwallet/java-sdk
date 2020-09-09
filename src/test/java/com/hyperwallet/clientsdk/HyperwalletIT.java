@@ -13,9 +13,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,6 +21,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
 public class HyperwalletIT {
@@ -1202,6 +1201,106 @@ public class HyperwalletIT {
         assertThat(returnValue.getTransition(), is(equalTo(COMPLETED)));
         assertThat(returnValue.getFromStatus(), is(equalTo(CREATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(COMPLETED)));
+    }
+
+    //
+    // Webhook Notification
+    //
+    @Test
+    public void testGetWebhookEvent() throws Exception {
+        String functionality = "getWebhookEvent";
+        initMockServer(functionality);
+
+        HyperwalletWebhookNotification returnValue;
+        try {
+            returnValue = client.getWebhookEvent("wbh-53010937-fbe4-4040-9a87-9fa0065f79bb");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref("https://uat-api.paylution.com/rest/v4/webhook-notifications/wbh-53010937-fbe4-4040-9a87-9fa0065f79bb");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+        HashMap<String, String> map = (HashMap) returnValue.getObject();
+        assertThat(returnValue.getToken(), is(equalTo("wbh-53010937-fbe4-4040-9a87-9fa0065f79bb")));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletWebhookNotification.Type.USER_CREATED.toString())));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2019-12-21T11:35:43 UTC"))));
+        assertThat(returnValue.getObject(), is(instanceOf(HashMap.class)));
+        assertThat(map.get("token"), is("usr-23e4d66a-879d-419b-950b-3f8d344c9cc7"));
+        assertThat(map.get("status"), is("PRE_ACTIVATED"));
+        assertThat(map.get("createdOn"), is("2019-12-21T11:35:43"));
+        assertThat(map.get("clientUserId"), is("webhook-cleint"));
+        assertThat(map.get("profileType"), is("INDIVIDUAL"));
+        assertThat(map.get("firstName"), is("John"));
+        assertThat(map.get("lastName"), is("Smith"));
+        assertThat(map.get("dateOfBirth"), is("1991-01-01"));
+        assertThat(map.get("email"), is("XKOSdXRs@hyperwallet.com"));
+        assertThat(map.get("addressLine1"), is("123 Main Street"));
+        assertThat(map.get("city"), is("New York"));
+        assertThat(map.get("stateProvince"), is("NY"));
+        assertThat(map.get("country"), is("US"));
+        assertThat(map.get("postalCode"), is("10016"));
+        assertThat(map.get("language"), is("en"));
+        assertThat(map.get("programToken"), is("prg-31507b29-95df-4b37-95ca-ecba6c06f995"));
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+
+    }
+
+    @Test
+    public void testListWebhookEvents() throws Exception {
+        String functionality = "listWebhookEvent";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletWebhookNotification> returnValue;
+        try {
+            returnValue = client.listWebhookEvents();
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref("https://api.sandbox.hyperwallet.com/rest/v4/webhook-notifications?limit=5");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+        assertThat(returnValue.hasNextPage(), is(equalTo(true)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(true)));
+        assertThat(returnValue.getLimit(), is(equalTo(5)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("wbh-946472ab-4e17-4224-9abe-e91f9e1d4031")));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletWebhookNotification.Type.USER_CREATED.toString())));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-10T21:51:00 UTC"))));
+        HashMap<String, String> map = (HashMap) returnValue.getData().get(0).getObject();
+        assertThat(returnValue.getData().get(0).getObject(), is(instanceOf(HashMap.class)));
+        assertThat(map.get("token"), is("usr-23e4d66a-879d-419b-950b-3f8d344c9cc7"));
+        assertThat(map.get("status"), is("PRE_ACTIVATED"));
+        assertThat(map.get("createdOn"), is("2019-12-21T11:35:43"));
+        assertThat(map.get("clientUserId"), is("webhook-cleint"));
+        assertThat(map.get("profileType"), is("INDIVIDUAL"));
+        assertThat(map.get("firstName"), is("John"));
+        assertThat(map.get("lastName"), is("Smith"));
+        assertThat(map.get("dateOfBirth"), is("1991-01-01"));
+        assertThat(map.get("email"), is("XKOSdXRs@hyperwallet.com"));
+        assertThat(map.get("addressLine1"), is("123 Main Street"));
+        assertThat(map.get("city"), is("New York"));
+        assertThat(map.get("stateProvince"), is("NY"));
+        assertThat(map.get("country"), is("US"));
+        assertThat(map.get("postalCode"), is("10016"));
+        assertThat(map.get("language"), is("en"));
+        assertThat(map.get("programToken"), is("prg-31507b29-95df-4b37-95ca-ecba6c06f995"));
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+
     }
 
     //
