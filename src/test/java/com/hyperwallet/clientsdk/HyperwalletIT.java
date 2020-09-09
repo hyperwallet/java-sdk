@@ -1310,12 +1310,11 @@ public class HyperwalletIT {
         assertThat(returnValue.getStateProvince(), is(equalTo("CA")));
         assertThat(returnValue.getCountry(), is(equalTo("US")));
         assertThat(returnValue.getPostalCode(), is(equalTo("12345")));
-        if (returnValue.getLinks() != null) {
-            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
-            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
-        }
+
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
     }
 
     @Test
@@ -1369,12 +1368,11 @@ public class HyperwalletIT {
         assertThat(returnValue.getStateProvince(), is(equalTo("CA")));
         assertThat(returnValue.getCountry(), is(equalTo("US")));
         assertThat(returnValue.getPostalCode(), is(equalTo("12345")));
-        if (returnValue.getLinks() != null) {
-            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
-            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
-        }
+
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
     }
 
     @Test
@@ -1428,12 +1426,12 @@ public class HyperwalletIT {
         assertThat(returnValue.getStateProvince(), is(equalTo("CA")));
         assertThat(returnValue.getCountry(), is(equalTo("US")));
         assertThat(returnValue.getPostalCode(), is(equalTo("12345")));
-        if (returnValue.getLinks() != null) {
-            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
-            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
-        }
+
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+
         HyperwalletLink hyperwalletLink1 = bankAccountHyperwalletList.getLinks().get(0);
         assertThat(hyperwalletLink1.getHref(),
                 is(equalTo("https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts?limit=100")));
@@ -1465,12 +1463,10 @@ public class HyperwalletIT {
         hyperwalletLink.setParams(mapParams);
         hyperwalletLinks.add(hyperwalletLink);
 
-        if (returnValue.getLinks() != null) {
-            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
-            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
-        }
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
     }
 
     @Test
@@ -1505,12 +1501,12 @@ public class HyperwalletIT {
         assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getNotes(), is(equalTo("Deactivating card")));
-        if (returnValue.getLinks() != null) {
-            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
-            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
-        }
+
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+
         HyperwalletLink hyperwalletLink1 = hyperwalletStatusTransitionHyperwalletList.getLinks().get(0);
         assertThat(hyperwalletLink1.getHref(), is(equalTo(
                 "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts/trm-2bd0b56d-e111-4d12"
