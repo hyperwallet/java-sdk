@@ -1231,12 +1231,10 @@ public class HyperwalletIT {
         assertThat(returnValue.getType(), is(equalTo(HyperwalletAccount.EType.FUNDING)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-04T21:19:24 UTC"))));
         assertThat(returnValue.getEmail(), is(equalTo("8715201615-fundingaccount@hyperwallet.com")));
-        if (returnValue.getLinks() != null) {
             HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
             HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
             assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
             assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
-        }
     }
 
     //
