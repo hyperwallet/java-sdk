@@ -132,12 +132,10 @@ public class HyperwalletIT {
         assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
         assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
 
-        if (returnValue.getLinks() != null) {
-            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
-            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
-        }
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
     }
 
     @Test
@@ -179,12 +177,10 @@ public class HyperwalletIT {
         assertThat(returnValue.getCardBrand(), is(equalTo(HyperwalletPrepaidCard.Brand.VISA)));
         assertThat(returnValue.getDateOfExpiry(), is(equalTo(dateFormat.parse("2024-09-01T00:00:00 UTC"))));
 
-        if (returnValue.getLinks() != null) {
-            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
-            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
-        }
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
     }
 
     @Test
@@ -255,12 +251,10 @@ public class HyperwalletIT {
         assertThat(hyperwalletPrepaidCardResponse.getCardBrand(), is(equalTo(HyperwalletPrepaidCard.Brand.VISA)));
         assertThat(hyperwalletPrepaidCardResponse.getDateOfExpiry(), is(equalTo(dateFormat.parse("2024-09-01T00:00:00 UTC"))));
 
-        if (returnValue.getLinks() != null) {
-            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
-            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
-            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
-            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
-        }
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
     }
 
     //
