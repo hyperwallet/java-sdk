@@ -1,0 +1,14 @@
+{
+  "token": "act-da5795ed-d1c9-4231-9e71-611ab8fe9f66",
+  "type": "FUNDING",
+  "createdOn": "2017-10-04T21:19:24",
+  "email": "8715201615-fundingaccount@hyperwallet.com",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/programs/prg-83836cdf-2ce2-4696-8bc5-f1b86077238c/accounts/act-da5795ed-d1c9-4231-9e71-611ab8fe9f66"
+    }
+  ]
+}

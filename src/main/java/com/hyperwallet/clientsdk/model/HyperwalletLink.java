@@ -1,11 +1,9 @@
 package com.hyperwallet.clientsdk.model;
 
-import java.util.List;
 import java.util.Map;
 
 /**
- * @author amylavarapu
- * HyperwalletLink represents HATEOAS links
+ * @author amylavarapu HyperwalletLink represents HATEOAS links
  */
 
 public class HyperwalletLink {
