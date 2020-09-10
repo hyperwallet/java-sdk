@@ -1,0 +1,83 @@
+{
+  "hasNextPage": true,
+  "hasPreviousPage": true,
+  "limit": 2,
+  "data": [
+    {
+      "token": "trm-7854a79b-296b-4761-945b-a6ae64f47140",
+      "type": "BANK_ACCOUNT",
+      "status": "ACTIVATED",
+      "createdOn": "2017-10-31T16:47:08",
+      "transferMethodCountry": "US",
+      "transferMethodCurrency": "USD",
+      "branchId": "026009593",
+      "bankAccountId": "014048670",
+      "bankAccountPurpose": "CHECKING",
+      "profileType": "INDIVIDUAL",
+      "firstName": "John",
+      "lastName": "Smith",
+      "dateOfBirth": "1991-01-01",
+      "addressLine1": "123 Main Street",
+      "city": "New York",
+      "stateProvince": "NY",
+      "country": "US",
+      "postalCode": "10016",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-accounts/trm-7854a79b-296b-4761-945b-a6ae64f47140"
+        }
+      ]
+    },
+    {
+      "token": "trm-56b976c5-26b2-42fa-87cf-14b3366673c6",
+      "type": "BANK_ACCOUNT",
+      "status": "ACTIVATED",
+      "createdOn": "2017-10-31T16:47:15",
+      "transferMethodCountry": "US",
+      "transferMethodCurrency": "USD",
+      "branchId": "026009593",
+      "bankAccountId": "675825206",
+      "bankAccountPurpose": "CHECKING",
+      "profileType": "INDIVIDUAL",
+      "firstName": "John",
+      "lastName": "Smith",
+      "dateOfBirth": "1991-01-01",
+      "addressLine1": "123 Main Street",
+      "city": "New York",
+      "stateProvince": "NY",
+      "country": "US",
+      "postalCode": "10016",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-accounts/trm-56b976c5-26b2-42fa-87cf-14b3366673c6"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-accounts/?after=trm-56b976c5-26b2-42fa-87cf-14b3366673c6&limit=2"
+    },
+    {
+      "params": {
+        "rel": "next"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-b9916b65-614b-11e5-af23-0faa28ca7c0f/bank-accounts/?after=trm-8575e544-614b-11e5-af23-0faa28ca7c0f&limit=2"
+    },
+    {
+      "params": {
+        "rel": "previous"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-b9916b65-614b-11e5-af23-0faa28ca7c0f/bank-accounts/?before=trm-852fdb71-614b-11e5-af23-0faa28ca7c0f&limit=2"
+    }
+  ]
+}

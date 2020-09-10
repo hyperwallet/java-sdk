@@ -643,7 +643,7 @@ public class Hyperwallet {
         }
         String url = paginate(this.url + "/users/" + userToken + "/bank-cards", options);
         if (options != null && options.getStatus() != null) {
-            url = addParameter(url, "type", options.getStatus());
+            url = addParameter(url, "status", options.getStatus());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBankCard>>() {
         });
@@ -1535,11 +1535,20 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletBankAccount
      */
-    public HyperwalletList<HyperwalletBankAccount> listBankAccounts(String userToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletBankAccount> listBankAccounts(String userToken, HyperwalletBankAccountsListPaginationOptions options) {
+
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/bank-accounts", options);
+        if (options != null) {
+            if(options.getType() != null) {
+                url = addParameter(url, "type", options.getType());
+            }
+            if(options.getStatus() != null) {
+                url = addParameter(url, "status", options.getStatus());
+            }
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBankAccount>>() {
         });
     }

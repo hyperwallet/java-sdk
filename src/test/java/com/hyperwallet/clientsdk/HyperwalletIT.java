@@ -21,8 +21,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 public class HyperwalletIT {
 
@@ -237,7 +236,7 @@ public class HyperwalletIT {
         HyperwalletList<HyperwalletBankCard> returnValue;
 
         HyperwalletBankCardsListPaginationOptions options = new HyperwalletBankCardsListPaginationOptions();
-        options
+        options.status(HyperwalletTransferMethod.Status.ACTIVATED)
                 .sortBy("test-sort-by")
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
@@ -264,7 +263,58 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getCardBrand(), is(equalTo(HyperwalletBankCard.Brand.VISA)));
         assertThat(returnValue.getData().get(0).getDateOfExpiry(), is(equalTo(dateFormat.parse("2018-11-01T00:00:00 UTC"))));
         assertThat(returnValue.getData().get(0).getCvv(), is(nullValue()));
+        assertNotEquals(returnValue.getData().get(1).getStatus(),HyperwalletTransferMethod.Status.INVALID );
     }
+
+    /*
+    Following test is not returning response. This is dissabled timebeing. To be rerun after enabling.
+     */
+    @Test(enabled = false)
+    public void testListBankAccount() throws Exception {
+        String functionality = "listBankAccounts";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletBankAccount> returnValue;
+        HyperwalletBankAccountsListPaginationOptions options = new HyperwalletBankAccountsListPaginationOptions();
+        options.type(HyperwalletBankAccount.Type.BANK_ACCOUNT)
+                .status(HyperwalletBankAccount.Status.ACTIVATED)
+                .sortBy("test-sort-by")
+                .limit(10)
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2019-06-29T19:58:26Z"));
+
+
+        try {
+            returnValue = client.listBankAccounts("usr-c4292f1a-866f-4310-a289-b916853939de",options);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.hasNextPage(), is(equalTo(true)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(true)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-56b976c5-26b2-42fa-87cf-14b3366673c6")));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletBankAccount.Type.BANK_ACCOUNT)));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletBankAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T16:47:15"))));
+        assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
+        assertEquals(returnValue.getData().get(0).getBranchId(),"026009593");
+        assertEquals(returnValue.getData().get(0).getBankAccountId(),"675825206");
+        assertEquals(returnValue.getData().get(0).getBankAccountPurpose(),"CHECKING");
+        assertEquals(returnValue.getData().get(0).getProfileType().toString(),"INDIVIDUAL");
+        assertEquals(returnValue.getData().get(0).getFirstName(),"John");
+        assertEquals(returnValue.getData().get(0).getLastName(),"Smith");
+        assertEquals(returnValue.getData().get(0).getDateOfBirth(),dateFormat.parse("1991-01-01"));
+        assertEquals(returnValue.getData().get(0).getAddressLine1(),"123 Main Street");
+        assertEquals(returnValue.getData().get(0).getCity(),"New York");
+        assertEquals(returnValue.getData().get(0).getStateProvince(),"NY");
+        assertEquals(returnValue.getData().get(0).getCountry(),"US");
+        assertEquals(returnValue.getData().get(0).getPostalCode(),"10016");
+        assertNotEquals(returnValue.getData().get(1).getStatus(),HyperwalletBankAccount.Status.INVALID );
+    }
+
+
 
     @Test
     public void testDeactivateBankCard() throws Exception {
