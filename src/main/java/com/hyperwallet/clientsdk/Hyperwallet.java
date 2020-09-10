@@ -1102,11 +1102,14 @@ public class Hyperwallet {
      * @param options           List filter option
      * @return HyperwalletList of HyperwalletPayPalAccount
      */
-    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken, HyperwalletPayPalAccountListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/paypal-accounts", options);
+        if (options != null && options.getStatus() != null) {
+            url = addParameter(url, "status", options.getStatus());
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPayPalAccount>>() {
         });
     }
