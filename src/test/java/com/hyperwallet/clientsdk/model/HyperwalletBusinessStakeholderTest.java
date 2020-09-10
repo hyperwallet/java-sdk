@@ -2,7 +2,9 @@ package com.hyperwallet.clientsdk.model;
 
 import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class HyperwalletBusinessStakeholderTest extends BaseModelTest<HyperwalletBusinessStakeholder> {
@@ -10,6 +12,10 @@ public class HyperwalletBusinessStakeholderTest extends BaseModelTest<Hyperwalle
     protected HyperwalletBusinessStakeholder createBaseModel() {
 
         HyperwalletBusinessStakeholder stakeholder = new HyperwalletBusinessStakeholder();
+        HyperwalletVerificationDocument hyperWalletVerificationDocument = new HyperwalletVerificationDocument();
+        hyperWalletVerificationDocument.category("IDENTIFICATION").type("DRIVERS_LICENSE").status("NEW").country("AL");
+        List<HyperwalletVerificationDocument> hyperwalletVerificationDocumentList = new ArrayList<>();
+        hyperwalletVerificationDocumentList.add(hyperWalletVerificationDocument);
         stakeholder
                 .token("test-token")
                 .isBusinessContact(true)
@@ -38,7 +44,9 @@ public class HyperwalletBusinessStakeholderTest extends BaseModelTest<Hyperwalle
                 .city("San Jose")
                 .stateProvince("CA")
                 .country("US")
-                .postalCode("22222");
+                .postalCode("22222")
+                .documents(hyperwalletVerificationDocumentList);
+        ;
 
         return stakeholder;
     }
