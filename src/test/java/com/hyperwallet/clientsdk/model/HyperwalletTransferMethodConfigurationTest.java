@@ -4,7 +4,9 @@ import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -71,7 +73,10 @@ public class HyperwalletTransferMethodConfigurationTest {
         assertThat(configuration.getCurrencies(), is(Matchers.<String>empty()));
         assertThat(configuration.getFields(), is(Matchers.<HyperwalletTransferMethodConfiguration.Field>empty()));
         assertThat(configuration.getProfileType(), is(nullValue()));
+        assertThat(configuration.getFee(), is(nullValue()));
+        assertThat(configuration.getProcessingTime(), is(nullValue()));
         assertThat(configuration.getType(), is(nullValue()));
+        assertThat(configuration.getLinks(), is(nullValue()));
 
         List<String> countryList = new ArrayList<String>();
         countryList.add("test-country");
@@ -81,18 +86,34 @@ public class HyperwalletTransferMethodConfigurationTest {
 
         List<HyperwalletTransferMethodConfiguration.Field> fieldList = new ArrayList<HyperwalletTransferMethodConfiguration.Field>();
         fieldList.add(new HyperwalletTransferMethodConfiguration.Field());
+        String fee = "$100.00";
+        String processingTime = "1-3 Business days";
+
+        HyperwalletLink link = new HyperwalletLink();
+        link.setHref("https://localhost:8181/test");
+        Map<String, String> params = new HashMap<>();
+        params.put("rel","self");
+        link.setParams(params);
+        List<HyperwalletLink> links = new ArrayList<HyperwalletLink>();
+        links.add(link);
 
         configuration.setCountries(countryList);
         configuration.setCurrencies(currencyList);
         configuration.setFields(fieldList);
+        configuration.setFee(fee);
+        configuration.setProcessingTime(processingTime);
         configuration.setProfileType(HyperwalletUser.ProfileType.INDIVIDUAL);
         configuration.setType(HyperwalletTransferMethod.Type.BANK_ACCOUNT);
+        configuration.setLinks(links);
 
         assertThat(configuration.getCountries(), is(equalTo(countryList)));
         assertThat(configuration.getCurrencies(), is(equalTo(currencyList)));
+        assertThat(configuration.getFee(), is(equalTo(fee)));
+        assertThat(configuration.getProcessingTime(), is(equalTo(processingTime)));
         assertThat(configuration.getFields(), is(equalTo(fieldList)));
         assertThat(configuration.getProfileType(), is(equalTo(HyperwalletUser.ProfileType.INDIVIDUAL)));
         assertThat(configuration.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
+        assertThat(configuration.getLinks(), is(equalTo(links)));
     }
 
 }
