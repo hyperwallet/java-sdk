@@ -10,7 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JsonInclude(Include.NON_NULL)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HyperwalletVerificationDocument {
+public class
+HyperwalletVerificationDocument {
 
     private String category;
     private String type;
