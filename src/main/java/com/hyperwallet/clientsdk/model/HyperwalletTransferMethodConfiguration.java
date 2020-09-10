@@ -38,7 +38,7 @@ public class HyperwalletTransferMethodConfiguration {
 
         public enum Category {ACCOUNT, INTERMEDIARY_ACCOUNT, PROFILE, ADDRESS}
 
-        public enum DataType {TEXT, SELECTION, BOOLEAN, NUMBER}
+        public enum DataType {TEXT, SELECTION, BOOLEAN, NUMBER, DATE, PHONE}
 
         private String name;
         private String label;
@@ -135,6 +135,8 @@ public class HyperwalletTransferMethodConfiguration {
     private List<String> countries = new ArrayList<String>();
     private List<String> currencies = new ArrayList<String>();
     private HyperwalletTransferMethod.Type type;
+    private String fee;
+    private String processingTime;
     private HyperwalletUser.ProfileType profileType;
     private List<Field> fields = new ArrayList<Field>();
     private List<HyperwalletLink> links;
@@ -164,6 +166,22 @@ public class HyperwalletTransferMethodConfiguration {
     public HyperwalletTransferMethodConfiguration setType(HyperwalletTransferMethod.Type type) {
         this.type = type;
         return this;
+    }
+
+    public String getFee() {
+        return fee;
+    }
+
+    public void setFee(String fee) {
+        this.fee = fee;
+    }
+
+    public String getProcessingTime() {
+        return processingTime;
+    }
+
+    public void setProcessingTime(String processingTime) {
+        this.processingTime = processingTime;
     }
 
     public HyperwalletUser.ProfileType getProfileType() {
