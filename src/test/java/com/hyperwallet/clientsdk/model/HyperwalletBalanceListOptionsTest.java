@@ -9,7 +9,6 @@ public class HyperwalletBalanceListOptionsTest extends BaseModelTest<Hyperwallet
         options
                 .currency("test-currency")
                 .limit(10)
-                .offset(20)
                 .sortBy("test-sort-by");
         return options;
     }
