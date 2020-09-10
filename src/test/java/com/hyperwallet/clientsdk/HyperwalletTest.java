@@ -328,8 +328,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z"
-                        + "&sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -430,7 +429,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(transitionResponse);
 
-        HyperwalletStatusTransition resp = client.getUserStatusTransition("test-user-token", "test-status-transition-token");
+        HyperwalletStatusTransition resp = client.getUserStatusTransition("test-user-token","test-status-transition-token");
         assertThat(resp, is(equalTo(transitionResponse)));
 
         Mockito.verify(mockApiClient)
@@ -497,10 +496,10 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
             .sortBy("test-sort-by")
-                .offset(5)
-                .limit(10)
-                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .offset(5)
+            .limit(10)
+            .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
@@ -508,8 +507,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/status-transitions?createdAfter=2016-06-29T17:58:26Z"
-                        + "&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/status-transitions?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -522,9 +520,9 @@ public class HyperwalletTest {
 
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
-                .sortBy("test-sort-by")
-                .offset(5)
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .sortBy("test-sort-by")
+            .offset(5)
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
@@ -796,8 +794,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/prepaid-cards?createdAfter=2016-06-29T17:58:26Z"
-                        + "&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/prepaid-cards?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -880,13 +877,12 @@ public class HyperwalletTest {
         Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(statusTransitionResponse);
 
         Method method = client.getClass().getMethod(methodName + "PrepaidCard", String.class, String.class);
-        HyperwalletStatusTransition resp = (HyperwalletStatusTransition) method.invoke(client, "test-user-token", "test-prepaid-card-token");
+        HyperwalletStatusTransition resp = (HyperwalletStatusTransition)method.invoke(client, "test-user-token", "test-prepaid-card-token");
         assertThat(resp, is(equalTo(statusTransitionResponse)));
 
         ArgumentCaptor<HyperwalletStatusTransition> argument = ArgumentCaptor.forClass(HyperwalletStatusTransition.class);
         Mockito.verify(mockApiClient).post(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/prepaid-cards/test-prepaid-card-token/status"
-                        + "-transitions"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/prepaid-cards/test-prepaid-card-token/status-transitions"),
                 argument.capture(), Mockito.eq(statusTransitionResponse.getClass()));
 
         HyperwalletStatusTransition apiClientStatusTransition = argument.getValue();
@@ -981,8 +977,7 @@ public class HyperwalletTest {
 
         ArgumentCaptor<HyperwalletStatusTransition> argument = ArgumentCaptor.forClass(HyperwalletStatusTransition.class);
         Mockito.verify(mockApiClient).post(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/prepaid-cards/test-prepaid-card-token/status"
-                        + "-transitions"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/prepaid-cards/test-prepaid-card-token/status-transitions"),
                 argument.capture(), Mockito.eq(transition.getClass()));
 
         HyperwalletStatusTransition apiClientTransition = argument.getValue();
@@ -1133,8 +1128,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(transitionResponse);
 
-        HyperwalletStatusTransition resp =
-                client.getPrepaidCardStatusTransition("test-user-token", "test-prepaid-card-token", "test-status-transition-token");
+        HyperwalletStatusTransition resp = client.getPrepaidCardStatusTransition("test-user-token", "test-prepaid-card-token", "test-status-transition-token");
         assertThat(resp, is(equalTo(transitionResponse)));
 
         Mockito.verify(mockApiClient)
@@ -1240,8 +1234,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletStatusTransition> resp =
-                client.listPrepaidCardStatusTransitions("test-user-token", "test-prepaid-card-token", options);
+        HyperwalletList<HyperwalletStatusTransition> resp = client.listPrepaidCardStatusTransitions("test-user-token", "test-prepaid-card-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
@@ -1264,8 +1257,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletStatusTransition> resp =
-                client.listPrepaidCardStatusTransitions("test-user-token", "test-prepaid-card-token", options);
+        HyperwalletList<HyperwalletStatusTransition> resp = client.listPrepaidCardStatusTransitions("test-user-token", "test-prepaid-card-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
@@ -1596,10 +1588,9 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
             .sortBy("test-sort-by")
-                .offset(5)
-                .limit(10)
-                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .limit(10)
+            .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
@@ -1607,7 +1598,8 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-cards?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-cards?createdAfter=2016-06-29T17:58:26Z"
+                        + "&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -1620,9 +1612,8 @@ public class HyperwalletTest {
 
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
-                .sortBy("test-sort-by")
-                .offset(5)
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .sortBy("test-sort-by")
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
@@ -1630,7 +1621,8 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-cards?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-cards?createdBefore=2016-06-29T17:58:26Z&sortBy"
+                        + "=test-sort-by"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -1866,8 +1858,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(transitionResponse);
 
-        HyperwalletStatusTransition resp =
-                client.getBankCardStatusTransition("test-user-token", "test-bank-card-token", "test-status-transition-token");
+        HyperwalletStatusTransition resp = client.getBankCardStatusTransition("test-user-token", "test-bank-card-token", "test-status-transition-token");
         assertThat(resp, is(equalTo(transitionResponse)));
 
         Mockito.verify(mockApiClient)
@@ -1966,10 +1957,9 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
             .sortBy("test-sort-by")
-                .offset(5)
-                .limit(10)
-                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .limit(10)
+            .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
@@ -1978,7 +1968,7 @@ public class HyperwalletTest {
 
         Mockito.verify(mockApiClient).get(Mockito
                         .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-cards/test-bank-card-token/status-transitions"
-                                + "?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
+                                + "?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -1991,9 +1981,8 @@ public class HyperwalletTest {
 
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
-                .sortBy("test-sort-by")
-                .offset(5)
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .sortBy("test-sort-by")
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
@@ -2001,7 +1990,8 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-cards/test-bank-card-token/status-transitions?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-cards/test-bank-card-token/status-transitions"
+                        + "?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -2312,10 +2302,10 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
             .sortBy("test-sort-by")
-                .offset(5)
-                .limit(10)
-                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .offset(5)
+            .limit(10)
+            .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
@@ -2336,9 +2326,9 @@ public class HyperwalletTest {
 
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
-                .sortBy("test-sort-by")
-                .offset(5)
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .sortBy("test-sort-by")
+            .offset(5)
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
@@ -2582,8 +2572,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(transitionResponse);
 
-        HyperwalletStatusTransition resp =
-                client.getPaperCheckStatusTransition("test-user-token", "test-bank-card-token", "test-status-transition-token");
+        HyperwalletStatusTransition resp = client.getPaperCheckStatusTransition("test-user-token", "test-bank-card-token", "test-status-transition-token");
         assertThat(resp, is(equalTo(transitionResponse)));
 
         Mockito.verify(mockApiClient)
@@ -2682,15 +2671,14 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
             .sortBy("test-sort-by")
-                .offset(5)
-                .limit(10)
-                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .offset(5)
+            .limit(10)
+            .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletStatusTransition> resp =
-                client.listPaperCheckStatusTransitions("test-user-token", "test-bank-card-token", options);
+        HyperwalletList<HyperwalletStatusTransition> resp = client.listPaperCheckStatusTransitions("test-user-token", "test-bank-card-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
@@ -2707,14 +2695,13 @@ public class HyperwalletTest {
 
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
-                .sortBy("test-sort-by")
-                .offset(5)
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .sortBy("test-sort-by")
+            .offset(5)
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletStatusTransition> resp =
-                client.listPaperCheckStatusTransitions("test-user-token", "test-bank-card-token", options);
+        HyperwalletList<HyperwalletStatusTransition> resp = client.listPaperCheckStatusTransitions("test-user-token", "test-bank-card-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
@@ -3290,7 +3277,6 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
                 .sortBy("test-sort-by")
-                .offset(5)
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -3301,7 +3287,8 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts?createdAfter=2016-06-29T17:58:26Z"
+                        + "&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -3373,8 +3360,7 @@ public class HyperwalletTest {
 
         ArgumentCaptor<HyperwalletStatusTransition> argument = ArgumentCaptor.forClass(HyperwalletStatusTransition.class);
         Mockito.verify(mockApiClient).post(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts/test-paypal-account-token/status"
-                        + "-transitions"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts/test-paypal-account-token/status-transitions"),
                 argument.capture(), Mockito.eq(statusTransitionResponse.getClass()));
 
         HyperwalletStatusTransition apiClientStatusTransition = argument.getValue();
@@ -3470,8 +3456,7 @@ public class HyperwalletTest {
 
         ArgumentCaptor<HyperwalletStatusTransition> argument = ArgumentCaptor.forClass(HyperwalletStatusTransition.class);
         Mockito.verify(mockApiClient).post(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts/test-paypal-account-token/status"
-                        + "-transitions"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts/test-paypal-account-token/status-transitions"),
                 argument.capture(), Mockito.eq(transition.getClass()));
 
         HyperwalletStatusTransition apiClientTransition = argument.getValue();
@@ -3539,8 +3524,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(transitionResponse);
 
-        HyperwalletStatusTransition resp =
-                client.getPayPalAccountStatusTransition("test-user-token", "test-paypal-account-token", "test-status-transition-token");
+        HyperwalletStatusTransition resp = client.getPayPalAccountStatusTransition("test-user-token", "test-paypal-account-token", "test-status-transition-token");
         assertThat(resp, is(equalTo(transitionResponse)));
 
         Mockito.verify(mockApiClient)
@@ -3639,19 +3623,19 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
                 .sortBy("test-sort-by")
-                .offset(5)
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletStatusTransition> resp =
-                client.listPayPalAccountStatusTransitions("test-user-token", "test-paypal-account-token", options);
+        HyperwalletList<HyperwalletStatusTransition> resp = client.listPayPalAccountStatusTransitions("test-user-token", "test-paypal-account-token"
+        , options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts/test-paypal-account-token/status-transitions?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts/test-paypal-account-token/status"
+                        + "-transitions?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -3665,7 +3649,6 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
                 .sortBy("test-sort-by")
-                .offset(5)
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
@@ -3675,8 +3658,88 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts/test-paypal-account-token/status-transitions?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts/test-paypal-account-token/status"
+                                + "-transitions?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by"),
                 Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testUpdatePayPalAccount_noPayPalAccount() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePayPalAccount(null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("PayPal Account is required")));
+            assertThat(e.getMessage(), is(equalTo("PayPal Account is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+
+    @Test
+    public void testUpdatePayPalAccount_noUserToken() {
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePayPalAccount(payPalAccount);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePayPalAccount_noPayPalAccountToken() {
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount.setUserToken("test-user-token");
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePayPalAccount(payPalAccount);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("PayPal Account token is required")));
+            assertThat(e.getMessage(), is(equalTo("PayPal Account token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePayPalAccount_successful() throws Exception {
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount.setToken("test-paypal-account-token");
+        payPalAccount.setUserToken("test-user-token");
+
+        HyperwalletPayPalAccount payPalAccountResponse = new HyperwalletPayPalAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(payPalAccountResponse);
+
+        HyperwalletPayPalAccount resp = client.updatePayPalAccount(payPalAccount);
+        assertThat(resp, is(equalTo(payPalAccountResponse)));
+
+        ArgumentCaptor<HyperwalletPayPalAccount> argument = ArgumentCaptor.forClass(HyperwalletPayPalAccount.class);
+        Mockito.verify(mockApiClient)
+                .put(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts/test-paypal-account-token"),
+                        argument.capture(), Mockito.eq(payPalAccount.getClass()));
+
+        HyperwalletPayPalAccount hyperwalletPayPalAccount = argument.getValue();
+        assertThat(hyperwalletPayPalAccount, is(notNullValue()));
     }
 
     //--------------------------------------
@@ -3993,7 +4056,7 @@ public class HyperwalletTest {
 
         Mockito.verify(mockApiClient).get(Mockito
                         .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-accounts?createdBefore=2016-06-29T17:58:26Z"
-                                + "&sortBy=test-sort-by&offset=5"),
+                        + "&sortBy=test-sort-by&offset=5"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -4138,8 +4201,7 @@ public class HyperwalletTest {
 
         ArgumentCaptor<HyperwalletStatusTransition> argument = ArgumentCaptor.forClass(HyperwalletStatusTransition.class);
         Mockito.verify(mockApiClient).post(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-accounts/test-bank-account-token/status"
-                        + "-transitions"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-accounts/test-bank-account-token/status-transitions"),
                 argument.capture(), Mockito.eq(transition.getClass()));
 
         HyperwalletStatusTransition apiClientTransition = argument.getValue();
@@ -4249,8 +4311,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletStatusTransition> resp =
-                client.listBankAccountStatusTransitions("test-user-token", "test-bank-account-token", options);
+        HyperwalletList<HyperwalletStatusTransition> resp = client.listBankAccountStatusTransitions("test-user-token", "test-bank-account-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
@@ -4273,8 +4334,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletList<HyperwalletStatusTransition> resp =
-                client.listBankAccountStatusTransitions("test-user-token", "test-bank-account-token", options);
+        HyperwalletList<HyperwalletStatusTransition> resp = client.listBankAccountStatusTransitions("test-user-token", "test-bank-account-token", options);
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
@@ -4354,8 +4414,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/balances?currency=test-currency&sortBy=test-sort-by"
-                        + "&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/balances?currency=test-currency&sortBy=test-sort-by&offset=5&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -4483,8 +4542,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/programs/test-prg-token/accounts/test-acct-token/balances?currency=test"
-                        + "-currency&sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/programs/test-prg-token/accounts/test-acct-token/balances?currency=test-currency&sortBy=test-sort-by&offset=5&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -4610,8 +4668,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/prepaid-cards/test-prepaid-card-token/balances"
-                        + "?sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/prepaid-cards/test-prepaid-card-token/balances?sortBy=test-sort-by&offset=5&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -4819,7 +4876,6 @@ public class HyperwalletTest {
         HyperwalletPaymentListOptions options = new HyperwalletPaymentListOptions();
         options
                 .sortBy("test-sort-by")
-                .offset(5)
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -4830,8 +4886,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/payments?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58"
-                        + ":26Z&sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/payments?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -4845,7 +4900,6 @@ public class HyperwalletTest {
         HyperwalletPaymentListOptions options = new HyperwalletPaymentListOptions();
         options
                 .sortBy("test-sort-by")
-                .offset(5)
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
@@ -4854,7 +4908,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/payments?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/payments?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -5082,10 +5136,9 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
             .sortBy("test-sort-by")
-                .offset(5)
-                .limit(10)
-                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .limit(10)
+            .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
@@ -5093,8 +5146,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/payments/test-payment-token/status-transitions?createdAfter=2016-06-29T17"
-                        + ":58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/payments/test-payment-token/status-transitions?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -5107,9 +5159,8 @@ public class HyperwalletTest {
 
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
-                .sortBy("test-sort-by")
-                .offset(5)
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+            .sortBy("test-sort-by")
+            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
@@ -5117,7 +5168,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/payments/test-payment-token/status-transitions?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/payments/test-payment-token/status-transitions?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -5245,8 +5296,7 @@ public class HyperwalletTest {
     public void testGetTransferMethodConfiguration_noProfileType() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.getTransferMethodConfiguration("test-user-token", "test-country", "test-currency", HyperwalletTransferMethod.Type.BANK_ACCOUNT,
-             null);
+            client.getTransferMethodConfiguration("test-user-token", "test-country", "test-currency", HyperwalletTransferMethod.Type.BANK_ACCOUNT, null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -5267,9 +5317,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(configResponse);
 
-        HyperwalletTransferMethodConfiguration resp =
-                client.getTransferMethodConfiguration("test-user-token", "test-country", "test-currency", HyperwalletTransferMethod.Type.BANK_ACCOUNT,
-                        HyperwalletUser.ProfileType.INDIVIDUAL);
+        HyperwalletTransferMethodConfiguration resp = client.getTransferMethodConfiguration("test-user-token", "test-country", "test-currency", HyperwalletTransferMethod.Type.BANK_ACCOUNT, HyperwalletUser.ProfileType.INDIVIDUAL);
         assertThat(resp, is(equalTo(configResponse)));
 
         Mockito.verify(mockApiClient)
@@ -5347,8 +5395,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/transfer-method-configurations?userToken=test-user-token&createdAfter=2016"
-                        + "-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/transfer-method-configurations?userToken=test-user-token&createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -5482,9 +5529,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/programs/test-program-token/accounts/test-account-token/receipts"
-                        + "?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&type"
-                        + "=ANNUAL_FEE"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/programs/test-program-token/accounts/test-account-token/receipts?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&type=ANNUAL_FEE"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -5581,8 +5626,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/receipts?createdAfter=2016-06-29T17:58:26Z"
-                        + "&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&type=ANNUAL_FEE"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/receipts?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&type=ANNUAL_FEE"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -5712,9 +5756,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/prepaid-cards/test-prepaid-card-token/receipts"
-                        + "?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&type"
-                        + "=ANNUAL_FEE"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/prepaid-cards/test-prepaid-card-token/receipts?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&type=ANNUAL_FEE"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -5814,8 +5856,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/webhook-notifications?createdAfter=2016-08-24T13:56:26Z&createdBefore=2016"
-                        + "-08-24T13:56:26Z&sortBy=test-sort-by&offset=5&limit=10&type=USERS.PREPAID_CARDS.CREATED"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/webhook-notifications?createdAfter=2016-08-24T13:56:26Z&createdBefore=2016-08-24T13:56:26Z&sortBy=test-sort-by&offset=5&limit=10&type=USERS.PREPAID_CARDS.CREATED"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -6019,8 +6060,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class), Mockito.any(HashMap.class)))
-                .thenReturn(transferMethodResponse);
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class), Mockito.any(HashMap.class))).thenReturn(transferMethodResponse);
 
         String jsonCacheToken = "token123-123-123";
         String userToken = "test-user-token";
@@ -6105,8 +6145,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class), Mockito.any(HashMap.class)))
-                .thenReturn(transferMethodResponse);
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class), Mockito.any(HashMap.class))).thenReturn(transferMethodResponse);
 
         String jsonCacheToken = "token123-123-123";
         HyperwalletTransferMethod resp = client.createTransferMethod(jsonCacheToken, transferMethod);
@@ -6513,8 +6552,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/users/" + token
-                        + "/business-stakeholders?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=createdOn&offset=5"
-                        + "&limit=10"),
+                        + "/business-stakeholders?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=createdOn&offset=5&limit=10"),
                 Mockito.any(TypeReference.class));
 
     }
@@ -6820,7 +6858,6 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
                 .sortBy("test-sort-by")
-                .offset(5)
                 .limit(10)
                 .createdAfter(convertStringToDate("2020-08-20T21:58:26Z"))
                 .createdBefore(convertStringToDate("2020-08-20T21:58:26Z"));
@@ -6832,7 +6869,7 @@ public class HyperwalletTest {
 
         Mockito.verify(mockApiClient).get(Mockito
                         .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/venmo-accounts?createdAfter=2020-08-20T21:58:26Z"
-                                + "&createdBefore=2020-08-20T21:58:26Z&sortBy=test-sort-by&offset=5&limit=10"),
+                                + "&createdBefore=2020-08-20T21:58:26Z&sortBy=test-sort-by&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -7173,7 +7210,6 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
                 .sortBy("test-sort-by")
-                .offset(5)
                 .limit(10)
                 .createdAfter(convertStringToDate("2020-08-20T23:14:26Z"))
                 .createdBefore(convertStringToDate("2020-08-20T23:14:26Z"));
@@ -7186,8 +7222,7 @@ public class HyperwalletTest {
 
         Mockito.verify(mockApiClient).get(Mockito
                         .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/venmo-accounts/test-venmo-account-token/status"
-                                + "-transitions?createdAfter=2020-08-20T23:14:26Z&createdBefore=2020-08-20T23:14:26Z&sortBy=test-sort-by&offset=5"
-                                + "&limit=10"),
+                                + "-transitions?createdAfter=2020-08-20T23:14:26Z&createdBefore=2020-08-20T23:14:26Z&sortBy=test-sort-by&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -7201,7 +7236,6 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
                 .sortBy("test-sort-by")
-                .offset(5)
                 .createdBefore(convertStringToDate("2020-08-20T23:20:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
@@ -7212,7 +7246,7 @@ public class HyperwalletTest {
 
         Mockito.verify(mockApiClient).get(Mockito
                         .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/venmo-accounts/test-venmo-account-token/status"
-                                + "-transitions?createdBefore=2020-08-20T23:20:26Z&sortBy=test-sort-by&offset=5"),
+                                + "-transitions?createdBefore=2020-08-20T23:20:26Z&sortBy=test-sort-by"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -7329,11 +7363,10 @@ public class HyperwalletTest {
                 .thenReturn(hyperwalletUser);
 
         HyperwalletUser hyperwalletUserresponse = client.documentUpload("test-token", new FormDataMultiPart());
-        HyperwalletDocument hyperwalletDocumentInResponse = hyperwalletUserresponse.getDocuments().get(0);
-        assertTrue(hyperwalletDocumentInResponse.getCategory().equals(EDocumentCategory.AUTHORIZATION));
-        assertTrue(hyperwalletDocumentInResponse.getType().equals(EIdentityVerificationType.LETTER_OF_AUTHORIZATION));
-        assertTrue(hyperwalletDocumentInResponse.getCountry().equals(ECountryCode.CA));
-        assertTrue(hyperwalletDocumentInResponse.getStatus().equals(EKycDocumentVerificationStatus.NEW));
+        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCategory().equals(EDocumentCategory.AUTHORIZATION));
+        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getType().equals(EIdentityVerificationType.LETTER_OF_AUTHORIZATION));
+        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCountry().equals(ECountryCode.CA));
+        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getStatus().equals(EKycDocumentVerificationStatus.NEW));
     }
 
     @Test
@@ -7397,4 +7430,5 @@ public class HyperwalletTest {
         assertTrue(hyperwalletVerificationDocument.getCountry().equals("AL"));
         assertTrue(hyperwalletVerificationDocument.getStatus().equals("NEW"));
     }
+
 }
