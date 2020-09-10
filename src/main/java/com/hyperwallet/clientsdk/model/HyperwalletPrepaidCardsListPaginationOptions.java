@@ -1,6 +1,6 @@
 package com.hyperwallet.clientsdk.model;
 
-public class HyperwalletPayPalAccountListPaginationOptions extends HyperwalletPaginationOptions{
+public class HyperwalletPrepaidCardsListPaginationOptions extends HyperwalletPaginationOptions{
 
     private HyperwalletTransferMethod.Status status;
 
@@ -12,7 +12,7 @@ public class HyperwalletPayPalAccountListPaginationOptions extends HyperwalletPa
         this.status = status;
     }
 
-    public HyperwalletPayPalAccountListPaginationOptions status(HyperwalletTransferMethod.Status status) {
+    public HyperwalletPrepaidCardsListPaginationOptions status(HyperwalletTransferMethod.Status status) {
         this.status = status;
         return this;
     }

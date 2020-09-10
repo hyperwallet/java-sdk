@@ -296,7 +296,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-56b976c5-26b2-42fa-87cf-14b3366673c6")));
         assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletBankAccount.Type.BANK_ACCOUNT)));
         assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletBankAccount.Status.ACTIVATED)));
-        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T16:47:15"))));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T16:47:15 UTC"))));
         assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
         assertEquals(returnValue.getData().get(0).getBranchId(),"026009593");
@@ -311,8 +311,47 @@ public class HyperwalletIT {
         assertEquals(returnValue.getData().get(0).getStateProvince(),"NY");
         assertEquals(returnValue.getData().get(0).getCountry(),"US");
         assertEquals(returnValue.getData().get(0).getPostalCode(),"10016");
-        assertNotEquals(returnValue.getData().get(1).getStatus(),HyperwalletBankAccount.Status.INVALID );
+        assertNotEquals(returnValue.getData().get(1).getStatus(),HyperwalletBankAccount.Status.ACTIVATED );
     }
+
+
+    @Test(enabled = false)
+    public void testListPrepaidCard() throws Exception {
+        String functionality = "listPrepaidCards";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletPrepaidCard> returnValue;
+
+        HyperwalletPrepaidCardsListPaginationOptions options = new HyperwalletPrepaidCardsListPaginationOptions();
+        options.status(HyperwalletTransferMethod.Status.ACTIVATED)
+                .sortBy("test-sort-by")
+                .limit(10)
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2016-06-29T19:58:26Z"));
+
+
+        try {
+            returnValue = client.listPrepaidCards("usr-c4292f1a-866f-4310-a289-b916853939de",options);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.hasNextPage(), is(equalTo(true)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(true)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.PRE_ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T18:25:07 UTC"))));
+        assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getData().get(0).getCardType(), is(equalTo(HyperwalletPrepaidCard.CardType.PERSONALIZED)));
+        assertThat(returnValue.getData().get(0).getCardPackage(), is(equalTo("1")));
+        assertThat(returnValue.getData().get(0).getCardNumber(), is(equalTo("************0276")));
+        assertThat(returnValue.getData().get(0).getCardBrand(), is(equalTo(HyperwalletPrepaidCard.Brand.VISA)));
+        assertThat(returnValue.getData().get(0).getDateOfExpiry(), is(equalTo(dateFormat.parse("2020-10-01T00:00:00 UTC"))));
+    }
+
 
 
 
@@ -1353,6 +1392,13 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(1).getTransition(), is(equalTo(RECALLED)));
         assertThat(returnValue.getData().get(1).getFromStatus(), is(equalTo(COMPLETED)));
         assertThat(returnValue.getData().get(1).getToStatus(), is(equalTo(RECALLED)));
+    }
+
+
+    @Test(enabled = false)
+    public void testListPayments() throws Exception {
+    /* To be implemented*/
+
     }
 
     @Test

@@ -396,11 +396,14 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletPrepaidCard
      */
-    public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(String userToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(String userToken, HyperwalletPrepaidCardsListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/prepaid-cards", options);
+        if (options != null && options.getStatus() != null) {
+            url = addParameter(url, "status", options.getStatus());
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPrepaidCard>>() {
         });
     }
@@ -836,11 +839,14 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletPaperCheck
      */
-    public HyperwalletList<HyperwalletPaperCheck> listPaperChecks(String userToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletPaperCheck> listPaperChecks(String userToken, HyperwalletPaperChecksListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/paper-checks", options);
+        if (options != null && options.getStatus() != null) {
+            url = addParameter(url, "status", options.getStatus());
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPaperCheck>>() {
         });
     }
@@ -1001,6 +1007,7 @@ public class Hyperwallet {
     public HyperwalletList<HyperwalletTransfer> listTransfers(HyperwalletTransferListOptions options) {
         String url = paginate(this.url + "/transfers", options);
         if (options != null) {
+            url = addParameter(url, "clientTransferId", options.getClientTransferId());
             url = addParameter(url, "sourceToken", options.getSourceToken());
             url = addParameter(url, "destinationToken", options.getDestinationToken());
         }
@@ -1102,7 +1109,7 @@ public class Hyperwallet {
      * @param options           List filter option
      * @return HyperwalletList of HyperwalletPayPalAccount
      */
-    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken, HyperwalletPayPalAccountListPaginationOptions options) {
+    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken, HyperwalletPayPalAccountsListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
@@ -1788,8 +1795,7 @@ public class Hyperwallet {
     public HyperwalletList<HyperwalletPayment> listPayments(HyperwalletPaymentListOptions options) {
         String url = paginate(this.url + "/payments", options);
         if (options != null) {
-            url = addParameter(url, "releasedOn", convert(options.getReleasedOn()));
-            url = addParameter(url, "currency", options.getCurrency());
+            url = addParameter(url, "clientPaymentId", options.getClientPaymentId());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPayment>>() {
         });
