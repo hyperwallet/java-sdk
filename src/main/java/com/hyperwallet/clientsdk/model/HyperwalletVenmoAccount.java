@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
@@ -22,6 +23,7 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
     private Boolean isDefaultTransferMethod;
     private String accountId;
     private String userToken;
+    private List<HyperwalletLink> links;
 
     public String getToken() {
         return token;
@@ -213,5 +215,24 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
 
+    public void setLinks(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+    }
+
+    public HyperwalletVenmoAccount links(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+        return this;
+    }
+
+    public HyperwalletVenmoAccount clearLinks() {
+        clearField("links");
+        this.links = null;
+        return this;
+    }
 }
