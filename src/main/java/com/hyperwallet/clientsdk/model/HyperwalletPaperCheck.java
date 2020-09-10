@@ -3,10 +3,11 @@ package com.hyperwallet.clientsdk.model;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 
-import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
+import java.util.List;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
@@ -55,6 +56,7 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
     private String stateProvince;
 
     private String userToken;
+    private List<HyperwalletLink> links;
 
     public HyperwalletTransferMethod.Type getType() {
         return type;
@@ -831,6 +833,27 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
     public HyperwalletPaperCheck clearUserToken() {
         clearField("userToken");
         this.userToken = null;
+        return this;
+    }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+    }
+
+    public HyperwalletPaperCheck links(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+        return this;
+    }
+
+    public HyperwalletPaperCheck clearLinks() {
+        clearField("links");
+        this.links = null;
         return this;
     }
 }
