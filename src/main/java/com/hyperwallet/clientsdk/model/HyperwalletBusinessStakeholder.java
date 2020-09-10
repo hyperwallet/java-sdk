@@ -52,6 +52,7 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
     private String stateProvince;
     private String country;
     private String postalCode;
+    private List<HyperwalletLink> links;
     private List<HyperwalletVerificationDocument> documents;
 
     public String getToken() {
@@ -642,6 +643,28 @@ public class HyperwalletBusinessStakeholder extends HyperwalletBaseMonitor {
         country = null;
         return this;
     }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+    }
+
+    public HyperwalletBusinessStakeholder links(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+        return this;
+    }
+
+    public HyperwalletBusinessStakeholder clearLinks() {
+        clearField("links");
+        links = null;
+        return this;
+    }
+
 
     public List<HyperwalletVerificationDocument> getDocuments() {
         return documents;
