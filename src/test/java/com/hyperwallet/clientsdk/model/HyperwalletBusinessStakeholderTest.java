@@ -2,9 +2,8 @@ package com.hyperwallet.clientsdk.model;
 
 import com.hyperwallet.clientsdk.model.HyperwalletBusinessStakeholder.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
 
 
 public class HyperwalletBusinessStakeholderTest extends BaseModelTest<HyperwalletBusinessStakeholder> {
