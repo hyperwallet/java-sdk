@@ -154,8 +154,27 @@ public class Hyperwallet {
      * @param options List filter option
      * @return HyperwalletList of HyperwalletUser
      */
-    public HyperwalletList<HyperwalletUser> listUsers(HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletUser> listUsers(HyperwalletUsersListPaginationOptions options) {
         String url = paginate(this.url + "/users", options);
+        if (options != null) {
+            if (options.getClientUserId() != null) {
+                url = addParameter(url, "clientUserId", options.getClientUserId());
+            }
+            if (options.getEmail() != null) {
+                url = addParameter(url, "email", options.getEmail());
+            }
+            if (options.getProgramToken() != null) {
+                url = addParameter(url, "programToken", options.getProgramToken());
+            }
+            if (options.getStatus() != null) {
+                url = addParameter(url, "status", options.getStatus());
+            }
+            if (options.getVerificationStatus() != null) {
+                url = addParameter(url, "verificationStatus", options.getVerificationStatus());
+            }
+        }
+
+
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {
         });
     }
@@ -546,11 +565,16 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletBankCard
      */
-    public HyperwalletList<HyperwalletBankCard> listBankCards(String userToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletBankCard> listBankCards(String userToken, HyperwalletBankCardsListPaginationOptions options) {
+
+
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/bank-cards", options);
+        if (options != null && options.getStatus() != null) {
+            url = addParameter(url, "type", options.getStatus());
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBankCard>>() {
         });
     }

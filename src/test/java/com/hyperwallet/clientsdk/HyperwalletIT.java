@@ -246,9 +246,8 @@ public class HyperwalletIT {
 
         HyperwalletList<HyperwalletBankCard> returnValue;
 
-        HyperwalletBankCardListOptions options = new HyperwalletBankCardListOptions();
+        HyperwalletBankCardsListPaginationOptions options = new HyperwalletBankCardsListPaginationOptions();
         options
-                .status("ACTIVATED")
                 .sortBy("test-sort-by")
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
