@@ -19,6 +19,8 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
 
     public enum CardType {PERSONALIZED, INSTANT_ISSUE, VIRTUAL}
 
+    public enum EReplacePrepaidCardReason {LOST_STOLEN, DAMAGED, COMPROMISED, EXPIRED, VIRTUAL_TO_PHYSICAL}
+
     private HyperwalletTransferMethod.Type type;
 
     private String token;
@@ -37,6 +39,8 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
 
     private String userToken;
     private List<HyperwalletLink> links;
+    private String replacementOf;
+    private EReplacePrepaidCardReason replacementReason;
 
     public HyperwalletTransferMethod.Type getType() {
         return type;
@@ -308,6 +312,48 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     public HyperwalletPrepaidCard clearLinks() {
         clearField("links");
         this.links = null;
+        return this;
+    }
+
+    public String getReplacementOf() {
+        return replacementOf;
+    }
+
+    public void setReplacementOf(String replacementOf) {
+        addField("replacementOf", replacementOf);
+        this.replacementOf = replacementOf;
+    }
+
+    public HyperwalletPrepaidCard replacementOf(String replacementOf) {
+        addField("replacementOf", replacementOf);
+        this.replacementOf = replacementOf;
+        return this;
+    }
+
+    public HyperwalletPrepaidCard clearReplacementOf() {
+        clearField("replacementOf");
+        this.replacementOf = null;
+        return this;
+    }
+
+    public EReplacePrepaidCardReason getReplacementReason() {
+        return replacementReason;
+    }
+
+    public void setReplacementReason(EReplacePrepaidCardReason replacementReason) {
+        addField("replacementReason", replacementReason);
+        this.replacementReason = replacementReason;
+    }
+
+    public HyperwalletPrepaidCard replacementReason(EReplacePrepaidCardReason replacementReason) {
+        addField("replacementReason", replacementReason);
+        this.replacementReason = replacementReason;
+        return this;
+    }
+
+    public HyperwalletPrepaidCard clearReplacementReason() {
+        clearField("replacementReason");
+        this.replacementReason = null;
         return this;
     }
 }

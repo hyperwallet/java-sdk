@@ -297,7 +297,7 @@ public class Hyperwallet {
      * @param prepaidCard Prepaid Card object to create
      * @return HyperwalletPrepaidCard Prepaid Card object created
      */
-    public HyperwalletPrepaidCard createPrepaidCard(HyperwalletPrepaidCard prepaidCard) {
+    public HyperwalletPrepaidCard createOrReplacePrepaidCard(HyperwalletPrepaidCard prepaidCard) {
         if (prepaidCard == null) {
             throw new HyperwalletException("Prepaid Card is required");
         }

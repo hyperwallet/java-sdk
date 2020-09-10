@@ -542,7 +542,7 @@ public class HyperwalletTest {
     public void testCreatePrepaidCard_noPrepaidCard() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.createPrepaidCard(null);
+            client.createOrReplacePrepaidCard(null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -560,7 +560,7 @@ public class HyperwalletTest {
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.createPrepaidCard(prepaidCard);
+            client.createOrReplacePrepaidCard(prepaidCard);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -580,7 +580,7 @@ public class HyperwalletTest {
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.createPrepaidCard(prepaidCard);
+            client.createOrReplacePrepaidCard(prepaidCard);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -613,7 +613,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(prepaidCardResponse);
 
-        HyperwalletPrepaidCard resp = client.createPrepaidCard(prepaidCard);
+        HyperwalletPrepaidCard resp = client.createOrReplacePrepaidCard(prepaidCard);
         assertThat(resp, is(equalTo(prepaidCardResponse)));
 
         ArgumentCaptor<HyperwalletPrepaidCard> argument = ArgumentCaptor.forClass(HyperwalletPrepaidCard.class);
@@ -656,7 +656,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(prepaidCardResponse);
 
-        HyperwalletPrepaidCard resp = client.createPrepaidCard(prepaidCard);
+        HyperwalletPrepaidCard resp = client.createOrReplacePrepaidCard(prepaidCard);
         assertThat(resp, is(equalTo(prepaidCardResponse)));
 
         ArgumentCaptor<HyperwalletPrepaidCard> argument = ArgumentCaptor.forClass(HyperwalletPrepaidCard.class);

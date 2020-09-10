@@ -1,5 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
+import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.EReplacePrepaidCardReason;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +31,8 @@ public class HyperwalletPrepaidCardTest extends BaseModelTest<HyperwalletPrepaid
 
                 .dateOfExpiry(new Date())
                 .userToken("test-user-token")
+                .replacementOf("replacementOf")
+                .replacementReason(EReplacePrepaidCardReason.DAMAGED)
                 .links(hyperwalletLinkList);
         return prepaidCard;
     }
