@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by rbao on 5/20/16.
@@ -18,6 +19,7 @@ public class HyperwalletAccount {
     private EType type;
     private Date createdOn;
     private String email;
+    private List<HyperwalletLink> links;
 
     public Date getCreatedOn() {
         return createdOn;
@@ -71,4 +73,16 @@ public class HyperwalletAccount {
         return this;
     }
 
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        this.links = links;
+    }
+
+    public HyperwalletAccount links(List<HyperwalletLink> links) {
+        setLinks(links);
+        return this;
+    }
 }

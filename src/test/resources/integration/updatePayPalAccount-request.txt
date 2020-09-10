@@ -1,0 +1,7 @@
+curl -X "PUT" "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/paypal-accounts/trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Content-Type: application/json" \
+-H "Accept: application/json"  \
+-d "{
+  "email": "user1@domain.com"
+}"
