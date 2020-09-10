@@ -41,7 +41,7 @@
       "params": {
         "rel": "self"
       },
-      "href": "https://uat-api.paylution.com/rest/v4/payments/pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f/status-transitions?offset=0&limit=10"
+      "href": "https://uat-api.paylution.com/rest/v4/payments/pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f/status-transitions?limit=10"
     }
   ]
 }

@@ -25,7 +25,7 @@
       "params": {
         "rel": "self"
       },
-      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-6838bf6a-4917-46c5-b924-b9fa4153d645/venmo-accounts/trm-f6dd5ef3-c534-4d28-bc2e-ddd15822e20f/status-transitions?offset=0&limit=10"
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-6838bf6a-4917-46c5-b924-b9fa4153d645/venmo-accounts/trm-f6dd5ef3-c534-4d28-bc2e-ddd15822e20f/status-transitions?limit=10"
     }
   ]
 }

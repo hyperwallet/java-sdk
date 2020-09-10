@@ -1639,7 +1639,6 @@ public class Hyperwallet {
         if (options != null) {
             url = addParameter(url, "currency", options.getCurrency());
             url = addParameter(url, "sortBy", options.getSortBy());
-            url = addParameter(url, "offset", options.getOffset());
             url = addParameter(url, "limit", options.getLimit());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
@@ -1676,7 +1675,6 @@ public class Hyperwallet {
         if (options != null) {
             url = addParameter(url, "currency", options.getCurrency());
             url = addParameter(url, "sortBy", options.getSortBy());
-            url = addParameter(url, "offset", options.getOffset());
             url = addParameter(url, "limit", options.getLimit());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
@@ -1712,7 +1710,6 @@ public class Hyperwallet {
         String url = this.url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/balances";
         if (options != null) {
             url = addParameter(url, "sortBy", options.getSortBy());
-            url = addParameter(url, "offset", options.getOffset());
             url = addParameter(url, "limit", options.getLimit());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
@@ -2179,7 +2176,6 @@ public class Hyperwallet {
         url = addParameter(url, "createdAfter", convert(options.getCreatedAfter()));
         url = addParameter(url, "createdBefore", convert(options.getCreatedBefore()));
         url = addParameter(url, "sortBy", options.getSortBy());
-        url = addParameter(url, "offset", options.getOffset());
         url = addParameter(url, "limit", options.getLimit());
         return url;
     }

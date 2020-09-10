@@ -289,7 +289,7 @@ public class HyperwalletIT {
         List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLink.setHref(
-                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-cards?offset=0&limit=10");
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-cards?limit=10");
         Map<String, String> mapParams = new HashMap<>();
         mapParams.put("rel", "self");
         hyperwalletLink.setParams(mapParams);
@@ -1348,7 +1348,7 @@ public class HyperwalletIT {
         List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLink.setHref(
-                "https://uat-api.paylution.com/rest/v4/payments/pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f/status-transitions?offset=0&limit=10");
+                "https://uat-api.paylution.com/rest/v4/payments/pmt-2c059341-8281-4d30-a65d-a49d8e2a9b0f/status-transitions?limit=10");
         Map<String, String> mapParams = new HashMap<>();
         mapParams.put("rel", "self");
         hyperwalletLink.setParams(mapParams);
