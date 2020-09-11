@@ -4,7 +4,6 @@ public class HyperwalletBalanceListOptions {
 
     private String currency;
     private String sortBy;
-    private Integer offset;
     private Integer limit;
 
     public String getCurrency() {
@@ -30,19 +29,6 @@ public class HyperwalletBalanceListOptions {
 
     public HyperwalletBalanceListOptions sortBy(String sortBy) {
         this.sortBy = sortBy;
-        return this;
-    }
-
-    public Integer getOffset() {
-        return offset;
-    }
-
-    public void setOffset(Integer offset) {
-        this.offset = offset;
-    }
-
-    public HyperwalletBalanceListOptions offset(Integer offset) {
-        this.offset = offset;
         return this;
     }
 
