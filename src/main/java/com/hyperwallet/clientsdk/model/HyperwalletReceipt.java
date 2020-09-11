@@ -42,6 +42,7 @@ public class HyperwalletReceipt {
         BANK_ACCOUNT_TRANSFER_RETURN,
         BANK_ACCOUNT_TRANSFER_RETURN_FEE,
         TRANSFER_TO_BANK_ACCOUNT,
+        FISPC,
 
         // Related to Cards
         CARD_ACTIVATION_FEE,
