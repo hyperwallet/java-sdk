@@ -1059,6 +1059,158 @@ public class HyperwalletIT {
     }
 
     //
+    // Transfer Refunds
+    //
+    @Test
+    public void testCreateTransferRefund() throws Exception {
+        String functionality = "createTransferRefund";
+        initMockServer(functionality);
+
+        HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund()
+                .clientRefundId("clientRefundId")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456");
+
+        HyperwalletTransferRefund returnValue;
+        try {
+            returnValue = client.createTransferRefund("trf-dc6a19f7-1d24-434d-87ce-f1a960f3fbce", transferRefund);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-dc6a19f7-1d24-434d-87ce-f1a960f3fbce/refunds/trd-a159dc18-eb29-4530-8733"
+                        + "-060c7feaad0f");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
+                .token("trd-a159dc18-eb29-4530-8733-060c7feaad0f")
+                .status(HyperwalletTransferRefund.Status.COMPLETED)
+                .clientRefundId("clientRefundId")
+                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
+                .sourceAmount(20.0)
+                .sourceCurrency("USD")
+                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
+                .destinationAmount(20.0)
+                .destinationCurrency("USD")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456")
+                .createdOn(dateFormat.parse("2019-11-11T19:04:43 UTC"))
+                .links(hyperwalletLinks);
+
+        checkTransferRefund(returnValue, expectedValue);
+    }
+
+    private void checkTransferRefund(HyperwalletTransferRefund actual, HyperwalletTransferRefund expected) {
+        assertThat(actual.getToken(), is(expected.getToken()));
+        assertThat(actual.getStatus(), is(expected.getStatus()));
+        assertThat(actual.getClientRefundId(), is(expected.getClientRefundId()));
+        assertThat(actual.getSourceToken(), is(expected.getSourceToken()));
+        assertThat(actual.getSourceAmount(), is(expected.getSourceAmount()));
+        assertThat(actual.getSourceCurrency(), is(expected.getSourceCurrency()));
+        assertThat(actual.getDestinationToken(), is(expected.getDestinationToken()));
+        assertThat(actual.getDestinationAmount(), is(expected.getDestinationAmount()));
+        assertThat(actual.getDestinationCurrency(), is(expected.getDestinationCurrency()));
+        assertThat(actual.getNotes(), is(expected.getNotes()));
+        assertThat(actual.getMemo(), is(expected.getMemo()));
+        assertThat(actual.getCreatedOn(), is(expected.getCreatedOn()));
+        if (actual.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = actual.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = expected.getLinks().get(0);
+            assertEquals(actualHyperwalletLink.getHref(), expectedHyperwalletLink.getHref());
+            assertEquals(actualHyperwalletLink.getParams().keySet(), expectedHyperwalletLink.getParams().keySet());
+            assertEquals(actualHyperwalletLink.getParams().values(), expectedHyperwalletLink.getParams().values());
+        }
+    }
+
+    @Test
+    public void testGetTransferRefund() throws Exception {
+        String functionality = "getTransferRefund";
+        initMockServer(functionality);
+
+        HyperwalletTransferRefund returnValue;
+        try {
+            returnValue = client.getTransferRefund("trf-639579d9-4fe8-4fbf-8e34-827d27697f64", "trd-19156720-01e8-4f1c-8ef3-7ced80672128");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-639579d9-4fe8-4fbf-8e34-827d27697f64/refunds/trd-19156720-01e8-4f1c-8ef3"
+                        + "-7ced80672128");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
+                .token("trd-19156720-01e8-4f1c-8ef3-7ced80672128")
+                .status(HyperwalletTransferRefund.Status.COMPLETED)
+                .clientRefundId("1573548663")
+                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
+                .sourceAmount(50.0)
+                .sourceCurrency("USD")
+                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
+                .destinationAmount(50.0)
+                .destinationCurrency("USD")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456")
+                .createdOn(dateFormat.parse("2019-11-12T11:51:05 UTC"))
+                .links(hyperwalletLinks);
+
+        checkTransferRefund(returnValue, expectedValue);
+    }
+
+    @Test
+    public void testListTransferRefunds() throws Exception {
+        String functionality = "listTransferRefunds";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletTransferRefund> returnValue;
+        try {
+            returnValue = client.listTransferRefunds("trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb", null);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://localhost:8181/rest/v4/transfers/trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb/refunds/trd-e59d19d4-eccb-4160-b04c-4f11c83f99f0");
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("rel", "self");
+        hyperwalletLink.setParams(paramsMap);
+        hyperwalletLinks.add(hyperwalletLink);
+        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
+                .token("trd-e59d19d4-eccb-4160-b04c-4f11c83f99f0")
+                .status(HyperwalletTransferRefund.Status.COMPLETED)
+                .clientRefundId("1573566270")
+                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
+                .sourceAmount(50.0)
+                .sourceCurrency("USD")
+                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
+                .destinationAmount(50.0)
+                .destinationCurrency("USD")
+                .notes("Merchant Payment return to Wallet Balance")
+                .memo("TransferReturn123456")
+                .createdOn(dateFormat.parse("2019-11-12T16:44:30 UTC"))
+                .links(hyperwalletLinks);
+
+        assertEquals(returnValue.getLinks().size(), 1);
+        checkTransferRefund(returnValue.getData().get(0), expectedValue);
+    }
+
+    //
     // PayPal Accounts
     //
 
@@ -1732,7 +1884,7 @@ public class HyperwalletIT {
         HyperwalletTransferMethod bandTransferMethod = returnValue.getData().get(0);
         assertThat(bandTransferMethod.getToken(), is(equalTo("trm-a43b1064-da94-457f-ae56-e4f85bd36aec")));
         assertThat(bandTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
-        assertThat(bandTransferMethod.getStatus(), is(equalTo(Status.ACTIVATED)));
+        assertThat(bandTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
         assertThat(bandTransferMethod.getVerificationStatus(), is(equalTo(VerificationStatus.NOT_REQUIRED)));
         assertThat(bandTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:10 UTC"))));
         assertThat(bandTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
@@ -1760,7 +1912,7 @@ public class HyperwalletIT {
 
         assertThat(cardTransferMethod.getToken(), is(equalTo("trm-c8e4c164-7d5b-4b5b-8b6a-9c4d68c2a9fe")));
         assertThat(cardTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
-        assertThat(cardTransferMethod.getStatus(), is(equalTo(Status.PRE_ACTIVATED)));
+        assertThat(cardTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.PRE_ACTIVATED)));
         assertThat(cardTransferMethod.getVerificationStatus(), is(equalTo(VerificationStatus.NOT_REQUIRED)));
         assertThat(cardTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:34 UTC"))));
         assertThat(cardTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
