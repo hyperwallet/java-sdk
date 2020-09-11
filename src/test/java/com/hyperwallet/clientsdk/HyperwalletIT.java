@@ -762,7 +762,6 @@ public class HyperwalletIT {
     //
     // Transfers
     //
-
     @Test
     public void testCreateTransfer() throws Exception {
         String functionality = "createTransfer";
@@ -898,6 +897,78 @@ public class HyperwalletIT {
         assertThat(returnValue.getFromStatus(), is(equalTo(QUOTED)));
         assertThat(returnValue.getToStatus(), is(equalTo(SCHEDULED)));
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
+    }
+
+    @Test
+    public void testGetTransferStatusTransition() throws Exception {
+        String functionality = "getTransferStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.getTransferStatusTransition("trf-c57dad1b-9d18-4b06-8919-a4d429b39baa", "sts-6b90b063-fc87-466f-8aae-9f9572d786d5");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-c57dad1b-9d18-4b06-8919-a4d429b39baa/status-transitions/sts-1f7f58a9"
+                + "-22e8-4fef-8d6e-a17e2c71db33");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        assertThat(returnValue.getToken(), is(equalTo("sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T02:04:17 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
+
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
+
+    @Test
+    public void testlistTransferStatusTransition() throws Exception {
+        String functionality = "listTransferStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletStatusTransition> returnValue;
+        try {
+            returnValue = client.listTransferStatusTransition("trf-c57dad1b-9d18-4b06-8919-a4d429b39baa", null);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-c57dad1b-9d18-4b06-8919-a4d429b39baa/status-transitions/sts-7048eb5d"
+                + "-01b5-4bb8-94e3-cf8cdb1d42df");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        HyperwalletStatusTransition hyperwalletStatusTransition = returnValue.getData().get(0);
+
+        assertThat(hyperwalletStatusTransition.getToken(), is(equalTo("sts-7048eb5d-01b5-4bb8-94e3-cf8cdb1d42df")));
+        assertThat(hyperwalletStatusTransition.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-11T21:02:33 UTC"))));
+        assertThat(hyperwalletStatusTransition.getTransition(), is(equalTo(COMPLETED)));
+        assertThat(hyperwalletStatusTransition.getFromStatus(), is(equalTo(QUOTED)));
+        assertThat(hyperwalletStatusTransition.getToStatus(), is(equalTo(COMPLETED)));
+
+        HyperwalletLink actualHyperwalletLink = hyperwalletStatusTransition.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
     }
 
     //
