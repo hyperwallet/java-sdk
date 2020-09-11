@@ -2149,6 +2149,22 @@ public class Hyperwallet {
                 headers);
     }
 
+    /**
+     * List Transfer Methods
+     *
+     * @param userToken String user token
+     * @param options   List filter option
+     * @return HyperwalletList of HyperwalletTransferMethod
+     */
+    public HyperwalletList<HyperwalletTransferMethod> listTransferMethods(String userToken, HyperwalletPaginationOptions options) {
+        String url = paginate(this.url + "/users/" + userToken + "/transfer-methods", options);
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferMethod>>() {
+        });
+    }
+
     //--------------------------------------
     // Upload documents for user endpoint
     //--------------------------------------
