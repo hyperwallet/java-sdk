@@ -6,7 +6,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletErrorList;
 import com.nimbusds.jose.JOSEException;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.impl.MultiPartWriter;
 
+import javax.ws.rs.core.MediaType;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.text.ParseException;
@@ -23,18 +32,23 @@ public class HyperwalletApiClient {
     private final String version;
     private final HyperwalletEncryption hyperwalletEncryption;
     private final boolean isEncrypted;
+    private WebResource webResource;
+    private Client client;
 
     public HyperwalletApiClient(final String username, final String password, final String version) {
         this(username, password, version, null);
     }
 
     public HyperwalletApiClient(final String username, final String password, final String version,
-                                HyperwalletEncryption hyperwalletEncryption) {
+            HyperwalletEncryption hyperwalletEncryption) {
         this.username = username;
         this.password = password;
         this.version = version;
         this.hyperwalletEncryption = hyperwalletEncryption;
         this.isEncrypted = hyperwalletEncryption != null;
+        ClientConfig cc = new DefaultClientConfig();
+        cc.getClasses().add(MultiPartWriter.class);
+        client = Client.create(cc);
 
         // TLS fix
         if (System.getProperty("java.version").startsWith("1.7.")) {
@@ -56,6 +70,25 @@ public class HyperwalletApiClient {
         Response response = null;
         try {
             response = getService(url, true).getResource();
+            return processResponse(response, type);
+        } catch (IOException | JOSEException | ParseException e) {
+            throw new HyperwalletException(e);
+        }
+    }
+
+    private WebResource getWebResource(final String url) {
+        client.addFilter(new HTTPBasicAuthFilter(this.username, this.password));
+        return client.resource(url);
+    }
+
+    public <T> T put(final String url, final FormDataMultiPart formDataMultiPart, final Class<T> type) {
+        Response response = new Response();
+        try {
+            webResource = getWebResource(url);
+            ClientResponse clientResponse = webResource.type(MediaType.MULTIPART_FORM_DATA_TYPE).put(ClientResponse.class, formDataMultiPart);
+            response.setResponseCode(clientResponse.getStatus());
+            response.setBody(clientResponse.getEntity(String.class));
+            response.setHeaders(clientResponse.getHeaders());
             return processResponse(response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
@@ -195,5 +228,4 @@ public class HyperwalletApiClient {
         }
         return isEncrypted ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
     }
-
 }

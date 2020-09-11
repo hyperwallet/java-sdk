@@ -38,7 +38,7 @@ public class HyperwalletTransferMethodConfiguration {
 
         public enum Category {ACCOUNT, INTERMEDIARY_ACCOUNT, PROFILE, ADDRESS}
 
-        public enum DataType {TEXT, SELECTION, BOOLEAN, NUMBER}
+        public enum DataType {TEXT, SELECTION, BOOLEAN, NUMBER, DATE, PHONE}
 
         private String name;
         private String label;
@@ -137,6 +137,7 @@ public class HyperwalletTransferMethodConfiguration {
     private HyperwalletTransferMethod.Type type;
     private HyperwalletUser.ProfileType profileType;
     private List<Field> fields = new ArrayList<Field>();
+    private List<HyperwalletLink> links;
 
     public List<String> getCountries() {
         return countries;
@@ -182,4 +183,13 @@ public class HyperwalletTransferMethodConfiguration {
         this.fields = fields;
         return this;
     }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        this.links = links;
+    }
+
 }

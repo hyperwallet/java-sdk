@@ -1,8 +1,13 @@
 package com.hyperwallet.clientsdk.model;
 
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.ECountryCode;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
+import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 
-import java.util.Date;
+
+import java.util.*;
 
 /**
  * @author fkrauthan
@@ -11,10 +16,20 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
 
     protected HyperwalletUser createBaseModel() {
         HyperwalletUser user = new HyperwalletUser();
+        HyperwalletDocument hyperwalletDocument = new HyperwalletDocument();
+        hyperwalletDocument.category(EDocumentCategory.AUTHORIZATION).type(EIdentityVerificationType.LETTER_OF_AUTHORIZATION)
+                .country(ECountryCode.CA).status(EKycDocumentVerificationStatus.NEW);
+        List<HyperwalletDocument> hyperwalletDocumentList = new ArrayList<>();
+        hyperwalletDocumentList.add(hyperwalletDocument);
+        List<HyperwalletLink> hyperwalletUserLinks = new ArrayList<>();
+        HyperwalletLink link = new HyperwalletLink();
+        hyperwalletUserLinks.add(link);
         user
                 .token("test-token")
                 .status(HyperwalletUser.Status.ACTIVATED)
                 .verificationStatus(VerificationStatus.VERIFIED)
+                .businessStakeholderVerificationStatus(HyperwalletUser.BusinessStakeholderVerificationStatus.VERIFIED)
+                .letterOfAuthorizationStatus(HyperwalletUser.LetterOfAuthorizationStatus.VERIFIED)
                 .createdOn(new Date())
                 .clientUserId("test-client-user-id")
                 .profileType(HyperwalletUser.ProfileType.INDIVIDUAL)
@@ -40,6 +55,7 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .email("test-email")
 
                 .governmentId("test-government-id")
+                .governmentIdType(HyperwalletUser.GovernmentIdType.NATIONAL_ID_CARD)
                 .passportId("test-passport-id")
                 .driversLicenseId("test-drivers-license-id")
                 .employerId("test-employer-id")
@@ -52,7 +68,10 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .country("test-country")
 
                 .language("test-language")
-                .programToken("test-program-token");
+                .programToken("test-program-token")
+                .timeZone("GMT")
+                .documents(hyperwalletDocumentList)
+                .links(hyperwalletUserLinks);
 
         return user;
     }

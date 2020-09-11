@@ -1,28 +1,34 @@
 package com.hyperwallet.clientsdk.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
 
-    public enum Type {BANK_ACCOUNT, WIRE_ACCOUNT, PREPAID_CARD, BANK_CARD, PAPER_CHECK, PAYPAL_ACCOUNT}
+    public enum Type {BANK_ACCOUNT, WIRE_ACCOUNT, PREPAID_CARD, BANK_CARD, PAPER_CHECK, PAYPAL_ACCOUNT, VENMO_ACCOUNT}
 
-    public enum Status {ACTIVATED, INVALID, DE_ACTIVATED, PRE_ACTIVATED, SUSPENDED, LOST_OR_STOLEN, QUEUED, DECLINED, LOCKED, COMPLIANCE_HOLE, KYC_HOLD, VERIFIED}
+    public enum Status {ACTIVATED, INVALID, DE_ACTIVATED, PRE_ACTIVATED, SUSPENDED, LOST_OR_STOLEN, QUEUED, DECLINED, LOCKED, COMPLIANCE_HOLE,
+        KYC_HOLD, VERIFIED}
 
     public enum CardType {PERSONALIZED, INSTANT_ISSUE, VIRTUAL}
+
+    public static enum VerificationStatus {EXPIRED, FAILED, UNDER_REVIEW, VERIFIED, REQUIRED, NOT_REQUIRED, READY_FOR_REVIEW, REQUESTED}
 
     private String token;
 
     private Type type;
     private Status status;
+    private VerificationStatus verificationStatus;
     private Date createdOn;
     private String transferMethodCountry;
     private String transferMethodCurrency;
@@ -53,6 +59,7 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
     private String cardPackage;
     private String cardNumber;
     private HyperwalletPrepaidCard.Brand cardBrand;
+    @JsonFormat(pattern = "yyyy-MM", timezone = "UTC")
     private Date dateOfExpiry;
     private String cvv;
 
@@ -84,6 +91,7 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
     private String stateProvince;
     private String postalCode;
     private String country;
+    private List<HyperwalletLink> links;
 
     public String getToken() {
         return token;
@@ -1363,6 +1371,48 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
     public HyperwalletTransferMethod clearCardBrand() {
         clearField("cardBrand");
         this.cardBrand = null;
+        return this;
+    }
+
+    public VerificationStatus getVerificationStatus() {
+        return verificationStatus;
+    }
+
+    public void setVerificationStatus(VerificationStatus verificationStatus) {
+        addField("verificationStatus", verificationStatus);
+        this.verificationStatus = verificationStatus;
+    }
+
+    public HyperwalletTransferMethod verificationStatus(VerificationStatus verificationStatus) {
+        addField("verificationStatus", verificationStatus);
+        this.verificationStatus = verificationStatus;
+        return this;
+    }
+
+    public HyperwalletTransferMethod clearVerificationStatus() {
+        clearField("verificationStatus");
+        verificationStatus = null;
+        return this;
+    }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+    }
+
+    public HyperwalletTransferMethod links(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+        return this;
+    }
+
+    public HyperwalletTransferMethod clearLinks() {
+        clearField("links");
+        this.links = null;
         return this;
     }
 }
