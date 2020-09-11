@@ -1,0 +1,59 @@
+{
+  "count": 2,
+  "offset": 0,
+  "limit": 10,
+  "data": [
+    {
+      "token": "trd-e59d19d4-eccb-4160-b04c-4f11c83f99f0",
+      "status": "COMPLETED",
+      "clientRefundId": "1573566270",
+      "sourceToken": "act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f",
+      "sourceAmount": "50.00",
+      "sourceCurrency": "USD",
+      "destinationToken": "usr-3deb34a0-ffd1-487d-8860-6d69435cea6c",
+      "destinationAmount": "50.00",
+      "destinationCurrency": "USD",
+      "createdOn": "2019-11-12T16:44:30",
+      "notes": "Merchant Payment return to Wallet Balance",
+      "memo": "TransferReturn123456",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://localhost:8181/rest/v4/transfers/trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb/refunds/trd-e59d19d4-eccb-4160-b04c-4f11c83f99f0"
+        }
+      ]
+    },
+    {
+      "token": "trd-686baee1-b56c-49d8-bd57-cd47ee0085f2",
+      "status": "COMPLETED",
+      "clientRefundId": "1573566314",
+      "sourceToken": "act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f",
+      "sourceAmount": "50.00",
+      "sourceCurrency": "USD",
+      "destinationToken": "usr-3deb34a0-ffd1-487d-8860-6d69435cea6c",
+      "destinationAmount": "50.00",
+      "destinationCurrency": "USD",
+      "createdOn": "2019-11-12T16:45:15",
+      "notes": "Merchant Payment return to Wallet Balance",
+      "memo": "TransferReturn123456",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb/refunds/trd-686baee1-b56c-49d8-bd57-cd47ee0085f2"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb/refunds?offset=0&limit=10"
+    }
+  ]
+}
