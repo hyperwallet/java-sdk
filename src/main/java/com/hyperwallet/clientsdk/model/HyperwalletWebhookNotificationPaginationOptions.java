@@ -27,7 +27,7 @@ public class HyperwalletWebhookNotificationPaginationOptions extends Hyperwallet
     }
 
     public HyperwalletWebhookNotificationPaginationOptions programToken(String programToken) {
-        this.programToken = type;
+        this.programToken = programToken;
         return this;
     }
 }
