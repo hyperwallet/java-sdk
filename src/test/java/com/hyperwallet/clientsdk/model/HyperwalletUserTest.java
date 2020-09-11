@@ -5,13 +5,9 @@ import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
-import com.hyperwallet.clientsdk.model.HyperwalletUser.BusinessStakeholderVerificationStatus;
-import com.hyperwallet.clientsdk.model.HyperwalletUser.LetterOfAuthorizationStatus;
 
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author fkrauthan
@@ -25,6 +21,9 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .country(ECountryCode.CA).status(EKycDocumentVerificationStatus.NEW);
         List<HyperwalletDocument> hyperwalletDocumentList = new ArrayList<>();
         hyperwalletDocumentList.add(hyperwalletDocument);
+        List<HyperwalletLink> hyperwalletUserLinks = new ArrayList<>();
+        HyperwalletLink link = new HyperwalletLink();
+        hyperwalletUserLinks.add(link);
         user
                 .token("test-token")
                 .status(HyperwalletUser.Status.ACTIVATED)
@@ -71,7 +70,8 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .language("test-language")
                 .programToken("test-program-token")
                 .timeZone("GMT")
-                .documents(hyperwalletDocumentList);
+                .documents(hyperwalletDocumentList)
+                .links(hyperwalletUserLinks);
 
         return user;
     }

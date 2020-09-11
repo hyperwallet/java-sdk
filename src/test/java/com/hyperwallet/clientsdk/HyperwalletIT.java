@@ -1,6 +1,8 @@
 package com.hyperwallet.clientsdk;
 
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.ProfileType;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -13,9 +15,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,6 +23,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
 public class HyperwalletIT {
@@ -1202,6 +1203,77 @@ public class HyperwalletIT {
         assertThat(returnValue.getTransition(), is(equalTo(COMPLETED)));
         assertThat(returnValue.getFromStatus(), is(equalTo(CREATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(COMPLETED)));
+    }
+
+    @Test
+    public void testCreateUser() throws Exception {
+        String functionality = "createUser";
+        initMockServer(functionality);
+
+        SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD", Locale.ENGLISH);
+        Date dateOfBirth = format.parse("2000-01-01");
+
+        HyperwalletUser hyperwalletUser = new HyperwalletUser()
+                .addressLine1("1234 IndividualAddress St")
+                .city("Test")
+                .clientUserId("1234")
+                .country("US")
+                .dateOfBirth(dateOfBirth)
+                .email("abc@company.com")
+                .firstName("John")
+                .lastName("Smith")
+                .postalCode("12345")
+                .profileType(ProfileType.INDIVIDUAL)
+                .governmentId("333333333")
+                .phoneNumber("605-555-1323")
+                .programToken("prg-362d09bd-1d3c-48fe-8209-c42708cd0bf7")
+                .stateProvince("CA");
+
+        HyperwalletUser returnValue;
+        try {
+            returnValue = client.createUser(hyperwalletUser);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("usr-be3dbae6-7f3d-4cf2-ab03-9d794764c943")));
+        assertThat(returnValue.getLinks(), is(notNullValue()));
+        assertEquals(returnValue.getLinks().get(0).getHref(),
+                "https://localhost:8181/rest/v4/users/usr-be3dbae6-7f3d-4cf2-ab03-9d794764c943");
+        assertThat(returnValue.getLinks().get(0).getParams(), is(notNullValue()));
+        assertEquals(returnValue.getLinks().get(0).getParams().get("rel"), "self");
+        assertEquals(returnValue.getFirstName(), "John");
+        assertEquals(returnValue.getLastName(), "Smith");
+        assertEquals(returnValue.getGovernmentId(), "333333333");
+        assertEquals(returnValue.getProgramToken(), "prg-362d09bd-1d3c-48fe-8209-c42708cd0bf7");
+        assertEquals(returnValue.getVerificationStatus(), VerificationStatus.NOT_REQUIRED);
+    }
+
+    @Test
+    public void testUpdateUser() throws Exception {
+        String functionality = "updateUser";
+        initMockServer(functionality);
+
+        HyperwalletUser hyperwalletUser = new HyperwalletUser()
+                .firstName("Jim")
+                .token("usr-f122bc13-d6b0-4da0-9631-8b74f6364299");
+
+        HyperwalletUser returnValue;
+        try {
+            returnValue = client.updateUser(hyperwalletUser);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("usr-f122bc13-d6b0-4da0-9631-8b74f6364299")));
+        assertThat(returnValue.getLinks(), is(notNullValue()));
+        assertEquals(returnValue.getLinks().get(0).getHref(),
+                "https://localhost:8181/rest/v4/users/usr-46e3e5c9-6dde-4321-b4f7-20b975aa8124");
+        assertThat(returnValue.getLinks().get(0).getParams(), is(notNullValue()));
+        assertEquals(returnValue.getLinks().get(0).getParams().get("rel"), "self");
+        assertEquals(returnValue.getFirstName(), "Jim");
     }
 
     //
