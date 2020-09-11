@@ -1,6 +1,6 @@
 {
-  "count": 1,
-  "offset": 0,
+  "hasNextPage": "false",
+  "hasPreviousPage": "false",
   "limit": 10,
   "data": [
     {
@@ -25,7 +25,7 @@
       "params": {
         "rel": "self"
       },
-      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-1dea80c9-c73e-4490-91b7-097d4a07550f/paper-checks/trm-9e2e1a06-a33b-4c2f-9933-893ae21db442/status-transitions?offset=0&limit=10"
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-1dea80c9-c73e-4490-91b7-097d4a07550f/paper-checks/trm-9e2e1a06-a33b-4c2f-9933-893ae21db442/status-transitions?limit=10"
     }
   ]
 }
