@@ -1,7 +1,10 @@
 package com.hyperwallet.clientsdk;
 
 import com.hyperwallet.clientsdk.model.*;
-import com.hyperwallet.clientsdk.model.HyperwalletBankAccount.Type;
+import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.Brand;
+import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.CardType;
+import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.EReplacePrepaidCardReason;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.Gender;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.ProfileType;
 import org.mockserver.integration.ClientAndServer;
@@ -103,6 +106,87 @@ public class HyperwalletIT {
     //
     // Prepaid Card
     //
+    @Test
+    public void testCreatePrepaidCard() throws Exception {
+        String functionality = "createPrepaidCard";
+        initMockServer(functionality);
+
+        HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard()
+                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+                .type(Type.PREPAID_CARD);
+
+        HyperwalletPrepaidCard returnValue;
+        try {
+            returnValue = client.createOrReplacePrepaidCard(prepaidCard);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/prepaid-cards/trm-7e915660-8c97-47bf"
+                        + "-8a4f-0c1bc890d46f");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        assertThat(returnValue.getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
+
+    @Test
+    public void testGetPrepaidCard() throws Exception {
+        String functionality = "getPrepaidCard";
+        initMockServer(functionality);
+
+        HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard()
+                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+                .token("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f");
+
+        HyperwalletPrepaidCard returnValue;
+        try {
+            returnValue = client.getPrepaidCard(prepaidCard.getUserToken(), prepaidCard.getToken());
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-d868bf2d-acf1-48de-9806-8cefcb6a40ad/prepaid-cards/trm-38e07e59-69d1-40bc"
+                        + "-bebc-af639b847410");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        assertThat(returnValue.getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
+        assertThat(returnValue.getType(), is(equalTo(Type.PREPAID_CARD)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-07T18:05:09 UTC"))));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getCardPackage(), is(equalTo("L1")));
+        assertThat(returnValue.getCardType(), is(equalTo(HyperwalletPrepaidCard.CardType.PERSONALIZED)));
+        assertThat(returnValue.getCardNumber(), is(equalTo("************0727")));
+        assertThat(returnValue.getCardBrand(), is(equalTo(HyperwalletPrepaidCard.Brand.VISA)));
+        assertThat(returnValue.getDateOfExpiry(), is(equalTo(dateFormat.parse("2024-09-01T00:00:00 UTC"))));
+
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
 
     @Test
     public void testUpdatePrepaidCard() throws Exception {
@@ -110,9 +194,9 @@ public class HyperwalletIT {
         initMockServer(functionality);
 
         HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard()
-            .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
-            .token("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")
-            .cardPackage("US8419889B2");
+                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+                .token("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")
+                .cardPackage("US8419889B2");
 
         HyperwalletPrepaidCard returnValue;
         try {
@@ -133,6 +217,98 @@ public class HyperwalletIT {
         assertThat(returnValue.getCardNumber(), is(equalTo("************0114")));
         assertThat(returnValue.getCardBrand(), is(equalTo(HyperwalletPrepaidCard.Brand.MASTERCARD)));
         assertThat(returnValue.getDateOfExpiry(), is(nullValue()));
+    }
+
+    @Test
+    public void testListPrepaidCard() throws Exception {
+        String functionality = "listPrepaidCard";
+        initMockServer(functionality);
+
+        HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard()
+                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de");
+
+        HyperwalletList<HyperwalletPrepaidCard> returnValue;
+        try {
+            returnValue = client.listPrepaidCards(prepaidCard.getUserToken());
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref("https://api.sandbox.hyperwallet.com/rest/v4/users/usr-d868bf2d-acf1-48de-9806-8cefcb6a40ad/prepaid-cards?limit=100");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        HyperwalletPrepaidCard hyperwalletPrepaidCardResponse = returnValue.getData().get(0);
+        assertThat(hyperwalletPrepaidCardResponse.getToken(), is(equalTo("trm-38e07e59-69d1-40bc-bebc-af639b847410")));
+        assertThat(hyperwalletPrepaidCardResponse.getType(), is(equalTo(Type.PREPAID_CARD)));
+        assertThat(hyperwalletPrepaidCardResponse.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(hyperwalletPrepaidCardResponse.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-07T18:05:09 UTC"))));
+        assertThat(hyperwalletPrepaidCardResponse.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(hyperwalletPrepaidCardResponse.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(hyperwalletPrepaidCardResponse.getCardPackage(), is(equalTo("L1")));
+        assertThat(hyperwalletPrepaidCardResponse.getCardType(), is(equalTo(HyperwalletPrepaidCard.CardType.PERSONALIZED)));
+        assertThat(hyperwalletPrepaidCardResponse.getCardNumber(), is(equalTo("************0727")));
+        assertThat(hyperwalletPrepaidCardResponse.getCardBrand(), is(equalTo(HyperwalletPrepaidCard.Brand.VISA)));
+        assertThat(hyperwalletPrepaidCardResponse.getDateOfExpiry(), is(equalTo(dateFormat.parse("2024-09-01T00:00:00 UTC"))));
+
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
+
+    @Test
+    public void testReplacePrepaidCard() throws Exception {
+        String functionality = "replacePrepaidCard";
+        initMockServer(functionality);
+
+        HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard()
+                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+                .type(Type.PREPAID_CARD)
+                .replacementOf("trm-3e23841c-34fd-41b1-9b81-ac2c3ad5ab84")
+                .replacementReason(EReplacePrepaidCardReason.DAMAGED)
+                .cardPackage("L1");
+
+        HyperwalletPrepaidCard returnValue;
+        try {
+            returnValue = client.createOrReplacePrepaidCard(prepaidCard);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://localhost-hyperwallet.aws.paylution.net:8181/rest/v4/users/usr-85e743a2-beec-4817-9a10-2e0aede9afd7/prepaid-cards/trm"
+                        + "-3e23841c-34fd-41b1-9b81-ac2c3ad5ab84");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        assertThat(returnValue.getToken(), is(equalTo("trm-3e23841c-34fd-41b1-9b81-ac2c3ad5ab84")));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.PRE_ACTIVATED)));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getCardType(), is(equalTo(CardType.PERSONALIZED)));
+        assertThat(returnValue.getCardPackage(), is(equalTo("L1")));
+        assertThat(returnValue.getCardNumber(), is(equalTo("************0843")));
+        assertThat(returnValue.getCardBrand(), is(equalTo(Brand.VISA)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-10T14:31:43 UTC"))));
+        assertThat(returnValue.getDateOfExpiry(), is(equalTo(dateFormat.parse("2024-09-01T00:00:00 UTC"))));
+        assertThat(returnValue.getUserToken(), is(equalTo("usr-85e743a2-beec-4817-9a10-2e0aede9afd7")));
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+
     }
 
     //
@@ -1644,7 +1820,7 @@ public class HyperwalletIT {
                 .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
                 .transferMethodCountry("US")
                 .transferMethodCurrency("USD")
-                .type(Type.BANK_ACCOUNT)
+                .type(HyperwalletBankAccount.Type.BANK_ACCOUNT)
                 .branchId("021000021")
                 .bankAccountId("1234")
                 .bankAccountPurpose("SAVINGS");
