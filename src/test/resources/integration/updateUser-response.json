@@ -1,0 +1,37 @@
+{
+  "token": "usr-f122bc13-d6b0-4da0-9631-8b74f6364299",
+  "status": "PRE_ACTIVATED",
+  "verificationStatus": "NOT_REQUIRED",
+  "createdOn": "2020-09-09T17:55:21",
+  "clientUserId": "sf1599699312",
+  "profileType": "INDIVIDUAL",
+  "firstName": "Jim",
+  "middleName": "",
+  "lastName": "Ly",
+  "dateOfBirth": "2000-01-01",
+  "countryOfBirth": "US",
+  "countryOfNationality": "US",
+  "gender": "MALE",
+  "phoneNumber": "605-555-1323",
+  "mobileNumber": "605-555-1323",
+  "email": "sf1599699312@sink.sendgrid.net",
+  "governmentId": "333333333",
+  "driversLicenseId": "12345",
+  "addressLine1": "1234 IndividualAddress St",
+  "addressLine2": "1234 AddressLineTwo St",
+  "city": "Test",
+  "stateProvince": "CA",
+  "country": "US",
+  "postalCode": "12345",
+  "language": "en",
+  "timeZone": "America/Vancouver",
+  "programToken": "prg-043da9f9-614c-11e5-af23-0faa28ca7c0f",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://localhost:8181/rest/v4/users/usr-46e3e5c9-6dde-4321-b4f7-20b975aa8124"
+    }
+  ]
+}

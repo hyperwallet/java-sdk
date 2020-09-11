@@ -76,6 +76,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     private String programToken;
     private String timeZone;
     private List<HyperwalletDocument> documents;
+    private List<HyperwalletLink> links;
 
     public String getToken() {
         return token;
@@ -917,6 +918,27 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     public HyperwalletUser clearDocuments() {
         clearField("documents");
         documents = null;
+        return this;
+    }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+    }
+
+    public HyperwalletUser links(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+        return this;
+    }
+
+    public HyperwalletUser clearLinks() {
+        clearField("links");
+        links = null;
         return this;
     }
 }
