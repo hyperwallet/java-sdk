@@ -13,7 +13,6 @@ public class HyperwalletTransferRefundListOptionsTest extends BaseModelTest<Hype
                 .createdAfter(new Date())
                 .createdBefore(new Date())
                 .limit(10)
-                .offset(20)
                 .sortBy("test-sort-by");
         return options;
     }

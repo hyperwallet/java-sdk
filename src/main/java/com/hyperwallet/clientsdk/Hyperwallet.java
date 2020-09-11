@@ -229,6 +229,26 @@ public class Hyperwallet {
         });
     }
 
+    /**
+     * Uploading documents for Business Stakeholder
+     *
+     * @param userToken                String
+     * @param businessStakeholderToken Hyperwallet Stakeholder representation
+     * @param multiPart                FormdataMultipart to get uploaded
+     * @return HyperwalletBusinessStakeholder updated Stakeholder with document status
+     */
+    public HyperwalletBusinessStakeholder uploadDocumentBusinessStakeholder(String userToken, String businessStakeholderToken,
+            FormDataMultiPart multiPart) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        if (businessStakeholderToken == null) {
+            throw new HyperwalletException("BusinessStakeholderToken may not be required");
+        }
+        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, multiPart,
+                HyperwalletBusinessStakeholder.class);
+    }
+
 
     /**
      * Get Authentication Token
@@ -1066,6 +1086,7 @@ public class Hyperwallet {
      * List Transfer Refund Requests
      *
      * @param options List filter option
+     * @param transferToken Transfer token assigned
      * @return HyperwalletList of HyperwalletTransferRefund
      */
     public HyperwalletList<HyperwalletTransferRefund> listTransferRefunds(String transferToken, HyperwalletTransferRefundListOptions options) {
@@ -1268,6 +1289,27 @@ public class Hyperwallet {
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
         });
     }
+
+    /**
+     * Update PayPal Account
+     *
+     * @param payPalAccount PayPal Account to Update.
+     * @return HyperwalletPayPalAccount Updated PayPal Account
+     */
+    public HyperwalletPayPalAccount updatePayPalAccount(HyperwalletPayPalAccount payPalAccount) {
+        if (payPalAccount == null) {
+            throw new HyperwalletException("PayPal Account is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getUserToken())) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getToken())) {
+            throw new HyperwalletException("PayPal Account token is required");
+        }
+        return apiClient.put(url + "/users/" + payPalAccount.getUserToken() + "/paypal-accounts/" + payPalAccount.getToken(), payPalAccount,
+                HyperwalletPayPalAccount.class);
+    }
+
     //--------------------------------------
     // Venmo Accounts
     //--------------------------------------
@@ -1665,7 +1707,6 @@ public class Hyperwallet {
         if (options != null) {
             url = addParameter(url, "currency", options.getCurrency());
             url = addParameter(url, "sortBy", options.getSortBy());
-            url = addParameter(url, "offset", options.getOffset());
             url = addParameter(url, "limit", options.getLimit());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
@@ -1702,7 +1743,6 @@ public class Hyperwallet {
         if (options != null) {
             url = addParameter(url, "currency", options.getCurrency());
             url = addParameter(url, "sortBy", options.getSortBy());
-            url = addParameter(url, "offset", options.getOffset());
             url = addParameter(url, "limit", options.getLimit());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
@@ -1738,7 +1778,6 @@ public class Hyperwallet {
         String url = this.url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/balances";
         if (options != null) {
             url = addParameter(url, "sortBy", options.getSortBy());
-            url = addParameter(url, "offset", options.getOffset());
             url = addParameter(url, "limit", options.getLimit());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
@@ -2205,7 +2244,6 @@ public class Hyperwallet {
         url = addParameter(url, "createdAfter", convert(options.getCreatedAfter()));
         url = addParameter(url, "createdBefore", convert(options.getCreatedBefore()));
         url = addParameter(url, "sortBy", options.getSortBy());
-        url = addParameter(url, "offset", options.getOffset());
         url = addParameter(url, "limit", options.getLimit());
         return url;
     }
