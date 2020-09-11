@@ -1,0 +1,35 @@
+{
+  "token": "trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f",
+  "type": "BANK_ACCOUNT",
+  "status": "DE_ACTIVATED",
+  "createdOn": "2020-09-08T15:01:07",
+  "transferMethodCountry": "US",
+  "transferMethodCurrency": "USD",
+  "bankName": "JPMORGAN CHASE BANK",
+  "branchId": "021000021",
+  "bankAccountId": "1599557466",
+  "bankAccountPurpose": "SAVINGS",
+  "userToken": "usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad",
+  "profileType": "INDIVIDUAL",
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "dateOfBirth": "2000-09-08T15:01:07",
+  "gender": "MALE",
+  "phoneNumber": "605-555-1323",
+  "mobileNumber": "605-555-1323",
+  "governmentId": "444444444",
+  "addressLine1": "1234 IndividualAddress St",
+  "addressLine2": "1234 AddressLineTwo St",
+  "city": "Test1111",
+  "stateProvince": "CA",
+  "country": "US",
+  "postalCode": "12345",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts/trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f"
+    }
+  ]
+}
