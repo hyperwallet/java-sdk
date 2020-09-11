@@ -18,7 +18,6 @@ public class HyperwalletStatusTransitionTest extends BaseModelTest<HyperwalletSt
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLinkList.add(hyperwalletLink);
         HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
-        hyperwalletLinkList.add(hyperwalletLink);
         transition
                 .token("test-token")
                 .transition(HyperwalletStatusTransition.Status.ACTIVATED)
