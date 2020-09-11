@@ -1,0 +1,7 @@
+curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-accounts/trm-d69300ef-5011-486b-bd2e-bfd8b20fef26/status-transitions" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Content-Type: application/json" \
+-H "Accept: application/json" \
+-d "{
+  "transition": "DE_ACTIVATED"
+}"
