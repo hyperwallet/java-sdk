@@ -3,8 +3,9 @@ package com.hyperwallet.clientsdk;
 import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.model.HyperwalletBankAccount.Type;
 import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.Brand;
-import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.CardType;
 import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.EReplacePrepaidCardReason;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.CardType;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.VerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferRefund.Status;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.Gender;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.ProfileType;
@@ -28,8 +29,7 @@ import static org.hamcrest.Matchers.*;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 public class HyperwalletIT {
 
@@ -298,7 +298,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.PRE_ACTIVATED)));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getCardType(), is(equalTo(CardType.PERSONALIZED)));
+        assertThat(returnValue.getCardType(), is(equalTo(HyperwalletPrepaidCard.CardType.PERSONALIZED)));
         assertThat(returnValue.getCardPackage(), is(equalTo("L1")));
         assertThat(returnValue.getCardNumber(), is(equalTo("************0843")));
         assertThat(returnValue.getCardBrand(), is(equalTo(Brand.VISA)));
@@ -1782,6 +1782,81 @@ public class HyperwalletIT {
         }
     }
 
+    @Test
+    public void testListTransferMethods() throws Exception {
+        String functionality = "listTransferMethods";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletTransferMethod> returnValue;
+        try {
+            String userToken = "usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad";
+            returnValue = client.listTransferMethods(userToken, null);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://localhost-hyperwallet.aws.paylution.net:8181/rest/v4/users/usr-539f5e81-a52e-4bc5-aba7-f17de183c900/transfer-methods?limit"
+                        + "=100");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        assertFalse(returnValue.hasNextPage());
+        assertFalse(returnValue.hasPreviousPage());
+        HyperwalletTransferMethod bandTransferMethod = returnValue.getData().get(0);
+        assertThat(bandTransferMethod.getToken(), is(equalTo("trm-a43b1064-da94-457f-ae56-e4f85bd36aec")));
+        assertThat(bandTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
+        assertThat(bandTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(bandTransferMethod.getVerificationStatus(), is(equalTo(VerificationStatus.NOT_REQUIRED)));
+        assertThat(bandTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:10 UTC"))));
+        assertThat(bandTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(bandTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(bandTransferMethod.getBranchId(), is(equalTo("021000021")));
+        assertThat(bandTransferMethod.getBankAccountId(), is(equalTo("1599657189")));
+        assertThat(bandTransferMethod.getBankAccountPurpose(), is(equalTo("SAVINGS")));
+        assertThat(bandTransferMethod.getUserToken(), is(equalTo("usr-539f5e81-a52e-4bc5-aba7-f17de183c900")));
+        assertThat(bandTransferMethod.getProfileType(), is(equalTo(ProfileType.INDIVIDUAL)));
+        assertThat(bandTransferMethod.getFirstName(), is(equalTo("FirstName")));
+        assertThat(bandTransferMethod.getLastName(), is(equalTo("LastName")));
+        assertThat(bandTransferMethod.getDateOfBirth(), is(equalTo(dateFormat.parse("2000-09-09T18:43:10 UTC"))));
+        assertThat(bandTransferMethod.getGender(), is(equalTo(Gender.MALE)));
+        assertThat(bandTransferMethod.getPhoneNumber(), is(equalTo("605-555-1323")));
+        assertThat(bandTransferMethod.getMobileNumber(), is(equalTo("605-555-1323")));
+        assertThat(bandTransferMethod.getGovernmentId(), is(equalTo("444444444")));
+        assertThat(bandTransferMethod.getAddressLine1(), is(equalTo("1234 IndividualAddress St")));
+        assertThat(bandTransferMethod.getAddressLine2(), is(equalTo("1234 AddressLineTwo St")));
+        assertThat(bandTransferMethod.getCity(), is(equalTo("TestCity")));
+        assertThat(bandTransferMethod.getStateProvince(), is(equalTo("CA")));
+        assertThat(bandTransferMethod.getCountry(), is(equalTo("US")));
+        assertThat(bandTransferMethod.getPostalCode(), is(equalTo("12345")));
+
+        HyperwalletTransferMethod cardTransferMethod = returnValue.getData().get(1);
+
+        assertThat(cardTransferMethod.getToken(), is(equalTo("trm-c8e4c164-7d5b-4b5b-8b6a-9c4d68c2a9fe")));
+        assertThat(cardTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
+        assertThat(cardTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.PRE_ACTIVATED)));
+        assertThat(cardTransferMethod.getVerificationStatus(), is(equalTo(VerificationStatus.NOT_REQUIRED)));
+        assertThat(cardTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:34 UTC"))));
+        assertThat(cardTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(cardTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(cardTransferMethod.getCardType(), is(equalTo(CardType.PERSONALIZED)));
+        assertThat(cardTransferMethod.getCardPackage(), is(equalTo("L1")));
+        assertThat(cardTransferMethod.getCardNumber(), is(equalTo("************4194")));
+        assertThat(cardTransferMethod.getCardBrand(), is(equalTo(Brand.VISA)));
+        assertThat(cardTransferMethod.getDateOfExpiry(), is(equalTo(dateFormat.parse("2024-09-01T00:00:00 UTC"))));
+        assertThat(cardTransferMethod.getUserToken(), is(equalTo("usr-539f5e81-a52e-4bc5-aba7-f17de183c900")));
+
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
+
     //
     // Program Accounts
     //
@@ -2317,6 +2392,27 @@ public class HyperwalletIT {
         HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
         assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
         assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
+
+
+    //
+    // Authentication Token
+    //
+    @Test
+    public void testCreateAuthenticationToken() throws Exception {
+        String functionality = "createAuthenticationToken";
+        initMockServer(functionality);
+
+        HyperwalletAuthenticationToken returnValue;
+        try {
+            returnValue = client.getAuthenticationToken("usr-c4292f1a-866f-4310-a289-b916853939de");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getValue(), is(equalTo(
+                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c3ItMmQyZGNlYWMtNDlmNi00YWQwLTk0N2YtMTIwOTIzNzhhMmQyIiwiaWF0IjoxNTQ0ODI5ODA2LCJleHAiOjE1NDQ4MzA0MDYsImF1ZCI6InBndS03YTEyMzJlOC0xNDc5LTQzNzAtOWY1NC03ODc1ZjdiMTg2NmMiLCJpc3MiOiJwcmctY2NhODAyNWUtODVhMy0xMWU2LTg2MGEtNThhZDVlY2NlNjFkIiwicmVzdC11cmkiOiJodHRwczovL3FhbWFzdGVyLWh5cGVyd2FsbGV0LmF3cy5wYXlsdXRpb24ubmV0L3Jlc3QvdjMvIiwiZ3JhcGhxbC11cmkiOiJodHRwczovL3FhbWFzdGVyLWh5cGVyd2FsbGV0LmF3cy5wYXlsdXRpb24ubmV0L2dyYXBocWwifQ.pGOdbYermGhiON5IFKSnXZd6Zj hktMd3WEDOMplYyAeiqVeZGck04eVpsBaXEqYp78NJIs7J5kMX-rPgFYxHpw")));
     }
 
 
