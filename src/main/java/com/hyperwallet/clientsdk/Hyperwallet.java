@@ -1059,8 +1059,8 @@ public class Hyperwallet {
         }
 
         transferRefund = copy(transferRefund);
-        transferRefund.setStatus(null);
-        transferRefund.setCreatedOn(null);
+        transferRefund.clearStatus();
+        transferRefund.clearCreatedOn();
         return apiClient.post(url + "/transfers/" + transferToken + "/refunds", transferRefund, HyperwalletTransferRefund.class);
     }
 
