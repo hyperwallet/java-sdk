@@ -1,6 +1,6 @@
 {
-  "hasNextPage": "false",
-  "hasPreviousPage": "false",
+  "hasNextPage": false,
+  "hasPreviousPage": false,
   "limit": 10,
   "data": [
     {

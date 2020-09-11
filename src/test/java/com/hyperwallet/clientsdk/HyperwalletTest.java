@@ -3641,6 +3641,85 @@ public class HyperwalletTest {
                 Mockito.any(TypeReference.class));
     }
 
+    @Test
+    public void testUpdatePayPalAccount_noPayPalAccount() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePayPalAccount(null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("PayPal Account is required")));
+            assertThat(e.getMessage(), is(equalTo("PayPal Account is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+
+    @Test
+    public void testUpdatePayPalAccount_noUserToken() {
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePayPalAccount(payPalAccount);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePayPalAccount_noPayPalAccountToken() {
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount.setUserToken("test-user-token");
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.updatePayPalAccount(payPalAccount);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("PayPal Account token is required")));
+            assertThat(e.getMessage(), is(equalTo("PayPal Account token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUpdatePayPalAccount_successful() throws Exception {
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount.setToken("test-paypal-account-token");
+        payPalAccount.setUserToken("test-user-token");
+
+        HyperwalletPayPalAccount payPalAccountResponse = new HyperwalletPayPalAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(payPalAccountResponse);
+
+        HyperwalletPayPalAccount resp = client.updatePayPalAccount(payPalAccount);
+        assertThat(resp, is(equalTo(payPalAccountResponse)));
+
+        ArgumentCaptor<HyperwalletPayPalAccount> argument = ArgumentCaptor.forClass(HyperwalletPayPalAccount.class);
+        Mockito.verify(mockApiClient)
+                .put(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts/test-paypal-account-token"),
+                        argument.capture(), Mockito.eq(payPalAccount.getClass()));
+
+        HyperwalletPayPalAccount hyperwalletPayPalAccount = argument.getValue();
+        assertThat(hyperwalletPayPalAccount, is(notNullValue()));
+    }
+
     //--------------------------------------
     // Bank Accounts
     //--------------------------------------
@@ -6171,6 +6250,12 @@ public class HyperwalletTest {
 
     private HyperwalletBusinessStakeholder createStakeholderObj() {
         HyperwalletBusinessStakeholder stakeholder = new HyperwalletBusinessStakeholder();
+        Map<String,String> params = new HashMap<String,String>();
+        params.put("rel","self");
+        List<HyperwalletLink> links = new ArrayList<HyperwalletLink>();
+        HyperwalletLink link = new HyperwalletLink();
+        link.setHref("https://api.sandbox.hyperwallet.com/rest/v4/users/business-stakeholders");
+        links.add(link);
 
         stakeholder.setIsBusinessContact(true);
         stakeholder.setIsDirector(false);
@@ -6195,6 +6280,7 @@ public class HyperwalletTest {
         stakeholder.setPostalCode("22222");
         stakeholder.setCountryOfBirth("US");
         stakeholder.setCountryOfNationality("US");
+        stakeholder.setLinks(links);
         return stakeholder;
     }
 
@@ -7100,8 +7186,7 @@ public class HyperwalletTest {
 
         Mockito.verify(mockApiClient).get(Mockito
                         .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/venmo-accounts/test-venmo-account-token/status"
-                                + "-transitions?createdAfter=2020-08-20T23:14:26Z&createdBefore=2020-08-20T23:14:26Z&sortBy=test-sort-by"
-                                + "&limit=10"),
+                                + "-transitions?createdAfter=2020-08-20T23:14:26Z&createdBefore=2020-08-20T23:14:26Z&sortBy=test-sort-by&limit=10"),
                 Mockito.any(TypeReference.class));
     }
 
@@ -7246,6 +7331,68 @@ public class HyperwalletTest {
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getType().equals(EIdentityVerificationType.LETTER_OF_AUTHORIZATION));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCountry().equals(ECountryCode.CA));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getStatus().equals(EKycDocumentVerificationStatus.NEW));
+    }
+
+    @Test
+    public void testUploadDocumentBusinessStakeholder_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        String businessStakeholderToken = "business-token";
+        try {
+            HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =
+                    client.uploadDocumentBusinessStakeholder(null, businessStakeholderToken, new FormDataMultiPart());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUploadDocumentBusinessStakeholder_noBusinessStakeholderToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        String userToken = "user-token";
+        try {
+            HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =
+                    client.uploadDocumentBusinessStakeholder(userToken, null, new FormDataMultiPart());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("BusinessStakeholderToken may not be required")));
+            assertThat(e.getMessage(), is(equalTo("BusinessStakeholderToken may not be required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUploadDocumentBusinessStakeholder_Successful() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+
+        String userToken = "user-token";
+        String businessStakeholderToken = "business-token";
+        HyperwalletBusinessStakeholder hyperwalletBusinessStakeholder = new HyperwalletBusinessStakeholder();
+        List<HyperwalletVerificationDocument> hyperwalletVerificationDocumentList = new ArrayList<>();
+        HyperwalletVerificationDocument hyperWalletVerificationDocument = new HyperwalletVerificationDocument();
+        hyperWalletVerificationDocument.category("IDENTIFICATION").type("DRIVERS_LICENSE").status("NEW").country("AL");
+        hyperwalletVerificationDocumentList.add(hyperWalletVerificationDocument);
+        hyperwalletBusinessStakeholder.setDocuments(hyperwalletVerificationDocumentList);
+
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(FormDataMultiPart.class), Mockito.any(Class.class)))
+                .thenReturn(hyperwalletBusinessStakeholder);
+
+        HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =
+                client.uploadDocumentBusinessStakeholder(userToken, businessStakeholderToken, new FormDataMultiPart());
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = hyperwalletBusinessStakeholderResponse.getDocuments().get(0);
+        assertTrue(hyperwalletVerificationDocument.getCategory().equals("IDENTIFICATION"));
+        assertTrue(hyperwalletVerificationDocument.getType().equals("DRIVERS_LICENSE"));
+        assertTrue(hyperwalletVerificationDocument.getCountry().equals("AL"));
+        assertTrue(hyperwalletVerificationDocument.getStatus().equals("NEW"));
     }
 
 }
