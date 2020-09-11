@@ -1,0 +1,14 @@
+{
+  "token": "prg-83836cdf-2ce2-4696-8bc5-f1b86077238c",
+  "createdOn": "2017-10-04T21:19:24",
+  "name": "Hyperwallet - Portal",
+  "parentToken": "prg-a4b617e2-24c9-4891-9ee5-741489613f73",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/programs/prg-83836cdf-2ce2-4696-8bc5-f1b86077238c"
+    }
+  ]
+}
