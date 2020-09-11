@@ -1,0 +1,22 @@
+{
+  "token": "trm-3e23841c-34fd-41b1-9b81-ac2c3ad5ab84",
+  "type": "PREPAID_CARD",
+  "status": "PRE_ACTIVATED",
+  "createdOn": "2020-09-10T14:31:43",
+  "transferMethodCountry": "US",
+  "transferMethodCurrency": "USD",
+  "cardType": "PERSONALIZED",
+  "cardPackage": "L1",
+  "cardNumber": "************0843",
+  "cardBrand": "VISA",
+  "dateOfExpiry": "2024-09",
+  "userToken": "usr-85e743a2-beec-4817-9a10-2e0aede9afd7",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://localhost-hyperwallet.aws.paylution.net:8181/rest/v4/users/usr-85e743a2-beec-4817-9a10-2e0aede9afd7/prepaid-cards/trm-3e23841c-34fd-41b1-9b81-ac2c3ad5ab84"
+    }
+  ]
+}

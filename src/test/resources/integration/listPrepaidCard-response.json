@@ -1,0 +1,36 @@
+{
+  "hasNextPage": false,
+  "hasPreviousPage": false,
+  "limit": 100,
+  "data": [
+    {
+      "token": "trm-38e07e59-69d1-40bc-bebc-af639b847410",
+      "type": "PREPAID_CARD",
+      "status": "ACTIVATED",
+      "createdOn": "2020-09-07T18:05:09",
+      "transferMethodCountry": "US",
+      "transferMethodCurrency": "USD",
+      "cardType": "PERSONALIZED",
+      "cardPackage": "L1",
+      "cardNumber": "************0727",
+      "cardBrand": "VISA",
+      "dateOfExpiry": "2024-09",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-d868bf2d-acf1-48de-9806-8cefcb6a40ad/prepaid-cards/trm-38e07e59-69d1-40bc-bebc-af639b847410"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-d868bf2d-acf1-48de-9806-8cefcb6a40ad/prepaid-cards?limit=100"
+    }
+  ]
+}

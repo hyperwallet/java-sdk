@@ -1,0 +1,31 @@
+{
+  "hasNextPage": false,
+  "hasPreviousPage": false,
+  "limit": 100,
+  "data": [
+    {
+      "token": "sts-1834b075-ee3c-4c00-b1dc-a517fe8a87ab",
+      "createdOn": "2020-09-08T15:01:58",
+      "transition": "DE_ACTIVATED",
+      "fromStatus": "ACTIVATED",
+      "toStatus": "DE_ACTIVATED",
+      "notes": "Deactivating card",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts/trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f/status-transitions/sts-1834b075-ee3c-4c00-b1dc-a517fe8a87ab"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts/trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f/status-transitions?limit=100"
+    }
+  ]
+}
