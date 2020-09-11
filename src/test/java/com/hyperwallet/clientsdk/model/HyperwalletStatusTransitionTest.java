@@ -24,8 +24,8 @@ public class HyperwalletStatusTransitionTest extends BaseModelTest<HyperwalletSt
                 .fromStatus(HyperwalletStatusTransition.Status.LOCKED)
                 .toStatus(HyperwalletStatusTransition.Status.ACTIVATED)
                 .createdOn(new Date())
-                .links(hyperwalletLinkList)
-                .notes("test-notes");
+                .notes("test-notes")
+                .links(hyperwalletLinkList);
         return transition;
     }
 
