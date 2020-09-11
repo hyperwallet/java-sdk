@@ -1186,7 +1186,7 @@ public class HyperwalletTest {
     public void testListPrepaidCardStatusTransitions_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPrepaidCardStatusTransitions(null, null, new HyperwalletPaginationOptions());
+            client.listPrepaidCardStatusTransitions(null, null, new HyperwalletStatusTransitionListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -1202,7 +1202,7 @@ public class HyperwalletTest {
     public void testListPrepaidCardStatusTransitions_withParameters_noPrepaidCardToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPrepaidCardStatusTransitions("test-user-token", null, new HyperwalletPaginationOptions());
+            client.listPrepaidCardStatusTransitions("test-user-token", null, new HyperwalletStatusTransitionListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -1221,7 +1221,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
                 .sortBy("test-sort-by")
                 .limit(10)
@@ -1245,7 +1245,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
                 .sortBy("test-sort-by")
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -1914,7 +1914,7 @@ public class HyperwalletTest {
     public void testListBankCardStatusTransitions_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listBankCardStatusTransitions(null, null, new HyperwalletPaginationOptions());
+            client.listBankCardStatusTransitions(null, null, new HyperwalletStatusTransitionListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -1930,7 +1930,7 @@ public class HyperwalletTest {
     public void testListBankCardStatusTransitions_withParameters_noBankCardToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listBankCardStatusTransitions("test-user-token", null, new HyperwalletPaginationOptions());
+            client.listBankCardStatusTransitions("test-user-token", null, new HyperwalletStatusTransitionListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -1949,7 +1949,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
             .sortBy("test-sort-by")
             .limit(10)
@@ -1974,7 +1974,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
             .sortBy("test-sort-by")
             .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -2625,7 +2625,7 @@ public class HyperwalletTest {
     public void testListPaperCheckStatusTransitions_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPaperCheckStatusTransitions(null, null, new HyperwalletPaginationOptions());
+            client.listPaperCheckStatusTransitions(null, null, new HyperwalletStatusTransitionListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2641,7 +2641,7 @@ public class HyperwalletTest {
     public void testListPaperCheckStatusTransitions_withParameters_noPaperCheckToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPaperCheckStatusTransitions("test-user-token", null, new HyperwalletPaginationOptions());
+            client.listPaperCheckStatusTransitions("test-user-token", null, new HyperwalletStatusTransitionListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2660,7 +2660,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
             .sortBy("test-sort-by")
             .limit(10)
@@ -2684,7 +2684,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
             .sortBy("test-sort-by")
             .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -3039,7 +3039,7 @@ public class HyperwalletTest {
     @Test
     public void testlistTransferStatusTransition_NoTransferToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
 
         try {
             client.listTransferStatusTransition(null, options);
@@ -3061,7 +3061,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
                 .sortBy("test-sort-by")
                 .limit(10)
@@ -3665,7 +3665,7 @@ public class HyperwalletTest {
     public void testListPayPalAccountStatusTransitions_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPayPalAccountStatusTransitions(null, null, new HyperwalletPaginationOptions());
+            client.listPayPalAccountStatusTransitions(null, null, new HyperwalletStatusTransitionListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -3681,7 +3681,7 @@ public class HyperwalletTest {
     public void testListPayPalAccountStatusTransitions_withParameters_noPayPalAccountToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPayPalAccountStatusTransitions("test-user-token", null, new HyperwalletPaginationOptions());
+            client.listPayPalAccountStatusTransitions("test-user-token", null, new HyperwalletStatusTransitionListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -3700,7 +3700,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
                 .sortBy("test-sort-by")
                 .limit(10)
@@ -3724,7 +3724,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
                 .sortBy("test-sort-by")
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -4337,7 +4337,7 @@ public class HyperwalletTest {
     public void testListBankAccountStatusTransitions_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listBankAccountStatusTransitions(null, null, new HyperwalletPaginationOptions());
+            client.listBankAccountStatusTransitions(null, null, new HyperwalletStatusTransitionListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -4353,7 +4353,7 @@ public class HyperwalletTest {
     public void testListBankAccountStatusTransitions_withParameters_noBankAccountToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listBankAccountStatusTransitions("test-user-token", null, new HyperwalletPaginationOptions());
+            client.listBankAccountStatusTransitions("test-user-token", null, new HyperwalletStatusTransitionListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -4372,7 +4372,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
                 .sortBy("test-sort-by")
                 .limit(10)
@@ -4396,7 +4396,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
                 .sortBy("test-sort-by")
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -5177,7 +5177,7 @@ public class HyperwalletTest {
     public void testListPaymentStatusTransitions_withParameters_noPaymentToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPaymentStatusTransitions(null, new HyperwalletPaginationOptions());
+            client.listPaymentStatusTransitions(null, new HyperwalletStatusTransitionListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -5196,7 +5196,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
             .sortBy("test-sort-by")
             .limit(10)
@@ -5220,7 +5220,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
             .sortBy("test-sort-by")
             .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));

@@ -6,7 +6,8 @@ public class HyperwalletWebhookNotificationPaginationOptionsTest extends BaseMod
     protected HyperwalletWebhookNotificationPaginationOptions createBaseModel() {
         HyperwalletWebhookNotificationPaginationOptions options = new HyperwalletWebhookNotificationPaginationOptions();
         options
-            .type(HyperwalletWebhookNotification.Type.PAPER_CHECK_CREATED.toString())
+                .type(HyperwalletWebhookNotification.Type.PAPER_CHECK_CREATED.toString())
+                .programToken("program-token")
             .createdAfter(new Date())
             .createdBefore(new Date())
             .limit(10)
