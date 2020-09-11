@@ -1032,17 +1032,6 @@ public class HyperwalletIT {
             mockServer.verify(parseRequest(functionality));
             throw e;
         }
-
-        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
-        HyperwalletLink hyperwalletLink = new HyperwalletLink();
-        hyperwalletLink.setHref(
-                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/paper-checks/trm-59f67c62-fd06-497e"
-                        + "-a9ea-99d6eb38b12b");
-        Map<String, String> mapParams = new HashMap<>();
-        mapParams.put("rel", "self");
-        hyperwalletLink.setParams(mapParams);
-        hyperwalletLinks.add(hyperwalletLink);
-
         assertThat(returnValue.hasNextPage(), is(equalTo(false)));
         assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")));
