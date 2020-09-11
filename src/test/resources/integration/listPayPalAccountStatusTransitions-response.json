@@ -1,6 +1,6 @@
 {
-  "count": 1,
-  "offset": 0,
+  "hasNextPage": "false",
+  "hasPreviousPage": "false",
   "limit": 10,
   "data": [
     {
@@ -25,7 +25,7 @@
       "params": {
         "rel": "self"
       },
-      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-f695ef43-9614-4e17-9269-902c234616c3/paypal-accounts/trm-da21954a-3910-4d70-b83d-0c2d96104394/status-transitions?offset=0&limit=10"
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-f695ef43-9614-4e17-9269-902c234616c3/paypal-accounts/trm-da21954a-3910-4d70-b83d-0c2d96104394/status-transitions?limit=10"
     }
   ]
 }
