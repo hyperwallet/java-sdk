@@ -1,12 +1,17 @@
 package com.hyperwallet.clientsdk.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author fkrauthan
  */
 public class HyperwalletPaymentTest extends BaseModelTest<HyperwalletPayment> {
     protected HyperwalletPayment createBaseModel() {
+        List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLinkList.add(hyperwalletLink);
         HyperwalletPayment payment = new HyperwalletPayment();
         payment
                 .status("COMPLETED")
@@ -23,7 +28,9 @@ public class HyperwalletPaymentTest extends BaseModelTest<HyperwalletPayment> {
 
                 .destinationToken("test-destination-token")
                 .programToken("test-program-token")
-                .clientPaymentId("test-client-payment-id");
+                .clientPaymentId("test-client-payment-id")
+                .links(hyperwalletLinkList)
+                .expiresOn(new Date());
         return payment;
     }
 
