@@ -248,6 +248,26 @@ public class Hyperwallet {
         });
     }
 
+    /**
+     * Uploading documents for Business Stakeholder
+     *
+     * @param userToken                String
+     * @param businessStakeholderToken Hyperwallet Stakeholder representation
+     * @param multiPart                FormdataMultipart to get uploaded
+     * @return HyperwalletBusinessStakeholder updated Stakeholder with document status
+     */
+    public HyperwalletBusinessStakeholder uploadDocumentBusinessStakeholder(String userToken, String businessStakeholderToken,
+            FormDataMultiPart multiPart) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        if (businessStakeholderToken == null) {
+            throw new HyperwalletException("BusinessStakeholderToken may not be required");
+        }
+        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, multiPart,
+                HyperwalletBusinessStakeholder.class);
+    }
+
 
     /**
      * Get Authentication Token
@@ -867,6 +887,7 @@ public class Hyperwallet {
      *
      * @param userToken User token
      * @param paperCheckToken Paper Check token
+     * @param notes user notes
      * @return The status transition
      */
     public HyperwalletStatusTransition deactivatePaperCheck(String userToken, String paperCheckToken, String notes) {
@@ -1027,7 +1048,8 @@ public class Hyperwallet {
     /**
      * Create Transfer Status Transition
      *
-     * @param transferToken        Transfer token assigned
+     * @param transferToken  Transfer token assigned
+     * @param transition transition value
      * @return HyperwalletStatusTransition new status for Transfer Request
      */
     public HyperwalletStatusTransition createTransferStatusTransition(String transferToken, HyperwalletStatusTransition transition) {
@@ -1662,7 +1684,6 @@ public class Hyperwallet {
         if (options != null) {
             url = addParameter(url, "currency", options.getCurrency());
             url = addParameter(url, "sortBy", options.getSortBy());
-            url = addParameter(url, "offset", options.getOffset());
             url = addParameter(url, "limit", options.getLimit());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
@@ -1699,7 +1720,6 @@ public class Hyperwallet {
         if (options != null) {
             url = addParameter(url, "currency", options.getCurrency());
             url = addParameter(url, "sortBy", options.getSortBy());
-            url = addParameter(url, "offset", options.getOffset());
             url = addParameter(url, "limit", options.getLimit());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
@@ -1735,7 +1755,6 @@ public class Hyperwallet {
         String url = this.url + "/users/" + userToken + "/prepaid-cards/" + prepaidCardToken + "/balances";
         if (options != null) {
             url = addParameter(url, "sortBy", options.getSortBy());
-            url = addParameter(url, "offset", options.getOffset());
             url = addParameter(url, "limit", options.getLimit());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBalance>>() {
@@ -2201,7 +2220,6 @@ public class Hyperwallet {
         url = addParameter(url, "createdAfter", convert(options.getCreatedAfter()));
         url = addParameter(url, "createdBefore", convert(options.getCreatedBefore()));
         url = addParameter(url, "sortBy", options.getSortBy());
-        url = addParameter(url, "offset", options.getOffset());
         url = addParameter(url, "limit", options.getLimit());
         return url;
     }

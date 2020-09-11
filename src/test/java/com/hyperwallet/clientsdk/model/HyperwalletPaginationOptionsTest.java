@@ -12,7 +12,6 @@ public class HyperwalletPaginationOptionsTest extends BaseModelTest<HyperwalletP
                 .createdAfter(new Date())
                 .createdBefore(new Date())
                 .limit(10)
-                .offset(20)
                 .sortBy("test-sort-by");
         return options;
     }

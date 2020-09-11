@@ -78,6 +78,25 @@ public class HyperwalletApiClient {
         }
     }
 
+    private WebResource getWebResource(final String url) {
+        client.addFilter(new HTTPBasicAuthFilter(this.username, this.password));
+        return client.resource(url);
+    }
+
+    public <T> T put(final String url, final FormDataMultiPart formDataMultiPart, final Class<T> type) {
+        Response response = new Response();
+        try {
+            webResource = getWebResource(url);
+            ClientResponse clientResponse = webResource.type(MediaType.MULTIPART_FORM_DATA_TYPE).put(ClientResponse.class, formDataMultiPart);
+            response.setResponseCode(clientResponse.getStatus());
+            response.setBody(clientResponse.getEntity(String.class));
+            response.setHeaders(clientResponse.getHeaders());
+            return processResponse(response, type);
+        } catch (IOException | JOSEException | ParseException e) {
+            throw new HyperwalletException(e);
+        }
+    }
+
     public <T> T put(final String url, final Object bodyObject, final Class<T> type) {
         Response response = null;
         try {
@@ -211,24 +230,4 @@ public class HyperwalletApiClient {
         }
         return isEncrypted ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
     }
-
-    public WebResource getWebResource(final String url) {
-        client.addFilter(new HTTPBasicAuthFilter(this.username, this.password));
-        return client.resource(url);
-    }
-
-    public <T> T put(final String url, final FormDataMultiPart formDataMultiPart, final Class<T> type) {
-        Response response = new Response();
-        try {
-            webResource = getWebResource(url);
-            ClientResponse clientResponse = webResource.type(MediaType.MULTIPART_FORM_DATA_TYPE).put(ClientResponse.class, formDataMultiPart);
-            response.setResponseCode(clientResponse.getStatus());
-            response.setBody(clientResponse.getEntity(String.class));
-            response.setHeaders(clientResponse.getHeaders());
-            return processResponse(response, type);
-        } catch (IOException | JOSEException | ParseException e) {
-            throw new HyperwalletException(e);
-        }
-    }
-
 }

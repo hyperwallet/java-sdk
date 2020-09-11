@@ -3,12 +3,11 @@ package com.hyperwallet.clientsdk.model;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
-
-import java.util.Date;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
+import java.util.List;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
@@ -34,6 +33,8 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     private String cvv;
 
     private String userToken;
+    private String processingTime;
+    private List<HyperwalletLink> links;
 
     public HyperwalletTransferMethod.Type getType() {
         return type;
@@ -285,6 +286,48 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     public HyperwalletBankCard clearUserToken() {
         clearField("userToken");
         this.userToken = null;
+        return this;
+    }
+
+    public String getProcessingTime() {
+        return processingTime;
+    }
+
+    public void setProcessingTime(String processingTime) {
+        addField("processingTime", processingTime);
+        this.processingTime = processingTime;
+    }
+
+    public HyperwalletBankCard processingTime(String processingTime) {
+        addField("processingTime", processingTime);
+        this.processingTime = processingTime;
+        return this;
+    }
+
+    public HyperwalletBankCard clearProcessingTime() {
+        clearField("processingTime");
+        this.processingTime = null;
+        return this;
+    }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+    }
+
+    public HyperwalletBankCard links(List<HyperwalletLink> links) {
+        addField("links", links);
+        this.links = links;
+        return this;
+    }
+
+    public HyperwalletBankCard clearLinks() {
+        clearField("links");
+        this.links = null;
         return this;
     }
 }
