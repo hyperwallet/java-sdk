@@ -14,9 +14,10 @@ import static org.hamcrest.Matchers.*;
  */
 public class HyperwalletStatusTransitionTest extends BaseModelTest<HyperwalletStatusTransition> {
     protected HyperwalletStatusTransition createBaseModel() {
-        HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLinkList.add(hyperwalletLink);
+        HyperwalletStatusTransition transition = new HyperwalletStatusTransition();
         hyperwalletLinkList.add(hyperwalletLink);
         transition
                 .token("test-token")

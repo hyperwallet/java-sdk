@@ -1,0 +1,3 @@
+curl -X "GET" "https://api.sandbox.hyperwallet.com/rest/v4/webhook-notifications/wbh-53010937-fbe4-4040-9a87-9fa0065f79bb" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Accept: application/json"  \

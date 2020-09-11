@@ -1,9 +1,14 @@
 package com.hyperwallet.clientsdk.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class HyperwalletBankCardTest extends BaseModelTest<HyperwalletBankCard> {
     protected HyperwalletBankCard createBaseModel() {
+        List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLinkList.add(hyperwalletLink);
         HyperwalletBankCard bankCard = new HyperwalletBankCard();
         bankCard
                 .token("test-token")
@@ -20,6 +25,8 @@ public class HyperwalletBankCardTest extends BaseModelTest<HyperwalletBankCard> 
 
                 .dateOfExpiry(new Date())
                 .cvv("cvv")
+                .processingTime("processing-time")
+                .links(hyperwalletLinkList)
                 .userToken("test-user-token");
         return bankCard;
     }
