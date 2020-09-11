@@ -8,6 +8,9 @@ import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerification
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.BusinessStakeholderVerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.LetterOfAuthorizationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import org.mockito.ArgumentCaptor;
@@ -115,6 +118,9 @@ public class HyperwalletTest {
         HyperwalletUser user = new HyperwalletUser();
         user.setStatus(HyperwalletUser.Status.ACTIVATED);
         user.setVerificationStatus(VerificationStatus.VERIFIED);
+        user.setBusinessStakeholderVerificationStatus(BusinessStakeholderVerificationStatus.VERIFIED);
+        user.setLetterOfAuthorizationStatus(LetterOfAuthorizationStatus.VERIFIED);
+        user.setGovernmentIdType(GovernmentIdType.NATIONAL_ID_CARD);
         user.setCreatedOn(new Date());
         user.setFirstName("test-first-name");
         user.setBusinessOperatingName("test-business-operating-name");
@@ -129,6 +135,11 @@ public class HyperwalletTest {
         HyperwalletUser resp = client.createUser(user);
         assertThat(resp, is(equalTo(user)));
         assertThat(resp.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
+        assertThat(resp.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(resp.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
+        assertThat(resp.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(resp.getGovernmentIdType(), is(equalTo(GovernmentIdType.NATIONAL_ID_CARD)));
+
 
         ArgumentCaptor<HyperwalletUser> argument = ArgumentCaptor.forClass(HyperwalletUser.class);
         Mockito.verify(mockApiClient)
@@ -139,9 +150,13 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
-        assertThat(apiClientUser.getVerificationStatus(), is(VerificationStatus.VERIFIED));
+        assertThat(apiClientUser.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
+        assertThat(apiClientUser.getGovernmentIdType(), is(equalTo(GovernmentIdType.NATIONAL_ID_CARD)));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(nullValue()));
+        assertThat(apiClientUser.getLinks(), is(nullValue()));
     }
 
     @Test
@@ -172,8 +187,12 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getGovernmentIdType(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token")));
+        assertThat(apiClientUser.getLinks(), is(nullValue()));
     }
 
     @Test
@@ -184,6 +203,8 @@ public class HyperwalletTest {
         user.setFirstName("test-first-name");
         user.setBusinessOperatingName("test-business-operating-name");
         user.setProgramToken("test-program-token2");
+        user.setProfileType(HyperwalletUser.ProfileType.BUSINESS);
+        user.setLetterOfAuthorizationStatus(LetterOfAuthorizationStatus.VERIFIED);
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
@@ -205,8 +226,12 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(apiClientUser.getGovernmentIdType(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token2")));
+        assertThat(apiClientUser.getLinks(), is(nullValue()));
     }
 
     @Test
@@ -279,6 +304,8 @@ public class HyperwalletTest {
         HyperwalletUser user = new HyperwalletUser();
         user.setToken("test-user-token");
         user.setFirstName("test-first-name");
+        user.setBusinessStakeholderVerificationStatus(BusinessStakeholderVerificationStatus.UNDER_REVIEW);
+        user.setGovernmentIdType(GovernmentIdType.NATIONAL_ID_CARD);
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
@@ -2376,7 +2403,7 @@ public class HyperwalletTest {
         Mockito.verify(mockApiClient).post(Mockito
                         .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paper-checks/test-bank-card-token/status-transitions"),
                 argument.capture(), Mockito.eq(statusTransitionResponse.getClass()));
-
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paper-checks/test-bank-card-token/status-transitions"), argument.capture(), Mockito.eq(statusTransitionResponse.getClass()));
         HyperwalletStatusTransition apiClientStatusTransition = argument.getValue();
         assertThat(apiClientStatusTransition, is(notNullValue()));
         assertThat(apiClientStatusTransition.getTransition(), is(equalTo(HyperwalletStatusTransition.Status.DE_ACTIVATED)));

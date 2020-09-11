@@ -1,0 +1,38 @@
+{
+  "token": "usr-be3dbae6-7f3d-4cf2-ab03-9d794764c943",
+  "status": "PRE_ACTIVATED",
+  "verificationStatus": "NOT_REQUIRED",
+  "createdOn": "2020-09-10T15:11:36",
+  "clientUserId": "1234",
+  "profileType": "INDIVIDUAL",
+  "firstName": "John",
+  "middleName": "",
+  "lastName": "Smith",
+  "dateOfBirth": "2000-01-01",
+  "countryOfBirth": "US",
+  "countryOfNationality": "US",
+  "gender": "MALE",
+  "phoneNumber": "605-555-1323",
+  "mobileNumber": "605-555-1323",
+  "email": "abc@company.com",
+  "governmentId": "333333333",
+  "driversLicenseId": "12345",
+  "addressLine1": "1234 IndividualAddress St",
+  "addressLine2": "1234 AddressLineTwo St",
+  "city": "Test",
+  "stateProvince": "CA",
+  "country": "US",
+  "postalCode": "12345",
+  "language": "en",
+  "timeZone": "America/Vancouver",
+  "programToken": "prg-362d09bd-1d3c-48fe-8209-c42708cd0bf7",
+  "governmentIdType": "PASSPORT",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://localhost:8181/rest/v4/users/usr-be3dbae6-7f3d-4cf2-ab03-9d794764c943"
+    }
+  ]
+}
