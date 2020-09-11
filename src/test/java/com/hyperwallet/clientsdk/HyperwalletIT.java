@@ -1955,6 +1955,42 @@ public class HyperwalletIT {
         assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
     }
 
+    //
+    // Programs
+    //
+    @Test
+    public void testGetProgram() throws Exception {
+        String functionality = "getProgram";
+        initMockServer(functionality);
+
+        HyperwalletProgram returnValue;
+        try {
+            returnValue = client.getProgram("prg-83836cdf-2ce2-4696-8bc5-f1b86077238c");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/programs/prg-83836cdf-2ce2-4696-8bc5-f1b86077238c");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        assertThat(returnValue.getToken(), is(equalTo("prg-83836cdf-2ce2-4696-8bc5-f1b86077238c")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-04T21:19:24 UTC"))));
+        assertThat(returnValue.getName(), is(equalTo("Hyperwallet - Portal")));
+        assertThat(returnValue.getParentToken(), is(equalTo("prg-a4b617e2-24c9-4891-9ee5-741489613f73")));
+
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
+
+
     private void initMockServerWithErrorResponse(String functionality) throws IOException {
         mockServer.reset();
         mockServer
