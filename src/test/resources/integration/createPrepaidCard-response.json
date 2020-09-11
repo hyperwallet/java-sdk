@@ -1,0 +1,13 @@
+{
+  "token": "trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f",
+  "type": "BANK_CARD",
+  "status": "ACTIVATED",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/prepaid-cards/trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f"
+    }
+  ]
+}

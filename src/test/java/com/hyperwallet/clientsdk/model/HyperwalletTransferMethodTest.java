@@ -1,6 +1,10 @@
 package com.hyperwallet.clientsdk.model;
 
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.VerificationStatus;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author fkrauthan
@@ -8,6 +12,9 @@ import java.util.Date;
 public class HyperwalletTransferMethodTest extends BaseModelTest<HyperwalletTransferMethod> {
     protected HyperwalletTransferMethod createBaseModel() {
         HyperwalletTransferMethod transferMethod = new HyperwalletTransferMethod();
+        List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLinkList.add(hyperwalletLink);
         transferMethod
                 .token("test-token")
 
@@ -81,7 +88,9 @@ public class HyperwalletTransferMethodTest extends BaseModelTest<HyperwalletTran
                 .city("test-city")
                 .stateProvince("test-state-province")
                 .postalCode("test-postal-code")
-                .country("test-country");
+                .country("test-country")
+                .verificationStatus(VerificationStatus.NOT_REQUIRED)
+                .links(hyperwalletLinkList);
 
         return transferMethod;
     }
