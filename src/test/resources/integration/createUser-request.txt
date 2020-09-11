@@ -16,5 +16,6 @@ curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v4/users" \
   "governmentId" : "333333333",
   "phoneNumber": "605-555-1323",
   "programToken": "prg-362d09bd-1d3c-48fe-8209-c42708cd0bf7",
-  "stateProvince": "CA"
+  "stateProvince": "CA",
+  "governmentIdType": "PASSPORT"
 }"

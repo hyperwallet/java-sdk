@@ -189,8 +189,6 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(nullValue()));
         assertThat(apiClientUser.getGovernmentIdType(), is(nullValue()));
-        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
-        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token")));
         assertThat(apiClientUser.getLinks(), is(nullValue()));

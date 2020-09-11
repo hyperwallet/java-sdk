@@ -26,6 +26,7 @@
   "language": "en",
   "timeZone": "America/Vancouver",
   "programToken": "prg-043da9f9-614c-11e5-af23-0faa28ca7c0f",
+  "governmentIdType": "PASSPORT",
   "links": [
     {
       "params": {
