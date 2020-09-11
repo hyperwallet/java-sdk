@@ -152,10 +152,10 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
         assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
         assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
-        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
         assertThat(apiClientUser.getGovernmentIdType(), is(equalTo(GovernmentIdType.NATIONAL_ID_CARD)));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(nullValue()));
+        assertThat(apiClientUser.getLinks(), is(nullValue()));
     }
 
     @Test
@@ -193,6 +193,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token")));
+        assertThat(apiClientUser.getLinks(), is(nullValue()));
     }
 
     @Test
@@ -231,6 +232,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getGovernmentIdType(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token2")));
+        assertThat(apiClientUser.getLinks(), is(nullValue()));
     }
 
     @Test
@@ -344,7 +346,6 @@ public class HyperwalletTest {
         HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         options
                 .sortBy("test-sort-by")
-                .offset(5)
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
