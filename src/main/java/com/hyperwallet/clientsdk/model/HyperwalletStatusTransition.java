@@ -33,7 +33,6 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
     private String notes;
     private List<HyperwalletLink> links;
 
-
     public String getToken() {
         return token;
     }

@@ -857,6 +857,7 @@ public class Hyperwallet {
      *
      * @param userToken User token
      * @param paperCheckToken Paper Check token
+     * @param notes user notes
      * @return The status transition
      */
     public HyperwalletStatusTransition deactivatePaperCheck(String userToken, String paperCheckToken, String notes) {
@@ -1016,7 +1017,8 @@ public class Hyperwallet {
     /**
      * Create Transfer Status Transition
      *
-     * @param transferToken        Transfer token assigned
+     * @param transferToken  Transfer token assigned
+     * @param transition transition value
      * @return HyperwalletStatusTransition new status for Transfer Request
      */
     public HyperwalletStatusTransition createTransferStatusTransition(String transferToken, HyperwalletStatusTransition transition) {
