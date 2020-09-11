@@ -1,7 +1,9 @@
 package com.hyperwallet.clientsdk.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class HyperwalletTransferTest extends BaseModelTest<HyperwalletTransfer> {
     protected HyperwalletTransfer createBaseModel() {
@@ -12,6 +14,9 @@ public class HyperwalletTransferTest extends BaseModelTest<HyperwalletTransfer> 
         foreignExchange.setDestinationAmount(100.0);
         foreignExchange.setDestinationCurrency("USD");
         foreignExchange.setRate(2.3);
+        List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLinkList.add(hyperwalletLink);
         transfer
                 .token("test-token")
                 .status(HyperwalletTransfer.Status.QUOTED)
@@ -27,7 +32,8 @@ public class HyperwalletTransferTest extends BaseModelTest<HyperwalletTransfer> 
                 .destinationCurrency("USD")
                 .notes("notes")
                 .memo("memo")
-                .expiresOn(new Date());
+                .expiresOn(new Date())
+                .links(hyperwalletLinkList);
         transfer.setForeignExchanges(Collections.singletonList(foreignExchange));
         return transfer;
     }
