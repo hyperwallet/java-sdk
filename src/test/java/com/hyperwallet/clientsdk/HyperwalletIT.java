@@ -2338,9 +2338,7 @@ public class HyperwalletIT {
     public void testCreateUser() throws Exception {
         String functionality = "createUser";
         initMockServer(functionality);
-
-        SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-DD", Locale.ENGLISH);
-        Date dateOfBirth = format.parse("2000-01-01");
+        Date dateOfBirth = dateFormat.parse("2000-09-08T15:01:07 UTC");
 
         HyperwalletUser hyperwalletUser = new HyperwalletUser()
                 .addressLine1("1234 IndividualAddress St")
@@ -2377,7 +2375,7 @@ public class HyperwalletIT {
         assertEquals(returnValue.getLastName(), "Smith");
         assertEquals(returnValue.getGovernmentId(), "333333333");
         assertEquals(returnValue.getProgramToken(), "prg-362d09bd-1d3c-48fe-8209-c42708cd0bf7");
-        assertEquals(returnValue.getVerificationStatus(), VerificationStatus.NOT_REQUIRED);
+        assertEquals(returnValue.getVerificationStatus().toString(), "NOT_REQUIRED");
         assertEquals(returnValue.getGovernmentIdType(), GovernmentIdType.PASSPORT);
     }
 

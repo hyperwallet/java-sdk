@@ -7,7 +7,7 @@ curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v4/users" \
   "city": "Test",
   "clientUserId": "1234",
   "country": "US",
-  "dateOfBirth": "1999-12-26T08:00:00",
+  "dateOfBirth": "2000-09-08T15:01:07",
   "email": "abc@company.com",
   "firstName": "John",
   "lastName": "Smith",
