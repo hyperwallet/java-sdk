@@ -416,7 +416,7 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletPrepaidCard
      */
-    public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(String userToken, HyperwalletPrepaidCardsListPaginationOptions options) {
+    public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(String userToken, HyperwalletListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
@@ -662,7 +662,7 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletBankCard
      */
-    public HyperwalletList<HyperwalletBankCard> listBankCards(String userToken, HyperwalletBankCardsListPaginationOptions options) {
+    public HyperwalletList<HyperwalletBankCard> listBankCards(String userToken, HyperwalletListPaginationOptions options) {
 
 
         if (StringUtils.isEmpty(userToken)) {
@@ -867,7 +867,7 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletPaperCheck
      */
-    public HyperwalletList<HyperwalletPaperCheck> listPaperChecks(String userToken, HyperwalletPaperChecksListPaginationOptions options) {
+    public HyperwalletList<HyperwalletPaperCheck> listPaperChecks(String userToken, HyperwalletListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
@@ -1180,7 +1180,7 @@ public class Hyperwallet {
      * @param options           List filter option
      * @return HyperwalletList of HyperwalletPayPalAccount
      */
-    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken, HyperwalletPayPalAccountsListPaginationOptions options) {
+    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken, HyperwalletListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }

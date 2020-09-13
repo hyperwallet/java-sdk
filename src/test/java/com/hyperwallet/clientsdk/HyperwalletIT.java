@@ -280,7 +280,7 @@ public class HyperwalletIT {
 
         HyperwalletList<HyperwalletBankCard> returnValue;
 
-        HyperwalletBankCardsListPaginationOptions options = new HyperwalletBankCardsListPaginationOptions();
+        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
         options.status(HyperwalletTransferMethod.Status.ACTIVATED)
                 .sortBy("test-sort-by")
                 .limit(10)
@@ -378,7 +378,7 @@ public class HyperwalletIT {
 
         HyperwalletList<HyperwalletPrepaidCard> returnValue;
 
-        HyperwalletPrepaidCardsListPaginationOptions options = new HyperwalletPrepaidCardsListPaginationOptions();
+        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
         options.status(HyperwalletTransferMethod.Status.ACTIVATED)
                 .sortBy("test-sort-by")
                 .limit(10)
