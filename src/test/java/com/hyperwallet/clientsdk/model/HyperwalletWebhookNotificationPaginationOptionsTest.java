@@ -8,10 +8,10 @@ public class HyperwalletWebhookNotificationPaginationOptionsTest extends BaseMod
         options
                 .type(HyperwalletWebhookNotification.Type.PAPER_CHECK_CREATED.toString())
                 .programToken("program-token")
-            .createdAfter(new Date())
-            .createdBefore(new Date())
-            .limit(10)
-            .sortBy("test-sort-by");
+                .createdAfter(new Date())
+                .createdBefore(new Date())
+                .limit(10)
+                .sortBy("test-sort-by");
         return options;
     }
 

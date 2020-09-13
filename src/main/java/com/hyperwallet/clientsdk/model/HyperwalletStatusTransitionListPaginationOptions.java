@@ -14,7 +14,7 @@ public class HyperwalletStatusTransitionListPaginationOptions extends Hyperwalle
         this.transition = transition;
     }
 
-    public HyperwalletStatusTransitionListPaginationOptions status(HyperwalletStatusTransition.Status transition) {
+    public HyperwalletStatusTransitionListPaginationOptions transition(HyperwalletStatusTransition.Status transition) {
         this.transition = transition;
         return this;
     }
