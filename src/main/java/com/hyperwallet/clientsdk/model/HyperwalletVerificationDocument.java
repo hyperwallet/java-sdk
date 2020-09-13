@@ -18,16 +18,6 @@ HyperwalletVerificationDocument {
     private String status;
     private String country;
 
-    public HyperwalletVerificationDocument() {
-
-    }
-
-    public HyperwalletVerificationDocument(String category, String type, String status) {
-        this.category = category;
-        this.type = type;
-        this.status = status;
-    }
-
     public String getCategory() {
         return category;
     }

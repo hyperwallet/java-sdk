@@ -1,4 +1,3 @@
-curl -X "GET" "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-accounts" \
+curl -X "GET" "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts" \
 -u testuser@12345678:myAccPassw0rd \
--H "Content-Type: application/json" \
 -H "Accept: application/json"

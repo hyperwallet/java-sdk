@@ -1,61 +1,41 @@
 {
-  "hasNextPage": true,
-  "hasPreviousPage": true,
-  "limit": 2,
+  "hasNextPage": false,
+  "hasPreviousPage": false,
+  "limit": 100,
   "data": [
     {
-      "token": "trm-7854a79b-296b-4761-945b-a6ae64f47140",
+      "token": "trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f",
       "type": "BANK_ACCOUNT",
-      "status": "ACTIVATED",
-      "createdOn": "2017-10-31T16:47:08",
+      "status": "DE_ACTIVATED",
+      "verificationStatus": "NOT_REQUIRED",
+      "createdOn": "2020-09-08T15:01:07",
       "transferMethodCountry": "US",
       "transferMethodCurrency": "USD",
-      "branchId": "026009593",
-      "bankAccountId": "014048670",
-      "bankAccountPurpose": "CHECKING",
+      "bankName": "JPMORGAN CHASE BANK",
+      "branchId": "021000021",
+      "bankAccountId": "1599557466",
+      "bankAccountPurpose": "SAVINGS",
+      "userToken": "usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad",
       "profileType": "INDIVIDUAL",
-      "firstName": "John",
-      "lastName": "Smith",
-      "dateOfBirth": "1991-01-01",
-      "addressLine1": "123 Main Street",
-      "city": "New York",
-      "stateProvince": "NY",
+      "firstName": "firstName",
+      "lastName": "lastName",
+      "dateOfBirth": "2000-09-08T15:01:07",
+      "gender": "MALE",
+      "phoneNumber": "605-555-1323",
+      "mobileNumber": "605-555-1323",
+      "governmentId": "444444444",
+      "addressLine1": "1234 IndividualAddress St",
+      "addressLine2": "1234 AddressLineTwo St",
+      "city": "Test1111",
+      "stateProvince": "CA",
       "country": "US",
-      "postalCode": "10016",
+      "postalCode": "12345",
       "links": [
         {
           "params": {
             "rel": "self"
           },
-          "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-accounts/trm-7854a79b-296b-4761-945b-a6ae64f47140"
-        }
-      ]
-    },
-    {
-      "token": "trm-56b976c5-26b2-42fa-87cf-14b3366673c6",
-      "type": "BANK_ACCOUNT",
-      "status": "ACTIVATED",
-      "createdOn": "2017-10-31T16:47:15",
-      "transferMethodCountry": "US",
-      "transferMethodCurrency": "USD",
-      "branchId": "026009593",
-      "bankAccountId": "675825206",
-      "bankAccountPurpose": "CHECKING",
-      "profileType": "INDIVIDUAL",
-      "firstName": "John",
-      "lastName": "Smith",
-      "dateOfBirth": "1991-01-01",
-      "addressLine1": "123 Main Street",
-      "city": "New York",
-      "stateProvince": "NY",
-      "country": "US",
-      "postalCode": "10016",
-      "links": [
-        {
-          "params": {
-            "rel": "self"
-          },
-          "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-accounts/trm-56b976c5-26b2-42fa-87cf-14b3366673c6"
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts/trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f"
         }
       ]
     }
@@ -65,19 +45,7 @@
       "params": {
         "rel": "self"
       },
-      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-accounts/?after=trm-56b976c5-26b2-42fa-87cf-14b3366673c6&limit=2"
-    },
-    {
-      "params": {
-        "rel": "next"
-      },
-      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-b9916b65-614b-11e5-af23-0faa28ca7c0f/bank-accounts/?after=trm-8575e544-614b-11e5-af23-0faa28ca7c0f&limit=2"
-    },
-    {
-      "params": {
-        "rel": "previous"
-      },
-      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-b9916b65-614b-11e5-af23-0faa28ca7c0f/bank-accounts/?before=trm-852fdb71-614b-11e5-af23-0faa28ca7c0f&limit=2"
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/bank-accounts?limit=100"
     }
   ]
 }

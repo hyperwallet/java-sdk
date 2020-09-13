@@ -1,9 +1,14 @@
 package com.hyperwallet.clientsdk.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperCheck> {
     protected HyperwalletPaperCheck createBaseModel() {
+        List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLinkList.add(hyperwalletLink);
         HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
         paperCheck
                 .token("test-token")
@@ -44,7 +49,8 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
                 .shippingMethod(HyperwalletPaperCheck.ShippingMethod.STANDARD)
                 .stateProvince("test-state-province")
 
-                .userToken("test-user-token");
+                .userToken("test-user-token")
+                .links(hyperwalletLinkList);
         return paperCheck;
     }
 

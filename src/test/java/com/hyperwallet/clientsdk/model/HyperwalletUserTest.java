@@ -6,9 +6,8 @@ import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerification
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
+import java.util.*;
 
 /**
  * @author fkrauthan
@@ -22,10 +21,15 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .country(ECountryCode.CA).status(EKycDocumentVerificationStatus.NEW);
         List<HyperwalletDocument> hyperwalletDocumentList = new ArrayList<>();
         hyperwalletDocumentList.add(hyperwalletDocument);
+        List<HyperwalletLink> hyperwalletUserLinks = new ArrayList<>();
+        HyperwalletLink link = new HyperwalletLink();
+        hyperwalletUserLinks.add(link);
         user
                 .token("test-token")
                 .status(HyperwalletUser.Status.ACTIVATED)
                 .verificationStatus(VerificationStatus.VERIFIED)
+                .businessStakeholderVerificationStatus(HyperwalletUser.BusinessStakeholderVerificationStatus.VERIFIED)
+                .letterOfAuthorizationStatus(HyperwalletUser.LetterOfAuthorizationStatus.VERIFIED)
                 .createdOn(new Date())
                 .clientUserId("test-client-user-id")
                 .profileType(HyperwalletUser.ProfileType.INDIVIDUAL)
@@ -51,6 +55,7 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .email("test-email")
 
                 .governmentId("test-government-id")
+                .governmentIdType(HyperwalletUser.GovernmentIdType.NATIONAL_ID_CARD)
                 .passportId("test-passport-id")
                 .driversLicenseId("test-drivers-license-id")
                 .employerId("test-employer-id")
@@ -65,7 +70,8 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .language("test-language")
                 .programToken("test-program-token")
                 .timeZone("GMT")
-                .documents(hyperwalletDocumentList);
+                .documents(hyperwalletDocumentList)
+                .links(hyperwalletUserLinks);
 
         return user;
     }

@@ -6,7 +6,11 @@ import com.hyperwallet.clientsdk.model.HyperwalletDocument.ECountryCode;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.BusinessStakeholderVerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.LetterOfAuthorizationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import org.mockito.ArgumentCaptor;
@@ -114,6 +118,9 @@ public class HyperwalletTest {
         HyperwalletUser user = new HyperwalletUser();
         user.setStatus(HyperwalletUser.Status.ACTIVATED);
         user.setVerificationStatus(VerificationStatus.VERIFIED);
+        user.setBusinessStakeholderVerificationStatus(BusinessStakeholderVerificationStatus.VERIFIED);
+        user.setLetterOfAuthorizationStatus(LetterOfAuthorizationStatus.VERIFIED);
+        user.setGovernmentIdType(GovernmentIdType.NATIONAL_ID_CARD);
         user.setCreatedOn(new Date());
         user.setFirstName("test-first-name");
         user.setBusinessOperatingName("test-business-operating-name");
@@ -128,6 +135,11 @@ public class HyperwalletTest {
         HyperwalletUser resp = client.createUser(user);
         assertThat(resp, is(equalTo(user)));
         assertThat(resp.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
+        assertThat(resp.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(resp.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
+        assertThat(resp.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(resp.getGovernmentIdType(), is(equalTo(GovernmentIdType.NATIONAL_ID_CARD)));
+
 
         ArgumentCaptor<HyperwalletUser> argument = ArgumentCaptor.forClass(HyperwalletUser.class);
         Mockito.verify(mockApiClient)
@@ -138,9 +150,13 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
-        assertThat(apiClientUser.getVerificationStatus(), is(VerificationStatus.VERIFIED));
+        assertThat(apiClientUser.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
+        assertThat(apiClientUser.getGovernmentIdType(), is(equalTo(GovernmentIdType.NATIONAL_ID_CARD)));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(nullValue()));
+        assertThat(apiClientUser.getLinks(), is(nullValue()));
     }
 
     @Test
@@ -171,8 +187,12 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getGovernmentIdType(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token")));
+        assertThat(apiClientUser.getLinks(), is(nullValue()));
     }
 
     @Test
@@ -183,6 +203,8 @@ public class HyperwalletTest {
         user.setFirstName("test-first-name");
         user.setBusinessOperatingName("test-business-operating-name");
         user.setProgramToken("test-program-token2");
+        user.setProfileType(HyperwalletUser.ProfileType.BUSINESS);
+        user.setLetterOfAuthorizationStatus(LetterOfAuthorizationStatus.VERIFIED);
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
@@ -204,8 +226,12 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
+        assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
+        assertThat(apiClientUser.getGovernmentIdType(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token2")));
+        assertThat(apiClientUser.getLinks(), is(nullValue()));
     }
 
     @Test
@@ -278,6 +304,8 @@ public class HyperwalletTest {
         HyperwalletUser user = new HyperwalletUser();
         user.setToken("test-user-token");
         user.setFirstName("test-first-name");
+        user.setBusinessStakeholderVerificationStatus(BusinessStakeholderVerificationStatus.UNDER_REVIEW);
+        user.setGovernmentIdType(GovernmentIdType.NATIONAL_ID_CARD);
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
@@ -541,7 +569,7 @@ public class HyperwalletTest {
     public void testCreatePrepaidCard_noPrepaidCard() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.createPrepaidCard(null);
+            client.createOrReplacePrepaidCard(null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -559,7 +587,7 @@ public class HyperwalletTest {
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.createPrepaidCard(prepaidCard);
+            client.createOrReplacePrepaidCard(prepaidCard);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -579,7 +607,7 @@ public class HyperwalletTest {
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.createPrepaidCard(prepaidCard);
+            client.createOrReplacePrepaidCard(prepaidCard);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -612,7 +640,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(prepaidCardResponse);
 
-        HyperwalletPrepaidCard resp = client.createPrepaidCard(prepaidCard);
+        HyperwalletPrepaidCard resp = client.createOrReplacePrepaidCard(prepaidCard);
         assertThat(resp, is(equalTo(prepaidCardResponse)));
 
         ArgumentCaptor<HyperwalletPrepaidCard> argument = ArgumentCaptor.forClass(HyperwalletPrepaidCard.class);
@@ -655,7 +683,7 @@ public class HyperwalletTest {
 
         Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(prepaidCardResponse);
 
-        HyperwalletPrepaidCard resp = client.createPrepaidCard(prepaidCard);
+        HyperwalletPrepaidCard resp = client.createOrReplacePrepaidCard(prepaidCard);
         assertThat(resp, is(equalTo(prepaidCardResponse)));
 
         ArgumentCaptor<HyperwalletPrepaidCard> argument = ArgumentCaptor.forClass(HyperwalletPrepaidCard.class);
@@ -2380,7 +2408,7 @@ public class HyperwalletTest {
         Mockito.verify(mockApiClient).post(Mockito
                         .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paper-checks/test-bank-card-token/status-transitions"),
                 argument.capture(), Mockito.eq(statusTransitionResponse.getClass()));
-
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paper-checks/test-bank-card-token/status-transitions"), argument.capture(), Mockito.eq(statusTransitionResponse.getClass()));
         HyperwalletStatusTransition apiClientStatusTransition = argument.getValue();
         assertThat(apiClientStatusTransition, is(notNullValue()));
         assertThat(apiClientStatusTransition.getTransition(), is(equalTo(HyperwalletStatusTransition.Status.DE_ACTIVATED)));
@@ -6339,6 +6367,58 @@ public class HyperwalletTest {
         return transferMethod;
     }
 
+    @Test
+    public void testListTransferMethods_noUserToken() {
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+
+        try {
+            client.listTransferMethods(null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListTransferMethods() throws Exception {
+
+        String userToken = "user-token";
+        HyperwalletList<HyperwalletTransferMethod> response = new HyperwalletList<HyperwalletTransferMethod>();
+
+        List<HyperwalletTransferMethod> hyperwalletTransferMethodsList = new ArrayList<>();
+        HyperwalletTransferMethod bankTransferMethod = new HyperwalletTransferMethod();
+        bankTransferMethod.setToken("bank-token");
+        bankTransferMethod.setType(Type.BANK_ACCOUNT);
+        HyperwalletTransferMethod cardTransferMethod = new HyperwalletTransferMethod();
+        cardTransferMethod.setToken("card-token");
+        cardTransferMethod.setType(Type.PREPAID_CARD);
+        hyperwalletTransferMethodsList.add(bankTransferMethod);
+        hyperwalletTransferMethodsList.add(cardTransferMethod);
+
+        response.setData(hyperwalletTransferMethodsList);
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletTransferMethod> resp = client.listTransferMethods(userToken, null);
+        assertThat(resp, is(equalTo(response)));
+        HyperwalletTransferMethod response1 = response.getData().get(0);
+        HyperwalletTransferMethod response2 = response.getData().get(1);
+        assertThat(response1.getToken(), is(equalTo("bank-token")));
+        assertThat(response1.getType(), is(equalTo(Type.BANK_ACCOUNT)));
+        assertThat(response2.getToken(), is(equalTo("card-token")));
+        assertThat(response2.getType(), is(equalTo(Type.PREPAID_CARD)));
+
+    }
+
     //--------------------------------------
     // Business Stakeholders
     //--------------------------------------
@@ -7488,6 +7568,214 @@ public class HyperwalletTest {
         assertTrue(hyperwalletVerificationDocument.getType().equals("DRIVERS_LICENSE"));
         assertTrue(hyperwalletVerificationDocument.getCountry().equals("AL"));
         assertTrue(hyperwalletVerificationDocument.getStatus().equals("NEW"));
+    }
+
+    //--------------------------------------
+    // Transfer Refund
+    //--------------------------------------
+
+    private void checkHyperwalletException(HyperwalletException actual, HyperwalletException expected) {
+        assertThat(actual.getErrorCode(), is(expected.getErrorCode()));
+        assertThat(actual.getResponse(), is(expected.getResponse()));
+        assertThat(actual.getErrorMessage(), is(expected.getErrorMessage()));
+        assertThat(actual.getMessage(), is(expected.getMessage()));
+        assertThat(actual.getHyperwalletErrors(), is(expected.getHyperwalletErrors()));
+        assertThat(actual.getRelatedResources(), is(expected.getRelatedResources()));
+    }
+
+    @Test
+    public void testCreateTransferRefund_noTransferRefund() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createTransferRefund("transferToken", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            HyperwalletException expectedException = new HyperwalletException("Transfer Refund is required");
+            checkHyperwalletException(e, expectedException);
+        }
+    }
+
+    @Test
+    public void testCreateTransferRefund_noTransferToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createTransferRefund(null, new HyperwalletTransferRefund());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            HyperwalletException expectedException = new HyperwalletException("Transfer token is required");
+            checkHyperwalletException(e, expectedException);
+        }
+    }
+
+    @Test
+    public void testCreateTransferRefund_noClientRefundId() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.createTransferRefund("transferToken", new HyperwalletTransferRefund());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            HyperwalletException expectedException = new HyperwalletException("ClientRefundId is required");
+            checkHyperwalletException(e, expectedException);
+        }
+    }
+
+    @Test
+    public void testCreateTransferRefund_successful() throws Exception {
+        String clientRefundId = "clientRefundId";
+        double sourceAmount = 20.0;
+        String notes = "notes";
+        String memo = "memo";
+
+        HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund();
+        transferRefund.setClientRefundId(clientRefundId);
+        transferRefund.setSourceAmount(sourceAmount);
+        transferRefund.setNotes(notes);
+        transferRefund.setMemo(memo);
+
+        HyperwalletTransferRefund transferRefundResponse = new HyperwalletTransferRefund();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(transferRefundResponse);
+
+        String transferToken = "transferToken";
+        HyperwalletTransferRefund resp = client.createTransferRefund(transferToken, transferRefund);
+        assertThat(resp, is(equalTo(transferRefundResponse)));
+
+        ArgumentCaptor<HyperwalletTransferRefund> argument = ArgumentCaptor.forClass(HyperwalletTransferRefund.class);
+        Mockito.verify(mockApiClient).post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/transfers/" + transferToken + "/refunds"),
+                argument.capture(), Mockito.eq(transferRefund.getClass()));
+
+        HyperwalletTransferRefund apiTransfer = argument.getValue();
+        assertThat(apiTransfer, is(notNullValue()));
+        assertThat(apiTransfer.getClientRefundId(), is(equalTo(clientRefundId)));
+        assertThat(apiTransfer.getSourceAmount(), is(equalTo(sourceAmount)));
+        assertThat(apiTransfer.getNotes(), is(equalTo(notes)));
+        assertThat(apiTransfer.getMemo(), is(equalTo(memo)));
+        assertThat(apiTransfer.getCreatedOn(), is(nullValue()));
+        assertThat(apiTransfer.getStatus(), is(nullValue()));
+    }
+
+    @Test
+    public void testGetTransferRefund_noTransferToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getTransferRefund(null, "transferRefundToken");
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            HyperwalletException expectedException = new HyperwalletException("Transfer token is required");
+            checkHyperwalletException(e, expectedException);
+        }
+    }
+
+    @Test
+    public void testGetTransferRefund_noTransferRefundToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getTransferRefund("transferToken", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            HyperwalletException expectedException = new HyperwalletException("Transfer Refund token is required");
+            checkHyperwalletException(e, expectedException);
+        }
+    }
+
+    @Test
+    public void testGetTransferRefund_successful() throws Exception {
+        HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(transferRefund);
+
+        HyperwalletTransferRefund resp = client.getTransferRefund("transferToken", "transferRefundToken");
+        assertThat(resp, is(equalTo(transferRefund)));
+
+        Mockito.verify(mockApiClient).get("https://api.sandbox.hyperwallet.com/rest/v4/transfers/transferToken/refunds/transferRefundToken",
+                transferRefund.getClass());
+    }
+
+    @Test
+    public void testListTransferRefunds_noParameters() throws Exception {
+        HyperwalletList<HyperwalletTransferRefund> response = new HyperwalletList<>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        String transferToken = "transferToken";
+        HyperwalletList<HyperwalletTransferRefund> resp = client.listTransferRefunds(transferToken, null);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/transfers/" + transferToken + "/refunds"),
+                Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testListTransferRefunds_withAllParameters() throws Exception {
+        HyperwalletList<HyperwalletTransferRefund> response = new HyperwalletList<>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletTransferRefundListOptions options = new HyperwalletTransferRefundListOptions();
+        options
+                .clientRefundId("clientRefundId")
+                .sourceToken("sourceToken")
+                .status("COMPLETED")
+                .sortBy("sortByField")
+                .limit(10)
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        String transferToken = "transferToken";
+        HyperwalletList<HyperwalletTransferRefund> resp = client.listTransferRefunds(transferToken, options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/transfers/" + transferToken
+                + "/refunds?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=sortByField&limit=10"
+                + "&clientRefundId=clientRefundId&sourceToken=sourceToken&status=COMPLETED"), Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testListTransferRefunds_withSomeParameters() throws Exception {
+        HyperwalletList<HyperwalletTransferRefund> response = new HyperwalletList<>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletTransferRefundListOptions options = new HyperwalletTransferRefundListOptions();
+        options
+                .sourceToken("test-source-token")
+                .sortBy("test-sort-by")
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        String transferToken = "transferToken";
+        HyperwalletList<HyperwalletTransferRefund> resp = client.listTransferRefunds(transferToken, options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/transfers/" + transferToken + "/refunds"
+                        + "?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&sourceToken=test-source-token"),
+                Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testListTransferRefunds_noTransferToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listTransferRefunds(null, new HyperwalletTransferRefundListOptions());
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            HyperwalletException expectedException = new HyperwalletException("Transfer token is required");
+            checkHyperwalletException(e, expectedException);
+        }
     }
 
 }
