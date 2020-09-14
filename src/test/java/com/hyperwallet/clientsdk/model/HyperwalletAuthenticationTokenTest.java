@@ -18,10 +18,6 @@ public class HyperwalletAuthenticationTokenTest{
         HyperwalletAuthenticationToken authenticationToken = new HyperwalletAuthenticationToken();
         assertThat(authenticationToken.getValue(), is(nullValue()));
 
-      //  return authenticationToken;
     }
 
-//    protected Class<HyperwalletAuthenticationToken> createModelClass() {
-//        return HyperwalletAuthenticationToken.class;
-//    }
 }
