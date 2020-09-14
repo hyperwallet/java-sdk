@@ -5,10 +5,12 @@ public class HyperwalletListPaginationOptions extends HyperwalletPaginationOptio
     private HyperwalletTransferMethod.Status status;
 
     public HyperwalletTransferMethod.Status getStatus() {
+
         return status;
     }
 
     public void setStatus(HyperwalletTransferMethod.Status status) {
+
         this.status = status;
     }
 

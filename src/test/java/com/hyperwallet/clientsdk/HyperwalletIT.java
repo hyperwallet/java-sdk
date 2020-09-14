@@ -220,17 +220,24 @@ public class HyperwalletIT {
         assertThat(returnValue.getDateOfExpiry(), is(nullValue()));
     }
 
+
     @Test
     public void testListPrepaidCard() throws Exception {
-        String functionality = "listPrepaidCard";
+        String functionality = "listPrepaidCards";
         initMockServer(functionality);
-
         HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard()
                 .userToken("usr-c4292f1a-866f-4310-a289-b916853939de");
-
         HyperwalletList<HyperwalletPrepaidCard> returnValue;
+
+        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
+        options.status(HyperwalletTransferMethod.Status.DE_ACTIVATED)
+                .sortBy("test-sort-by")
+                .limit(10)
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2016-06-29T19:58:26Z"));
+
         try {
-            returnValue = client.listPrepaidCards(prepaidCard.getUserToken());
+            returnValue = client.listPrepaidCards(prepaidCard.getUserToken(),options);
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
@@ -506,7 +513,7 @@ public class HyperwalletIT {
     /*
     Following test is not returning response. This is dissabled timebeing. To be rerun after enabling.
      */
-    @Test(enabled = false)
+    @Test
     public void testListBankAccount() throws Exception {
         String functionality = "listBankAccounts";
         initMockServer(functionality);
@@ -522,71 +529,35 @@ public class HyperwalletIT {
 
 
         try {
-            returnValue = client.listBankAccounts("usr-c4292f1a-866f-4310-a289-b916853939de",options);
+            //returnValue = client.listBankAccounts("usr-c4292f1a-866f-4310-a289-b916853939de",options);
+            returnValue = client.listBankAccounts("usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad",options);
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
         }
 
-        assertThat(returnValue.hasNextPage(), is(equalTo(true)));
-        assertThat(returnValue.hasPreviousPage(), is(equalTo(true)));
-        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-56b976c5-26b2-42fa-87cf-14b3366673c6")));
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-2bd0b56d-e111-4d12-bd24-d77fc02b9f4f")));
         assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletBankAccount.Type.BANK_ACCOUNT)));
-        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletBankAccount.Status.ACTIVATED)));
-        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T16:47:15 UTC"))));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletBankAccount.Status.DE_ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-08T15:01:07 UTC"))));
         assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
-        assertEquals(returnValue.getData().get(0).getBranchId(),"026009593");
-        assertEquals(returnValue.getData().get(0).getBankAccountId(),"675825206");
-        assertEquals(returnValue.getData().get(0).getBankAccountPurpose(),"CHECKING");
+        assertEquals(returnValue.getData().get(0).getBranchId(),"021000021");
+        assertEquals(returnValue.getData().get(0).getBankAccountId(),"1599557466");
+        assertEquals(returnValue.getData().get(0).getBankAccountPurpose(),"SAVINGS");
         assertEquals(returnValue.getData().get(0).getProfileType().toString(),"INDIVIDUAL");
-        assertEquals(returnValue.getData().get(0).getFirstName(),"John");
-        assertEquals(returnValue.getData().get(0).getLastName(),"Smith");
-        assertEquals(returnValue.getData().get(0).getDateOfBirth(),dateFormat.parse("1991-01-01"));
-        assertEquals(returnValue.getData().get(0).getAddressLine1(),"123 Main Street");
-        assertEquals(returnValue.getData().get(0).getCity(),"New York");
-        assertEquals(returnValue.getData().get(0).getStateProvince(),"NY");
+        assertEquals(returnValue.getData().get(0).getFirstName(),"firstName");
+        assertEquals(returnValue.getData().get(0).getLastName(),"lastName");
+        assertEquals(returnValue.getData().get(0).getDateOfBirth(),dateFormat.parse("2000-09-08T15:01:07 UTC"));
+        assertEquals(returnValue.getData().get(0).getAddressLine1(),"1234 IndividualAddress St");
+        assertEquals(returnValue.getData().get(0).getCity(),"Test1111");
+        assertEquals(returnValue.getData().get(0).getStateProvince(),"CA");
         assertEquals(returnValue.getData().get(0).getCountry(),"US");
-        assertEquals(returnValue.getData().get(0).getPostalCode(),"10016");
-        assertNotEquals(returnValue.getData().get(1).getStatus(),HyperwalletBankAccount.Status.ACTIVATED );
+        assertEquals(returnValue.getData().get(0).getPostalCode(),"12345");
     }
 
-    @Test(enabled = false)
-    public void testListPrepaidCards() throws Exception {
-        String functionality = "listPrepaidCards";
-        initMockServer(functionality);
-
-        HyperwalletList<HyperwalletPrepaidCard> returnValue;
-
-        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
-        options.status(HyperwalletTransferMethod.Status.ACTIVATED)
-                .sortBy("test-sort-by")
-                .limit(10)
-                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
-                .createdBefore(convertStringToDate("2016-06-29T19:58:26Z"));
-
-
-        try {
-            returnValue = client.listPrepaidCards("usr-c4292f1a-866f-4310-a289-b916853939de",options);
-        } catch (Exception e) {
-            mockServer.verify(parseRequest(functionality));
-            throw e;
-        }
-
-        assertThat(returnValue.hasNextPage(), is(equalTo(true)));
-        assertThat(returnValue.hasPreviousPage(), is(equalTo(true)));
-        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
-        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
-        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.PRE_ACTIVATED)));
-        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T18:25:07 UTC"))));
-        assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
-        assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getData().get(0).getCardType(), is(equalTo(HyperwalletPrepaidCard.CardType.PERSONALIZED)));
-        assertThat(returnValue.getData().get(0).getCardPackage(), is(equalTo("1")));
-        assertThat(returnValue.getData().get(0).getCardNumber(), is(equalTo("************0276")));
-        assertThat(returnValue.getData().get(0).getCardBrand(), is(equalTo(HyperwalletPrepaidCard.Brand.VISA)));
-        assertThat(returnValue.getData().get(0).getDateOfExpiry(), is(equalTo(dateFormat.parse("2020-10-01T00:00:00 UTC"))));
-    }
 
 
 
