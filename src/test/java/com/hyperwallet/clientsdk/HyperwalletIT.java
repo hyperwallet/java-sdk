@@ -2009,9 +2009,48 @@ public class HyperwalletIT {
     }
 
 
-    @Test(enabled = false)
+    @Test
     public void testListPayments() throws Exception {
-    /* To be implemented*/
+        String functionality = "listPayments";
+        initMockServer(functionality);
+
+
+        HyperwalletPaymentListOptions options = new HyperwalletPaymentListOptions();
+        options.clientPaymentId("gv47LDuf")
+                .sortBy("test-sort-by")
+                .limit(10)
+                .createdAfter(convertStringToDate("2017-10-06T15:03:13Z"))
+                .createdBefore(convertStringToDate("2017-10-06T15:03:13Z"));
+
+        HyperwalletList<HyperwalletPayment> returnValue;
+        try {
+            returnValue = client.listPayments(options);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink
+                .setHref("https://api.sandbox.hyperwallet.com/rest/v4/payments?after=pmt-92739c73-ff0a-4011-970e-3de855347ea9&limit=10");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+        assertThat(returnValue.hasNextPage(), is(equalTo(true)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(true)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("pmt-3ffb5fcc-1c98-48ce-9a6c-e4759933a037")));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo("SCHEDULED")));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-06T15:03:13 UTC"))));
+        assertThat(returnValue.getData().get(0).getAmount(), is(equalTo(50.00)));
+        assertThat(returnValue.getData().get(0).getCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getData().get(0).getClientPaymentId(), is(equalTo("gv47LDuf")));
+        assertThat(returnValue.getData().get(0).getPurpose(), is(equalTo("OTHER")));
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
 
     }
 

@@ -1,0 +1,71 @@
+{
+  "hasNextPage": true,
+  "hasPreviousPage": true,
+  "limit": 10,
+  "data": [
+    {
+      "token": "pmt-3ffb5fcc-1c98-48ce-9a6c-e4759933a037",
+      "status": "SCHEDULED",
+      "createdOn": "2017-10-06T15:03:13",
+      "amount": "50.00",
+      "currency": "USD",
+      "clientPaymentId": "gv47LDuf",
+      "purpose": "OTHER",
+      "releaseOn": "2018-01-01",
+      "expiresOn": "2018-02-01",
+      "destinationToken": "usr-d59c7edc-9e1b-48eb-b416-f618e1e7326b",
+      "programToken": "prg-83836cdf-2ce2-4696-8bc5-f1b86077238c",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/payments/pmt-3ffb5fcc-1c98-48ce-9a6c-e4759933a037"
+        }
+      ]
+    },
+    {
+      "...": "..."
+    },
+    {
+      "token": "pmt-87939c73-ff0a-4011-970e-3de855347ea7",
+      "status": "COMPLETED",
+      "createdOn": "2017-10-31T22:48:52",
+      "amount": "20.00",
+      "currency": "USD",
+      "clientPaymentId": "DyClk0VG",
+      "purpose": "OTHER",
+      "expiresOn": "2018-04-29",
+      "destinationToken": "usr-c4292f1a-866f-4310-a289-b916853939de",
+      "programToken": "prg-83836cdf-2ce2-4696-8bc5-f1b86077238c",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/payments/pmt-87939c73-ff0a-4011-970e-3de855347ea7"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/payments?after=pmt-92739c73-ff0a-4011-970e-3de855347ea9&limit=10"
+    },
+    {
+      "params": {
+        "rel": "next"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/payments?after=pmt-87939c73-ff0a-4011-970e-3de855347ea7&limit=10"
+    },
+    {
+      "params": {
+        "rel": "previous"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/payments?before=pmt-87939c73-ff0a-4011-970e-3de855347ea7&limit=10"
+    }
+  ]
+}

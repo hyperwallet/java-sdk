@@ -69,9 +69,7 @@ public class HyperwalletApiClient {
     public <T> T get(final String url, final TypeReference<T> type) {
         Response response = null;
         try {
-            Request req = getService(url, true);
-            response = req.getResource();
-            //response = getService(url, true).getResource();
+            response = getService(url, true).getResource();
             return processResponse(response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
