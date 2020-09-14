@@ -424,6 +424,7 @@ public class HyperwalletTest {
 
         HyperwalletAuthenticationToken resp = client.getAuthenticationToken("test-user-token");
         assertThat(resp, is(equalTo(hyperwalletAuthenticationToken)));
+        assertThat(resp.getValue(), is(equalTo(hyperwalletAuthenticationToken.getValue())));
 
         Mockito.verify(mockApiClient)
                 .post("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/authentication-token", null,
