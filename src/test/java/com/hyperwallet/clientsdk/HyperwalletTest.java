@@ -7,6 +7,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status;
+import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.BusinessStakeholderVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
@@ -2813,6 +2814,13 @@ public class HyperwalletTest {
 
     @Test
     public void testCreateTransfer_successful() throws Exception {
+        ForeignExchange foreignExchange = new ForeignExchange();
+        foreignExchange.setSourceAmount(200.0);
+        foreignExchange.setSourceCurrency("USD");
+        foreignExchange.setDestinationAmount(100.0);
+        foreignExchange.setDestinationCurrency("USD");
+        foreignExchange.setRate(2.3);
+
         HyperwalletTransfer transfer = new HyperwalletTransfer();
         transfer.setSourceToken("test-source-token");
         transfer.setDestinationToken("test-destination-token");
@@ -2820,6 +2828,7 @@ public class HyperwalletTest {
         transfer.setCreatedOn(new Date());
         transfer.setClientTransferId("test-client-transfer-id");
         transfer.setSourceCurrency("USD");
+        transfer.setForeignExchanges(Collections.singletonList(foreignExchange));
 
         HyperwalletTransfer transferResponse = new HyperwalletTransfer();
 
@@ -2843,6 +2852,12 @@ public class HyperwalletTest {
         assertThat(apiTransfer.getStatus(), is(nullValue()));
         assertThat(apiTransfer.getCreatedOn(), is(nullValue()));
         assertThat(apiTransfer.getExpiresOn(), is(nullValue()));
+        ForeignExchange foreignExchangeResponse= apiTransfer.getForeignExchanges().get(0);
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo(200.0)));
+        assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(100.0)));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getRate(), is(equalTo(2.3)));
     }
 
     @Test
