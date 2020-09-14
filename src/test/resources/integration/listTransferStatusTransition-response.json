@@ -1,0 +1,46 @@
+{
+  "hasNextPage": false,
+  "hasPreviousPage": false,
+  "limit": 100,
+  "data": [
+    {
+      "token": "sts-7048eb5d-01b5-4bb8-94e3-cf8cdb1d42df",
+      "createdOn": "2020-09-11T21:02:33",
+      "transition": "COMPLETED",
+      "fromStatus": "QUOTED",
+      "toStatus": "COMPLETED",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-c57dad1b-9d18-4b06-8919-a4d429b39baa/status-transitions/sts-7048eb5d-01b5-4bb8-94e3-cf8cdb1d42df"
+        }
+      ]
+    },
+    {
+      "token": "sts-14aa9060-07ca-4c88-ae09-87535d83ad9b",
+      "createdOn": "2020-09-11T21:02:32",
+      "transition": "SCHEDULED",
+      "fromStatus": "QUOTED",
+      "toStatus": "SCHEDULED",
+      "notes": "Transferring to scheduled.",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-c57dad1b-9d18-4b06-8919-a4d429b39baa/status-transitions/sts-14aa9060-07ca-4c88-ae09-87535d83ad9b"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/transfers/trf-c57dad1b-9d18-4b06-8919-a4d429b39baa/status-transitions?limit=100"
+    }
+  ]
+}

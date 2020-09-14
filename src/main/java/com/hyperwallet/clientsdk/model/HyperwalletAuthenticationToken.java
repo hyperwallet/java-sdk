@@ -13,4 +13,5 @@ public class HyperwalletAuthenticationToken {
     public String getValue() {
         return value;
     }
+
 }
