@@ -13,12 +13,15 @@ public class HyperwalletWebhookNotificationTest {
 
     @Test
     public void testHyperwalletWebhookEvent() {
+        List<HyperwalletLink> links = new ArrayList<>();
+        links.add(new HyperwalletLink());
         HyperwalletWebhookNotification event = new HyperwalletWebhookNotification();
+        event.links(links);
         assertThat(event.getType(), is(nullValue()));
         assertThat(event.getCreatedOn(), is(nullValue()));
         assertThat(event.getObject(), is(nullValue()));
         assertThat(event.getToken(), is(nullValue()));
-        assertThat(event.getLinks(), is(nullValue()));
+        assertThat(event.getLinks(), is(notNullValue()));
 
         Date createdOn = new Date();
 
