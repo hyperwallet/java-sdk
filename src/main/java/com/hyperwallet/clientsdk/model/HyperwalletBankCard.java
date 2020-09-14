@@ -3,7 +3,6 @@ package com.hyperwallet.clientsdk.model;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;

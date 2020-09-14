@@ -1,32 +1,27 @@
 package com.hyperwallet.clientsdk.model;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@JsonInclude(Include.NON_NULL)
+@JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class
 HyperwalletVerificationDocument {
 
     private String category;
+
     private String type;
+
     private String status;
+
     private String country;
-
-    public HyperwalletVerificationDocument() {
-
-    }
-
-    public HyperwalletVerificationDocument(String category, String type, String status) {
-        this.category = category;
-        this.type = type;
-        this.status = status;
-    }
 
     public String getCategory() {
         return category;

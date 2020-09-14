@@ -6,11 +6,12 @@ public class HyperwalletWebhookNotificationPaginationOptionsTest extends BaseMod
     protected HyperwalletWebhookNotificationPaginationOptions createBaseModel() {
         HyperwalletWebhookNotificationPaginationOptions options = new HyperwalletWebhookNotificationPaginationOptions();
         options
-            .type(HyperwalletWebhookNotification.Type.PAPER_CHECK_CREATED.toString())
-            .createdAfter(new Date())
-            .createdBefore(new Date())
-            .limit(10)
-            .sortBy("test-sort-by");
+                .type(HyperwalletWebhookNotification.Type.PAPER_CHECK_CREATED.toString())
+                .programToken("program-token")
+                .createdAfter(new Date())
+                .createdBefore(new Date())
+                .limit(10)
+                .sortBy("test-sort-by");
         return options;
     }
 
