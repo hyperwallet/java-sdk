@@ -1,8 +1,6 @@
 package com.hyperwallet.clientsdk.model;
 
-/**
- * @author fkrauthan
- */
+
 public class HyperwalletBankAccountsListPaginationOptionsTest extends BaseModelTest<HyperwalletBankAccountsListPaginationOptions> {
     protected HyperwalletBankAccountsListPaginationOptions createBaseModel() {
         HyperwalletBankAccountsListPaginationOptions options = new HyperwalletBankAccountsListPaginationOptions();
