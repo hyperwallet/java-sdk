@@ -5,13 +5,12 @@ import java.util.Date;
 public class HyperwalletTransferListOptionsTest extends BaseModelTest<HyperwalletTransferListOptions> {
     protected HyperwalletTransferListOptions createBaseModel() {
         HyperwalletTransferListOptions options = new HyperwalletTransferListOptions();
-        options
+        options.clientTransferId("client-transfer-Id")
                 .sourceToken("source-token")
                 .destinationToken("destination-token")
                 .createdAfter(new Date())
                 .createdBefore(new Date())
                 .limit(10)
-                .offset(20)
                 .sortBy("test-sort-by");
         return options;
     }

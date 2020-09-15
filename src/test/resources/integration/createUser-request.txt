@@ -1,0 +1,21 @@
+curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v4/users" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Content-Type: application/json" \
+-H "Accept: application/json" \
+-d "{
+  "addressLine1": "1234 IndividualAddress St",
+  "city": "Test",
+  "clientUserId": "1234",
+  "country": "US",
+  "dateOfBirth": "2000-09-08T15:01:07",
+  "email": "abc@company.com",
+  "firstName": "John",
+  "lastName": "Smith",
+  "postalCode": "12345",
+  "profileType": "INDIVIDUAL",
+  "governmentId" : "333333333",
+  "phoneNumber": "605-555-1323",
+  "programToken": "prg-362d09bd-1d3c-48fe-8209-c42708cd0bf7",
+  "stateProvince": "CA",
+  "governmentIdType": "PASSPORT"
+}"

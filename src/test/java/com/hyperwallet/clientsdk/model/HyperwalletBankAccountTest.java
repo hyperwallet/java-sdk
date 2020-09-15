@@ -1,6 +1,8 @@
 package com.hyperwallet.clientsdk.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author fkrauthan
@@ -8,6 +10,9 @@ import java.util.Date;
 public class HyperwalletBankAccountTest extends BaseModelTest<HyperwalletBankAccount> {
     protected HyperwalletBankAccount createBaseModel() {
         HyperwalletBankAccount bankAccount = new HyperwalletBankAccount();
+        List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLinkList.add(hyperwalletLink);
         bankAccount
                 .token("test-token")
 
@@ -74,7 +79,8 @@ public class HyperwalletBankAccountTest extends BaseModelTest<HyperwalletBankAcc
                 .city("test-city")
                 .stateProvince("test-state-province")
                 .postalCode("test-postal-code")
-                .country("test-country");
+                .country("test-country")
+                .links(hyperwalletLinkList);
 
         return bankAccount;
     }

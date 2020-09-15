@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @XmlRootElement
@@ -41,6 +42,7 @@ public class HyperwalletReceipt {
         BANK_ACCOUNT_TRANSFER_RETURN,
         BANK_ACCOUNT_TRANSFER_RETURN_FEE,
         TRANSFER_TO_BANK_ACCOUNT,
+        FISPC,
 
         // Related to Cards
         CARD_ACTIVATION_FEE,
@@ -200,29 +202,28 @@ public class HyperwalletReceipt {
 
     }
 
+    private String token;
     private String journalId;
-
     private Type type;
-
     private Date createdOn;
-
     private Entry entry;
-
     private String sourceToken;
-
     private String destinationToken;
-
     private Double amount;
-
     private Double fee;
-
     private String currency;
-
     private Double foreignExchangeRate;
-
     private String foreignExchangeCurrency;
-
     private Map<String, String> details = new HashMap<String, String>();
+    private List<HyperwalletLink> links;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getJournalId() {
         return journalId;
@@ -318,5 +319,13 @@ public class HyperwalletReceipt {
 
     public void setDetails(Map<String, String> details) {
         this.details = details;
+    }
+
+    public List<HyperwalletLink> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<HyperwalletLink> links) {
+        this.links = links;
     }
 }
