@@ -1,5 +1,14 @@
 Changelog
 =========
+2.0.0
+-----------------
+- Updated endpoints to V4 Rest services.
+- Added links to objects for pagination
+- Added Business Stakeholders 
+- Added filters to endpoints
+- Added Venmo accounts to the SDK
+- Added Multipart document upload functionality to Users and Stakeholders
+
 1.4.2
 ------------------
 - Added status param to HyperwalletPayment
