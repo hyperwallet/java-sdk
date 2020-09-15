@@ -1,5 +1,6 @@
 Changelog
 =========
+
 2.0.0
 -----------------
 - Updated endpoints to V4 Rest services.

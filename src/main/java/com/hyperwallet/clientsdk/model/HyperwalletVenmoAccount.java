@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 import java.util.List;
 
+
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -24,6 +25,7 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
     private String accountId;
     private String userToken;
     private List<HyperwalletLink> links;
+
 
     public String getToken() {
         return token;
@@ -235,4 +237,5 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
         this.links = null;
         return this;
     }
+
 }

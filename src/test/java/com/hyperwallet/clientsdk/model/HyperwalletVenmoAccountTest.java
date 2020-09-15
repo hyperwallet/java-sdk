@@ -1,6 +1,5 @@
 package com.hyperwallet.clientsdk.model;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,9 +7,11 @@ import java.util.List;
 public class HyperwalletVenmoAccountTest extends BaseModelTest<HyperwalletVenmoAccount> {
 
     protected HyperwalletVenmoAccount createBaseModel() {
+
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLinkList.add(hyperwalletLink);
+
         HyperwalletVenmoAccount venmoAccount = new HyperwalletVenmoAccount();
         venmoAccount
                 .token("test-token")

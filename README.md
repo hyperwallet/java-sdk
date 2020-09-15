@@ -41,7 +41,9 @@ API Overview
 To write an app using the SDK
 
 * Register for a sandbox account and get your username, password and program token at the [Hyperwallet Program Portal](https://portal.hyperwallet.com).
+
 * Add dependency `com.hyperwallet:sdk:2.0.0` to your `pom.xml` (or `build.gradle`).
+
 
 * Create a instance of the Hyperwallet Client (with username, password and program token)
   ```java
