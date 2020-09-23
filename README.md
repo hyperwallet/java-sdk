@@ -2,10 +2,12 @@
 [![Coverage Status](https://coveralls.io/repos/github/hyperwallet/java-sdk/badge.svg?branch=master)](https://coveralls.io/github/hyperwallet/java-sdk?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/com.hyperwallet/sdk.svg)]()
 
-Hyperwallet REST SDK (Beta)
+Hyperwallet REST SDK v2.0.0
 ===========================
 
-A library to manage users, transfer methods and payments through the Hyperwallet API
+A library to manage users, transfer methods and payments through the Hyperwallet V4 API 
+
+For Hyperwallet V3 API calls, please use SDK v1.5.0.
 
 Prerequisites
 ------------
