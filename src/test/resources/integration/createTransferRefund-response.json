@@ -11,6 +11,15 @@
   "createdOn": "2019-11-11T19:04:43",
   "notes": "Merchant Payment return to Wallet Balance",
   "memo": "TransferReturn123456",
+  "foreignExchanges": [
+    {
+      "sourceAmount": "100.00",
+      "sourceCurrency": "USD",
+      "destinationAmount": "63.49",
+      "destinationCurrency": "CAD",
+      "rate": "0.79"
+    }
+  ],
   "links": [
     {
       "params": {

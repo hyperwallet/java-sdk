@@ -6,6 +6,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletDocument.ECountryCode;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
 import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import com.sun.jersey.multipart.FormDataMultiPart;
@@ -2959,11 +2960,19 @@ public class HyperwalletTest {
         String notes = "notes";
         String memo = "memo";
 
+        ForeignExchange foreignExchange = new ForeignExchange();
+        foreignExchange.setSourceAmount(200.0);
+        foreignExchange.setSourceCurrency("USD");
+        foreignExchange.setDestinationAmount(100.0);
+        foreignExchange.setDestinationCurrency("CAD");
+        foreignExchange.setRate(2.3);
+
         HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund();
         transferRefund.setClientRefundId(clientRefundId);
         transferRefund.setSourceAmount(sourceAmount);
         transferRefund.setNotes(notes);
         transferRefund.setMemo(memo);
+        transferRefund.setForeignExchanges(Collections.singletonList(foreignExchange));
 
         HyperwalletTransferRefund transferRefundResponse = new HyperwalletTransferRefund();
 
@@ -2988,6 +2997,12 @@ public class HyperwalletTest {
         assertThat(apiTransfer.getMemo(), is(equalTo(memo)));
         assertThat(apiTransfer.getCreatedOn(), is(nullValue()));
         assertThat(apiTransfer.getStatus(), is(nullValue()));
+        ForeignExchange foreignExchangeResponse= apiTransfer.getForeignExchanges().get(0);
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo(200.0)));
+        assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(100.0)));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
+        assertThat(foreignExchange.getRate(), is(equalTo(2.3)));
     }
 
     @Test

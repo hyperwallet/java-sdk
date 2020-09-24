@@ -20,6 +20,7 @@ import static org.mockserver.model.JsonBody.json;
 import static org.testng.Assert.fail;
 
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferRefund.Status;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
@@ -653,7 +654,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getForeignExchanges().get(0).getSourceAmount(), is(equalTo(100.00)));
         assertThat(returnValue.getForeignExchanges().get(0).getSourceCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getForeignExchanges().get(0).getDestinationAmount(), is(equalTo(63.49)));
-        assertThat(returnValue.getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("CAD")));
         assertThat(returnValue.getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
     }
 
@@ -688,7 +689,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getForeignExchanges().get(0).getSourceAmount(), is(equalTo(100.00)));
         assertThat(returnValue.getForeignExchanges().get(0).getSourceCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getForeignExchanges().get(0).getDestinationAmount(), is(equalTo(63.49)));
-        assertThat(returnValue.getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("CAD")));
         assertThat(returnValue.getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
     }
 
@@ -724,7 +725,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getSourceAmount(), is(equalTo(100.00)));
         assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getSourceCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getDestinationAmount(), is(equalTo(63.49)));
-        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("CAD")));
         assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
     }
 
@@ -805,6 +806,12 @@ public class HyperwalletIT {
         assertThat(actual.getNotes(), is(expected.getNotes()));
         assertThat(actual.getMemo(), is(expected.getMemo()));
         assertThat(actual.getCreatedOn(), is(expected.getCreatedOn()));
+        ForeignExchange foreignExchange = actual.getForeignExchanges().get(0);
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo(100.00)));
+        assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(63.49)));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
+        assertThat(foreignExchange.getRate(), is(equalTo(0.79)));
     }
 
     @Test
