@@ -1057,7 +1057,7 @@ public class HyperwalletIT {
         assertThat(foreignExchange.getSourceAmount(), is(equalTo(100.00)));
         assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
         assertThat(foreignExchange.getDestinationAmount(), is(equalTo(63.49)));
-        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
         assertThat(foreignExchange.getRate(), is(equalTo(0.79)));
 
         if (returnValue.getLinks() != null) {
@@ -1110,7 +1110,7 @@ public class HyperwalletIT {
         assertThat(foreignExchange.getSourceAmount(), is(equalTo(100.00)));
         assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
         assertThat(foreignExchange.getDestinationAmount(), is(equalTo(63.49)));
-        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
         assertThat(foreignExchange.getRate(), is(equalTo(0.79)));
 
         if (returnValue.getLinks() != null) {
@@ -1167,7 +1167,7 @@ public class HyperwalletIT {
         assertThat(foreignExchange.getSourceAmount(), is(equalTo(100.00)));
         assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
         assertThat(foreignExchange.getDestinationAmount(), is(equalTo(63.49)));
-        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
         assertThat(foreignExchange.getRate(), is(equalTo(0.79)));
 
         if (returnValue.getLinks() != null) {
@@ -1289,6 +1289,13 @@ public class HyperwalletIT {
             assertEquals(actualHyperwalletLink.getParams().keySet(), expectedHyperwalletLink.getParams().keySet());
             assertEquals(actualHyperwalletLink.getParams().values(), expectedHyperwalletLink.getParams().values());
         }
+
+        ForeignExchange foreignExchange = actual.getForeignExchanges().get(0);
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo(100.00)));
+        assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(63.49)));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
+        assertThat(foreignExchange.getRate(), is(equalTo(0.79)));
     }
 
     @Test

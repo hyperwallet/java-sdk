@@ -1,6 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,6 +26,7 @@ public class HyperwalletTransferRefund extends HyperwalletBaseMonitor {
     private String destinationToken;
     private Double destinationAmount;
     private String destinationCurrency;
+    private List<ForeignExchange> foreignExchanges;
     private Date createdOn;
     private String notes;
     private String memo;
@@ -300,6 +302,27 @@ public class HyperwalletTransferRefund extends HyperwalletBaseMonitor {
     public HyperwalletTransferRefund clearLinks() {
         clearField("links");
         this.links = null;
+        return this;
+    }
+
+    public List<ForeignExchange> getForeignExchanges() {
+        return foreignExchanges;
+    }
+
+    public void setForeignExchanges(List<ForeignExchange> foreignExchanges) {
+        addField("foreignExchanges", foreignExchanges);
+        this.foreignExchanges = foreignExchanges;
+    }
+
+    public HyperwalletTransferRefund foreignExchanges(List<ForeignExchange> foreignExchanges) {
+        addField("foreignExchanges", foreignExchanges);
+        this.foreignExchanges = foreignExchanges;
+        return this;
+    }
+
+    public HyperwalletTransferRefund clearForeignExchanges() {
+        clearField("foreignExchanges");
+        this.foreignExchanges = null;
         return this;
     }
 }
