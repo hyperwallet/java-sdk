@@ -50,7 +50,7 @@ public class HyperwalletTransferMethodConfigurationTest {
         field.setMinLength(50);
         field.setName("test-name");
         field.setRegularExpression("test-regular-expression");
-        field.setRequired(true);
+        field.setIsRequired(true);
         field.setSelectionChoices(list);
 
         assertThat(field.getLabel(), is(equalTo("test-label")));

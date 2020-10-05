@@ -90,8 +90,8 @@ public class HyperwalletTransferMethodConfiguration {
             return isRequired;
         }
 
-        public Field setRequired(boolean required) {
-            isRequired = required;
+        public Field setIsRequired(boolean isRequired) {
+            this.isRequired = isRequired;
             return this;
         }
 

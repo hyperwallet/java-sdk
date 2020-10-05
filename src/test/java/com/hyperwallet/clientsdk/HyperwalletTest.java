@@ -506,14 +506,35 @@ public class HyperwalletTest {
         options
             .sortBy("test-sort-by")
             .offset(5)
-            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
         HyperwalletList<HyperwalletStatusTransition> resp = client.listUserStatusTransitions("test-user-token", options);
         assertThat(resp, is(equalTo(response)));
 
-        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/status-transitions?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"), Mockito.any(TypeReference.class));
+        Mockito.verify(mockApiClient).get(Mockito
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/status-transitions?createdBefore=2016-06-29T17:58"
+                        + ":26Z&sortBy=test-sort-by&offset=5"),
+                Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testUpdateUser_verificationStatus() throws Exception {
+        HyperwalletUser user = new HyperwalletUser();
+        user.setToken("test-user-token");
+        user.verificationStatus(VerificationStatus.REQUESTED);
+
+        HyperwalletUser userResponse = new HyperwalletUser();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(userResponse);
+
+        HyperwalletUser resp = client.updateUser(user);
+        assertThat(resp, is(equalTo(userResponse)));
+        Mockito.verify(mockApiClient).put("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token", user, user.getClass());
     }
 
     //--------------------------------------

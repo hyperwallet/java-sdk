@@ -1,34 +1,7 @@
 package com.hyperwallet.clientsdk;
 
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.ACTIVATED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.CANCELLED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.COMPLETED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.CREATED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.DE_ACTIVATED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.QUOTED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.RECALLED;
-import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.SCHEDULED;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.mockserver.integration.ClientAndServer.startClientAndServer;
-import static org.mockserver.model.Header.header;
-import static org.mockserver.model.JsonBody.json;
-import static org.testng.Assert.fail;
-
-import com.hyperwallet.clientsdk.model.HyperwalletBankCard;
-import com.hyperwallet.clientsdk.model.HyperwalletError;
-import com.hyperwallet.clientsdk.model.HyperwalletList;
-import com.hyperwallet.clientsdk.model.HyperwalletPaperCheck;
-import com.hyperwallet.clientsdk.model.HyperwalletPayPalAccount;
-import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard;
-import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition;
-import com.hyperwallet.clientsdk.model.HyperwalletTransfer;
-import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod;
-import com.hyperwallet.clientsdk.model.HyperwalletUser;
+import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.*;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -44,6 +17,14 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.mockserver.integration.ClientAndServer.startClientAndServer;
+import static org.mockserver.model.Header.header;
+import static org.mockserver.model.JsonBody.json;
+import static org.testng.Assert.fail;
 
 public class HyperwalletIT {
 
@@ -115,6 +96,46 @@ public class HyperwalletIT {
         assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
+    }
+
+    @Test
+    public void testUpdateUserVerificationStatus() throws Exception {
+        String functionality = "updateUser";
+        initMockServer(functionality);
+        HyperwalletUser hyperwalletUser = new HyperwalletUser();
+        hyperwalletUser.token("usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca");
+        hyperwalletUser.verificationStatus(VerificationStatus.REQUESTED);
+
+        HyperwalletUser returnValue;
+        try {
+            returnValue = client.updateUser(hyperwalletUser);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca")));
+        assertThat(returnValue.getStatus(), is(equalTo(Status.PRE_ACTIVATED)));
+        assertThat(returnValue.getVerificationStatus(), is(equalTo(VerificationStatus.REQUIRED)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2020-10-01T22:22:01 UTC"))));
+        assertThat(returnValue.getClientUserId(), is(equalTo("sf1601571120")));
+        assertThat(returnValue.getProfileType(), is(equalTo(ProfileType.BUSINESS)));
+        assertThat(returnValue.getBusinessName(), is(equalTo("Big Baller Payments")));
+        assertThat(returnValue.getBusinessRegistrationId(), is(equalTo("12341212")));
+        assertThat(returnValue.getBusinessRegistrationStateProvince(), is(equalTo("test")));
+        assertThat(returnValue.getBusinessRegistrationCountry(), is(equalTo("CN")));
+        assertThat(returnValue.getBusinessRegistrationCountry(), is(equalTo("CN")));
+        assertThat(returnValue.getBusinessContactRole(), is(equalTo(BusinessContactRole.OWNER)));
+        assertThat(returnValue.getBusinessOperatingName(), is(equalTo("Big Baller Payments Operating")));
+        assertThat(returnValue.getDateOfBirth(), is(equalTo(dateFormat.parse("1980-01-01T00:00:00 UTC"))));
+        assertThat(returnValue.getGender(), is(equalTo(Gender.MALE)));
+        assertThat(returnValue.getPhoneNumber(), is(equalTo("647-90531")));
+        assertThat(returnValue.getMobileNumber(), is(equalTo("605-555-1323")));
+        assertThat(returnValue.getEmail(), is(equalTo("sf1601571120@sink.sendgrid.net")));
+        assertThat(returnValue.getGovernmentId(), is(equalTo("333333333")));
+        assertThat(returnValue.getEmployerId(), is(equalTo("222222222")));
+        assertThat(returnValue.getProgramToken(), is(equalTo("prg-eedaf875-01f1-4524-8b94-d4936255af78")));
+
     }
 
     //
