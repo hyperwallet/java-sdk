@@ -135,7 +135,6 @@ public class HyperwalletIT {
         assertThat(returnValue.getGovernmentId(), is(equalTo("333333333")));
         assertThat(returnValue.getEmployerId(), is(equalTo("222222222")));
         assertThat(returnValue.getProgramToken(), is(equalTo("prg-eedaf875-01f1-4524-8b94-d4936255af78")));
-
     }
 
     //
