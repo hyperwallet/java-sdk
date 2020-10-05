@@ -2819,7 +2819,7 @@ public class HyperwalletTest {
         foreignExchange.setSourceAmount(200.0);
         foreignExchange.setSourceCurrency("USD");
         foreignExchange.setDestinationAmount(100.0);
-        foreignExchange.setDestinationCurrency("USD");
+        foreignExchange.setDestinationCurrency("CAD");
         foreignExchange.setRate(2.3);
 
         HyperwalletTransfer transfer = new HyperwalletTransfer();
@@ -2857,7 +2857,7 @@ public class HyperwalletTest {
         assertThat(foreignExchange.getSourceAmount(), is(equalTo(200.0)));
         assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
         assertThat(foreignExchange.getDestinationAmount(), is(equalTo(100.0)));
-        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
         assertThat(foreignExchange.getRate(), is(equalTo(2.3)));
     }
 
@@ -3791,8 +3791,8 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paypal-accounts/test-paypal-account-token/status"
-                        + "-transitions?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"),
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts/test-paypal-account-token/status"
+                        + "-transitions?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by"),
                 Mockito.any(TypeReference.class));
     }
 
