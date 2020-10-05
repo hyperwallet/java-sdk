@@ -236,7 +236,10 @@
                         <packageLineRate>85</packageLineRate>
                         <packageBranchRate>85</packageBranchRate>
                     </check>
-                    <format>xml</format>
+                    <formats>
+                        <format>xml</format>
+                        <format>html</format>
+                    </formats>
                     <maxmem>256m</maxmem>
                     <!-- aggregated reports for multi-module projects -->
                     <aggregate>true</aggregate>
