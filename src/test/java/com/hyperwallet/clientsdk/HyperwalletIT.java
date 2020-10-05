@@ -137,6 +137,70 @@ public class HyperwalletIT {
         assertThat(returnValue.getProgramToken(), is(equalTo("prg-eedaf875-01f1-4524-8b94-d4936255af78")));
     }
 
+    @Test
+    public void testUpdateUserVerificationStatus_withoutRole() {
+        HyperwalletUser hyperwalletUser = new HyperwalletUser();
+        hyperwalletUser.token("usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca");
+        hyperwalletUser.verificationStatus(VerificationStatus.REQUESTED);
+
+        HyperwalletUser returnValue;
+        try {
+            returnValue = client.updateUser(hyperwalletUser);
+        } catch (HyperwalletException e) {
+
+            assertThat(e.getErrorMessage(), is(equalTo("Not Found")));
+            assertThat(e.getErrorCode(), is(equalTo("404")));
+        }
+    }
+
+    @Test
+    public void testUpdateUserVerificationStatus_inValidStatus() {
+        HyperwalletUser hyperwalletUser = new HyperwalletUser();
+        hyperwalletUser.token("usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca");
+        hyperwalletUser.status(Status.ACTIVATED);
+
+        HyperwalletUser returnValue;
+        try {
+            returnValue = client.updateUser(hyperwalletUser);
+        } catch (HyperwalletException e) {
+
+            assertThat(e.getErrorMessage(), is(equalTo("Not Found")));
+            assertThat(e.getErrorCode(), is(equalTo("404")));
+        }
+    }
+
+    @Test
+    public void testUpdateUserVerificationStatus_otherThanRequested() {
+        HyperwalletUser hyperwalletUser = new HyperwalletUser();
+        hyperwalletUser.token("usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca");
+        hyperwalletUser.verificationStatus(VerificationStatus.VERIFIED);
+
+        HyperwalletUser returnValue;
+        try {
+            returnValue = client.updateUser(hyperwalletUser);
+        } catch (HyperwalletException e) {
+
+            assertThat(e.getErrorMessage(), is(equalTo("Not Found")));
+            assertThat(e.getErrorCode(), is(equalTo("404")));
+        }
+    }
+
+    @Test
+    public void testUpdateUserVerificationStatus_otherThanNotRequiredOrRequired() {
+        HyperwalletUser hyperwalletUser = new HyperwalletUser();
+        hyperwalletUser.token("usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca");
+        hyperwalletUser.verificationStatus(VerificationStatus.REQUIRED);
+
+        HyperwalletUser returnValue;
+        try {
+            returnValue = client.updateUser(hyperwalletUser);
+        } catch (HyperwalletException e) {
+
+            assertThat(e.getErrorMessage(), is(equalTo("Not Found")));
+            assertThat(e.getErrorCode(), is(equalTo("404")));
+        }
+    }
+
     //
     // Prepaid Card
     //
