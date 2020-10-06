@@ -175,6 +175,79 @@ public class Hyperwallet {
     }
 
     /**
+     * Create User Status transition
+     *
+     * @param userToken  String
+     * @param transition Hyperwallet Status Transition
+     * @return HyperwalletStatusTransition new status for Hyperwallet User
+     */
+    public HyperwalletStatusTransition createUserStatusTransition(String userToken, HyperwalletStatusTransition transition) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        if (transition == null) {
+            throw new HyperwalletException("Transition is required");
+        }
+
+        transition = copy(transition);
+        transition.setCreatedOn(null);
+        transition.setFromStatus(null);
+        transition.setToStatus(null);
+
+        return apiClient.post(url + "/users/" + userToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * Activate a User
+     *
+     * @param userToken User token
+     * @return The status transition
+     */
+    public HyperwalletStatusTransition activateUser(String userToken) {
+        return createUserStatusTransition(userToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.ACTIVATED));
+    }
+
+    /**
+     * De-activate a User
+     *
+     * @param userToken User token
+     * @return The status transition
+     */
+    public HyperwalletStatusTransition deactivateUser(String userToken) {
+        return createUserStatusTransition(userToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.DE_ACTIVATED));
+    }
+
+    /**
+     * Lock a User account
+     *
+     * @param userToken User token
+     * @return The status transition
+     */
+    public HyperwalletStatusTransition lockUser(String userToken) {
+        return createUserStatusTransition(userToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.LOCKED));
+    }
+
+    /**
+     * Freeze a User account
+     *
+     * @param userToken User token
+     * @return The status transition
+     */
+    public HyperwalletStatusTransition freezeUser(String userToken) {
+        return createUserStatusTransition(userToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.FROZEN));
+    }
+
+    /**
+     * Pre-activate a User account
+     *
+     * @param userToken User token
+     * @return The status transition
+     */
+    public HyperwalletStatusTransition preactivateUser(String userToken) {
+        return createUserStatusTransition(userToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.PRE_ACTIVATED));
+    }
+
+    /**
      * Get User Status Transition
      *
      * @param userToken             User token
