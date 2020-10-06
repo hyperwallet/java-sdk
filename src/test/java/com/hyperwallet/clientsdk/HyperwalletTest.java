@@ -517,7 +517,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testUpdateUser_verificationStatus() throws Exception {
+    public void testUpdateUserVerificationStatus_Successful() throws Exception {
         HyperwalletUser user = new HyperwalletUser();
         user.setToken("test-user-token");
         user.verificationStatus(VerificationStatus.REQUESTED);
