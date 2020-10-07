@@ -1,5 +1,10 @@
 Changelog
 =========
+2.0.1
+-----------------
+- Added Business Stakeholders status transitions
+- Added User status transitions (activate, deactivate, freeze, lock, preactivate)
+- Foreign exchanges in Transfer Refunds
 
 2.0.0
 -----------------
