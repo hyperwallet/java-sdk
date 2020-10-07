@@ -248,7 +248,6 @@
                     </check>
                     <formats>
                         <format>xml</format>
-                        <format>html</format>
                     </formats>
                     <maxmem>256m</maxmem>
                     <!-- aggregated reports for multi-module projects -->

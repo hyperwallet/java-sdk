@@ -1,0 +1,7 @@
+curl -X "PUT" "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Content-Type: application/json" \
+-H "Accept: application/json" \
+-d "{
+  "verificationStatus": "REQUESTED"
+}"
