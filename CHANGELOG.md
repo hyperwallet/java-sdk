@@ -1,5 +1,11 @@
 Changelog
 =========
+1.4.5
+-----------------
+- Added Status Transitions for User (activate, deactivate, preactivate, freeze, lock)
+- Added Status transition for Verification Status for User
+- Added Foreign Exchanges to Transfer Refund
+
 1.4.2
 ------------------
 - Added status param to HyperwalletPayment
