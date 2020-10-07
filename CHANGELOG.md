@@ -1,12 +1,12 @@
 Changelog
 =========
-2.0.1
+2.0.2
 -----------------
 - Added Business Stakeholders status transitions
 - Added User status transitions (activate, deactivate, freeze, lock, preactivate)
 - Foreign exchanges in Transfer Refunds
 
-2.0.0
+2.0.1
 -----------------
 - Updated endpoints to V4 Rest services.
 - Added links to objects for pagination
