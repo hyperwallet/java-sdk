@@ -1,8 +1,10 @@
 package com.hyperwallet.clientsdk.model;
 
+import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferRefund.Status;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +15,12 @@ public class HyperwalletTransferRefundTest extends BaseModelTest<HyperwalletTran
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLinkList.add(hyperwalletLink);
+        ForeignExchange foreignExchange = new ForeignExchange();
+        foreignExchange.setSourceAmount(200.0);
+        foreignExchange.setSourceCurrency("USD");
+        foreignExchange.setDestinationAmount(100.0);
+        foreignExchange.setDestinationCurrency("CAD");
+        foreignExchange.setRate(2.3);
         HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund()
                 .token("token")
                 .status(Status.COMPLETED)
@@ -26,7 +34,8 @@ public class HyperwalletTransferRefundTest extends BaseModelTest<HyperwalletTran
                 .createdOn(new Date())
                 .notes("notes")
                 .memo("memo")
-                .links(hyperwalletLinkList);
+                .links(hyperwalletLinkList)
+                .foreignExchanges(Collections.singletonList(foreignExchange));
 
         return transferRefund;
     }
