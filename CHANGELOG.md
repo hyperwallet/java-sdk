@@ -1,10 +1,14 @@
 Changelog
 =========
-1.4.5
+1.5.1
 -----------------
 - Added Status Transitions for User (activate, deactivate, preactivate, freeze, lock)
 - Added Status transition for Verification Status for User
 - Added Foreign Exchanges to Transfer Refund
+
+1.5.0
+------------------
+- Added Venmo accounts
 
 1.4.2
 ------------------
