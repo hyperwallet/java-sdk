@@ -1,6 +1,6 @@
 Changelog
 =========
-2.0.2
+2.1.0
 -----------------
 - Added Business Stakeholders status transitions
 - Added User status transitions (activate, deactivate, freeze, lock, preactivate)
