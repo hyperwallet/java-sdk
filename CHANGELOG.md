@@ -1,6 +1,6 @@
 Changelog
 =========
-1.5.1
+1.6.0
 -----------------
 - Added Status Transitions for User (activate, deactivate, preactivate, freeze, lock)
 - Added Status transition for Verification Status for User
