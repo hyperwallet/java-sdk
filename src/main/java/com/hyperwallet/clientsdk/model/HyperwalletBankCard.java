@@ -33,6 +33,7 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     private String cvv;
 
     private String userToken;
+    private String processingTime;
 
     public HyperwalletTransferMethod.Type getType() {
         return type;
@@ -284,6 +285,27 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     public HyperwalletBankCard clearUserToken() {
         clearField("userToken");
         this.userToken = null;
+        return this;
+    }
+
+    public String getProcessingTime() {
+        return processingTime;
+    }
+
+    public void setProcessingTime(String processingTime) {
+        addField("processingTime", processingTime);
+        this.processingTime = processingTime;
+    }
+
+    public HyperwalletBankCard processingTime(String processingTime) {
+        addField("processingTime", processingTime);
+        this.processingTime = processingTime;
+        return this;
+    }
+
+    public HyperwalletBankCard clearProcessingTime() {
+        clearField("processingTime");
+        this.processingTime = null;
         return this;
     }
 }
