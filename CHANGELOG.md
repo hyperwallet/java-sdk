@@ -1,5 +1,10 @@
 Changelog
 =========
+1.6.1
+-----------------
+- Added 'processingTime' to BankCards
+- Added 'expiresOn' to Payments
+
 1.6.0
 -----------------
 - Added Status Transitions for User (activate, deactivate, preactivate, freeze, lock)
