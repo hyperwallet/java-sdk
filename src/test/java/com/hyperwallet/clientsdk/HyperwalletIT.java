@@ -882,6 +882,34 @@ public class HyperwalletIT {
     }
 
     @Test
+    public void testUpdatePayPalAccount() throws Exception {
+        String functionality = "updatePayPalAccount";
+        initMockServer(functionality);
+
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount
+                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+                .token("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b")
+                .email("user1@domain.com");
+
+        HyperwalletPayPalAccount returnValue;
+        try {
+            returnValue = client.updatePayPalAccount(payPalAccount);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b")));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2019-01-09T22:50:14 UTC"))));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getEmail(), is(equalTo("user1@domain.com")));
+    }
+
+    @Test
     public void testGetPayPalAccount() throws Exception {
         String functionality = "getPayPalAccount";
         initMockServer(functionality);
