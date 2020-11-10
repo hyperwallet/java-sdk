@@ -20,6 +20,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class HyperwalletApiClient {
 
@@ -189,18 +190,17 @@ public class HyperwalletApiClient {
 
     private Request getService(final String url, boolean isHttpGet) {
         String contentType = "application/" + ((isEncrypted) ? "jose+json" : "json");
-        if (isHttpGet) {
-            return new Request(url)
-                    .addHeader("Authorization", getAuthorizationHeader())
-                    .addHeader("Accept", contentType)
-                    .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
-        } else {
-            return new Request(url)
-                    .addHeader("Authorization", getAuthorizationHeader())
-                    .addHeader("Accept", contentType)
-                    .addHeader("Content-Type", contentType)
-                    .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
+        Request request = new Request(url)
+                .addHeader("Authorization", getAuthorizationHeader())
+                .addHeader("Accept", contentType)
+                .addHeader("User-Agent", "Hyperwallet Java SDK v" + version)
+                .addHeader("x-sdk-version", version)
+                .addHeader("x-sdk-type", "java")
+                .addHeader("x-sdk-contextId", String.valueOf(UUID.randomUUID()));
+        if (!isHttpGet) {
+            request.addHeader("Content-Type", contentType);
         }
+        return request;
     }
 
     private <T> T convert(final String responseBody, final Class<T> type) {
