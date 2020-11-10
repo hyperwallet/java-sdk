@@ -25,7 +25,7 @@ public class MultipartUtility {
         String pair = username + ":" + password;
         String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
         // creates a unique boundary based on time stamp
-        boundary = "===" + System.currentTimeMillis() + "===";
+        boundary = "Boundary_1_936580213_1605039682882";
         URL url = new URL(requestURL);
         httpConn = (HttpURLConnection) url.openConnection();
         httpConn.setUseCaches(false);
@@ -33,11 +33,8 @@ public class MultipartUtility {
         httpConn.setDoInput(true);
         httpConn.setRequestProperty("Authorization","Basic " + base64);
         httpConn.setRequestMethod("PUT");
-       // httpConn.setRequestProperty("Connection", "Keep-Alive");
-       // httpConn.setRequestProperty("Cache-Control", "no-cache");
         httpConn.setRequestProperty(
-                "Content-Type", "multipart/form-data");
-
+                "Content-Type", "multipart/form-data; boundary="+this.boundary);
         request =  new DataOutputStream(httpConn.getOutputStream());
     }
 
@@ -49,8 +46,8 @@ public class MultipartUtility {
      */
     public void addFormField(String name, String value) throws IOException {
         request.writeBytes(this.twoHyphens + this.boundary + this.crlf);
+        request.writeBytes("Content-Type: application/json" + this.crlf);
         request.writeBytes("Content-Disposition: form-data; name=\"" + name + "\""+ this.crlf);
-       // request.writeBytes("Content-Type: text/plain; charset=UTF-8" + this.crlf);
         request.writeBytes(this.crlf);
         request.writeBytes(value+ this.crlf);
 
@@ -67,10 +64,13 @@ public class MultipartUtility {
     public void addFilePart(String fieldName, File uploadFile)
             throws IOException {
         String fileName = uploadFile.getName();
+        String modification = "Tue, 22 Sep 2020 13:15:19 GMT";
+        int size = 138995;
         request.writeBytes(this.twoHyphens + this.boundary + this.crlf);
+        request.writeBytes("Content-Type: image/jpeg" + this.crlf);
         request.writeBytes("Content-Disposition: form-data; name=\"" +
-                fieldName + "\";filename=\"" +
-                fileName + "\"" + this.crlf);
+                fieldName + "\"; filename=\"" +
+                fileName + "\"; modification-date=\"" + modification+ "\"; size="+size+ this.crlf);
         request.writeBytes(this.crlf);
         byte[] bytes = Files.readAllBytes(uploadFile.toPath());
         request.write(bytes);
