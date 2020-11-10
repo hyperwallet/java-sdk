@@ -5,9 +5,8 @@ import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
-import com.sun.jersey.multipart.FormDataMultiPart;
+import com.hyperwallet.clientsdk.util.MultipartUtility;
 import org.apache.commons.lang3.StringUtils;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -245,7 +244,7 @@ public class Hyperwallet {
      * @return HyperwalletBusinessStakeholder updated Stakeholder with document status
      */
     public HyperwalletBusinessStakeholder uploadDocumentBusinessStakeholder(String userToken, String businessStakeholderToken,
-                                                                            FormDataMultiPart multiPart) {
+                                                                            MultipartUtility multiPart) {
         if (userToken == null) {
             throw new HyperwalletException("User token may not be present");
         }
@@ -2454,7 +2453,7 @@ public class Hyperwallet {
      * @param multiPart multipart FormdataMultipart to get uploaded
      * @return HyperwalletUser user object with document upload status
      */
-    public HyperwalletUser documentUpload(String userToken, FormDataMultiPart multiPart) {
+    public HyperwalletUser documentUpload(String userToken, MultipartUtility multiPart) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is not present");
         }
