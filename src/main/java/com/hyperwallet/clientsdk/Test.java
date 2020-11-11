@@ -49,12 +49,12 @@ public class Test {
             String pair = "selrestuser@1861681" + ":" + "Password1!";
             final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
 
-            String userToken = "usr-d45a3603-1359-4c25-83d4-7b1c496861d3";
-            String businessToken = "stk-6d3c7047-2da9-4f55-95cd-80219ef93669";
+            String userToken = "usr-9d7972f9-7114-4e2e-aa36-fcb0d5ccce4d";
+//            String businessToken = "stk-6d3c7047-2da9-4f55-95cd-80219ef93669";
 
             String charset = "UTF-8";
-            File uploadFile1 = new File("/Users/amylavarapu/Desktop/drivers_license_front.jpg");
-            File uploadFile2 = new File("/Users/amylavarapu/Desktop/drivers_license_back.jpg");
+            File uploadFile1 = new File("/Users/ramahalingam/Desktop/L1.png");
+            File uploadFile2 = new File("/Users/ramahalingam/Desktop/L2.png");
 //            String requestURL = "https://localhost-hyperwallet.aws.paylution.net:8181" + "/rest/v4/users/" + userToken + "/business-stakeholders/" + businessToken;
             String requestURL = "https://localhost-hyperwallet.aws.paylution.net:8181" + "/rest/v4/users/" + userToken;//  + "/business-stakeholders/" + businessToken;
 
@@ -63,7 +63,7 @@ public class Test {
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("type", "DRIVERS_LICENSE");
-            jsonObject.put("country", "US");
+            jsonObject.put("country", "AL");
             jsonObject.put("category", "IDENTIFICATION");
             List<JSONObject> jsonObjectList = new ArrayList<>();
             jsonObjectList.add(jsonObject);

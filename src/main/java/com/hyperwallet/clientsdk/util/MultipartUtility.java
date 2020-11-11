@@ -25,7 +25,7 @@ public class MultipartUtility {
         final String pair = username + ":" + password;
         final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
         // creates a unique boundary based on time stamp
-        boundary = "---------9365802131605039682882";
+        boundary = "--X-INSOMNIA-BOUNDARY";
         URL url = new URL(requestURL);
         httpConn = (HttpURLConnection) url.openConnection();
 //        httpConn.setUseCaches(false);
@@ -33,6 +33,7 @@ public class MultipartUtility {
 //        httpConn.setDoInput(true);
         httpConn.setRequestProperty("authorization", "Basic " + base64);
         httpConn.setRequestMethod("PUT");
+        httpConn.setRequestProperty("accept", "application/json");
         httpConn.setRequestProperty(
                 "Content-Type", "multipart/form-data; boundary="+this.boundary);
         request =  new DataOutputStream(httpConn.getOutputStream());
@@ -66,11 +67,11 @@ public class MultipartUtility {
         String fileName = uploadFile.getName();
         String modification = "Tue, 22 Sep 2020 13:15:19 GMT";
         int size = 138995;
-        request.writeBytes(this.twoHyphens + this.boundary + this.crlf);
-        request.writeBytes("Content-Type: image/jpeg" + this.crlf);
+        request.writeBytes(this.crlf + this.twoHyphens + this.boundary + this.crlf);
         request.writeBytes("Content-Disposition: form-data; name=\"" +
                 fieldName + "\"; filename=\"" +
                 fileName + "\" "+ this.crlf);
+        request.writeBytes("Content-Type: image/png" + this.crlf);
         request.writeBytes(this.crlf);
         byte[] bytes = Files.readAllBytes(uploadFile.toPath());
         request.write(bytes);
