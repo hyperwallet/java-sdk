@@ -61,17 +61,10 @@ public class HyperwalletApiClient {
         }
     }
 
-
     public <T> T put(final String url, final MultipartUtility formDataMultiPart, final Class<T> type) {
-        Response response = new Response();
+        Response response = null;
         try {
-             formDataMultiPart.finish();
-
-            //webResource = getWebResource(url);
-            //ClientResponse clientResponse = webResource.type(MediaType.MULTIPART_FORM_DATA_TYPE).put(ClientResponse.class, formDataMultiPart);
-          //  response.setResponseCode(clientResponse.getStatus());
-           // response.setBody(clientResponse.getEntity(String.class));
-            //response.setHeaders(clientResponse.getHeaders());
+            response = formDataMultiPart.finish();
             return processResponse(response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);

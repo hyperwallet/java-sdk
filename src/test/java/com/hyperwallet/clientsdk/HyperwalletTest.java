@@ -14,18 +14,18 @@ import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.LetterOfAuthorizationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
+import com.hyperwallet.clientsdk.util.MultipartUtility;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.assertTrue;
@@ -7829,12 +7829,12 @@ public class HyperwalletTest {
         assertThat(apiClientVenmoAccount, is(notNullValue()));
     }
 
-    /*
+
     @Test
     public void testDocumentUpload_noUserToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.documentUpload(null, new FormDataMultiPart());
+            client.documentUpload(null, null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -7845,8 +7845,8 @@ public class HyperwalletTest {
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
-    */
-     /*
+
+
     @Test
     public void testDocumentUpload_successful() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -7862,24 +7862,24 @@ public class HyperwalletTest {
         hyperwalletUser.setDocuments(hyperwalletDocumentList);
 
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
-        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(FormDataMultiPart.class), Mockito.any(Class.class)))
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(MultipartUtility.class), Mockito.any(Class.class)))
             .thenReturn(hyperwalletUser);
 
-        HyperwalletUser hyperwalletUserresponse = client.documentUpload("test-token", new FormDataMultiPart());
+        HyperwalletUser hyperwalletUserresponse = client.documentUpload("test-token", new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token","test-usernam","test-password"));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCategory().equals(EDocumentCategory.AUTHORIZATION));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getType().equals(EIdentityVerificationType.LETTER_OF_AUTHORIZATION));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCountry().equals(ECountryCode.CA));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getStatus().equals(EKycDocumentVerificationStatus.NEW));
     }
-    */
-    /*
+
+
     @Test
     public void testUploadDocumentBusinessStakeholder_noUserToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         String businessStakeholderToken = "business-token";
         try {
             HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =
-                client.uploadDocumentBusinessStakeholder(null, businessStakeholderToken, new FormDataMultiPart());
+                client.uploadDocumentBusinessStakeholder(null, businessStakeholderToken, new MultipartUtility("baseurl","test-usernam","test-password"));
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -7888,7 +7888,7 @@ public class HyperwalletTest {
             assertThat(e.getMessage(), is(equalTo("User token may not be present")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
-        }
+        }catch (IOException e){ }
     }
 
     @Test
@@ -7897,7 +7897,7 @@ public class HyperwalletTest {
         String userToken = "user-token";
         try {
             HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =
-                client.uploadDocumentBusinessStakeholder(userToken, null, new FormDataMultiPart());
+                client.uploadDocumentBusinessStakeholder(userToken, null, new MultipartUtility("baseurl","test-usernam","test-password"));
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -7906,7 +7906,7 @@ public class HyperwalletTest {
             assertThat(e.getMessage(), is(equalTo("BusinessStakeholderToken may not be required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
-        }
+        }catch (IOException e){ }
     }
 
     @Test
@@ -7923,18 +7923,18 @@ public class HyperwalletTest {
         hyperwalletBusinessStakeholder.setDocuments(hyperwalletVerificationDocumentList);
 
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
-        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(FormDataMultiPart.class), Mockito.any(Class.class)))
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(MultipartUtility.class), Mockito.any(Class.class)))
             .thenReturn(hyperwalletBusinessStakeholder);
 
         HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =
-            client.uploadDocumentBusinessStakeholder(userToken, businessStakeholderToken, new FormDataMultiPart());
+            client.uploadDocumentBusinessStakeholder(userToken, businessStakeholderToken, new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/business-stakeholders/test-business-token","test-usernam","test-password"));
         HyperwalletVerificationDocument hyperwalletVerificationDocument = hyperwalletBusinessStakeholderResponse.getDocuments().get(0);
         assertTrue(hyperwalletVerificationDocument.getCategory().equals("IDENTIFICATION"));
         assertTrue(hyperwalletVerificationDocument.getType().equals("DRIVERS_LICENSE"));
         assertTrue(hyperwalletVerificationDocument.getCountry().equals("AL"));
         assertTrue(hyperwalletVerificationDocument.getStatus().equals("NEW"));
     }
-    */
+
     //--------------------------------------
     // Transfer Refund
     //--------------------------------------

@@ -1,5 +1,8 @@
 package com.hyperwallet.clientsdk.util;
 
+import cc.protea.util.http.Response;
+import com.hyperwallet.clientsdk.HyperwalletException;
+
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -25,12 +28,10 @@ public class MultipartUtility {
         final String pair = username + ":" + password;
         final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
         // creates a unique boundary based on time stamp
-        boundary = "--X-INSOMNIA-BOUNDARY";
+        boundary = this.twoHyphens+System.currentTimeMillis();
         URL url = new URL(requestURL);
         httpConn = (HttpURLConnection) url.openConnection();
-//        httpConn.setUseCaches(false);
         httpConn.setDoOutput(true); // indicates POST method
-//        httpConn.setDoInput(true);
         httpConn.setRequestProperty("authorization", "Basic " + base64);
         httpConn.setRequestMethod("PUT");
         httpConn.setRequestProperty("accept", "application/json");
@@ -47,11 +48,9 @@ public class MultipartUtility {
      */
     public void addFormField(String name, String value) throws IOException {
         request.writeBytes(this.twoHyphens + this.boundary + this.crlf);
-  //      request.writeBytes("Content-Type: application/json" + this.crlf);
         request.writeBytes("Content-Disposition: form-data; name=\"" + name + "\""+ this.crlf);
         request.writeBytes(this.crlf);
         request.writeBytes(value+ this.crlf);
-
         request.flush();
     }
 
@@ -65,13 +64,16 @@ public class MultipartUtility {
     public void addFilePart(String fieldName, File uploadFile)
             throws IOException {
         String fileName = uploadFile.getName();
-        String modification = "Tue, 22 Sep 2020 13:15:19 GMT";
-        int size = 138995;
+        String extension = "";
+        int i = fileName.lastIndexOf('.');
+        if (i >= 0) {
+            extension = fileName.substring(i+1);
+        }
         request.writeBytes(this.crlf + this.twoHyphens + this.boundary + this.crlf);
         request.writeBytes("Content-Disposition: form-data; name=\"" +
                 fieldName + "\"; filename=\"" +
                 fileName + "\" "+ this.crlf);
-        request.writeBytes("Content-Type: image/png" + this.crlf);
+        request.writeBytes("Content-Type: image/"+extension + this.crlf);
         request.writeBytes(this.crlf);
         byte[] bytes = Files.readAllBytes(uploadFile.toPath());
         request.write(bytes);
@@ -84,39 +86,34 @@ public class MultipartUtility {
      * status OK, otherwise an exception is thrown.
      * @throws IOException
      */
-    public String finish() throws IOException {
-        String response ="";
-
+    public Response finish() throws IOException {
+        Response response = new Response() ;
         request.writeBytes(this.crlf);
         request.writeBytes(this.twoHyphens + this.boundary +
                 this.twoHyphens + this.crlf);
-
         request.flush();
         request.close();
 
         // checks server's status code first
         int status = httpConn.getResponseCode();
-        if (status == HttpURLConnection.HTTP_OK) {
+        if (status == HttpURLConnection.HTTP_CREATED) {
             InputStream responseStream = new
                     BufferedInputStream(httpConn.getInputStream());
-
             BufferedReader responseStreamReader =
                     new BufferedReader(new InputStreamReader(responseStream));
-
             String line = "";
             StringBuilder stringBuilder = new StringBuilder();
-
             while ((line = responseStreamReader.readLine()) != null) {
                 stringBuilder.append(line).append("\n");
             }
             responseStreamReader.close();
-
-            response = stringBuilder.toString();
+            response.setResponseCode(status);
+            response.setBody(stringBuilder.toString());
+            response.setHeaders(httpConn.getHeaderFields());
             httpConn.disconnect();
         } else {
-            throw new IOException("Server returned non-OK status: " + status);
+            throw new HyperwalletException("Server returned non-OK status: " + status);
         }
-
         return response;
     }
 }
