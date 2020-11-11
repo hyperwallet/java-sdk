@@ -49,20 +49,21 @@ public class Test {
             String pair = "selrestuser@1861681" + ":" + "Password1!";
             final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
 
-            String userToken = "usr-bd97e49d-06ac-4368-99b9-e6ad2947fe03";
+            String userToken = "usr-d45a3603-1359-4c25-83d4-7b1c496861d3";
             String businessToken = "stk-6d3c7047-2da9-4f55-95cd-80219ef93669";
 
             String charset = "UTF-8";
-            File uploadFile1 = new File("/Users/mgovindhasamy/Desktop/drivers_license_front.jpg");
-            File uploadFile2 = new File("/Users/mgovindhasamy/Desktop/drivers_license_front.jpg");
-            String requestURL = "https://localhost-hyperwallet.aws.paylution.net:8181" + "/rest/v4/users/" + userToken + "/business-stakeholders/" + businessToken;
+            File uploadFile1 = new File("/Users/amylavarapu/Desktop/drivers_license_front.jpg");
+            File uploadFile2 = new File("/Users/amylavarapu/Desktop/drivers_license_back.jpg");
+//            String requestURL = "https://localhost-hyperwallet.aws.paylution.net:8181" + "/rest/v4/users/" + userToken + "/business-stakeholders/" + businessToken;
+            String requestURL = "https://localhost-hyperwallet.aws.paylution.net:8181" + "/rest/v4/users/" + userToken;//  + "/business-stakeholders/" + businessToken;
 
             MultipartUtility multipart = new MultipartUtility(requestURL,"selrestuser@1861681",
                         "Password1!");
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("type", "DRIVERS_LICENSE");
-            jsonObject.put("country", "AL");
+            jsonObject.put("country", "US");
             jsonObject.put("category", "IDENTIFICATION");
             List<JSONObject> jsonObjectList = new ArrayList<>();
             jsonObjectList.add(jsonObject);
@@ -74,7 +75,8 @@ public class Test {
             multipart.addFilePart("drivers_license_back", uploadFile2);
 
             System.out.println("SERVER REPLIED:");
-            client.uploadDocumentBusinessStakeholder(userToken,businessToken, multipart);
+ //           client.uploadDocumentBusinessStakeholder(userToken,businessToken, multipart);
+            client.documentUpload(userToken, multipart);
 
            // multipart.finish();
 
