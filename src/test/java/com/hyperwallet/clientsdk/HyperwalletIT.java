@@ -1202,13 +1202,36 @@ public class HyperwalletIT {
         }
 
         HttpRequest request = HttpRequest.request()
-            .withHeader(header("Authorization", ".*" ))
-            .withMethod(method)
-            .withPath(url);
-        for(Map.Entry<String, String> header: headers.entrySet()){
+                .withHeader(header("Authorization", ".*"))
+                .withMethod(method)
+                .withPath(url);
+        for (Map.Entry<String, String> header : headers.entrySet()) {
             request = request.withHeader(header.getKey(), header.getValue());
         }
-        return body == null? request : request.withBody(json(body));
+        return body == null ? request : request.withBody(json(body));
+    }
+
+    @Test
+    public void testGetBankAccountStatusTransition() throws Exception {
+        String functionality = "getBankAccountStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.getBankAccountStatusTransition("usr-f695ef43-9614-4e17-9269-902c234616c3",
+                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26",
+                    "sts-1825afa2-61f1-4860-aa69-a65b9d14f556");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        assertThat(returnValue.getToken(), is(equalTo("sts-1825afa2-61f1-4860-aa69-a65b9d14f556")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T00:55:57 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getNotes(), is(equalTo("Closing this account.")));
+
     }
 
 }
