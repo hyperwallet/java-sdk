@@ -2,14 +2,14 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
-import com.hyperwallet.clientsdk.util.*;
+import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
+import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
+import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
 import org.apache.commons.lang3.StringUtils;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * The Hyperwallet Client
@@ -237,18 +237,18 @@ public class Hyperwallet {
      *
      * @param userToken                String
      * @param businessStakeholderToken Hyperwallet Stakeholder representation
-     * @param multiPart                FormdataMultipart to get uploaded
+     * @param multiPart                multipartUploadData to get uploaded
      * @return HyperwalletBusinessStakeholder updated Stakeholder with document status
      */
     public HyperwalletBusinessStakeholder uploadStakeholderDocuments(String userToken, String businessStakeholderToken,
-                                                                            MultipartUtility multiPart) {
+                                                                     Map<String,String> multipartUploadData) {
         if (userToken == null) {
             throw new HyperwalletException("User token may not be present");
         }
         if (businessStakeholderToken == null) {
             throw new HyperwalletException("BusinessStakeholderToken may not be required");
         }
-        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, multiPart,
+        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, multipartUploadData,
             HyperwalletBusinessStakeholder.class);
     }
 
@@ -2447,14 +2447,14 @@ public class Hyperwallet {
      * Upload documents
      *
      * @param userToken userToken for which documents to be uploaded
-     * @param multiPart multipart FormdataMultipart to get uploaded
+     * @param multipart multiPartUploadData to get uploaded
      * @return HyperwalletUser user object with document upload status
      */
-    public HyperwalletUser uploadUserDocuments(String userToken, MultipartUtility multiPart) {
+    public HyperwalletUser uploadUserDocuments(String userToken, Map<String,String> multiPartUploadData) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is not present");
         }
-        return apiClient.put(url + "/users/" + userToken, multiPart, HyperwalletUser.class);
+        return apiClient.put(url + "/users/" + userToken, multiPartUploadData, HyperwalletUser.class);
     }
 
     //--------------------------------------

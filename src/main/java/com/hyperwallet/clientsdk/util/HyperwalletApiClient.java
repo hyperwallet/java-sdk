@@ -10,8 +10,10 @@ import com.nimbusds.jose.JOSEException;
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class HyperwalletApiClient {
 
@@ -28,7 +30,7 @@ public class HyperwalletApiClient {
     private final String boundary = "--001103040245431341";
     private final String crlf = "\r\n";
     private final String twoHyphens = "--";
-
+    private final String DATA = "data";
     public HyperwalletApiClient(final String username, final String password, final String version) {
         this(username, password, version, null);
     }
@@ -67,12 +69,20 @@ public class HyperwalletApiClient {
         }
     }
 
-    public <T> T put(final String url, final MultipartUtility formDataMultiPart, final Class<T> type) {
+    public <T> T put(final String url, final Map<String,String> multipartUploadData, final Class<T> type) {
         Response response = null;
         try {
-            this.httpConn = formDataMultiPart.getHttpURLConnection();
-            this.request = formDataMultiPart.getDataOutputStream();
-            response = finish();
+            MultipartUtility multipartUtility = new MultipartUtility();
+            putRequest(url,this.username,this.password);
+            multipartUtility.setDataOutputStream(this.request);
+            for(Map.Entry<String, String> entry: multipartUploadData.entrySet()) {
+                if(entry.getKey().equalsIgnoreCase(DATA)){
+                    multipartUtility.addFormField(entry.getKey(),entry.getValue());
+                }else{
+                    multipartUtility.addFilePart(entry.getKey(),new File(entry.getValue()));
+                }
+            }
+            response = getResponse(multipartUtility);
             return processResponse(response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
@@ -214,14 +224,37 @@ public class HyperwalletApiClient {
     }
 
     /**
+     * This constructor initializes a new HTTP POST request with content type
+     * is set to multipart/form-data
+     *
+     * @param requestURL
+     * @throws IOException
+     */
+
+    private void putRequest(String requestURL, String username, String password)
+            throws IOException {
+        // creates a unique boundary based on time stamp
+        URL url = new URL(requestURL);
+        this.httpConn = (HttpURLConnection) url.openConnection();
+        this.httpConn.setDoOutput(true); // indicates POST method
+        this.httpConn.setRequestProperty("authorization", getAuthorizationHeader());
+        this.httpConn.setRequestMethod("PUT");
+        this.httpConn.setRequestProperty("accept", "application/json");
+        this.httpConn.setRequestProperty(
+                "Content-Type", "multipart/form-data; boundary="+this.boundary);
+        this.request =  new DataOutputStream(this.httpConn.getOutputStream());
+    }
+
+    /**
      * Completes the request and receives response from the server.
      *
      * @return a list of Strings as response in case the server returned
      * status OK, otherwise an exception is thrown.
      * @throws IOException
      */
-    public Response finish() throws IOException {
+    private Response getResponse(MultipartUtility multiPartFile) throws IOException {
         Response response = new Response() ;
+        this.request = multiPartFile.getDataOutputStream();
         this.request.writeBytes(this.crlf);
         this.request.writeBytes(this.twoHyphens + this.boundary +
                 this.twoHyphens + this.crlf);
@@ -232,7 +265,7 @@ public class HyperwalletApiClient {
         int status = this.httpConn.getResponseCode();
         if (status == HttpURLConnection.HTTP_CREATED) {
             InputStream responseStream = new
-                    BufferedInputStream(this.httpConn.getInputStream());
+                    BufferedInputStream(httpConn.getInputStream());
             BufferedReader responseStreamReader =
                     new BufferedReader(new InputStreamReader(responseStream));
             String line = "";

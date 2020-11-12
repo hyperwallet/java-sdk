@@ -23,16 +23,15 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
-import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 /**
@@ -1272,34 +1271,32 @@ public class HyperwalletApiClientTest {
         List<HyperwalletDocument> hyperwalletDocumentList = new ArrayList<>();
         hyperwalletDocumentList.add(hyperwalletDocument);
         hyperwalletUser.setDocuments(hyperwalletDocumentList);
+        HashMap<String,String> multiPartUploadData = new HashMap<String,String>();
 
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
-        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(MultipartUtility.class), Mockito.any(Class.class)))
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(HyperwalletUser.class), Mockito.any(Class.class)))
                 .thenReturn(hyperwalletUser);
-        HyperwalletUser hyperwalletUserresponse = client.uploadUserDocuments("test-token", new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token","test-usernam","test-password"));
-        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCategory().equals(HyperwalletDocument.EDocumentCategory.AUTHORIZATION));
-        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getType().equals(HyperwalletDocument.EIdentityVerificationType.LETTER_OF_AUTHORIZATION));
-        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCountry().equals(HyperwalletDocument.ECountryCode.CA));
-        assertTrue(hyperwalletUserresponse.getDocuments().get(0).getStatus().equals(HyperwalletDocument.EKycDocumentVerificationStatus.NEW));
-
+        HyperwalletUser hyperwalletUserresponse = client.uploadUserDocuments("test-token", multiPartUploadData);
+        assertThat(hyperwalletUserresponse, is(equalTo(hyperwalletUser)));
     }
 
     @Test
     public void testDocumentUploadWithError() {
         try {
-            MultipartUtility multiPart = new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token","test-usernam","test-password");
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("type", "LETTER_OF_AUTHORIZATION");
-            jsonObject.put("category", "AUTHORIZATION");
+            jsonObject.put("type", "DRIVERS_LICENSE");
+            jsonObject.put("country", "AL");
+            jsonObject.put("category", "IDENTIFICATION");
             List<JSONObject> jsonObjectList = new ArrayList<>();
             jsonObjectList.add(jsonObject);
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("documents", jsonObjectList);
-            multiPart.addFormField("data",jsonObject1.toString());
-            hyperwalletApiClient.put("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token", multiPart, HyperwalletUser.class);
+            Map<String,String> multiPartUploadData = new HashMap<String,String>();
+            multiPartUploadData.put("data",jsonObject1.toString());
+            hyperwalletApiClient.put("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token", multiPartUploadData, HyperwalletUser.class);
         } catch (HyperwalletException exception) {
             assertThat(exception.getMessage(), is("Server returned non-OK status: 401"));
-        }catch(IOException e){}
+        }
     }
 
     @Test
@@ -1315,24 +1312,28 @@ public class HyperwalletApiClientTest {
         hyperWalletVerificationDocument.category("IDENTIFICATION").type("DRIVERS_LICENSE").status("NEW").country("AL");
         hyperwalletVerificationDocumentList.add(hyperWalletVerificationDocument);
         hyperwalletBusinessStakeholder.setDocuments(hyperwalletVerificationDocumentList);
-
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type", "DRIVERS_LICENSE");
+        jsonObject.put("country", "AL");
+        jsonObject.put("category", "IDENTIFICATION");
+        List<JSONObject> jsonObjectList = new ArrayList<>();
+        jsonObjectList.add(jsonObject);
+        net.minidev.json.JSONObject jsonObject1 = new net.minidev.json.JSONObject();
+        jsonObject1.put("documents", jsonObjectList);
+        Map<String,String> multipartUploadData = new HashMap<String,String>();
+        multipartUploadData.put("data",jsonObject1.toString());
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
-        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(MultipartUtility.class), Mockito.any(Class.class)))
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(HyperwalletBusinessStakeholder.class), Mockito.any(Class.class)))
                 .thenReturn(hyperwalletBusinessStakeholder);
-
         HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =
-                client.uploadStakeholderDocuments(userToken, businessStakeholderToken, new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/business-stakeholders/test-business-token","test-usernam","test-password"));
-        HyperwalletVerificationDocument hyperwalletVerificationDocument = hyperwalletBusinessStakeholderResponse.getDocuments().get(0);
-        assertTrue(hyperwalletVerificationDocument.getCategory().equals("IDENTIFICATION"));
-        assertTrue(hyperwalletVerificationDocument.getType().equals("DRIVERS_LICENSE"));
-        assertTrue(hyperwalletVerificationDocument.getCountry().equals("AL"));
-        assertTrue(hyperwalletVerificationDocument.getStatus().equals("NEW"));
+        client.uploadStakeholderDocuments("user-token","business-token ", multipartUploadData);
+        assertThat(hyperwalletBusinessStakeholderResponse, is(equalTo(hyperwalletBusinessStakeholder)));
     }
 
     @Test
     public void testUploadDocumentBusinessStakeholderError() throws Exception {
         try {
-            MultipartUtility multiPart = new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/business-stakeholders/test-business-token","test-usernam","test-password");
+
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("type", "DRIVERS_LICENSE");
             jsonObject.put("country", "AL");
@@ -1341,11 +1342,12 @@ public class HyperwalletApiClientTest {
             jsonObjectList.add(jsonObject);
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("documents", jsonObjectList);
-            multiPart.addFormField("data",jsonObject1.toString());
-            hyperwalletApiClient.put("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/business-stakeholders/test-business-token", multiPart, HyperwalletUser.class);
+            HashMap<String,String> multipartUploadData = new HashMap<String,String>();
+            multipartUploadData.put("data",jsonObject1.toString());
+            hyperwalletApiClient.put("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/business-stakeholders/test-business-token", multipartUploadData, HyperwalletBusinessStakeholder.class);
         } catch (HyperwalletException exception) {
             assertThat(exception.getMessage(), is("Server returned non-OK status: 401"));
-        }catch(IOException e){}
+        }
     }
 
     private HyperwalletApiClient createAndInjectHyperwalletApiClientMock(Hyperwallet client) throws Exception {
