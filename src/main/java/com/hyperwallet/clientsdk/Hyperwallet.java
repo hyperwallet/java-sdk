@@ -280,18 +280,76 @@ public class Hyperwallet {
         transition.setFromStatus(null);
         transition.setToStatus(null);
 
-        return apiClient.post(url + "/users/" + userToken + "/business-stakeholders/" + stakeholderToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+        return apiClient.post(url + "/users/" + userToken + "/business-stakeholders/" + stakeholderToken + "/status-transitions", transition,
+                HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * Get Business Stakeholder Status transition
+     *
+     * @param userToken             String
+     * @param stakeholderToken      Hyperwallet Stakeholder token
+     * @param statusTransitionToken Hyperwallet Status Transition token
+     * @return HyperwalletStatusTransition
+     */
+    public HyperwalletStatusTransition getBusinessStakeholderStatusTransition(String userToken, String stakeholderToken,
+            String statusTransitionToken) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        if (stakeholderToken == null) {
+            throw new HyperwalletException("StakeholderToken is required");
+        }
+        if (statusTransitionToken == null) {
+            throw new HyperwalletException("Status Transition token may not be present");
+        }
+
+        return apiClient
+                .get(url + "/users/" + userToken + "/business-stakeholders/" + stakeholderToken + "/status-transitions/" + statusTransitionToken,
+                        HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * List Business Stakeholder Status transition
+     *
+     * @param userToken        String
+     * @param stakeholderToken Hyperwallet Stakeholder token
+     * @return HyperwalletList of  HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listBusinessStakeholderStatusTransition(String userToken, String stakeholderToken,
+            HyperwalletPaginationOptions options) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        if (stakeholderToken == null) {
+            throw new HyperwalletException("StakeholderToken is required");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/business-stakeholders/" + stakeholderToken + "/status-transitions", options);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
+        });
+    }
+
+    /**
+     * List Business Stakeholder Status transition
+     *
+     * @param userToken        String
+     * @param stakeholderToken Hyperwallet Stakeholder token
+     * @return HyperwalletList of  HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listBusinessStakeholderStatusTransition(String userToken, String stakeholderToken) {
+        return listBusinessStakeholderStatusTransition(userToken, stakeholderToken, null);
     }
 
     /**
      * Activate a business stakeholder
      *
-     * @param userToken User token
+     * @param userToken        User token
      * @param stakeholderToken Business Stakeholder token
      * @return The status transition
      */
     public HyperwalletStatusTransition activateBusinessStakeholder(String userToken, String stakeholderToken) {
-        return createBusinessStakeholderStatusTransition(userToken, stakeholderToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.ACTIVATED));
+        return createBusinessStakeholderStatusTransition(userToken, stakeholderToken,
+                new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.ACTIVATED));
     }
 
     /**
