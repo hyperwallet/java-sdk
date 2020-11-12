@@ -3203,7 +3203,7 @@ public class HyperwalletTest {
     public void testlistTransferStatusTransition_WithNullOptions() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listTransferStatusTransition("null", null);
+            client.listTransferStatusTransition(null, null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
