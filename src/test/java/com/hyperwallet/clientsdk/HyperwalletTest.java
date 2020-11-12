@@ -3200,6 +3200,23 @@ public class HyperwalletTest {
     }
 
     @Test
+    public void testlistTransferStatusTransition_WithNullOptions() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listTransferStatusTransition("null", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Transfer token is required")));
+            assertThat(e.getMessage(), is(equalTo("Transfer token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+
+    @Test
     public void testlistTransferStatusTransition() throws Exception {
         HyperwalletList<HyperwalletStatusTransition> response = new HyperwalletList<HyperwalletStatusTransition>();
 
