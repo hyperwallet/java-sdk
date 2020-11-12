@@ -1,61 +1,56 @@
 package com.hyperwallet.clientsdk.util;
 
+import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocument;
+import net.minidev.json.JSONObject;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 public class MultipartUtility {
-    private DataOutputStream request;
-    private final String boundary = "--001103040245431341";
-    private final String crlf = "\r\n";
-    private final String twoHyphens = "--";
 
-    /**
-     * Adds a form field to the request
-     *
-     * @param name  field name
-     * @param value field value
-     */
-    public void addFormField(String name, String value) throws IOException {
-        this.request.writeBytes(this.twoHyphens + this.boundary + this.crlf);
-        this.request.writeBytes("Content-Disposition: form-data; name=\"" + name + "\""+ this.crlf);
-        this.request.writeBytes(this.crlf);
-        this.request.writeBytes(value+ this.crlf);
-        this.request.flush();
+    private Map<String, String> formFields;
+    private Map<String, String> files;
+
+    public Map<String, String> getFormFields() {
+        return formFields;
     }
 
-    /**
-     * Adds a upload file section to the request
-     *
-     * @param fieldName  name attribute
-     * @param uploadFile a File to be uploaded
-     * @throws IOException
-     */
-    public void addFilePart(String fieldName, File uploadFile)
-            throws IOException {
-        String fileName = uploadFile.getName();
-        String extension = "";
-        int i = fileName.lastIndexOf('.');
-        if (i >= 0) {
-            extension = fileName.substring(i+1);
-        }
-        this.request.writeBytes(this.crlf + this.twoHyphens + this.boundary + this.crlf);
-        this.request.writeBytes("Content-Disposition: form-data; name=\"" +
-                fieldName + "\"; filename=\"" +
-                fileName + "\" "+ this.crlf);
-        this.request.writeBytes("Content-Type: image/"+extension + this.crlf);
-        this.request.writeBytes(this.crlf);
-        byte[] bytes = Files.readAllBytes(uploadFile.toPath());
-        this.request.write(bytes);
+    public void setFormFields(Map<String, String> formFields) {
+        this.formFields = formFields;
     }
 
-    public DataOutputStream getDataOutputStream() {
-        return request;
+    public Map<String, String> getFiles() {
+        return files;
     }
 
-    public void setDataOutputStream(DataOutputStream request) {
-        this.request = request;
+    public void setFiles(Map<String, String> files) {
+        this.files = files;
+    }
+
+    public MultipartUtility convert(HyperwalletVerificationDocument uploadData){
+
+        JSONObject document = new JSONObject();
+        document.put("type", uploadData.getType());
+        document.put("country", uploadData.getCountry());
+        document.put("category", uploadData.getCategory());
+        List<JSONObject> documents = new ArrayList<>();
+        documents.add(document);
+        JSONObject data = new JSONObject();
+        data.put("documents", documents);
+        Map<String,String> multiPartUploadData = new HashMap<String,String>();
+        multiPartUploadData.put("data",data.toString());
+
+        formFields = new HashMap<String, String>();
+        this.setFormFields(multiPartUploadData);
+
+        this.setFiles(uploadData.getUploadFiles());
+        return this;
     }
 
 }

@@ -5,6 +5,7 @@ import cc.protea.util.http.Response;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletErrorList;
+import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocument;
 import com.nimbusds.jose.JOSEException;
 
 import javax.xml.bind.DatatypeConverter;
@@ -14,6 +15,8 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.nio.file.Files;
+import java.io.File;
 
 public class HyperwalletApiClient {
 
@@ -21,7 +24,7 @@ public class HyperwalletApiClient {
     private static final String VALID_JSON_CONTENT_TYPE = "application/json";
     private static final String VALID_JSON_JOSE_CONTENT_TYPE = "application/jose+json";
     private HttpURLConnection httpConn;
-    private DataOutputStream request;
+//    private DataOutputStream request;
     private final String username;
     private final String password;
     private final String version;
@@ -69,20 +72,12 @@ public class HyperwalletApiClient {
         }
     }
 
-    public <T> T put(final String url, final Map<String,String> multipartUploadData, final Class<T> type) {
+    public <T> T put(final String url, HyperwalletVerificationDocument uploadData, final Class<T> type) {
         Response response = null;
         try {
-            MultipartUtility multipartUtility = new MultipartUtility();
-            putRequest(url,this.username,this.password);
-            multipartUtility.setDataOutputStream(this.request);
-            for(Map.Entry<String, String> entry: multipartUploadData.entrySet()) {
-                if(entry.getKey().equalsIgnoreCase(DATA)){
-                    multipartUtility.addFormField(entry.getKey(),entry.getValue());
-                }else{
-                    multipartUtility.addFilePart(entry.getKey(),new File(entry.getValue()));
-                }
-            }
-            response = getResponse(multipartUtility);
+            MultipartUtility multipartData = new MultipartUtility().convert(uploadData);
+            DataOutputStream request = getMultipartService(url, multipartData);
+            response = putMultipartResource(request);
             return processResponse(response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
@@ -231,18 +226,48 @@ public class HyperwalletApiClient {
      * @throws IOException
      */
 
-    private void putRequest(String requestURL, String username, String password)
+    private DataOutputStream getMultipartService(String requestURL, MultipartUtility multipartData)
             throws IOException {
         // creates a unique boundary based on time stamp
         URL url = new URL(requestURL);
-        this.httpConn = (HttpURLConnection) url.openConnection();
-        this.httpConn.setDoOutput(true); // indicates POST method
-        this.httpConn.setRequestProperty("authorization", getAuthorizationHeader());
-        this.httpConn.setRequestMethod("PUT");
-        this.httpConn.setRequestProperty("accept", "application/json");
-        this.httpConn.setRequestProperty(
-                "Content-Type", "multipart/form-data; boundary="+this.boundary);
-        this.request =  new DataOutputStream(this.httpConn.getOutputStream());
+        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+        httpConn.setDoOutput(true); // indicates POST method
+        httpConn.setRequestProperty("authorization", getAuthorizationHeader());
+        httpConn.setRequestMethod("PUT");
+        httpConn.setRequestProperty("accept", "application/json");
+        httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + this.boundary);
+        DataOutputStream request =  new DataOutputStream(this.httpConn.getOutputStream());
+        for(Map.Entry<String, String> entry: multipartData.getFormFields().entrySet()) {
+            request.writeBytes(this.twoHyphens + this.boundary + this.crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"" + this.crlf);
+            request.writeBytes(this.crlf);
+            request.writeBytes(entry.getValue() + this.crlf);
+            request.flush();
+        }
+
+        for(Map.Entry<String, String> entry: multipartData.getFiles().entrySet()) {
+            //field name is: drivers_license_front
+            //file name is: drivers_license_front.jpg
+            String fileName = entry.getValue();
+            String extension = "";
+            int i = fileName.lastIndexOf('.');
+            if (i >= 0) {
+                extension = fileName.substring(i+1);
+            }
+            request.writeBytes(this.crlf + this.twoHyphens + this.boundary + this.crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"" +
+                    entry.getKey() + "\"; filename=\"" +
+                    fileName + "\" "+ this.crlf);
+            request.writeBytes("Content-Type: image/" + extension + this.crlf);
+            request.writeBytes(this.crlf);
+            byte[] bytes = Files.readAllBytes(new File(entry.getValue()).toPath());
+            request.write(bytes);
+        }
+        request.writeBytes(this.crlf);
+        request.writeBytes(this.twoHyphens + this.boundary + this.twoHyphens + this.crlf);
+        request.flush();
+        request.close();
+        return request;
     }
 
     /**
@@ -252,14 +277,8 @@ public class HyperwalletApiClient {
      * status OK, otherwise an exception is thrown.
      * @throws IOException
      */
-    private Response getResponse(MultipartUtility multiPartFile) throws IOException {
+    private Response putMultipartResource(DataOutputStream request) throws IOException {
         Response response = new Response() ;
-        this.request = multiPartFile.getDataOutputStream();
-        this.request.writeBytes(this.crlf);
-        this.request.writeBytes(this.twoHyphens + this.boundary +
-                this.twoHyphens + this.crlf);
-        this.request.flush();
-        this.request.close();
 
         // checks server's status code first
         int status = this.httpConn.getResponseCode();

@@ -2,9 +2,7 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
-import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
-import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
-import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
+import com.hyperwallet.clientsdk.util.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
@@ -16,7 +14,7 @@ import java.util.*;
  */
 public class Hyperwallet {
 
-    public static final String VERSION = "2.0.0";
+    public static final String VERSION = "2.2.0";
     private final HyperwalletApiClient apiClient;
     private final String programToken;
     private final String url;
@@ -2447,14 +2445,14 @@ public class Hyperwallet {
      * Upload documents
      *
      * @param userToken userToken for which documents to be uploaded
-     * @param multipart multiPartUploadData to get uploaded
+     * @param uploadData HyperwalletVerificationDocument to get uploaded
      * @return HyperwalletUser user object with document upload status
      */
-    public HyperwalletUser uploadUserDocuments(String userToken, Map<String,String> multiPartUploadData) {
+    public HyperwalletUser uploadUserDocuments(String userToken, HyperwalletVerificationDocument uploadData) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is not present");
         }
-        return apiClient.put(url + "/users/" + userToken, multiPartUploadData, HyperwalletUser.class);
+        return apiClient.put(url + "/users/" + userToken, uploadData, HyperwalletUser.class);
     }
 
     //--------------------------------------
