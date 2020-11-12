@@ -1276,7 +1276,7 @@ public class HyperwalletApiClientTest {
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
         Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(MultipartUtility.class), Mockito.any(Class.class)))
                 .thenReturn(hyperwalletUser);
-        HyperwalletUser hyperwalletUserresponse = client.documentUpload("test-token", new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token","test-usernam","test-password"));
+        HyperwalletUser hyperwalletUserresponse = client.uploadUserDocuments("test-token", new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token","test-usernam","test-password"));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCategory().equals(HyperwalletDocument.EDocumentCategory.AUTHORIZATION));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getType().equals(HyperwalletDocument.EIdentityVerificationType.LETTER_OF_AUTHORIZATION));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCountry().equals(HyperwalletDocument.ECountryCode.CA));
@@ -1321,7 +1321,7 @@ public class HyperwalletApiClientTest {
                 .thenReturn(hyperwalletBusinessStakeholder);
 
         HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =
-                client.uploadDocumentBusinessStakeholder(userToken, businessStakeholderToken, new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/business-stakeholders/test-business-token","test-usernam","test-password"));
+                client.uploadStakeholderDocuments(userToken, businessStakeholderToken, new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/business-stakeholders/test-business-token","test-usernam","test-password"));
         HyperwalletVerificationDocument hyperwalletVerificationDocument = hyperwalletBusinessStakeholderResponse.getDocuments().get(0);
         assertTrue(hyperwalletVerificationDocument.getCategory().equals("IDENTIFICATION"));
         assertTrue(hyperwalletVerificationDocument.getType().equals("DRIVERS_LICENSE"));

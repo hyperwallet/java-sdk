@@ -240,7 +240,7 @@ public class Hyperwallet {
      * @param multiPart                FormdataMultipart to get uploaded
      * @return HyperwalletBusinessStakeholder updated Stakeholder with document status
      */
-    public HyperwalletBusinessStakeholder uploadDocumentBusinessStakeholder(String userToken, String businessStakeholderToken,
+    public HyperwalletBusinessStakeholder uploadStakeholderDocuments(String userToken, String businessStakeholderToken,
                                                                             MultipartUtility multiPart) {
         if (userToken == null) {
             throw new HyperwalletException("User token may not be present");
@@ -2450,7 +2450,7 @@ public class Hyperwallet {
      * @param multiPart multipart FormdataMultipart to get uploaded
      * @return HyperwalletUser user object with document upload status
      */
-    public HyperwalletUser documentUpload(String userToken, MultipartUtility multiPart) {
+    public HyperwalletUser uploadUserDocuments(String userToken, MultipartUtility multiPart) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is not present");
         }

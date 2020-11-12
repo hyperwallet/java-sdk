@@ -6,8 +6,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletErrorList;
 import com.nimbusds.jose.JOSEException;
+
 import javax.xml.bind.DatatypeConverter;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.text.ParseException;
 import java.util.HashMap;
 
@@ -16,12 +18,16 @@ public class HyperwalletApiClient {
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String VALID_JSON_CONTENT_TYPE = "application/json";
     private static final String VALID_JSON_JOSE_CONTENT_TYPE = "application/jose+json";
-
+    private HttpURLConnection httpConn;
+    private DataOutputStream request;
     private final String username;
     private final String password;
     private final String version;
     private final HyperwalletEncryption hyperwalletEncryption;
     private final boolean isEncrypted;
+    private final String boundary = "--001103040245431341";
+    private final String crlf = "\r\n";
+    private final String twoHyphens = "--";
 
     public HyperwalletApiClient(final String username, final String password, final String version) {
         this(username, password, version, null);
@@ -64,7 +70,9 @@ public class HyperwalletApiClient {
     public <T> T put(final String url, final MultipartUtility formDataMultiPart, final Class<T> type) {
         Response response = null;
         try {
-            response = formDataMultiPart.finish();
+            this.httpConn = formDataMultiPart.getHttpURLConnection();
+            this.request = formDataMultiPart.getDataOutputStream();
+            response = finish();
             return processResponse(response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
@@ -158,8 +166,8 @@ public class HyperwalletApiClient {
     }
 
     private String getAuthorizationHeader() {
-        final String pair = this.username + ":" + this.password;
-        final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
+         String pair = this.username + ":" + this.password;
+         String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
         return "Basic " + base64;
     }
 
@@ -204,4 +212,43 @@ public class HyperwalletApiClient {
         }
         return isEncrypted ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
     }
+
+    /**
+     * Completes the request and receives response from the server.
+     *
+     * @return a list of Strings as response in case the server returned
+     * status OK, otherwise an exception is thrown.
+     * @throws IOException
+     */
+    public Response finish() throws IOException {
+        Response response = new Response() ;
+        this.request.writeBytes(this.crlf);
+        this.request.writeBytes(this.twoHyphens + this.boundary +
+                this.twoHyphens + this.crlf);
+        this.request.flush();
+        this.request.close();
+
+        // checks server's status code first
+        int status = this.httpConn.getResponseCode();
+        if (status == HttpURLConnection.HTTP_CREATED) {
+            InputStream responseStream = new
+                    BufferedInputStream(this.httpConn.getInputStream());
+            BufferedReader responseStreamReader =
+                    new BufferedReader(new InputStreamReader(responseStream));
+            String line = "";
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((line = responseStreamReader.readLine()) != null) {
+                stringBuilder.append(line).append("\n");
+            }
+            responseStreamReader.close();
+            response.setResponseCode(status);
+            response.setBody(stringBuilder.toString());
+            response.setHeaders(this.httpConn.getHeaderFields());
+            this.httpConn.disconnect();
+        } else {
+            throw new HyperwalletException("Server returned non-OK status: " + status);
+        }
+        return response;
+    }
+
 }

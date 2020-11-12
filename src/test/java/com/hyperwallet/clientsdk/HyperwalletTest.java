@@ -7829,12 +7829,11 @@ public class HyperwalletTest {
         assertThat(apiClientVenmoAccount, is(notNullValue()));
     }
 
-
     @Test
-    public void testDocumentUpload_noUserToken() {
+    public void testUploadUserDocuments_noUserToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.documentUpload(null, null);
+            client.uploadUserDocuments(null, null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -7846,9 +7845,8 @@ public class HyperwalletTest {
         }
     }
 
-
     @Test
-    public void testDocumentUpload_successful() throws Exception {
+    public void testUploadUserDocuments_successful() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
 
         HyperwalletUser hyperwalletUser = new HyperwalletUser();
@@ -7865,21 +7863,20 @@ public class HyperwalletTest {
         Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(MultipartUtility.class), Mockito.any(Class.class)))
             .thenReturn(hyperwalletUser);
 
-        HyperwalletUser hyperwalletUserresponse = client.documentUpload("test-token", new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token","test-usernam","test-password"));
+        HyperwalletUser hyperwalletUserresponse = client.uploadUserDocuments("test-token", new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token","test-usernam","test-password"));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCategory().equals(EDocumentCategory.AUTHORIZATION));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getType().equals(EIdentityVerificationType.LETTER_OF_AUTHORIZATION));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getCountry().equals(ECountryCode.CA));
         assertTrue(hyperwalletUserresponse.getDocuments().get(0).getStatus().equals(EKycDocumentVerificationStatus.NEW));
     }
 
-
     @Test
-    public void testUploadDocumentBusinessStakeholder_noUserToken() {
+    public void testUploadStakeholderDocuments_noUserToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         String businessStakeholderToken = "business-token";
         try {
             HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =
-                client.uploadDocumentBusinessStakeholder(null, businessStakeholderToken, new MultipartUtility("baseurl","test-usernam","test-password"));
+                client.uploadStakeholderDocuments(null, businessStakeholderToken, new MultipartUtility("baseurl","test-usernam","test-password"));
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -7892,12 +7889,12 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testUploadDocumentBusinessStakeholder_noBusinessStakeholderToken() {
+    public void testUploadStakeholderDocuments_noBusinessStakeholderToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         String userToken = "user-token";
         try {
             HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =
-                client.uploadDocumentBusinessStakeholder(userToken, null, new MultipartUtility("baseurl","test-usernam","test-password"));
+                client.uploadStakeholderDocuments(userToken, null, new MultipartUtility("baseurl","test-usernam","test-password"));
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -7910,7 +7907,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testUploadDocumentBusinessStakeholder_Successful() throws Exception {
+    public void testUploadStakeholderDocuments_Successful() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
 
         String userToken = "user-token";
@@ -7927,7 +7924,7 @@ public class HyperwalletTest {
             .thenReturn(hyperwalletBusinessStakeholder);
 
         HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =
-            client.uploadDocumentBusinessStakeholder(userToken, businessStakeholderToken, new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/business-stakeholders/test-business-token","test-usernam","test-password"));
+            client.uploadStakeholderDocuments(userToken, businessStakeholderToken, new MultipartUtility("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/business-stakeholders/test-business-token","test-usernam","test-password"));
         HyperwalletVerificationDocument hyperwalletVerificationDocument = hyperwalletBusinessStakeholderResponse.getDocuments().get(0);
         assertTrue(hyperwalletVerificationDocument.getCategory().equals("IDENTIFICATION"));
         assertTrue(hyperwalletVerificationDocument.getType().equals("DRIVERS_LICENSE"));
