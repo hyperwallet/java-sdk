@@ -1,9 +1,5 @@
 package com.hyperwallet.clientsdk.model;
 
-import com.hyperwallet.clientsdk.model.HyperwalletDocument.ECountryCode;
-import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
-import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
-import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 
 

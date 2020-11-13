@@ -31,6 +31,7 @@ import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.testng.Assert.fail;
 
@@ -1256,6 +1257,70 @@ public class HyperwalletApiClientTest {
         assertThat(body, is(notNullValue()));
         assertThat(body.test1, is(equalTo("value1")));
         assertThat(body.test2, is(nullValue()));
+    }
+
+    @Test
+    public void testgetMultipartService() {
+
+        Multipart multipart = new Multipart();
+        try {
+            MultipartRequest multipartRequest = new MultipartRequest("/test", multipart, "test-user", "test-password");
+            assertThat(multipartRequest.getMultipartList(), is(equalTo(multipart)));
+            multipartRequest.setMultipartList(null);
+            assertThat(multipartRequest.getMultipartList(), is(nullValue()));
+        } catch (Exception e){
+        }
+    }
+
+    @Test
+    public void testMultipart() {
+
+        Multipart multipart = new Multipart();
+        Multipart.MultipartData data = new Multipart.MultipartData();
+        try {
+            assertThat(data.getContentDisposition(), is(nullValue()));
+            assertThat(data.getContentType(), is(nullValue()));
+            assertThat(data.getEntity(), is(nullValue()));
+            assertThat(data.getEntity(), is(nullValue()));
+            data.setContentDisposition("Content-Disposition: form-data");
+            data.setContentType("Content-type: json");
+            Map<String, String> entity = new HashMap<String, String>();
+            entity.put("drivers_license_front", "/path/to/test/file");
+            data.setEntity(entity);
+            assertThat(data.getContentDisposition(), is(equalTo("Content-Disposition: form-data")));
+            assertThat(data.getContentType(), is(equalTo("Content-type: json")));
+            assertThat(data.getEntity().get("drivers_license_front"), is(equalTo("/path/to/test/file")));
+            List<Multipart.MultipartData> dataList = new ArrayList<Multipart.MultipartData>();
+            dataList.add(data);
+            multipart.setMultipartList(dataList);
+            assertThat(data.getEntity().get("drivers_license_front"), is(equalTo("/path/to/test/file")));
+        } catch (Exception e){
+        }
+    }
+
+    @Test
+    public void testPutResourceMultipart() {
+        Multipart multipart = new Multipart();
+        Multipart.MultipartData data = new Multipart.MultipartData();
+        data.setContentDisposition("Content-Disposition: form-data");
+        data.setContentType("Content-type: json");
+        Map<String, String> entity = new HashMap<String, String>();
+        entity.put("drivers_license_front", "/path/to/test/file");
+        data.setEntity(entity);
+        List<Multipart.MultipartData> dataList = new ArrayList<Multipart.MultipartData>();
+        dataList.add(data);
+        multipart.setMultipartList(dataList);
+
+        try {
+            MultipartRequest multipartRequest = new MultipartRequest("/test", multipart, "test-user", "test-password");
+            multipartRequest.addHeader("Content-type", "application/json");
+            multipartRequest.putResource();
+            multipartRequest.getMultipartList();
+            multipartRequest.setMultipartList(null);
+            assertThat(multipartRequest.getMultipartList(), is(nullValue()));
+
+        } catch (Exception e){
+        }
     }
 
     @Test

@@ -21,7 +21,7 @@ public class MultipartRequest extends Request{
     private final String DATA = "data";
 
     HttpURLConnection connection;
-    Multipart multipartList;
+    Multipart multipartList = new Multipart();
     DataOutputStream outStream;
     Map<String, List<String>> headers = new HashMap<String, List<String>>();
     String requestURL;

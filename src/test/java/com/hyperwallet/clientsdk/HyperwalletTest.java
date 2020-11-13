@@ -2,10 +2,6 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
-import com.hyperwallet.clientsdk.model.HyperwalletDocument.ECountryCode;
-import com.hyperwallet.clientsdk.model.HyperwalletDocument.EDocumentCategory;
-import com.hyperwallet.clientsdk.model.HyperwalletDocument.EIdentityVerificationType;
-import com.hyperwallet.clientsdk.model.HyperwalletDocument.EKycDocumentVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status;
 import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
@@ -14,7 +10,6 @@ import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.LetterOfAuthorizationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
-import com.hyperwallet.clientsdk.util.Multipart;
 import net.minidev.json.JSONObject;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;

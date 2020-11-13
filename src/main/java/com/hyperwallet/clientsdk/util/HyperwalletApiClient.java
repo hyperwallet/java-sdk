@@ -224,7 +224,7 @@ public class HyperwalletApiClient {
 
     private MultipartRequest getMultipartService(String requestURL, Multipart multipartData)
             throws IOException {
-        // creates a unique boundary based on time stamp
+        // creates a unique boundary
         return (MultipartRequest) new MultipartRequest(requestURL, multipartData,  username,  password);
     }
 }
