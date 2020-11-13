@@ -1905,7 +1905,30 @@ public class Hyperwallet {
         transition.setCreatedOn(null);
         transition.setFromStatus(null);
         transition.setToStatus(null);
-        return apiClient.post(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+        return apiClient.post(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", transition,
+                HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * Get Bank Account Status Transition
+     *
+     * @param userToken             User token
+     * @param bankAccountToken      Bank Account token
+     * @param statusTransitionToken Status transition token
+     * @return HyperwalletStatusTransition
+     */
+    public HyperwalletStatusTransition getBankAccountStatusTransition(String userToken, String bankAccountToken, String statusTransitionToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(bankAccountToken)) {
+            throw new HyperwalletException("Bank Account token is required");
+        }
+        if (StringUtils.isEmpty(statusTransitionToken)) {
+            throw new HyperwalletException("Status Transition token may not be present");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions/" + statusTransitionToken,
+                HyperwalletStatusTransition.class);
     }
 
     /**
