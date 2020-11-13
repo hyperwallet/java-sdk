@@ -2130,8 +2130,77 @@ public class Hyperwallet {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Json-Cache-Token", jsonCacheToken);
 
-        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
+        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class,
+                headers);
     }
+
+    //--------------------------------------
+    // Transfer refunds
+    //--------------------------------------
+
+    /**
+     * Create Transfer Refund
+     *
+     * @param transferToken  Transfer token assigned
+     * @param transferRefund Transfer Refund object to create
+     * @return Created Transfer Refund
+     */
+    public HyperwalletTransferRefund createTransferRefund(String transferToken, HyperwalletTransferRefund transferRefund) {
+        if (transferRefund == null) {
+            throw new HyperwalletException("Transfer Refund is required");
+        }
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        if (StringUtils.isEmpty(transferRefund.getClientRefundId())) {
+            throw new HyperwalletException("ClientRefundId is required");
+        }
+
+        transferRefund = copy(transferRefund);
+        transferRefund.clearStatus();
+        transferRefund.clearCreatedOn();
+        return apiClient.post(url + "/transfers/" + transferToken + "/refunds", transferRefund, HyperwalletTransferRefund.class);
+    }
+
+    /**
+     * Get Transfer Refund
+     *
+     * @param transferToken       Transfer token assigned
+     * @param transferRefundToken Transfer Refund token assigned
+     * @return Transfer Refund object
+     */
+    public HyperwalletTransferRefund getTransferRefund(String transferToken, String transferRefundToken) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        if (StringUtils.isEmpty(transferRefundToken)) {
+            throw new HyperwalletException("Transfer Refund token is required");
+        }
+
+        return apiClient.get(url + "/transfers/" + transferToken + "/refunds/" + transferRefundToken, HyperwalletTransferRefund.class);
+    }
+
+    /**
+     * List Transfer Refund Requests
+     *
+     * @param options       List filter option
+     * @param transferToken Transfer token assigned
+     * @return HyperwalletList of HyperwalletTransferRefund
+     */
+    public HyperwalletList<HyperwalletTransferRefund> listTransferRefunds(String transferToken, HyperwalletTransferListOptions options) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+
+        String url = paginate(this.url + "/transfers/" + transferToken + "/refunds", options);
+        if (options != null) {
+            url = addParameter(url, "clientRefundId", options.getDestinationToken());
+            url = addParameter(url, "sourceToken", options.getSourceToken());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferRefund>>() {
+        });
+    }
+
     //--------------------------------------
     // Internal utils
     //--------------------------------------
@@ -2231,6 +2300,10 @@ public class Hyperwallet {
     private HyperwalletVenmoAccount copy(HyperwalletVenmoAccount venmoAccount) {
         venmoAccount = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(venmoAccount), HyperwalletVenmoAccount.class);
         return venmoAccount;
+    }
+
+    private HyperwalletTransferRefund copy(HyperwalletTransferRefund transferRefund) {
+        return HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transferRefund), HyperwalletTransferRefund.class);
     }
 
 }
