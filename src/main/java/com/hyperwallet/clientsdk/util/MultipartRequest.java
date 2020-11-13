@@ -3,19 +3,15 @@ package com.hyperwallet.clientsdk.util;
 import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
 import com.hyperwallet.clientsdk.HyperwalletException;
-import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocument;
-import net.minidev.json.JSONObject;
 
+import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URLConnection;
+import java.net.URL;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.net.URL;
 
 
 public class MultipartRequest extends Request{
@@ -28,6 +24,10 @@ public class MultipartRequest extends Request{
     Multipart multipartList;
     DataOutputStream outStream;
     Map<String, List<String>> headers = new HashMap<String, List<String>>();
+    String requestURL;
+
+    private final String username;
+    private final String password;
 
     public Multipart getMultipartList() {
         return multipartList;
@@ -37,17 +37,27 @@ public class MultipartRequest extends Request{
         this.multipartList = multipartList;
     }
 
-    MultipartRequest(String url, Multipart multipartList) throws IOException {
+    MultipartRequest(String url, Multipart multipartList, String username, String password) throws IOException {
         super(url);
+        requestURL = url;
+        this.username  = username;
+        this.password = password;
         this.multipartList = multipartList;
     }
 
     public Response putResource() throws IOException {
         Response response = new Response() ;
         buildHeaders();
+        URL url = new URL(requestURL);
+        final String pair = username + ":" + password;
+        final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
+        connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true); // indicates POST method
         connection.setRequestMethod("PUT");
-
+        connection.setRequestProperty("authorization", "Basic " + base64);
+        connection.setRequestProperty("accept", "application/json");
+        connection.setRequestProperty(
+                "Content-Type", "multipart/form-data; boundary="+BOUNDARY);
         outStream = new DataOutputStream(this.connection.getOutputStream());
         writeMultipartBody();
         outStream.flush();
@@ -89,12 +99,20 @@ public class MultipartRequest extends Request{
 
     private void writeMultipartBody() throws IOException {
         for(Multipart.MultipartData multipartData : multipartList.getMultipartList()) {
-            for (Map.Entry<String, Object> entry : multipartData.getEntity().entrySet()) {
+            for (Map.Entry<String, String> entry : multipartData.getEntity().entrySet()) {
+
                 outStream.writeBytes(this.SEPARATOR + this.BOUNDARY + this.CRLF);
                 outStream.writeBytes(multipartData.getContentDisposition());
                 outStream.writeBytes(multipartData.getContentType());
                 outStream.writeBytes(this.CRLF);
-                outStream.writeBytes(entry.getValue() + this.CRLF);
+
+                if(multipartData.getContentType().contains("image")){
+                    byte[] bytes = Files.readAllBytes(new File(entry.getValue().toString()).toPath());
+                    outStream.write(bytes);
+                    outStream.writeBytes(this.CRLF);
+                }else{
+                    outStream.writeBytes(entry.getValue() + this.CRLF);
+                }
                 outStream.flush();
             }
         }

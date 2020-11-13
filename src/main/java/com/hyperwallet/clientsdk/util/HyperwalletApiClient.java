@@ -225,10 +225,6 @@ public class HyperwalletApiClient {
     private MultipartRequest getMultipartService(String requestURL, Multipart multipartData)
             throws IOException {
         // creates a unique boundary based on time stamp
-        return (MultipartRequest) new MultipartRequest(requestURL, multipartData)
-            .addHeader("Authorization", getAuthorizationHeader())
-            .addHeader("Accept", VALID_JSON_CONTENT_TYPE)
-            .addHeader("Content-Type", "multipart/form-data; boundary=" + this.BOUNDARY)
-            .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
+        return (MultipartRequest) new MultipartRequest(requestURL, multipartData,  username,  password);
     }
 }

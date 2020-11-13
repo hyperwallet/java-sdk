@@ -29,7 +29,7 @@ public class Multipart {
 
     public static class MultipartData {
         private String contentType; //json, img
-        private Map<String, Object> entity; //name, object
+        private Map<String, String> entity; //name, content
         private String contentDisposition;
 
         public String getContentType() {
@@ -48,11 +48,11 @@ public class Multipart {
             this.contentDisposition = contentDisposition;
         }
 
-        public Map<String, Object> getEntity() {
+        public Map<String, String> getEntity() {
             return entity;
         }
 
-        public void setEntity(Map<String, Object> entity) {
+        public void setEntity(Map<String, String> entity) {
             this.entity = entity;
         }
     }
