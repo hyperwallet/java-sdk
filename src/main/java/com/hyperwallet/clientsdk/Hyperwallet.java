@@ -5,6 +5,7 @@ import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.util.*;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -235,18 +236,18 @@ public class Hyperwallet {
      *
      * @param userToken                String
      * @param businessStakeholderToken Hyperwallet Stakeholder representation
-     * @param multiPart                multipartUploadData to get uploaded
+     * @param uploadData                HyperwalletVerificationDocument to get uploaded
      * @return HyperwalletBusinessStakeholder updated Stakeholder with document status
      */
     public HyperwalletBusinessStakeholder uploadStakeholderDocuments(String userToken, String businessStakeholderToken,
-                                                                     Map<String,String> multipartUploadData) {
+                                                                     HyperwalletVerificationDocument uploadData) {
         if (userToken == null) {
             throw new HyperwalletException("User token may not be present");
         }
         if (businessStakeholderToken == null) {
             throw new HyperwalletException("BusinessStakeholderToken may not be required");
         }
-        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, multipartUploadData,
+        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, uploadData,
             HyperwalletBusinessStakeholder.class);
     }
 
@@ -2449,10 +2450,16 @@ public class Hyperwallet {
      * @return HyperwalletUser user object with document upload status
      */
     public HyperwalletUser uploadUserDocuments(String userToken, HyperwalletVerificationDocument uploadData) {
+        List<Multipart> multipart = new ArrayList<>();
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is not present");
         }
-        return apiClient.put(url + "/users/" + userToken, uploadData, HyperwalletUser.class);
+        try {
+            multipart = HyperwalletMultipartUtils.convert(uploadData);
+        } catch(IOException e) {
+            throw new HyperwalletException("Unable to convert to Multipart formdata");
+        }
+        return apiClient.put(url + "/users/" + userToken, multipart, HyperwalletUser.class);
     }
 
     //--------------------------------------

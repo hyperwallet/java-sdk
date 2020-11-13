@@ -24,6 +24,8 @@ HyperwalletVerificationDocument {
 
     private String country;
 
+    public Map<String, String> uploadFiles;
+
     public String getCategory() {
         return category;
     }
@@ -31,8 +33,6 @@ HyperwalletVerificationDocument {
     public void setCategory(String category) {
         this.category = category;
     }
-
-    public Map<String, String> uploadFiles;
 
     public HyperwalletVerificationDocument category(String category) {
         setCategory(category);
