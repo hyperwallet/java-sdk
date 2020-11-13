@@ -2467,6 +2467,12 @@ public class Hyperwallet {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is not present");
         }
+        if (uploadData == null || uploadData.size() < 1) {
+            throw new HyperwalletException("Data for upload is missing");
+        }
+        if (uploadData.get(0).getUploadFiles() == null || uploadData.get(0).getUploadFiles().size()  < 1) {
+            throw new HyperwalletException("Upload Files are missing");
+        }
         try {
             multipart = HyperwalletMultipartUtils.convert(uploadData);
         } catch(IOException e) {

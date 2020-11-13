@@ -24,13 +24,11 @@ public class HyperwalletApiClient {
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String VALID_JSON_CONTENT_TYPE = "application/json";
     private static final String VALID_JSON_JOSE_CONTENT_TYPE = "application/jose+json";
-    private HttpURLConnection httpConn;
     private final String username;
     private final String password;
     private final String version;
     private final HyperwalletEncryption hyperwalletEncryption;
     private final boolean isEncrypted;
-    private final String BOUNDARY = "--001103040245431341";
 
     public HyperwalletApiClient(final String username, final String password, final String version) {
         this(username, password, version, null);
@@ -167,8 +165,8 @@ public class HyperwalletApiClient {
     }
 
     private String getAuthorizationHeader() {
-         String pair = this.username + ":" + this.password;
-         String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
+         final String pair = this.username + ":" + this.password;
+         final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
         return "Basic " + base64;
     }
 
@@ -214,17 +212,8 @@ public class HyperwalletApiClient {
         return isEncrypted ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
     }
 
-    /**
-     * This constructor initializes a new HTTP POST request with content type
-     * is set to multipart/form-data
-     *
-     * @param requestURL
-     * @throws IOException
-     */
-
     private MultipartRequest getMultipartService(String requestURL, Multipart multipartData)
             throws IOException {
-        // creates a unique boundary
-        return (MultipartRequest) new MultipartRequest(requestURL, multipartData,  username,  password);
+        return new MultipartRequest(requestURL, multipartData,  username,  password);
     }
 }

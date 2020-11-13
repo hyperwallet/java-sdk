@@ -20,11 +20,11 @@ public class HyperwalletMultipartUtils {
     public static Multipart convert(List<HyperwalletVerificationDocument> uploadList) throws IOException {
 
         final String crlf = "\r\n";
-        Multipart multipartList = new Multipart();
         JSONObject document = new JSONObject();
+        Multipart multipartList = new Multipart();
         for (HyperwalletVerificationDocument uploadData : uploadList) {
             Multipart.MultipartData multipart = new Multipart.MultipartData();
-            if (!StringUtils.isEmpty(uploadData.getType())) document.put("type", uploadData.getType());
+            addDocumentValue(document, "type", uploadData.getType());
             if (!StringUtils.isEmpty(uploadData.getCountry())) document.put("country", uploadData.getCountry());
             if (!StringUtils.isEmpty(uploadData.getCategory())) document.put("category", uploadData.getCategory());
             if (!StringUtils.isEmpty(uploadData.getStatus())) document.put("status", uploadData.getStatus());
@@ -62,5 +62,11 @@ public class HyperwalletMultipartUtils {
         }
 
         return multipartList;
+    }
+
+    private static void addDocumentValue(JSONObject document, String field, String value) {
+        if (!StringUtils.isEmpty(value)) {
+            document.put(field, value);
+        }
     }
 }
