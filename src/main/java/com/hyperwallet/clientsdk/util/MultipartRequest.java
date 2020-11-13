@@ -52,7 +52,7 @@ public class MultipartRequest extends Request{
         final String pair = username + ":" + password;
         final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
         connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true); // indicates POST method
+        connection.setDoOutput(true);
         connection.setRequestMethod("PUT");
         connection.setRequestProperty("authorization", "Basic " + base64);
         connection.setRequestProperty("accept", "application/json");
@@ -88,9 +88,8 @@ public class MultipartRequest extends Request{
     private void buildHeaders() {
         if (!headers.isEmpty()) {
             for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
-                List<String> values = entry.getValue();
 
-                for (String value : values) {
+                for (String value : entry.getValue()) {
                     connection.addRequestProperty(entry.getKey(), value);
                 }
             }

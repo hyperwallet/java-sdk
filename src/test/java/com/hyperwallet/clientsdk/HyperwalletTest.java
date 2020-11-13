@@ -7874,7 +7874,7 @@ public class HyperwalletTest {
         HyperwalletVerificationDocument uploadData = new HyperwalletVerificationDocument();
         Map<String,String> uploadFiles = new HashMap<String,String>();
         uploadFiles.put("drivers_license_front", "/integration/test.png");
-        uploadData.setUploadFiles(uploadFiles);
+        uploadData.uploadFiles(uploadFiles);
 
         List<HyperwalletVerificationDocument> docList = new ArrayList<HyperwalletVerificationDocument>();
         docList.add(uploadData);
