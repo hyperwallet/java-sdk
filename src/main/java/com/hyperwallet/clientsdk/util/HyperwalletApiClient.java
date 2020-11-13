@@ -30,7 +30,7 @@ public class HyperwalletApiClient {
     private final String version;
     private final HyperwalletEncryption hyperwalletEncryption;
     private final boolean isEncrypted;
-    private final String boundary = "--001103040245431341";
+    private final String BOUNDARY = "--001103040245431341";
 
     public HyperwalletApiClient(final String username, final String password, final String version) {
         this(username, password, version, null);
@@ -70,7 +70,7 @@ public class HyperwalletApiClient {
         }
     }
 
-    public <T> T put(final String url, List<Multipart> uploadData, final Class<T> type) {
+    public <T> T put(final String url, Multipart uploadData, final Class<T> type) {
         Response response = null;
         try {
             response = getMultipartService(url, uploadData).putResource();
@@ -222,13 +222,13 @@ public class HyperwalletApiClient {
      * @throws IOException
      */
 
-    private MultipartRequest getMultipartService(String requestURL, List<Multipart> multipartData)
+    private MultipartRequest getMultipartService(String requestURL, Multipart multipartData)
             throws IOException {
         // creates a unique boundary based on time stamp
         return (MultipartRequest) new MultipartRequest(requestURL, multipartData)
             .addHeader("Authorization", getAuthorizationHeader())
-            .addHeader("Accept", "application/jose+json")
-            .addHeader("Content-Type", "multipart/form-data; boundary=" + this.boundary)
+            .addHeader("Accept", VALID_JSON_CONTENT_TYPE)
+            .addHeader("Content-Type", "multipart/form-data; boundary=" + this.BOUNDARY)
             .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
     }
 }

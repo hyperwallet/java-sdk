@@ -6,6 +6,7 @@ import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Map;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
@@ -65,6 +66,8 @@ public class HyperwalletDocument {
 
     private EKycDocumentVerificationStatus status;
 
+    public Map<String, String> uploadFiles;
+
     public EDocumentCategory getCategory() {
         return category;
     }
@@ -115,6 +118,14 @@ public class HyperwalletDocument {
     public HyperwalletDocument status(EKycDocumentVerificationStatus status) {
         setStatus(status);
         return this;
+    }
+
+    public Map<String, String> getUploadFiles() {
+        return uploadFiles;
+    }
+
+    public void setUploadFiles(Map<String, String> uploadFiles) {
+        this.uploadFiles = uploadFiles;
     }
 
 }

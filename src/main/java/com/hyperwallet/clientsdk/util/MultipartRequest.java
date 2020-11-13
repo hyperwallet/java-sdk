@@ -19,25 +19,25 @@ import java.net.URL;
 
 
 public class MultipartRequest extends Request{
-    final String boundary = "--0011010110123111";
-    final String crlf = "\r\n";
-    final String twoHyphens = "--";
+    final String BOUNDARY = "--0011010110123111";
+    final String CRLF = "\r\n";
+    final String SEPARATOR = "--";
     final String DATA = "data";
 
     HttpURLConnection connection;
-    List<Multipart> multipartList;
+    Multipart multipartList;
     DataOutputStream outStream;
     Map<String, List<String>> headers = new HashMap<String, List<String>>();
 
-    public List<Multipart> getMultipartList() {
+    public Multipart getMultipartList() {
         return multipartList;
     }
 
-    public void setMultipartList(List<Multipart> multipartList) {
+    public void setMultipartList(Multipart multipartList) {
         this.multipartList = multipartList;
     }
 
-    MultipartRequest(String url, List<Multipart> multipartList) throws IOException {
+    MultipartRequest(String url, Multipart multipartList) throws IOException {
         super(url);
         this.multipartList = multipartList;
     }
@@ -88,19 +88,18 @@ public class MultipartRequest extends Request{
     }
 
     private void writeMultipartBody() throws IOException {
-
-        for (Multipart multipartData : multipartList ){
+        for(Multipart.MultipartData multipartData : multipartList.getMultipartList()) {
             for (Map.Entry<String, Object> entry : multipartData.getEntity().entrySet()) {
-                outStream.writeBytes(this.twoHyphens + this.boundary + this.crlf);
+                outStream.writeBytes(this.SEPARATOR + this.BOUNDARY + this.CRLF);
                 outStream.writeBytes(multipartData.getContentDisposition());
                 outStream.writeBytes(multipartData.getContentType());
-                outStream.writeBytes(this.crlf);
-                outStream.writeBytes(entry.getValue() + this.crlf);
+                outStream.writeBytes(this.CRLF);
+                outStream.writeBytes(entry.getValue() + this.CRLF);
                 outStream.flush();
             }
         }
-        outStream.writeBytes(this.crlf);
-        outStream.writeBytes(this.twoHyphens + this.boundary + this.twoHyphens + this.crlf);
+        outStream.writeBytes(this.CRLF);
+        outStream.writeBytes(this.SEPARATOR + this.BOUNDARY + this.SEPARATOR + this.CRLF);
 
     }
 }

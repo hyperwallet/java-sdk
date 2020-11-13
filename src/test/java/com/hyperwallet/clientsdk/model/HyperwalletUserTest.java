@@ -16,10 +16,10 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
 
     protected HyperwalletUser createBaseModel() {
         HyperwalletUser user = new HyperwalletUser();
-        HyperwalletDocument hyperwalletDocument = new HyperwalletDocument();
-        hyperwalletDocument.category(EDocumentCategory.AUTHORIZATION).type(EIdentityVerificationType.LETTER_OF_AUTHORIZATION)
-                .country(ECountryCode.CA).status(EKycDocumentVerificationStatus.NEW);
-        List<HyperwalletDocument> hyperwalletDocumentList = new ArrayList<>();
+        HyperwalletVerificationDocument hyperwalletDocument = new HyperwalletVerificationDocument();
+        hyperwalletDocument.category("IDENTIFICATION").type("DRIVERS_LICENSE")
+                .country("US");
+        List<HyperwalletVerificationDocument> hyperwalletDocumentList = new ArrayList<>();
         hyperwalletDocumentList.add(hyperwalletDocument);
         List<HyperwalletLink> hyperwalletUserLinks = new ArrayList<>();
         HyperwalletLink link = new HyperwalletLink();

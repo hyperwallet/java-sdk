@@ -240,14 +240,27 @@ public class Hyperwallet {
      * @return HyperwalletBusinessStakeholder updated Stakeholder with document status
      */
     public HyperwalletBusinessStakeholder uploadStakeholderDocuments(String userToken, String businessStakeholderToken,
-                                                                     HyperwalletVerificationDocument uploadData) {
+                                                                     List<HyperwalletVerificationDocument> uploadData) {
+        Multipart multipart = new Multipart();
         if (userToken == null) {
             throw new HyperwalletException("User token may not be present");
         }
         if (businessStakeholderToken == null) {
             throw new HyperwalletException("BusinessStakeholderToken may not be required");
         }
-        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, uploadData,
+        if (uploadData == null || uploadData.size() < 1) {
+            throw new HyperwalletException("Data for upload is missing");
+        }
+        if (uploadData.get(0).getUploadFiles() == null || uploadData.get(0).getUploadFiles().size()  < 1) {
+            throw new HyperwalletException("Upload Files are missing");
+        }
+        try {
+            multipart = HyperwalletMultipartUtils.convert(uploadData);
+        } catch(IOException e) {
+            throw new HyperwalletException("Unable to convert to Multipart formdata");
+        }
+
+        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, multipart,
             HyperwalletBusinessStakeholder.class);
     }
 
@@ -2449,8 +2462,8 @@ public class Hyperwallet {
      * @param uploadData HyperwalletVerificationDocument to get uploaded
      * @return HyperwalletUser user object with document upload status
      */
-    public HyperwalletUser uploadUserDocuments(String userToken, HyperwalletVerificationDocument uploadData) {
-        List<Multipart> multipart = new ArrayList<>();
+    public HyperwalletUser uploadUserDocuments(String userToken, List<HyperwalletVerificationDocument> uploadData) {
+        Multipart multipart = new Multipart();
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is not present");
         }
