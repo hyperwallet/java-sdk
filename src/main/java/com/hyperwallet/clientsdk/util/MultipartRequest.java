@@ -15,10 +15,10 @@ import java.util.Map;
 
 
 public class MultipartRequest extends Request{
-    final String BOUNDARY = "--0011010110123111";
-    final String CRLF = "\r\n";
-    final String SEPARATOR = "--";
-    final String DATA = "data";
+    private final String BOUNDARY = "--0011010110123111";
+    private final String CRLF = "\r\n";
+    private final String SEPARATOR = "--";
+    private final String DATA = "data";
 
     HttpURLConnection connection;
     Multipart multipartList;
