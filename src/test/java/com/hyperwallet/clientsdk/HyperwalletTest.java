@@ -7872,6 +7872,10 @@ public class HyperwalletTest {
         Map<String,String> multipartUploadData =new HashMap<String,String>();
         multipartUploadData.put("data",jsonObject1.toString());
         HyperwalletVerificationDocument uploadData = new HyperwalletVerificationDocument();
+        Map<String,String> uploadFiles = new HashMap<String,String>();
+        uploadFiles.put("drivers_license_front", "/integration/test.png");
+        uploadData.setUploadFiles(uploadFiles);
+
         List<HyperwalletVerificationDocument> docList = new ArrayList<HyperwalletVerificationDocument>();
         docList.add(uploadData);
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
@@ -7934,13 +7938,16 @@ public class HyperwalletTest {
         List<HyperwalletVerificationDocument> hyperwalletVerificationDocumentList = new ArrayList<>();
         HyperwalletVerificationDocument hyperWalletVerificationDocument = new HyperwalletVerificationDocument();
         hyperWalletVerificationDocument.category("IDENTIFICATION").type("DRIVERS_LICENSE").status("NEW").country("AL");
+        Map<String,String> uploadFiles = new HashMap<String,String>();
+        uploadFiles.put("drivers_license_front", "/integration/test.png");
+        hyperWalletVerificationDocument.setUploadFiles(uploadFiles);
         hyperwalletVerificationDocumentList.add(hyperWalletVerificationDocument);
         hyperwalletBusinessStakeholder.setDocuments(hyperwalletVerificationDocumentList);
 
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
         Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.any(HyperwalletBusinessStakeholder.class), Mockito.any(Class.class)))
             .thenReturn(hyperwalletBusinessStakeholder);
-        HashMap<String,String> multipartUploadData =new HashMap<String,String>();
+        HashMap<String,String> multipartUploadData = new HashMap<String,String>();
         HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse = client.uploadStakeholderDocuments(userToken, businessStakeholderToken, hyperwalletVerificationDocumentList);
         assertThat(hyperwalletBusinessStakeholderResponse, isOneOf(null, hyperwalletBusinessStakeholder));
     }
