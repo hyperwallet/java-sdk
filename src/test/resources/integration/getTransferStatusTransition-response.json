@@ -1,0 +1,7 @@
+{
+  "token": "sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33",
+  "createdOn": "2017-11-16T02:04:17",
+  "transition": "SCHEDULED",
+  "fromStatus": "QUOTED",
+  "toStatus": "SCHEDULED"
+}
