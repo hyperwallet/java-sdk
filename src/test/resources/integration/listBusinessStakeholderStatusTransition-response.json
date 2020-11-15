@@ -1,0 +1,30 @@
+{
+  "hasNextPage": "false",
+  "hasPreviousPage": "false",
+  "limit": 10,
+  "data": [
+    {
+      "token": "sts-1825afa2-61f1-4860-aa69-a65b9d14f556",
+      "createdOn": "2017-11-16T00:55:57",
+      "transition": "DE_ACTIVATED",
+      "fromStatus": "ACTIVATED",
+      "toStatus": "DE_ACTIVATED",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-f695ef43-9614-4e17-9269-902c234616c3/business-stakeholders/stk-6829da02-7258-4b2b-bcb8-4bb97d4187d2/status-transitions/sts-1825afa2-61f1-4860-aa69-a65b9d14f556"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-f695ef43-9614-4e17-9269-902c234616c3/business-stakeholders/stk-6829da02-7258-4b2b-bcb8-4bb97d4187d2/status-transitions?limit=10"
+    }
+  ]
+}

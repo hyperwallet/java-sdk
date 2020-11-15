@@ -10,7 +10,6 @@ import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.LetterOfAuthorizationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
-import com.hyperwallet.clientsdk.util.HyperwalletMultipartUtils;
 import net.minidev.json.JSONObject;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -4511,8 +4510,9 @@ public class HyperwalletTest {
 
         ArgumentCaptor<HyperwalletStatusTransition> argument = ArgumentCaptor.forClass(HyperwalletStatusTransition.class);
         Mockito.verify(mockApiClient).post(Mockito
-                .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-accounts/test-bank-account-token/status-transitions"),
-            argument.capture(), Mockito.eq(transition.getClass()));
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-accounts/test-bank-account-token/status"
+                        + "-transitions"),
+                argument.capture(), Mockito.eq(transition.getClass()));
 
         HyperwalletStatusTransition apiClientTransition = argument.getValue();
         assertThat(apiClientTransition, is(notNullValue()));
@@ -4520,6 +4520,73 @@ public class HyperwalletTest {
         assertThat(apiClientTransition.getFromStatus(), is(nullValue()));
         assertThat(apiClientTransition.getToStatus(), is(nullValue()));
         assertThat(apiClientTransition.getCreatedOn(), is(nullValue()));
+    }
+
+    @Test
+    public void testGetBankAccountStatusTransition_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getBankAccountStatusTransition(null, null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetBankAccountStatusTransition_noBankAccountToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getBankAccountStatusTransition("test-user-token", null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Bank Account token is required")));
+            assertThat(e.getMessage(), is(equalTo("Bank Account token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetBankAccountStatusTransition_noTransitionToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getBankAccountStatusTransition("test-user-token", "test-bank-card-token", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Status Transition token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("Status Transition token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetBankAccountStatusTransition_successful() throws Exception {
+        HyperwalletStatusTransition transitionResponse = new HyperwalletStatusTransition();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(transitionResponse);
+
+        HyperwalletStatusTransition resp =
+                client.getBankAccountStatusTransition("test-user-token", "test-bank-account-token", "test-status-transition-token");
+        assertThat(resp, is(equalTo(transitionResponse)));
+
+        Mockito.verify(mockApiClient)
+                .get("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/bank-accounts/test-bank-account-token/status-transitions"
+                + "/test-status-transition-token",
+                        transitionResponse.getClass());
     }
 
 
@@ -7030,6 +7097,151 @@ public class HyperwalletTest {
             assertThat(e.getMessage(), startsWith("Server returned non-OK status: 401"));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
         }
+    }
+
+    @Test
+    public void testGetBusinessStakeholderStatusTransition_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getBusinessStakeholderStatusTransition(null, null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetBusinessStakeholderStatusTransition_noStakeholderToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getBusinessStakeholderStatusTransition("test-user-token", null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("StakeholderToken is required")));
+            assertThat(e.getMessage(), is(equalTo("StakeholderToken is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetBusinessStakeholderStatusTransition_noStatusTransitionToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getBusinessStakeholderStatusTransition("test-user-token", "test-stakeholder-token", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Status Transition token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("Status Transition token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetBusinessStakeholderStatusTransition_successful() throws Exception {
+        HyperwalletStatusTransition transitionResponse = new HyperwalletStatusTransition();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(transitionResponse);
+
+        HyperwalletStatusTransition resp =
+                client.getBusinessStakeholderStatusTransition("test-user-token", "test-stakeholder-token", "test-status-transition-token");
+        assertThat(resp, is(equalTo(transitionResponse)));
+        Mockito.verify(mockApiClient)
+                .get("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/business-stakeholders/test-stakeholder-token/status"
+                + "-transitions"
+                                + "/test-status-transition-token",
+                        transitionResponse.getClass());
+    }
+
+    @Test
+    public void testListBusinessStakeholderStatusTransition_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+
+        try {
+            client.listBusinessStakeholderStatusTransition(null, null, options);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("User token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListBusinessStakeholderStatusTransition_noStakeholderToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+
+        try {
+            client.listBusinessStakeholderStatusTransition("test-user-token", null, options);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("StakeholderToken is required")));
+            assertThat(e.getMessage(), is(equalTo("StakeholderToken is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testListBusinessStakeholderStatusTransition_withNullOptions() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.listBusinessStakeholderStatusTransition("test-user-token", null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("StakeholderToken is required")));
+            assertThat(e.getMessage(), is(equalTo("StakeholderToken is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+
+    @Test
+    public void testListBusinessStakeholderStatusTransition_successful() throws Exception {
+        HyperwalletList<HyperwalletStatusTransition> response = new HyperwalletList<HyperwalletStatusTransition>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        options
+                .sortBy("test-sort-by")
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletStatusTransition> resp =
+                client.listBusinessStakeholderStatusTransition("test-user-token", "test-stakeholder-token", options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/business-stakeholders/test-stakeholder-token/status"
+                        + "-transitions?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by"),
+                Mockito.any(TypeReference.class));
     }
 
     @Test
