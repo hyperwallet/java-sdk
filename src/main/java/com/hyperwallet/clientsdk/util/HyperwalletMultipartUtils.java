@@ -24,9 +24,9 @@ public class HyperwalletMultipartUtils {
         for (HyperwalletVerificationDocument uploadData : uploadList) {
 
             addDocumentValue(document, "type", uploadData.getType());
-            if (!StringUtils.isEmpty(uploadData.getCountry())) document.put("country", uploadData.getCountry());
-            if (!StringUtils.isEmpty(uploadData.getCategory())) document.put("category", uploadData.getCategory());
-            if (!StringUtils.isEmpty(uploadData.getStatus())) document.put("status", uploadData.getStatus());
+            addDocumentValue(document, "country", uploadData.getCountry());
+            addDocumentValue(document, "category", uploadData.getCategory());
+            addDocumentValue(document, "status", uploadData.getStatus());
             List<JSONObject> documents = new ArrayList<>();
             documents.add(document);
             JSONObject data = new JSONObject();

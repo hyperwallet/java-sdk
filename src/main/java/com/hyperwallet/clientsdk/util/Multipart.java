@@ -28,9 +28,9 @@ public class Multipart {
     }
 
     public static class MultipartData {
-        private String contentType; //json, img
-        private Map<String, String> entity; //name, content
-        private String contentDisposition;
+        private final String contentType; //json, img
+        private final Map<String, String> entity; //name, content
+        private final String contentDisposition;
 
         MultipartData(String contentType, String contentDisposition, Map<String, String> entity){
             this.contentType = contentType;

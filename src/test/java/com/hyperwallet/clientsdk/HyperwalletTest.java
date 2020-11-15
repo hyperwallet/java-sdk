@@ -7004,7 +7004,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testUploadDocumentBusinessStakeholder() throws Exception {
+    public void testUploadDocumentBusinessStakeholder_withError() throws Exception {
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
 

@@ -167,7 +167,7 @@ public class HyperwalletApiClient {
     private String getAuthorizationHeader() {
          final String pair = this.username + ":" + this.password;
          final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
-        return "Basic " + base64;
+         return "Basic " + base64;
     }
 
     private Request getService(final String url, boolean isHttpGet) {
