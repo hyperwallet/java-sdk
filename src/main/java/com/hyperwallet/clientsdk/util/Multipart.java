@@ -20,7 +20,7 @@ public class Multipart {
         this.multipartList = multipartList;
     }
 
-    public void add(MultipartData multipartData){
+    public void add(MultipartData multipartData) {
         if (multipartList == null) {
             multipartList = new ArrayList<MultipartData>();
         }
@@ -32,28 +32,22 @@ public class Multipart {
         private Map<String, String> entity; //name, content
         private String contentDisposition;
 
+        MultipartData(String contentType, String contentDisposition, Map<String, String> entity){
+            this.contentType = contentType;
+            this.contentDisposition = contentDisposition;
+            this.entity = entity;
+        }
         public String getContentType() {
             return contentType;
-        }
-
-        public void setContentType(String contentType) {
-            this.contentType = contentType;
         }
 
         public String getContentDisposition() {
             return contentDisposition;
         }
 
-        public void setContentDisposition(String contentDisposition) {
-            this.contentDisposition = contentDisposition;
-        }
-
         public Map<String, String> getEntity() {
             return entity;
         }
 
-        public void setEntity(Map<String, String> entity) {
-            this.entity = entity;
-        }
     }
 }

@@ -246,7 +246,7 @@ public class Hyperwallet {
             throw new HyperwalletException("User token may not be present");
         }
         if (businessStakeholderToken == null) {
-            throw new HyperwalletException("BusinessStakeholderToken may not be required");
+            throw new HyperwalletException("BusinessStakeholderToken may not be present");
         }
         if (uploadData == null || uploadData.size() < 1) {
             throw new HyperwalletException("Data for upload is missing");

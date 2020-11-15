@@ -16,9 +16,7 @@ import java.util.Map;
 
 public class MultipartRequest extends Request{
     private final String BOUNDARY = "--0011010110123111";
-    private final String CRLF = "\r\n";
     private final String SEPARATOR = "--";
-    private final String DATA = "data";
 
     private HttpURLConnection connection;
     private Multipart multipartList = new Multipart();
@@ -29,6 +27,7 @@ public class MultipartRequest extends Request{
     private final String username;
     private final String password;
 
+    public static final String CRLF = "\r\n";
     public Multipart getMultipartList() {
         return multipartList;
     }
@@ -78,7 +77,7 @@ public class MultipartRequest extends Request{
             response.setHeaders(this.connection.getHeaderFields());
             this.connection.disconnect();
         } else {
-            throw new HyperwalletException("Server returned non-OK status: " + status);
+            throw new HyperwalletException("Server returned non-OK status: " + status + "; Message: " + this.connection.getResponseMessage());
         }
         return response;
     }

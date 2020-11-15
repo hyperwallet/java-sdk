@@ -23,7 +23,7 @@ public class HyperwalletMultipartUtils {
         JSONObject document = new JSONObject();
         Multipart multipartList = new Multipart();
         for (HyperwalletVerificationDocument uploadData : uploadList) {
-            Multipart.MultipartData multipart = new Multipart.MultipartData();
+
             addDocumentValue(document, "type", uploadData.getType());
             if (!StringUtils.isEmpty(uploadData.getCountry())) document.put("country", uploadData.getCountry());
             if (!StringUtils.isEmpty(uploadData.getCategory())) document.put("category", uploadData.getCategory());
@@ -35,13 +35,13 @@ public class HyperwalletMultipartUtils {
             Map<String, String> multiPartUploadData = new HashMap<>();
             multiPartUploadData.put("data", data.toString());
 
-            multipart.setContentType("Content-Type: application/json" + crlf);
-            multipart.setContentDisposition("Content-Disposition: form-data; name=\"" + "data" + "\"" + crlf);
-            multipart.setEntity(multiPartUploadData);
+            Multipart.MultipartData multipart = new Multipart.MultipartData("Content-Type: application/json" + crlf,
+                "Content-Disposition: form-data; name=\"" + "data" + "\"" + crlf,
+                multiPartUploadData);
             multipartList.add(multipart);
 
             for (Map.Entry<String, String> entry : uploadData.getUploadFiles().entrySet()) {
-                Multipart.MultipartData multipart1 = new Multipart.MultipartData();
+
                 Path path = Paths.get(entry.getValue());
 
                 String fileName = path.getFileName().toString();
@@ -50,13 +50,13 @@ public class HyperwalletMultipartUtils {
                 if (i >= 0) {
                     extension = fileName.substring(i + 1);
                 }
-                multipart1.setContentType("Content-Type: image/" + extension + crlf);
-                multipart1.setContentDisposition("Content-Disposition: form-data; name=\"" +
-                    entry.getKey() + "\"; filename=\"" +
-                    fileName + "\" " + crlf);
-                Map<String, String> multiPartUploadData1 = new HashMap<>();
-                multiPartUploadData1.put(entry.getKey(), entry.getValue());
-                multipart1.setEntity(multiPartUploadData1);
+                Map<String, String> entity = new HashMap<>();
+                entity.put(entry.getKey(), entry.getValue());
+                Multipart.MultipartData multipart1 = new Multipart.MultipartData("Content-Type: image/" + extension + crlf,
+                    "Content-Disposition: form-data; name=\"" +
+                        entry.getKey() + "\"; filename=\"" +
+                        fileName + "\" " + crlf,
+                    entity );
                 multipartList.add(multipart1);
             }
         }
