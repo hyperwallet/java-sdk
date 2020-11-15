@@ -18,7 +18,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import java.io.IOException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,6 +35,22 @@ import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 import static org.mockserver.model.Header.header;
 import static org.mockserver.model.JsonBody.json;
 import static org.testng.Assert.*;
+
+//import com.hyperwallet.clientsdk.util.MultipartUtility;
+import net.minidev.json.JSONObject;
+
+import javax.net.ssl.*;
+import javax.xml.bind.DatatypeConverter;
+import java.io.File;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
+import com.hyperwallet.clientsdk.HyperwalletException;
+
 
 public class HyperwalletIT {
 
@@ -3100,4 +3121,66 @@ public class HyperwalletIT {
         return dateFormat.parse(date);
     }
 
+    static class DefaultTrustManager implements X509TrustManager {
+
+        public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+        }
+
+        public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+        }
+
+        public X509Certificate[] getAcceptedIssuers() {
+            return null;
+        }
+    }
+
+    public static void main(String agrs[]) throws Exception {
+
+        Hyperwallet client = new Hyperwallet("selrestuser@1861681",
+                "Password1!", "prg-82499161-57d3-4160-8209-85db18d62c02",
+                "https://localhost-hyperwallet.aws.paylution.net:8181");
+
+        try {
+
+            SSLContext ctx = SSLContext.getInstance("TLS");
+            ctx.init(new KeyManager[0], new TrustManager[]{new DefaultTrustManager()}, new SecureRandom());
+            SSLContext.setDefault(ctx);
+            HttpsURLConnection.setDefaultHostnameVerifier((hostname, sslSession) -> hostname.contains("localhost"));
+            String pair = "selrestuser@1861681" + ":" + "Password1!";
+            final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
+
+            String userToken = "usr-5f33de8a-ff30-411d-8cf0-ae458819c286";
+            List<HyperwalletVerificationDocument> documentList = new ArrayList<>();
+            HyperwalletVerificationDocument hyperwalletVerificationDocument1 = new HyperwalletVerificationDocument();;
+            hyperwalletVerificationDocument1.setType("DRIVERS_LICENSE");
+            hyperwalletVerificationDocument1.setCategory("IDENTIFICATION");
+            hyperwalletVerificationDocument1.setCountry("US");
+            Map<String, String> fileList =  new HashMap<>();
+            fileList.put("drivers_license_front",  "/Users/ramahalingam/Desktop/L1.png");
+            fileList.put("drivers_license_back",  "/Users/ramahalingam/Desktop/L2.png");
+            hyperwalletVerificationDocument1.setUploadFiles(fileList);
+            documentList.add(hyperwalletVerificationDocument1);
+
+
+//            documentList.add(hyperwalletVerificationDocument2);
+            client.uploadUserDocuments(userToken, documentList);
+
+
+
+
+
+
+
+
+        } catch (HyperwalletException e) {
+            System.out.println("Exception occure" + e.getErrorMessage());
+            System.out.println("Exception occure" + e.getErrorCode());
+            System.out.println("Exception occure" + e.getCause());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
