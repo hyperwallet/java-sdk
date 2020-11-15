@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MultipartRequest extends Request{
+public class MultipartRequest extends Request {
     private final String BOUNDARY = "--0011010110123111";
     private final String SEPARATOR = "--";
 
@@ -55,7 +55,7 @@ public class MultipartRequest extends Request{
         connection.setRequestMethod("PUT");
         connection.setRequestProperty("authorization", "Basic " + base64);
         connection.setRequestProperty("accept", "application/json");
-        connection.setRequestProperty("Content-Type", "multipart/form-data; boundary="+BOUNDARY);
+        connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
         outStream = new DataOutputStream(this.connection.getOutputStream());
         writeMultipartBody();
         outStream.flush();

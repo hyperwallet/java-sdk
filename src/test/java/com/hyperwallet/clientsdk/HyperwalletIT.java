@@ -9,11 +9,6 @@ import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.VerificationSta
 import com.hyperwallet.clientsdk.model.HyperwalletUser.Gender;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.ProfileType;
-import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
-import jdk.nashorn.internal.ir.Node;
-import org.json.JSONObject;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
