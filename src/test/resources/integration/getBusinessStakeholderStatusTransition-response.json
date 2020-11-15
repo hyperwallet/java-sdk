@@ -1,0 +1,15 @@
+{
+  "token": "sts-16d9ae38-f29f-4360-a1c0-0bceafb12c27",
+  "createdOn": "2020-11-13T00:41:03",
+  "transition": "DE_ACTIVATED",
+  "fromStatus": "ACTIVATED",
+  "toStatus": "DE_ACTIVATED",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://localhost-hyperwallet.aws.paylution.net:8181/rest/v4/users/usr-9b0e6dfe-c26b-4ddf-9d79-96b332c1dc8a/business-stakeholders/stk-6829da02-7258-4b2b-bcb8-4bb97d4187d2/status-transitions/sts-16d9ae38-f29f-4360-a1c0-0bceafb12c27"
+    }
+  ]
+}

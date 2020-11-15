@@ -2,25 +2,20 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
-import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
-import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
-import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
-import com.sun.jersey.multipart.FormDataMultiPart;
+import com.hyperwallet.clientsdk.util.*;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * The Hyperwallet Client
  */
 public class Hyperwallet {
 
-    public static final String VERSION = "2.0.0";
+    public static final String VERSION = "2.2.0";
     private final HyperwalletApiClient apiClient;
     private final String programToken;
     private final String url;
@@ -241,18 +236,31 @@ public class Hyperwallet {
      *
      * @param userToken                String
      * @param businessStakeholderToken Hyperwallet Stakeholder representation
-     * @param multiPart                FormdataMultipart to get uploaded
+     * @param uploadData                HyperwalletVerificationDocument to get uploaded
      * @return HyperwalletBusinessStakeholder updated Stakeholder with document status
      */
-    public HyperwalletBusinessStakeholder uploadDocumentBusinessStakeholder(String userToken, String businessStakeholderToken,
-                                                                            FormDataMultiPart multiPart) {
+    public HyperwalletBusinessStakeholder uploadStakeholderDocuments(String userToken, String businessStakeholderToken,
+                                                                     List<HyperwalletVerificationDocument> uploadData) {
+        Multipart multipart = new Multipart();
         if (userToken == null) {
             throw new HyperwalletException("User token may not be present");
         }
         if (businessStakeholderToken == null) {
-            throw new HyperwalletException("BusinessStakeholderToken may not be required");
+            throw new HyperwalletException("BusinessStakeholderToken may not be present");
         }
-        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, multiPart,
+        if (uploadData == null || uploadData.size() < 1) {
+            throw new HyperwalletException("Data for upload is missing");
+        }
+        if (uploadData.get(0).getUploadFiles() == null || uploadData.get(0).getUploadFiles().size()  < 1) {
+            throw new HyperwalletException("Upload Files are missing");
+        }
+        try {
+            multipart = HyperwalletMultipartUtils.convert(uploadData);
+        } catch(IOException e) {
+            throw new HyperwalletException("Unable to convert to Multipart formdata");
+        }
+
+        return apiClient.put(url + "/users/" + userToken + "/business-stakeholders/" + businessStakeholderToken, multipart,
             HyperwalletBusinessStakeholder.class);
     }
 
@@ -280,18 +288,76 @@ public class Hyperwallet {
         transition.setFromStatus(null);
         transition.setToStatus(null);
 
-        return apiClient.post(url + "/users/" + userToken + "/business-stakeholders/" + stakeholderToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+        return apiClient.post(url + "/users/" + userToken + "/business-stakeholders/" + stakeholderToken + "/status-transitions", transition,
+                HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * Get Business Stakeholder Status transition
+     *
+     * @param userToken             String
+     * @param stakeholderToken      Hyperwallet Stakeholder token
+     * @param statusTransitionToken Hyperwallet Status Transition token
+     * @return HyperwalletStatusTransition
+     */
+    public HyperwalletStatusTransition getBusinessStakeholderStatusTransition(String userToken, String stakeholderToken,
+            String statusTransitionToken) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        if (stakeholderToken == null) {
+            throw new HyperwalletException("StakeholderToken is required");
+        }
+        if (statusTransitionToken == null) {
+            throw new HyperwalletException("Status Transition token may not be present");
+        }
+
+        return apiClient
+                .get(url + "/users/" + userToken + "/business-stakeholders/" + stakeholderToken + "/status-transitions/" + statusTransitionToken,
+                        HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * List Business Stakeholder Status transition
+     *
+     * @param userToken        String
+     * @param stakeholderToken Hyperwallet Stakeholder token
+     * @return HyperwalletList of  HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listBusinessStakeholderStatusTransition(String userToken, String stakeholderToken,
+            HyperwalletPaginationOptions options) {
+        if (userToken == null) {
+            throw new HyperwalletException("User token may not be present");
+        }
+        if (stakeholderToken == null) {
+            throw new HyperwalletException("StakeholderToken is required");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/business-stakeholders/" + stakeholderToken + "/status-transitions", options);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
+        });
+    }
+
+    /**
+     * List Business Stakeholder Status transition
+     *
+     * @param userToken        String
+     * @param stakeholderToken Hyperwallet Stakeholder token
+     * @return HyperwalletList of  HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listBusinessStakeholderStatusTransition(String userToken, String stakeholderToken) {
+        return listBusinessStakeholderStatusTransition(userToken, stakeholderToken, null);
     }
 
     /**
      * Activate a business stakeholder
      *
-     * @param userToken User token
+     * @param userToken        User token
      * @param stakeholderToken Business Stakeholder token
      * @return The status transition
      */
     public HyperwalletStatusTransition activateBusinessStakeholder(String userToken, String stakeholderToken) {
-        return createBusinessStakeholderStatusTransition(userToken, stakeholderToken, new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.ACTIVATED));
+        return createBusinessStakeholderStatusTransition(userToken, stakeholderToken,
+                new HyperwalletStatusTransition(HyperwalletStatusTransition.Status.ACTIVATED));
     }
 
     /**
@@ -1847,7 +1913,30 @@ public class Hyperwallet {
         transition.setCreatedOn(null);
         transition.setFromStatus(null);
         transition.setToStatus(null);
-        return apiClient.post(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+        return apiClient.post(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", transition,
+                HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * Get Bank Account Status Transition
+     *
+     * @param userToken             User token
+     * @param bankAccountToken      Bank Account token
+     * @param statusTransitionToken Status transition token
+     * @return HyperwalletStatusTransition
+     */
+    public HyperwalletStatusTransition getBankAccountStatusTransition(String userToken, String bankAccountToken, String statusTransitionToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(bankAccountToken)) {
+            throw new HyperwalletException("Bank Account token is required");
+        }
+        if (StringUtils.isEmpty(statusTransitionToken)) {
+            throw new HyperwalletException("Status Transition token may not be present");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions/" + statusTransitionToken,
+                HyperwalletStatusTransition.class);
     }
 
     /**
@@ -2451,14 +2540,26 @@ public class Hyperwallet {
      * Upload documents
      *
      * @param userToken userToken for which documents to be uploaded
-     * @param multiPart multipart FormdataMultipart to get uploaded
+     * @param uploadData HyperwalletVerificationDocument to get uploaded
      * @return HyperwalletUser user object with document upload status
      */
-    public HyperwalletUser documentUpload(String userToken, FormDataMultiPart multiPart) {
+    public HyperwalletUser uploadUserDocuments(String userToken, List<HyperwalletVerificationDocument> uploadData) {
+        Multipart multipart = new Multipart();
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is not present");
         }
-        return apiClient.put(url + "/users/" + userToken, multiPart, HyperwalletUser.class);
+        if (uploadData == null || uploadData.size() < 1) {
+            throw new HyperwalletException("Data for upload is missing");
+        }
+        if (uploadData.get(0).getUploadFiles() == null || uploadData.get(0).getUploadFiles().size()  < 1) {
+            throw new HyperwalletException("Upload Files are missing");
+        }
+        try {
+            multipart = HyperwalletMultipartUtils.convert(uploadData);
+        } catch(IOException e) {
+            throw new HyperwalletException("Unable to convert to Multipart formdata");
+        }
+        return apiClient.put(url + "/users/" + userToken, multipart, HyperwalletUser.class);
     }
 
     //--------------------------------------

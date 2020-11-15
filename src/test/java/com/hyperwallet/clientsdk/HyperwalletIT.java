@@ -18,6 +18,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -2866,6 +2867,42 @@ public class HyperwalletIT {
     }
 
     @Test
+    public void testGetBankAccountStatusTransition() throws Exception {
+        String functionality = "getBankAccountStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.getBankAccountStatusTransition("usr-f695ef43-9614-4e17-9269-902c234616c3",
+                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26",
+                    "sts-1825afa2-61f1-4860-aa69-a65b9d14f556");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-f695ef43-9614-4e17-9269-902c234616c3/bank-accounts/trm-d69300ef-5011-486b-bd2e"
+                + "-bfd8b20fef26/status-transitions/sts-1825afa2-61f1-4860-aa69-a65b9d14f556");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+        assertThat(returnValue.getToken(), is(equalTo("sts-1825afa2-61f1-4860-aa69-a65b9d14f556")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T00:55:57 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getNotes(), is(equalTo("Closing this account.")));
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
+
+
+    @Test
     public void testListBankAccountStatusTransitions() throws Exception {
         String functionality = "listBankAccountStatusTransitions";
         initMockServer(functionality);
@@ -3005,6 +3042,78 @@ public class HyperwalletIT {
         assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
     }
 
+    //
+    // Business Stakeholders
+    //
+
+    @Test
+    public void testGetBusinessStakeholderStatusTransition() throws Exception {
+        String functionality = "getBusinessStakeholderStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.getBusinessStakeholderStatusTransition("usr-9b0e6dfe-c26b-4ddf-9d79-96b332c1dc8a",
+                    "stk-6829da02-7258-4b2b-bcb8-4bb97d4187d2", "sts-16d9ae38-f29f-4360-a1c0-0bceafb12c27");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://localhost-hyperwallet.aws.paylution.net:8181/rest/v4/users/usr-9b0e6dfe-c26b-4ddf-9d79-96b332c1dc8a/business-stakeholders"
+                + "/stk-6829da02-7258-4b2b-bcb8-4bb97d4187d2/status-transitions/sts-16d9ae38-f29f-4360-a1c0-0bceafb12c27");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+        assertThat(returnValue.getToken(), is(equalTo("sts-16d9ae38-f29f-4360-a1c0-0bceafb12c27")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2020-11-13T00:41:03 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
+
+    @Test
+    public void testListBusinessStakeholderStatusTransition() throws Exception {
+        String functionality = "listBusinessStakeholderStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletStatusTransition> returnValue;
+        try {
+            returnValue = client.listBusinessStakeholderStatusTransition("usr-f695ef43-9614-4e17-9269-902c234616c3",
+                    "stk-6829da02-7258-4b2b-bcb8-4bb97d4187d2");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-f695ef43-9614-4e17-9269-902c234616c3/business-stakeholders/stk-6829da02-7258"
+                + "-4b2b-bcb8-4bb97d4187d2/status-transitions?limit=10");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+        assertThat(returnValue.hasNextPage(), is(equalTo(false)));
+        assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
+        assertThat(returnValue.getLimit(), is(equalTo(10)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-1825afa2-61f1-4860-aa69-a65b9d14f556")));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T00:55:57 UTC"))));
+        assertThat(returnValue.getData().get(0).getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getToStatus(), is(equalTo(DE_ACTIVATED)));
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
 
     //
     // Authentication Token
