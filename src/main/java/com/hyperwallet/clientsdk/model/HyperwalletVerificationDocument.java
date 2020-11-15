@@ -8,6 +8,7 @@ import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Map;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
@@ -22,6 +23,8 @@ HyperwalletVerificationDocument {
     private String status;
 
     private String country;
+
+    public Map<String, String> uploadFiles;
 
     public String getCategory() {
         return category;
@@ -72,6 +75,19 @@ HyperwalletVerificationDocument {
 
     public HyperwalletVerificationDocument country(String country) {
         setCountry(country);
+        return this;
+    }
+
+    public Map<String, String> getUploadFiles() {
+        return uploadFiles;
+    }
+
+    public void setUploadFiles(Map<String, String> uploadFiles) {
+        this.uploadFiles = uploadFiles;
+    }
+
+    public HyperwalletVerificationDocument uploadFiles(Map<String, String> uploadFiles) {
+        setUploadFiles(uploadFiles);
         return this;
     }
 }
