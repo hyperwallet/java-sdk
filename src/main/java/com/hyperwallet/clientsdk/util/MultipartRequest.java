@@ -26,8 +26,8 @@ public class MultipartRequest extends Request{
 
     private final String username;
     private final String password;
-
     public static final String CRLF = "\r\n";
+
     public Multipart getMultipartList() {
         return multipartList;
     }

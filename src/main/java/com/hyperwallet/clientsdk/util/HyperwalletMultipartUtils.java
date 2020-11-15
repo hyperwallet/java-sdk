@@ -19,7 +19,6 @@ public class HyperwalletMultipartUtils {
 
     public static Multipart convert(List<HyperwalletVerificationDocument> uploadList) throws IOException {
 
-        final String crlf = "\r\n";
         JSONObject document = new JSONObject();
         Multipart multipartList = new Multipart();
         for (HyperwalletVerificationDocument uploadData : uploadList) {
@@ -35,8 +34,8 @@ public class HyperwalletMultipartUtils {
             Map<String, String> multiPartUploadData = new HashMap<>();
             multiPartUploadData.put("data", data.toString());
 
-            Multipart.MultipartData multipart = new Multipart.MultipartData("Content-Type: application/json" + crlf,
-                "Content-Disposition: form-data; name=\"" + "data" + "\"" + crlf,
+            Multipart.MultipartData multipart = new Multipart.MultipartData("Content-Type: application/json" + MultipartRequest.CRLF,
+                "Content-Disposition: form-data; name=\"" + "data" + "\"" + MultipartRequest.CRLF,
                 multiPartUploadData);
             multipartList.add(multipart);
 
@@ -52,10 +51,10 @@ public class HyperwalletMultipartUtils {
                 }
                 Map<String, String> entity = new HashMap<>();
                 entity.put(entry.getKey(), entry.getValue());
-                Multipart.MultipartData multipart1 = new Multipart.MultipartData("Content-Type: image/" + extension + crlf,
+                Multipart.MultipartData multipart1 = new Multipart.MultipartData("Content-Type: image/" + extension + MultipartRequest.CRLF,
                     "Content-Disposition: form-data; name=\"" +
                         entry.getKey() + "\"; filename=\"" +
-                        fileName + "\" " + crlf,
+                        fileName + "\" " + MultipartRequest.CRLF,
                     entity );
                 multipartList.add(multipart1);
             }
