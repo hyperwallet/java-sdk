@@ -10,6 +10,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletUser.Gender;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.ProfileType;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
+import jdk.nashorn.internal.ir.Node;
 import org.json.JSONObject;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -107,32 +108,6 @@ public class HyperwalletIT {
         assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
-    }
-
-    @Test
-    public void testUploadUserDocument() throws Exception {
-
-        Hyperwallet client = new Hyperwallet("test-username", "test-username");
-        HyperwalletUser hyperwalletUser = new HyperwalletUser();
-        HyperwalletVerificationDocument hyperwalletDocument =
-            new HyperwalletVerificationDocument();
-        hyperwalletDocument.category("IDENTIFICATION")
-            .type("DRIVERS_LICENSE")
-            .country("US");
-
-        Map<String,String> uploadFiles = new HashMap<String,String>();
-        ClassLoader classLoader = getClass().getClassLoader();
-        uploadFiles.put("drivers_license_front", new File(classLoader.getResource("integration/test.png").toURI()).getAbsolutePath());
-        uploadFiles.put("drivers_license_back", new File(classLoader.getResource("integration/test.png").toURI()).getAbsolutePath());
-
-        hyperwalletDocument.setUploadFiles(uploadFiles);
-        List<HyperwalletVerificationDocument> hyperwalletDocumentList = new ArrayList<>();
-        hyperwalletDocumentList.add(hyperwalletDocument);
-        hyperwalletUser.setDocuments(hyperwalletDocumentList);
-        HashMap<String,String> multiPartUploadData = new HashMap<String,String>();
-
-        HyperwalletUser hyperwalletUserresponse = client.uploadUserDocuments("usr-9aff8645-4bc3-4f12-9f95-f85652806472", hyperwalletDocumentList);
-        assertThat(hyperwalletUserresponse, is(equalTo(hyperwalletUser)));
     }
 
     @Test

@@ -7913,6 +7913,43 @@ public class HyperwalletTest {
     }
 
     @Test
+    public void testUploadUserDocument_Error() throws Exception {
+        HyperwalletUser hyperwalletUserresponse;
+        try {
+
+            Hyperwallet client = new Hyperwallet("test-username", "test-username");
+            HyperwalletUser hyperwalletUser = new HyperwalletUser();
+            HyperwalletVerificationDocument hyperwalletDocument =
+                new HyperwalletVerificationDocument();
+            hyperwalletDocument.category("IDENTIFICATION")
+                .type("DRIVERS_LICENSE")
+                .country("US");
+
+            Map<String,String> uploadFiles = new HashMap<String,String>();
+            ClassLoader classLoader = getClass().getClassLoader();
+            uploadFiles.put("drivers_license_front", new File(classLoader.getResource("integration/test.png").toURI()).getAbsolutePath());
+            uploadFiles.put("drivers_license_back", new File(classLoader.getResource("integration/test.png").toURI()).getAbsolutePath());
+
+            hyperwalletDocument.setUploadFiles(uploadFiles);
+            List<HyperwalletVerificationDocument> hyperwalletDocumentList = new ArrayList<>();
+            hyperwalletDocumentList.add(hyperwalletDocument);
+            hyperwalletUser.setDocuments(hyperwalletDocumentList);
+            HashMap<String,String> multiPartUploadData = new HashMap<String,String>();
+
+            hyperwalletUserresponse = client.uploadUserDocuments("usr-9aff8645-4bc3-4f12-9f95-f85652806472", hyperwalletDocumentList);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Server returned non-OK status: 401; Message: Unauthorized")));
+            assertThat(e.getMessage(), is(equalTo("Server returned non-OK status: 401; Message: Unauthorized")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+
+    @Test
     public void testUploadStakeholderDocuments_noUserToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         String businessStakeholderToken = "business-token";
