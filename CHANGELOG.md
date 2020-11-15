@@ -1,5 +1,12 @@
 Changelog
 =========
+
+2.2.0
+-----------------
+- Added Upload Multipart form-data (removed Jersey dependency)
+- Added Business stakeholder status transitionsv (get, list)
+- Added Bank Account status transitions (get)
+
 2.1.0
 -----------------
 - Added Business Stakeholders status transitions
