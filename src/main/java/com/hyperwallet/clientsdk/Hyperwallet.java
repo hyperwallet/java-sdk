@@ -19,7 +19,7 @@ import java.util.TimeZone;
  */
 public class Hyperwallet {
 
-    public static final String VERSION = "1.4.2";
+    public static final String VERSION = "1.7.0";
 
     private final HyperwalletApiClient apiClient;
     private final String programToken;
@@ -840,6 +840,7 @@ public class Hyperwallet {
      *
      * @param userToken User token
      * @param paperCheckToken Paper Check token
+     * @param notes notes for deactivating paper check
      * @return The status transition
      */
     public HyperwalletStatusTransition deactivatePaperCheck(String userToken, String paperCheckToken, String notes) {
@@ -1000,6 +1001,7 @@ public class Hyperwallet {
      * Create Transfer Status Transition
      *
      * @param transferToken        Transfer token assigned
+     * @param transition        HyperwalletStatusTransition object passed
      * @return HyperwalletStatusTransition new status for Transfer Request
      */
     public HyperwalletStatusTransition createTransferStatusTransition(String transferToken, HyperwalletStatusTransition transition) {
