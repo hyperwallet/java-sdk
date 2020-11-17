@@ -2175,8 +2175,26 @@ public class Hyperwallet {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Json-Cache-Token", jsonCacheToken);
 
-        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
+        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class,
+                headers);
     }
+
+    /**
+     * List Transfer Methods
+     *
+     * @param userToken String user token
+     * @param options   List filter option
+     * @return HyperwalletList of HyperwalletTransferMethod
+     */
+    public HyperwalletList<HyperwalletTransferMethod> listTransferMethods(String userToken, HyperwalletPaginationOptions options) {
+        String url = paginate(this.url + "/users/" + userToken + "/transfer-methods", options);
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferMethod>>() {
+        });
+    }
+
     //--------------------------------------
     // Internal utils
     //--------------------------------------

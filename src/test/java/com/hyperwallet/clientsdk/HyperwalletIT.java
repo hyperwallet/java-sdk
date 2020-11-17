@@ -1,6 +1,8 @@
 package com.hyperwallet.clientsdk;
 
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.Brand;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.CardType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.*;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
@@ -1168,6 +1170,63 @@ public class HyperwalletIT {
         assertThat(returnValue.getTransition(), is(equalTo(COMPLETED)));
         assertThat(returnValue.getFromStatus(), is(equalTo(CREATED)));
         assertThat(returnValue.getToStatus(), is(equalTo(COMPLETED)));
+    }
+
+    @Test
+    public void testListTransferMethods() throws Exception {
+        String functionality = "listTransferMethods";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletTransferMethod> returnValue;
+        try {
+            String userToken = "usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad";
+            returnValue = client.listTransferMethods(userToken, null);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        HyperwalletTransferMethod bandTransferMethod = returnValue.getData().get(0);
+        assertThat(bandTransferMethod.getToken(), is(equalTo("trm-a43b1064-da94-457f-ae56-e4f85bd36aec")));
+        assertThat(bandTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
+        assertThat(bandTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(bandTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:10 UTC"))));
+        assertThat(bandTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(bandTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(bandTransferMethod.getBranchId(), is(equalTo("021000021")));
+        assertThat(bandTransferMethod.getBankAccountId(), is(equalTo("1599657189")));
+        assertThat(bandTransferMethod.getBankAccountPurpose(), is(equalTo("SAVINGS")));
+        assertThat(bandTransferMethod.getUserToken(), is(equalTo("usr-539f5e81-a52e-4bc5-aba7-f17de183c900")));
+        assertThat(bandTransferMethod.getProfileType(), is(equalTo(ProfileType.INDIVIDUAL)));
+        assertThat(bandTransferMethod.getFirstName(), is(equalTo("FirstName")));
+        assertThat(bandTransferMethod.getLastName(), is(equalTo("LastName")));
+        assertThat(bandTransferMethod.getDateOfBirth(), is(equalTo(dateFormat.parse("2000-09-09T18:43:10 UTC"))));
+        assertThat(bandTransferMethod.getGender(), is(equalTo(Gender.MALE)));
+        assertThat(bandTransferMethod.getPhoneNumber(), is(equalTo("605-555-1323")));
+        assertThat(bandTransferMethod.getMobileNumber(), is(equalTo("605-555-1323")));
+        assertThat(bandTransferMethod.getGovernmentId(), is(equalTo("444444444")));
+        assertThat(bandTransferMethod.getAddressLine1(), is(equalTo("1234 IndividualAddress St")));
+        assertThat(bandTransferMethod.getAddressLine2(), is(equalTo("1234 AddressLineTwo St")));
+        assertThat(bandTransferMethod.getCity(), is(equalTo("TestCity")));
+        assertThat(bandTransferMethod.getStateProvince(), is(equalTo("CA")));
+        assertThat(bandTransferMethod.getCountry(), is(equalTo("US")));
+        assertThat(bandTransferMethod.getPostalCode(), is(equalTo("12345")));
+
+        HyperwalletTransferMethod cardTransferMethod = returnValue.getData().get(1);
+
+        assertThat(cardTransferMethod.getToken(), is(equalTo("trm-c8e4c164-7d5b-4b5b-8b6a-9c4d68c2a9fe")));
+        assertThat(cardTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
+        assertThat(cardTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.PRE_ACTIVATED)));
+        assertThat(cardTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:34 UTC"))));
+        assertThat(cardTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(cardTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(cardTransferMethod.getCardType(), is(equalTo(CardType.PERSONALIZED)));
+        assertThat(cardTransferMethod.getCardPackage(), is(equalTo("L1")));
+        assertThat(cardTransferMethod.getCardNumber(), is(equalTo("************4194")));
+        assertThat(cardTransferMethod.getCardBrand(), is(equalTo(Brand.VISA)));
+        assertThat(cardTransferMethod.getDateOfExpiry(), is(equalTo(dateFormat.parse("2024-09-01T00:00:00 UTC"))));
+        assertThat(cardTransferMethod.getUserToken(), is(equalTo("usr-539f5e81-a52e-4bc5-aba7-f17de183c900")));
+
     }
 
     //
