@@ -848,6 +848,48 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
     }
 
+    @Test
+    public void testGetTransferStatusTransition() throws Exception {
+        String functionality = "getTransferStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.getTransferStatusTransition("trf-c57dad1b-9d18-4b06-8919-a4d429b39baa", "sts-6b90b063-fc87-466f-8aae-9f9572d786d5");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T02:04:17 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(SCHEDULED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(QUOTED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(SCHEDULED)));
+    }
+
+    @Test
+    public void testlistTransferStatusTransition() throws Exception {
+        String functionality = "listTransferStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletStatusTransition> returnValue;
+        try {
+            returnValue = client.listTransferStatusTransition("trf-c57dad1b-9d18-4b06-8919-a4d429b39baa", null);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        HyperwalletStatusTransition hyperwalletStatusTransition = returnValue.getData().get(0);
+        assertThat(hyperwalletStatusTransition.getToken(), is(equalTo("sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33")));
+        assertThat(hyperwalletStatusTransition.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T02:04:17 UTC"))));
+        assertThat(hyperwalletStatusTransition.getTransition(), is(equalTo(SCHEDULED)));
+        assertThat(hyperwalletStatusTransition.getFromStatus(), is(equalTo(QUOTED)));
+        assertThat(hyperwalletStatusTransition.getToStatus(), is(equalTo(SCHEDULED)));
+
+    }
+
     //
     // PayPal Accounts
     //
@@ -879,6 +921,34 @@ public class HyperwalletIT {
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getEmail(), is(equalTo("user@domain.com")));
+    }
+
+    @Test
+    public void testUpdatePayPalAccount() throws Exception {
+        String functionality = "updatePayPalAccount";
+        initMockServer(functionality);
+
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount
+                .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
+                .token("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b")
+                .email("user1@domain.com");
+
+        HyperwalletPayPalAccount returnValue;
+        try {
+            returnValue = client.updatePayPalAccount(payPalAccount);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b")));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2019-01-09T22:50:14 UTC"))));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getEmail(), is(equalTo("user1@domain.com")));
     }
 
     @Test

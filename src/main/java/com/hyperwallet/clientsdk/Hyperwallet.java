@@ -1021,6 +1021,51 @@ public class Hyperwallet {
         return apiClient.post(url + "/transfers/" + transferToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
     }
 
+    /**
+     * Get Transfer Status Transition
+     *
+     * @param transferToken         Transfer token assigned
+     * @param statusTransitionToken Status transition token
+     * @return HyperwalletStatusTransition new status for Transfer Request
+     */
+    public HyperwalletStatusTransition getTransferStatusTransition(String transferToken, String statusTransitionToken) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        if (StringUtils.isEmpty(statusTransitionToken)) {
+            throw new HyperwalletException("statusTransitionToken is required");
+        }
+        return apiClient.get(url + "/transfers/" + transferToken + "/status-transitions/" + statusTransitionToken, HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * List All Transfer Status Transition information
+     *
+     * @param transferToken User token
+     * @return HyperwalletList of HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listTransferStatusTransition(String transferToken) {
+        return listTransferStatusTransition(transferToken, null);
+    }
+
+    /**
+     * List Transfer Status Transition
+     *
+     * @param transferToken Transfer token assigned
+     * @param options       List filter option
+     * @return HyperwalletList of HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listTransferStatusTransition(String transferToken,
+            HyperwalletPaginationOptions options) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        String url = paginate(this.url + "/transfers/" + transferToken + "/status-transitions", options);
+
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
+        });
+    }
+
     //--------------------------------------
     // PayPal Accounts
     //--------------------------------------
@@ -1060,10 +1105,31 @@ public class Hyperwallet {
     }
 
     /**
+     * Update PayPal Account
+     *
+     * @param payPalAccount PayPal Account to Update.
+     * @return HyperwalletPayPalAccount Updated PayPal Account
+     */
+    public HyperwalletPayPalAccount updatePayPalAccount(HyperwalletPayPalAccount payPalAccount) {
+        if (payPalAccount == null) {
+            throw new HyperwalletException("PayPal Account is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getUserToken())) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(payPalAccount.getToken())) {
+            throw new HyperwalletException("PayPal Account token is required");
+        }
+        return apiClient.put(url + "/users/" + payPalAccount.getUserToken() + "/paypal-accounts/" + payPalAccount.getToken(), payPalAccount,
+                HyperwalletPayPalAccount.class);
+    }
+
+
+    /**
      * Get PayPal Account Request
      *
-     * @param userToken                 User token assigned
-     * @param payPalAccountToken        PayPal Account token assigned
+     * @param userToken          User token assigned
+     * @param payPalAccountToken PayPal Account token assigned
      * @return HyperwalletPayPalAccount PayPal Account
      */
     public HyperwalletPayPalAccount getPayPalAccount(String userToken, String payPalAccountToken) {
