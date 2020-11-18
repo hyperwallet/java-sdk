@@ -5043,8 +5043,7 @@ public class HyperwalletTest {
                 client.getBankAccountStatusTransition("test-user-token", "test-bank-account-token", "test-status-transition-token");
         assertThat(resp, is(equalTo(transitionResponse)));
         Mockito.verify(mockApiClient)
-                .get("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/bank-accounts/test-bank-account-token/status-transitions"
-                                + "/test-status-transition-token",
+                .get("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/bank-accounts/test-bank-account-token/status-transitions/test-status-transition-token",
                         transitionResponse.getClass());
     }
 
