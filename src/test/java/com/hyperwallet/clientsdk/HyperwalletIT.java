@@ -1186,31 +1186,31 @@ public class HyperwalletIT {
             throw e;
         }
 
-        HyperwalletTransferMethod bandTransferMethod = returnValue.getData().get(0);
-        assertThat(bandTransferMethod.getToken(), is(equalTo("trm-a43b1064-da94-457f-ae56-e4f85bd36aec")));
-        assertThat(bandTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
-        assertThat(bandTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
-        assertThat(bandTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:10 UTC"))));
-        assertThat(bandTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
-        assertThat(bandTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));
-        assertThat(bandTransferMethod.getBranchId(), is(equalTo("021000021")));
-        assertThat(bandTransferMethod.getBankAccountId(), is(equalTo("1599657189")));
-        assertThat(bandTransferMethod.getBankAccountPurpose(), is(equalTo("SAVINGS")));
-        assertThat(bandTransferMethod.getUserToken(), is(equalTo("usr-539f5e81-a52e-4bc5-aba7-f17de183c900")));
-        assertThat(bandTransferMethod.getProfileType(), is(equalTo(ProfileType.INDIVIDUAL)));
-        assertThat(bandTransferMethod.getFirstName(), is(equalTo("FirstName")));
-        assertThat(bandTransferMethod.getLastName(), is(equalTo("LastName")));
-        assertThat(bandTransferMethod.getDateOfBirth(), is(equalTo(dateFormat.parse("2000-09-09T18:43:10 UTC"))));
-        assertThat(bandTransferMethod.getGender(), is(equalTo(Gender.MALE)));
-        assertThat(bandTransferMethod.getPhoneNumber(), is(equalTo("605-555-1323")));
-        assertThat(bandTransferMethod.getMobileNumber(), is(equalTo("605-555-1323")));
-        assertThat(bandTransferMethod.getGovernmentId(), is(equalTo("444444444")));
-        assertThat(bandTransferMethod.getAddressLine1(), is(equalTo("1234 IndividualAddress St")));
-        assertThat(bandTransferMethod.getAddressLine2(), is(equalTo("1234 AddressLineTwo St")));
-        assertThat(bandTransferMethod.getCity(), is(equalTo("TestCity")));
-        assertThat(bandTransferMethod.getStateProvince(), is(equalTo("CA")));
-        assertThat(bandTransferMethod.getCountry(), is(equalTo("US")));
-        assertThat(bandTransferMethod.getPostalCode(), is(equalTo("12345")));
+        HyperwalletTransferMethod brandTransferMethod = returnValue.getData().get(0);
+        assertThat(brandTransferMethod.getToken(), is(equalTo("trm-a43b1064-da94-457f-ae56-e4f85bd36aec")));
+        assertThat(brandTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
+        assertThat(brandTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(brandTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:10 UTC"))));
+        assertThat(brandTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(brandTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(brandTransferMethod.getBranchId(), is(equalTo("021000021")));
+        assertThat(brandTransferMethod.getBankAccountId(), is(equalTo("1599657189")));
+        assertThat(brandTransferMethod.getBankAccountPurpose(), is(equalTo("SAVINGS")));
+        assertThat(brandTransferMethod.getUserToken(), is(equalTo("usr-539f5e81-a52e-4bc5-aba7-f17de183c900")));
+        assertThat(brandTransferMethod.getProfileType(), is(equalTo(ProfileType.INDIVIDUAL)));
+        assertThat(brandTransferMethod.getFirstName(), is(equalTo("FirstName")));
+        assertThat(brandTransferMethod.getLastName(), is(equalTo("LastName")));
+        assertThat(brandTransferMethod.getDateOfBirth(), is(equalTo(dateFormat.parse("2000-09-09T18:43:10 UTC"))));
+        assertThat(brandTransferMethod.getGender(), is(equalTo(Gender.MALE)));
+        assertThat(brandTransferMethod.getPhoneNumber(), is(equalTo("605-555-1323")));
+        assertThat(brandTransferMethod.getMobileNumber(), is(equalTo("605-555-1323")));
+        assertThat(brandTransferMethod.getGovernmentId(), is(equalTo("444444444")));
+        assertThat(brandTransferMethod.getAddressLine1(), is(equalTo("1234 IndividualAddress St")));
+        assertThat(brandTransferMethod.getAddressLine2(), is(equalTo("1234 AddressLineTwo St")));
+        assertThat(brandTransferMethod.getCity(), is(equalTo("TestCity")));
+        assertThat(brandTransferMethod.getStateProvince(), is(equalTo("CA")));
+        assertThat(brandTransferMethod.getCountry(), is(equalTo("US")));
+        assertThat(brandTransferMethod.getPostalCode(), is(equalTo("12345")));
 
         HyperwalletTransferMethod cardTransferMethod = returnValue.getData().get(1);
 
