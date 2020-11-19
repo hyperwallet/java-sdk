@@ -62,6 +62,16 @@ public class HyperwalletApiClient {
         }
     }
 
+    public <T> T put(final String url, Multipart uploadData, final Class<T> type) {
+        Response response = null;
+        try {
+            response = getMultipartService(url, uploadData).putResource();
+            return processResponse(response, type);
+        } catch (IOException | JOSEException | ParseException e) {
+            throw new HyperwalletException(e);
+        }
+    }
+
     public <T> T put(final String url, final Object bodyObject, final Class<T> type) {
         Response response = null;
         try {
@@ -194,6 +204,10 @@ public class HyperwalletApiClient {
             return null;
         }
         return isEncrypted ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
+    }
+
+    private MultipartRequest getMultipartService(String requestURL, Multipart multipartData) throws IOException {
+        return new MultipartRequest(requestURL, multipartData,  username,  password);
     }
 
 }

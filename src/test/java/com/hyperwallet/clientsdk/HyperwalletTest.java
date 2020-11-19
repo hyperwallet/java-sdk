@@ -5,6 +5,7 @@ import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
+import com.hyperwallet.clientsdk.util.Multipart;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.testng.annotations.DataProvider;
@@ -15,10 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -7171,4 +7169,94 @@ public class HyperwalletTest {
                 .country("test-country");
         return transferMethod;
     }
+
+    //--------------------------------------
+    // Upload documents for user endpoint
+    //--------------------------------------
+
+    @Test
+    public void testUploadUserDocuments_noUserToken() {
+        List<HyperwalletVerificationDocument> testUploadData = new ArrayList<>();
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.uploadUserDocuments(null,testUploadData);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is not present")));
+            assertThat(e.getMessage(), is(equalTo("User token is not present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUploadUserDocuments_noUploadData() {
+        List<HyperwalletVerificationDocument> testUploadData = new ArrayList<>();
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.uploadUserDocuments("test-userToken",null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Data for upload is missing")));
+            assertThat(e.getMessage(), is(equalTo("Data for upload is missing")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUploadUserDocuments_uploadFilesMissing() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        List<HyperwalletVerificationDocument> testUploadData = new ArrayList<>();
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();;
+        hyperwalletVerificationDocument.setType("test_DRIVERS_LICENSE");
+        hyperwalletVerificationDocument.setCategory("test_IDENTIFICATION");
+        hyperwalletVerificationDocument.setCountry("test_US");
+        Map<String, String> fileList =  new HashMap<>();
+        hyperwalletVerificationDocument.setUploadFiles(fileList);
+        testUploadData.add(hyperwalletVerificationDocument);
+        try {
+            client.uploadUserDocuments("test-userToken",testUploadData);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Upload Files are missing")));
+            assertThat(e.getMessage(), is(equalTo("Upload Files are missing")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testUploadUserDocuments_successful() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletUser hyperwalletUser = new HyperwalletUser();
+        String userToken = "test-userToken";
+        Multipart multipart = new Multipart();
+
+        List<HyperwalletVerificationDocument> testUploadData = new ArrayList<>();
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();;
+        hyperwalletVerificationDocument.setType("test_DRIVERS_LICENSE");
+        hyperwalletVerificationDocument.setCategory("test_IDENTIFICATION");
+        hyperwalletVerificationDocument.setCountry("test_US");
+        Map<String, String> fileList =  new HashMap<>();
+        fileList.put("drivers_license_front","/test-path/drivers_license_front.png");
+        fileList.put("drivers_license_back","/test-path/drivers_license_back.png");
+        hyperwalletVerificationDocument.setUploadFiles(fileList);
+        testUploadData.add(hyperwalletVerificationDocument);
+
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.anyObject(),Mockito.any(Class.class))).thenReturn(hyperwalletUser);
+
+        HyperwalletUser response= client.uploadUserDocuments(userToken,testUploadData);
+        Mockito.verify(mockApiClient).put("https://api.sandbox.hyperwallet.com/rest/v3/users/"+userToken,multipart, hyperwalletUser.getClass());
+        assertThat(response, is(equalTo(hyperwalletUser)));
+    }
+
 }
