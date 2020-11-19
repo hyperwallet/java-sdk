@@ -3,9 +3,9 @@ package com.hyperwallet.clientsdk;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
-import com.hyperwallet.clientsdk.util.Multipart;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.testng.annotations.DataProvider;
@@ -5166,6 +5166,69 @@ public class HyperwalletTest {
         assertThat(apiClientTransition.getCreatedOn(), is(nullValue()));
     }
 
+    @Test
+    public void testGetBankAccountStatusTransition_noUserToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getBankAccountStatusTransition(null, null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetBankAccountStatusTransition_noBankAccountToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getBankAccountStatusTransition("test-user-token", null, null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Bank Account token is required")));
+            assertThat(e.getMessage(), is(equalTo("Bank Account token is required")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetBankAccountStatusTransition_noTransitionToken() {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        try {
+            client.getBankAccountStatusTransition("test-user-token", "test-bank-card-token", null);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(nullValue()));
+            assertThat(e.getResponse(), is(nullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("Status Transition token may not be present")));
+            assertThat(e.getMessage(), is(equalTo("Status Transition token may not be present")));
+            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getRelatedResources(), is(nullValue()));
+        }
+    }
+
+    @Test
+    public void testGetBankAccountStatusTransition_successful() throws Exception {
+        HyperwalletStatusTransition transitionResponse = new HyperwalletStatusTransition();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(transitionResponse);
+
+        HyperwalletStatusTransition resp =
+                client.getBankAccountStatusTransition("test-user-token", "test-bank-account-token", "test-status-transition-token");
+        assertThat(resp, is(equalTo(transitionResponse)));
+        Mockito.verify(mockApiClient).get("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/bank-accounts/test-bank-account-token/status-transitions/test-status-transition-token", transitionResponse.getClass());
+    }
+
 
     @Test
     public void testListBankAccountStatusTransitions_noParameters_noUserToken() throws Exception {
@@ -7170,93 +7233,55 @@ public class HyperwalletTest {
         return transferMethod;
     }
 
-    //--------------------------------------
-    // Upload documents for user endpoint
-    //--------------------------------------
-
     @Test
-    public void testUploadUserDocuments_noUserToken() {
-        List<HyperwalletVerificationDocument> testUploadData = new ArrayList<>();
+    public void testListTransferMethods_noUserToken() {
+
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
+
         try {
-            client.uploadUserDocuments(null,testUploadData);
+            client.listTransferMethods(null, null);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
             assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("User token is not present")));
-            assertThat(e.getMessage(), is(equalTo("User token is not present")));
+            assertThat(e.getErrorMessage(), is(equalTo("User token is required")));
+            assertThat(e.getMessage(), is(equalTo("User token is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
 
     @Test
-    public void testUploadUserDocuments_noUploadData() {
-        List<HyperwalletVerificationDocument> testUploadData = new ArrayList<>();
+    public void testListTransferMethods() throws Exception {
+
+        String userToken = "user-token";
+        HyperwalletList<HyperwalletTransferMethod> response = new HyperwalletList<HyperwalletTransferMethod>();
+
+        List<HyperwalletTransferMethod> hyperwalletTransferMethodsList = new ArrayList<>();
+        HyperwalletTransferMethod bankTransferMethod = new HyperwalletTransferMethod();
+        bankTransferMethod.setToken("bank-token");
+        bankTransferMethod.setType(Type.BANK_ACCOUNT);
+        HyperwalletTransferMethod cardTransferMethod = new HyperwalletTransferMethod();
+        cardTransferMethod.setToken("card-token");
+        cardTransferMethod.setType(Type.PREPAID_CARD);
+        hyperwalletTransferMethodsList.add(bankTransferMethod);
+        hyperwalletTransferMethodsList.add(cardTransferMethod);
+
+        response.setData(hyperwalletTransferMethodsList);
+
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
-        try {
-            client.uploadUserDocuments("test-userToken",null);
-            fail("Expect HyperwalletException");
-        } catch (HyperwalletException e) {
-            assertThat(e.getErrorCode(), is(nullValue()));
-            assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("Data for upload is missing")));
-            assertThat(e.getMessage(), is(equalTo("Data for upload is missing")));
-            assertThat(e.getHyperwalletErrors(), is(nullValue()));
-            assertThat(e.getRelatedResources(), is(nullValue()));
-        }
-    }
-
-    @Test
-    public void testUploadUserDocuments_uploadFilesMissing() {
-        Hyperwallet client = new Hyperwallet("test-username", "test-password");
-        List<HyperwalletVerificationDocument> testUploadData = new ArrayList<>();
-        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();;
-        hyperwalletVerificationDocument.setType("test_DRIVERS_LICENSE");
-        hyperwalletVerificationDocument.setCategory("test_IDENTIFICATION");
-        hyperwalletVerificationDocument.setCountry("test_US");
-        Map<String, String> fileList =  new HashMap<>();
-        hyperwalletVerificationDocument.setUploadFiles(fileList);
-        testUploadData.add(hyperwalletVerificationDocument);
-        try {
-            client.uploadUserDocuments("test-userToken",testUploadData);
-            fail("Expect HyperwalletException");
-        } catch (HyperwalletException e) {
-            assertThat(e.getErrorCode(), is(nullValue()));
-            assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("Upload Files are missing")));
-            assertThat(e.getMessage(), is(equalTo("Upload Files are missing")));
-            assertThat(e.getHyperwalletErrors(), is(nullValue()));
-            assertThat(e.getRelatedResources(), is(nullValue()));
-        }
-    }
-
-    @Test
-    public void testUploadUserDocuments_successful() throws Exception {
-        Hyperwallet client = new Hyperwallet("test-username", "test-password");
-        HyperwalletUser hyperwalletUser = new HyperwalletUser();
-        String userToken = "test-userToken";
-        Multipart multipart = new Multipart();
-
-        List<HyperwalletVerificationDocument> testUploadData = new ArrayList<>();
-        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();;
-        hyperwalletVerificationDocument.setType("test_DRIVERS_LICENSE");
-        hyperwalletVerificationDocument.setCategory("test_IDENTIFICATION");
-        hyperwalletVerificationDocument.setCountry("test_US");
-        Map<String, String> fileList =  new HashMap<>();
-        fileList.put("drivers_license_front","/test-path/drivers_license_front.png");
-        fileList.put("drivers_license_back","/test-path/drivers_license_back.png");
-        hyperwalletVerificationDocument.setUploadFiles(fileList);
-        testUploadData.add(hyperwalletVerificationDocument);
-
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.anyObject(),Mockito.any(Class.class))).thenReturn(hyperwalletUser);
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
-        HyperwalletUser response= client.uploadUserDocuments(userToken,testUploadData);
-        Mockito.verify(mockApiClient).put("https://api.sandbox.hyperwallet.com/rest/v3/users/"+userToken,multipart, hyperwalletUser.getClass());
-        assertThat(response, is(equalTo(hyperwalletUser)));
+        HyperwalletList<HyperwalletTransferMethod> resp = client.listTransferMethods(userToken, null);
+        assertThat(resp, is(equalTo(response)));
+        HyperwalletTransferMethod response1 = response.getData().get(0);
+        HyperwalletTransferMethod response2 = response.getData().get(1);
+        assertThat(response1.getToken(), is(equalTo("bank-token")));
+        assertThat(response1.getType(), is(equalTo(Type.BANK_ACCOUNT)));
+        assertThat(response2.getToken(), is(equalTo("card-token")));
+        assertThat(response2.getType(), is(equalTo(Type.PREPAID_CARD)));
     }
 
 }

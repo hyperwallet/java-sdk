@@ -1,6 +1,8 @@
 package com.hyperwallet.clientsdk;
 
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.Brand;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.CardType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.*;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
@@ -1170,6 +1172,63 @@ public class HyperwalletIT {
         assertThat(returnValue.getToStatus(), is(equalTo(COMPLETED)));
     }
 
+    @Test
+    public void testListTransferMethods() throws Exception {
+        String functionality = "listTransferMethods";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletTransferMethod> returnValue;
+        try {
+            String userToken = "usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad";
+            returnValue = client.listTransferMethods(userToken, null);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        HyperwalletTransferMethod brandTransferMethod = returnValue.getData().get(0);
+        assertThat(brandTransferMethod.getToken(), is(equalTo("trm-a43b1064-da94-457f-ae56-e4f85bd36aec")));
+        assertThat(brandTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
+        assertThat(brandTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(brandTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:10 UTC"))));
+        assertThat(brandTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(brandTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(brandTransferMethod.getBranchId(), is(equalTo("021000021")));
+        assertThat(brandTransferMethod.getBankAccountId(), is(equalTo("1599657189")));
+        assertThat(brandTransferMethod.getBankAccountPurpose(), is(equalTo("SAVINGS")));
+        assertThat(brandTransferMethod.getUserToken(), is(equalTo("usr-539f5e81-a52e-4bc5-aba7-f17de183c900")));
+        assertThat(brandTransferMethod.getProfileType(), is(equalTo(ProfileType.INDIVIDUAL)));
+        assertThat(brandTransferMethod.getFirstName(), is(equalTo("FirstName")));
+        assertThat(brandTransferMethod.getLastName(), is(equalTo("LastName")));
+        assertThat(brandTransferMethod.getDateOfBirth(), is(equalTo(dateFormat.parse("2000-09-09T18:43:10 UTC"))));
+        assertThat(brandTransferMethod.getGender(), is(equalTo(Gender.MALE)));
+        assertThat(brandTransferMethod.getPhoneNumber(), is(equalTo("605-555-1323")));
+        assertThat(brandTransferMethod.getMobileNumber(), is(equalTo("605-555-1323")));
+        assertThat(brandTransferMethod.getGovernmentId(), is(equalTo("444444444")));
+        assertThat(brandTransferMethod.getAddressLine1(), is(equalTo("1234 IndividualAddress St")));
+        assertThat(brandTransferMethod.getAddressLine2(), is(equalTo("1234 AddressLineTwo St")));
+        assertThat(brandTransferMethod.getCity(), is(equalTo("TestCity")));
+        assertThat(brandTransferMethod.getStateProvince(), is(equalTo("CA")));
+        assertThat(brandTransferMethod.getCountry(), is(equalTo("US")));
+        assertThat(brandTransferMethod.getPostalCode(), is(equalTo("12345")));
+
+        HyperwalletTransferMethod cardTransferMethod = returnValue.getData().get(1);
+
+        assertThat(cardTransferMethod.getToken(), is(equalTo("trm-c8e4c164-7d5b-4b5b-8b6a-9c4d68c2a9fe")));
+        assertThat(cardTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
+        assertThat(cardTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.PRE_ACTIVATED)));
+        assertThat(cardTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:34 UTC"))));
+        assertThat(cardTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(cardTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(cardTransferMethod.getCardType(), is(equalTo(CardType.PERSONALIZED)));
+        assertThat(cardTransferMethod.getCardPackage(), is(equalTo("L1")));
+        assertThat(cardTransferMethod.getCardNumber(), is(equalTo("************4194")));
+        assertThat(cardTransferMethod.getCardBrand(), is(equalTo(Brand.VISA)));
+        assertThat(cardTransferMethod.getDateOfExpiry(), is(equalTo(dateFormat.parse("2024-09-01T00:00:00 UTC"))));
+        assertThat(cardTransferMethod.getUserToken(), is(equalTo("usr-539f5e81-a52e-4bc5-aba7-f17de183c900")));
+
+    }
+
     //
     // Response with error
     //
@@ -1272,13 +1331,36 @@ public class HyperwalletIT {
         }
 
         HttpRequest request = HttpRequest.request()
-            .withHeader(header("Authorization", ".*" ))
-            .withMethod(method)
-            .withPath(url);
-        for(Map.Entry<String, String> header: headers.entrySet()){
+                .withHeader(header("Authorization", ".*"))
+                .withMethod(method)
+                .withPath(url);
+        for (Map.Entry<String, String> header : headers.entrySet()) {
             request = request.withHeader(header.getKey(), header.getValue());
         }
-        return body == null? request : request.withBody(json(body));
+        return body == null ? request : request.withBody(json(body));
+    }
+
+    @Test
+    public void testGetBankAccountStatusTransition() throws Exception {
+        String functionality = "getBankAccountStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.getBankAccountStatusTransition("usr-f695ef43-9614-4e17-9269-902c234616c3",
+                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26",
+                    "sts-1825afa2-61f1-4860-aa69-a65b9d14f556");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        assertThat(returnValue.getToken(), is(equalTo("sts-1825afa2-61f1-4860-aa69-a65b9d14f556")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T00:55:57 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getNotes(), is(equalTo("Closing this account.")));
+
     }
 
 }

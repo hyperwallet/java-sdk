@@ -2,20 +2,24 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
-import com.hyperwallet.clientsdk.util.*;
+import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
+import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
+import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * The Hyperwallet Client
  */
 public class Hyperwallet {
 
-    public static final String VERSION = "1.4.2";
+    public static final String VERSION = "1.7.0";
 
     private final HyperwalletApiClient apiClient;
     private final String programToken;
@@ -836,6 +840,7 @@ public class Hyperwallet {
      *
      * @param userToken User token
      * @param paperCheckToken Paper Check token
+     * @param notes notes for deactivating paper check
      * @return The status transition
      */
     public HyperwalletStatusTransition deactivatePaperCheck(String userToken, String paperCheckToken, String notes) {
@@ -996,6 +1001,7 @@ public class Hyperwallet {
      * Create Transfer Status Transition
      *
      * @param transferToken        Transfer token assigned
+     * @param transition        HyperwalletStatusTransition object passed
      * @return HyperwalletStatusTransition new status for Transfer Request
      */
     public HyperwalletStatusTransition createTransferStatusTransition(String transferToken, HyperwalletStatusTransition transition) {
@@ -1601,7 +1607,30 @@ public class Hyperwallet {
         transition.setCreatedOn(null);
         transition.setFromStatus(null);
         transition.setToStatus(null);
-        return apiClient.post(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+        return apiClient.post(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", transition,
+                HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * Get Bank Account Status Transition
+     *
+     * @param userToken             User token
+     * @param bankAccountToken      Bank Account token
+     * @param statusTransitionToken Status transition token
+     * @return HyperwalletStatusTransition
+     */
+    public HyperwalletStatusTransition getBankAccountStatusTransition(String userToken, String bankAccountToken, String statusTransitionToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(bankAccountToken)) {
+            throw new HyperwalletException("Bank Account token is required");
+        }
+        if (StringUtils.isEmpty(statusTransitionToken)) {
+            throw new HyperwalletException("Status Transition token may not be present");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions/" + statusTransitionToken,
+                HyperwalletStatusTransition.class);
     }
 
     /**
@@ -2171,37 +2200,24 @@ public class Hyperwallet {
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Json-Cache-Token", jsonCacheToken);
 
-        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class, headers);
+        return apiClient.post(url + "/users/" + transferMethod.getUserToken() + "/transfer-methods", transferMethod, HyperwalletTransferMethod.class,
+                headers);
     }
 
-    //--------------------------------------
-    // Upload documents for user endpoint
-    //--------------------------------------
-
     /**
-     * Upload documents
+     * List Transfer Methods
      *
-     * @param userToken userToken for which documents to be uploaded
-     * @param uploadData HyperwalletVerificationDocument to get uploaded
-     * @return HyperwalletUser user object with document upload status
+     * @param userToken String user token
+     * @param options   List filter option
+     * @return HyperwalletList of HyperwalletTransferMethod
      */
-    public HyperwalletUser uploadUserDocuments(String userToken, List<HyperwalletVerificationDocument> uploadData) {
-        Multipart multipart = new Multipart();
+    public HyperwalletList<HyperwalletTransferMethod> listTransferMethods(String userToken, HyperwalletPaginationOptions options) {
+        String url = paginate(this.url + "/users/" + userToken + "/transfer-methods", options);
         if (StringUtils.isEmpty(userToken)) {
-            throw new HyperwalletException("User token is not present");
+            throw new HyperwalletException("User token is required");
         }
-        if (uploadData == null || uploadData.size() < 1) {
-            throw new HyperwalletException("Data for upload is missing");
-        }
-        if (uploadData.get(0).getUploadFiles() == null || uploadData.get(0).getUploadFiles().size()  < 1) {
-            throw new HyperwalletException("Upload Files are missing");
-        }
-        try {
-            multipart = HyperwalletMultipartUtils.convert(uploadData);
-        } catch(IOException e) {
-            throw new HyperwalletException("Unable to convert to Multipart formdata");
-        }
-        return apiClient.put(url + "/users/" + userToken, multipart, HyperwalletUser.class);
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferMethod>>() {
+        });
     }
 
     //--------------------------------------
