@@ -1,0 +1,73 @@
+{
+  "count": 2,
+  "offset": 0,
+  "limit": 10,
+  "data": [
+    {
+      "token": "trm-a43b1064-da94-457f-ae56-e4f85bd36aec",
+      "type": "BANK_ACCOUNT",
+      "status": "ACTIVATED",
+      "verificationStatus": "NOT_REQUIRED",
+      "createdOn": "2020-09-09T18:43:10",
+      "transferMethodCountry": "US",
+      "transferMethodCurrency": "USD",
+      "branchId": "021000021",
+      "bankAccountId": "1599657189",
+      "bankAccountPurpose": "SAVINGS",
+      "userToken": "usr-539f5e81-a52e-4bc5-aba7-f17de183c900",
+      "profileType": "INDIVIDUAL",
+      "firstName": "FirstName",
+      "lastName": "LastName",
+      "dateOfBirth": "2000-09-09T18:43:10",
+      "gender": "MALE",
+      "phoneNumber": "605-555-1323",
+      "mobileNumber": "605-555-1323",
+      "governmentId": "444444444",
+      "addressLine1": "1234 IndividualAddress St",
+      "addressLine2": "1234 AddressLineTwo St",
+      "city": "TestCity",
+      "stateProvince": "CA",
+      "country": "US",
+      "postalCode": "12345",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://localhost-hyperwallet.aws.paylution.net:8181/rest/v3/users/usr-539f5e81-a52e-4bc5-aba7-f17de183c900/transfer-methods/trm-a43b1064-da94-457f-ae56-e4f85bd36aec"
+        }
+      ]
+    },
+    {
+      "token": "trm-c8e4c164-7d5b-4b5b-8b6a-9c4d68c2a9fe",
+      "type": "PREPAID_CARD",
+      "status": "PRE_ACTIVATED",
+      "verificationStatus": "NOT_REQUIRED",
+      "createdOn": "2020-09-09T18:43:34",
+      "transferMethodCountry": "US",
+      "transferMethodCurrency": "USD",
+      "cardType": "PERSONALIZED",
+      "cardPackage": "L1",
+      "cardNumber": "************4194",
+      "cardBrand": "VISA",
+      "dateOfExpiry": "2024-09-01T00:00:00",
+      "userToken": "usr-539f5e81-a52e-4bc5-aba7-f17de183c900",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://localhost-hyperwallet.aws.paylution.net:8181/rest/v3/users/usr-539f5e81-a52e-4bc5-aba7-f17de183c900/transfer-methods/trm-c8e4c164-7d5b-4b5b-8b6a-9c4d68c2a9fe"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://localhost-hyperwallet.aws.paylution.net:8181/rest/v3/users/usr-539f5e81-a52e-4bc5-aba7-f17de183c900/transfer-methods?limit=100"
+    }
+  ]
+}
