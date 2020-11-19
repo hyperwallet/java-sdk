@@ -11,18 +11,22 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class HyperwalletApiClient {
 
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String VALID_JSON_CONTENT_TYPE = "application/json";
     private static final String VALID_JSON_JOSE_CONTENT_TYPE = "application/jose+json";
+    private static final String SDK_TYPE = "java";
 
     private final String username;
     private final String password;
     private final String version;
     private final HyperwalletEncryption hyperwalletEncryption;
     private final boolean isEncrypted;
+    private final String contextId;
+
 
     public HyperwalletApiClient(final String username, final String password, final String version) {
         this(username, password, version, null);
@@ -35,6 +39,7 @@ public class HyperwalletApiClient {
         this.version = version;
         this.hyperwalletEncryption = hyperwalletEncryption;
         this.isEncrypted = hyperwalletEncryption != null;
+        this.contextId = String.valueOf(UUID.randomUUID());
 
         // TLS fix
         if (System.getProperty("java.version").startsWith("1.7.")) {
@@ -156,18 +161,17 @@ public class HyperwalletApiClient {
 
     private Request getService(final String url, boolean isHttpGet) {
         String contentType = "application/" + ((isEncrypted) ? "jose+json" : "json");
-        if (isHttpGet) {
-            return new Request(url)
-                    .addHeader("Authorization", getAuthorizationHeader())
-                    .addHeader("Accept", contentType)
-                    .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
-        } else {
-            return new Request(url)
-                    .addHeader("Authorization", getAuthorizationHeader())
-                    .addHeader("Accept", contentType)
-                    .addHeader("Content-Type", contentType)
-                    .addHeader("User-Agent", "Hyperwallet Java SDK v" + version);
+        Request request = new Request(url)
+                .addHeader("Authorization", getAuthorizationHeader())
+                .addHeader("Accept", contentType)
+                .addHeader("User-Agent", "Hyperwallet Java SDK v" + this.version)
+                .addHeader("x-sdk-version", this.version)
+                .addHeader("x-sdk-type", SDK_TYPE)
+                .addHeader("x-sdk-contextId", this.contextId);
+        if (!isHttpGet) {
+            request.addHeader("Content-Type", contentType);
         }
+        return request;
     }
 
     private <T> T convert(final String responseBody, final Class<T> type) {
@@ -195,5 +199,4 @@ public class HyperwalletApiClient {
         }
         return isEncrypted ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
     }
-
 }
