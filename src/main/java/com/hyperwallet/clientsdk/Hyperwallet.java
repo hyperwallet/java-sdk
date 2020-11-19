@@ -2,17 +2,13 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
-import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
-import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
-import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
+import com.hyperwallet.clientsdk.util.*;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * The Hyperwallet Client
@@ -2218,6 +2214,36 @@ public class Hyperwallet {
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferMethod>>() {
         });
+    }
+
+    //--------------------------------------
+    // Upload documents for user endpoint
+    //--------------------------------------
+
+    /**
+     * Upload documents
+     *
+     * @param userToken userToken for which documents to be uploaded
+     * @param uploadData HyperwalletVerificationDocument to get uploaded
+     * @return HyperwalletUser user object with document upload status
+     */
+    public HyperwalletUser uploadUserDocuments(String userToken, List<HyperwalletVerificationDocument> uploadData) {
+        Multipart multipart = new Multipart();
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is not present");
+        }
+        if (uploadData == null || uploadData.size() < 1) {
+            throw new HyperwalletException("Data for upload is missing");
+        }
+        if (uploadData.get(0).getUploadFiles() == null || uploadData.get(0).getUploadFiles().size()  < 1) {
+            throw new HyperwalletException("Upload Files are missing");
+        }
+        try {
+            multipart = HyperwalletMultipartUtils.convert(uploadData);
+        } catch(IOException e) {
+            throw new HyperwalletException("Unable to convert to Multipart formdata");
+        }
+        return apiClient.put(url + "/users/" + userToken, multipart, HyperwalletUser.class);
     }
 
     //--------------------------------------
