@@ -1,7 +1,8 @@
 package com.hyperwallet.clientsdk;
 
 import com.hyperwallet.clientsdk.model.*;
-import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
+import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.Brand;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.CardType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.*;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
@@ -849,6 +850,48 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("Closing check.")));
     }
 
+    @Test
+    public void testGetTransferStatusTransition() throws Exception {
+        String functionality = "getTransferStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.getTransferStatusTransition("trf-c57dad1b-9d18-4b06-8919-a4d429b39baa", "sts-6b90b063-fc87-466f-8aae-9f9572d786d5");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T02:04:17 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(SCHEDULED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(QUOTED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(SCHEDULED)));
+    }
+
+    @Test
+    public void testlistTransferStatusTransition() throws Exception {
+        String functionality = "listTransferStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletStatusTransition> returnValue;
+        try {
+            returnValue = client.listTransferStatusTransition("trf-c57dad1b-9d18-4b06-8919-a4d429b39baa", null);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        HyperwalletStatusTransition hyperwalletStatusTransition = returnValue.getData().get(0);
+        assertThat(hyperwalletStatusTransition.getToken(), is(equalTo("sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33")));
+        assertThat(hyperwalletStatusTransition.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T02:04:17 UTC"))));
+        assertThat(hyperwalletStatusTransition.getTransition(), is(equalTo(SCHEDULED)));
+        assertThat(hyperwalletStatusTransition.getFromStatus(), is(equalTo(QUOTED)));
+        assertThat(hyperwalletStatusTransition.getToStatus(), is(equalTo(SCHEDULED)));
+
+    }
+
     //
     // PayPal Accounts
     //
@@ -1129,129 +1172,61 @@ public class HyperwalletIT {
         assertThat(returnValue.getToStatus(), is(equalTo(COMPLETED)));
     }
 
-    //
-    // Transfer Refunds
-    //
-
     @Test
-    public void testCreateTransferRefund() throws Exception {
-        String functionality = "createTransferRefund";
+    public void testListTransferMethods() throws Exception {
+        String functionality = "listTransferMethods";
         initMockServer(functionality);
 
-        HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund()
-                .clientRefundId("clientRefundId")
-                .notes("Merchant Payment return to Wallet Balance")
-                .memo("TransferReturn123456");
-
-        HyperwalletTransferRefund returnValue;
+        HyperwalletList<HyperwalletTransferMethod> returnValue;
         try {
-            returnValue = client.createTransferRefund("trf-dc6a19f7-1d24-434d-87ce-f1a960f3fbce", transferRefund);
+            String userToken = "usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad";
+            returnValue = client.listTransferMethods(userToken, null);
         } catch (Exception e) {
             mockServer.verify(parseRequest(functionality));
             throw e;
         }
 
-        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
-                .token("trd-a159dc18-eb29-4530-8733-060c7feaad0f")
-                .status(HyperwalletTransferRefund.Status.COMPLETED)
-                .clientRefundId("clientRefundId")
-                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
-                .sourceAmount(20.0)
-                .sourceCurrency("USD")
-                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
-                .destinationAmount(20.0)
-                .destinationCurrency("USD")
-                .notes("Merchant Payment return to Wallet Balance")
-                .memo("TransferReturn123456")
-                .createdOn(dateFormat.parse("2019-11-11T19:04:43 UTC"));
+        HyperwalletTransferMethod brandTransferMethod = returnValue.getData().get(0);
+        assertThat(brandTransferMethod.getToken(), is(equalTo("trm-a43b1064-da94-457f-ae56-e4f85bd36aec")));
+        assertThat(brandTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
+        assertThat(brandTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(brandTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:10 UTC"))));
+        assertThat(brandTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(brandTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(brandTransferMethod.getBranchId(), is(equalTo("021000021")));
+        assertThat(brandTransferMethod.getBankAccountId(), is(equalTo("1599657189")));
+        assertThat(brandTransferMethod.getBankAccountPurpose(), is(equalTo("SAVINGS")));
+        assertThat(brandTransferMethod.getUserToken(), is(equalTo("usr-539f5e81-a52e-4bc5-aba7-f17de183c900")));
+        assertThat(brandTransferMethod.getProfileType(), is(equalTo(ProfileType.INDIVIDUAL)));
+        assertThat(brandTransferMethod.getFirstName(), is(equalTo("FirstName")));
+        assertThat(brandTransferMethod.getLastName(), is(equalTo("LastName")));
+        assertThat(brandTransferMethod.getDateOfBirth(), is(equalTo(dateFormat.parse("2000-09-09T18:43:10 UTC"))));
+        assertThat(brandTransferMethod.getGender(), is(equalTo(Gender.MALE)));
+        assertThat(brandTransferMethod.getPhoneNumber(), is(equalTo("605-555-1323")));
+        assertThat(brandTransferMethod.getMobileNumber(), is(equalTo("605-555-1323")));
+        assertThat(brandTransferMethod.getGovernmentId(), is(equalTo("444444444")));
+        assertThat(brandTransferMethod.getAddressLine1(), is(equalTo("1234 IndividualAddress St")));
+        assertThat(brandTransferMethod.getAddressLine2(), is(equalTo("1234 AddressLineTwo St")));
+        assertThat(brandTransferMethod.getCity(), is(equalTo("TestCity")));
+        assertThat(brandTransferMethod.getStateProvince(), is(equalTo("CA")));
+        assertThat(brandTransferMethod.getCountry(), is(equalTo("US")));
+        assertThat(brandTransferMethod.getPostalCode(), is(equalTo("12345")));
 
-        checkTransferRefund(returnValue, expectedValue);
-        checkForeignExchange(returnValue, expectedValue);
-    }
+        HyperwalletTransferMethod cardTransferMethod = returnValue.getData().get(1);
 
-    private void checkTransferRefund(HyperwalletTransferRefund actual, HyperwalletTransferRefund expected) {
-        assertThat(actual.getToken(), is(expected.getToken()));
-        assertThat(actual.getStatus(), is(expected.getStatus()));
-        assertThat(actual.getClientRefundId(), is(expected.getClientRefundId()));
-        assertThat(actual.getSourceToken(), is(expected.getSourceToken()));
-        assertThat(actual.getSourceAmount(), is(expected.getSourceAmount()));
-        assertThat(actual.getSourceCurrency(), is(expected.getSourceCurrency()));
-        assertThat(actual.getDestinationToken(), is(expected.getDestinationToken()));
-        assertThat(actual.getDestinationAmount(), is(expected.getDestinationAmount()));
-        assertThat(actual.getDestinationCurrency(), is(expected.getDestinationCurrency()));
-        assertThat(actual.getNotes(), is(expected.getNotes()));
-        assertThat(actual.getMemo(), is(expected.getMemo()));
-        assertThat(actual.getCreatedOn(), is(expected.getCreatedOn()));
-    }
+        assertThat(cardTransferMethod.getToken(), is(equalTo("trm-c8e4c164-7d5b-4b5b-8b6a-9c4d68c2a9fe")));
+        assertThat(cardTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
+        assertThat(cardTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.PRE_ACTIVATED)));
+        assertThat(cardTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:34 UTC"))));
+        assertThat(cardTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(cardTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(cardTransferMethod.getCardType(), is(equalTo(CardType.PERSONALIZED)));
+        assertThat(cardTransferMethod.getCardPackage(), is(equalTo("L1")));
+        assertThat(cardTransferMethod.getCardNumber(), is(equalTo("************4194")));
+        assertThat(cardTransferMethod.getCardBrand(), is(equalTo(Brand.VISA)));
+        assertThat(cardTransferMethod.getDateOfExpiry(), is(equalTo(dateFormat.parse("2024-09-01T00:00:00 UTC"))));
+        assertThat(cardTransferMethod.getUserToken(), is(equalTo("usr-539f5e81-a52e-4bc5-aba7-f17de183c900")));
 
-    private void checkForeignExchange(HyperwalletTransferRefund actual, HyperwalletTransferRefund expected) {
-        ForeignExchange foreignExchange = actual.getForeignExchanges().get(0);
-        assertThat(foreignExchange.getSourceAmount(), is(equalTo(100.00)));
-        assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
-        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(63.49)));
-        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
-        assertThat(foreignExchange.getRate(), is(equalTo(0.79)));
-    }
-
-    @Test
-    public void testGetTransferRefund() throws Exception {
-        String functionality = "getTransferRefund";
-        initMockServer(functionality);
-
-        HyperwalletTransferRefund returnValue;
-        try {
-            returnValue = client.getTransferRefund("trf-639579d9-4fe8-4fbf-8e34-827d27697f64", "trd-19156720-01e8-4f1c-8ef3-7ced80672128");
-        } catch (Exception e) {
-            mockServer.verify(parseRequest(functionality));
-            throw e;
-        }
-        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
-                .token("trd-19156720-01e8-4f1c-8ef3-7ced80672128")
-                .status(HyperwalletTransferRefund.Status.COMPLETED)
-                .clientRefundId("1573548663")
-                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
-                .sourceAmount(50.0)
-                .sourceCurrency("USD")
-                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
-                .destinationAmount(50.0)
-                .destinationCurrency("USD")
-                .notes("Merchant Payment return to Wallet Balance")
-                .memo("TransferReturn123456")
-                .createdOn(dateFormat.parse("2019-11-12T11:51:05 UTC"));
-
-        checkTransferRefund(returnValue, expectedValue);
-        checkForeignExchange(returnValue, expectedValue);
-    }
-
-    @Test
-    public void testListTransferRefunds() throws Exception {
-        String functionality = "listTransferRefunds";
-        initMockServer(functionality);
-
-        HyperwalletList<HyperwalletTransferRefund> returnValue;
-        try {
-            returnValue = client.listTransferRefunds("trf-fdbc1f59-ef5f-4b9f-94e5-7e15797bcefb", null);
-        } catch (Exception e) {
-            mockServer.verify(parseRequest(functionality));
-            throw e;
-        }
-
-        HyperwalletTransferRefund expectedValue = new HyperwalletTransferRefund()
-                .token("trd-e59d19d4-eccb-4160-b04c-4f11c83f99f0")
-                .status(HyperwalletTransferRefund.Status.COMPLETED)
-                .clientRefundId("1573566270")
-                .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
-                .sourceAmount(50.0)
-                .sourceCurrency("USD")
-                .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
-                .destinationAmount(50.0)
-                .destinationCurrency("USD")
-                .notes("Merchant Payment return to Wallet Balance")
-                .memo("TransferReturn123456")
-                .createdOn(dateFormat.parse("2019-11-12T16:44:30 UTC"));
-
-        checkTransferRefund(returnValue.getData().get(0), expectedValue);
-        checkForeignExchange(returnValue.getData().get(0), expectedValue);
     }
 
     //
@@ -1356,13 +1331,36 @@ public class HyperwalletIT {
         }
 
         HttpRequest request = HttpRequest.request()
-            .withHeader(header("Authorization", ".*" ))
-            .withMethod(method)
-            .withPath(url);
-        for(Map.Entry<String, String> header: headers.entrySet()){
+                .withHeader(header("Authorization", ".*"))
+                .withMethod(method)
+                .withPath(url);
+        for (Map.Entry<String, String> header : headers.entrySet()) {
             request = request.withHeader(header.getKey(), header.getValue());
         }
-        return body == null? request : request.withBody(json(body));
+        return body == null ? request : request.withBody(json(body));
+    }
+
+    @Test
+    public void testGetBankAccountStatusTransition() throws Exception {
+        String functionality = "getBankAccountStatusTransition";
+        initMockServer(functionality);
+
+        HyperwalletStatusTransition returnValue;
+        try {
+            returnValue = client.getBankAccountStatusTransition("usr-f695ef43-9614-4e17-9269-902c234616c3",
+                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26",
+                    "sts-1825afa2-61f1-4860-aa69-a65b9d14f556");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        assertThat(returnValue.getToken(), is(equalTo("sts-1825afa2-61f1-4860-aa69-a65b9d14f556")));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T00:55:57 UTC"))));
+        assertThat(returnValue.getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getNotes(), is(equalTo("Closing this account.")));
+
     }
 
 }

@@ -1,0 +1,22 @@
+{
+  "count": 1,
+  "offset": 0,
+  "limit": 10,
+  "data": [
+    {
+      "token": "sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33",
+      "createdOn": "2017-11-16T02:04:17",
+      "transition": "SCHEDULED",
+      "fromStatus": "QUOTED",
+      "toStatus": "SCHEDULED",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v3/transfers/trf-c57dad1b-9d18-4b06-8919-a4d429b39baa/status-transitions/sts-1f7f58a9-22e8-4fef-8d6e-a17e2c71db33"
+        }
+      ]
+    }
+  ]
+}

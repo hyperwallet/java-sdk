@@ -19,7 +19,7 @@ import java.util.TimeZone;
  */
 public class Hyperwallet {
 
-    public static final String VERSION = "1.4.2";
+    public static final String VERSION = "1.7.0";
 
     private final HyperwalletApiClient apiClient;
     private final String programToken;
@@ -840,6 +840,7 @@ public class Hyperwallet {
      *
      * @param userToken User token
      * @param paperCheckToken Paper Check token
+     * @param notes notes for deactivating paper check
      * @return The status transition
      */
     public HyperwalletStatusTransition deactivatePaperCheck(String userToken, String paperCheckToken, String notes) {
@@ -1000,6 +1001,7 @@ public class Hyperwallet {
      * Create Transfer Status Transition
      *
      * @param transferToken        Transfer token assigned
+     * @param transition        HyperwalletStatusTransition object passed
      * @return HyperwalletStatusTransition new status for Transfer Request
      */
     public HyperwalletStatusTransition createTransferStatusTransition(String transferToken, HyperwalletStatusTransition transition) {
@@ -1017,6 +1019,51 @@ public class Hyperwallet {
         transition.setFromStatus(null);
         transition.setToStatus(null);
         return apiClient.post(url + "/transfers/" + transferToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * Get Transfer Status Transition
+     *
+     * @param transferToken         Transfer token assigned
+     * @param statusTransitionToken Status transition token
+     * @return HyperwalletStatusTransition new status for Transfer Request
+     */
+    public HyperwalletStatusTransition getTransferStatusTransition(String transferToken, String statusTransitionToken) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        if (StringUtils.isEmpty(statusTransitionToken)) {
+            throw new HyperwalletException("statusTransitionToken is required");
+        }
+        return apiClient.get(url + "/transfers/" + transferToken + "/status-transitions/" + statusTransitionToken, HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * List All Transfer Status Transition information
+     *
+     * @param transferToken User token
+     * @return HyperwalletList of HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listTransferStatusTransition(String transferToken) {
+        return listTransferStatusTransition(transferToken, null);
+    }
+
+    /**
+     * List Transfer Status Transition
+     *
+     * @param transferToken Transfer token assigned
+     * @param options       List filter option
+     * @return HyperwalletList of HyperwalletStatusTransition
+     */
+    public HyperwalletList<HyperwalletStatusTransition> listTransferStatusTransition(String transferToken,
+            HyperwalletPaginationOptions options) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+        String url = paginate(this.url + "/transfers/" + transferToken + "/status-transitions", options);
+
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
+        });
     }
 
     //--------------------------------------
@@ -1560,7 +1607,30 @@ public class Hyperwallet {
         transition.setCreatedOn(null);
         transition.setFromStatus(null);
         transition.setToStatus(null);
-        return apiClient.post(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", transition, HyperwalletStatusTransition.class);
+        return apiClient.post(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions", transition,
+                HyperwalletStatusTransition.class);
+    }
+
+    /**
+     * Get Bank Account Status Transition
+     *
+     * @param userToken             User token
+     * @param bankAccountToken      Bank Account token
+     * @param statusTransitionToken Status transition token
+     * @return HyperwalletStatusTransition
+     */
+    public HyperwalletStatusTransition getBankAccountStatusTransition(String userToken, String bankAccountToken, String statusTransitionToken) {
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
+        }
+        if (StringUtils.isEmpty(bankAccountToken)) {
+            throw new HyperwalletException("Bank Account token is required");
+        }
+        if (StringUtils.isEmpty(statusTransitionToken)) {
+            throw new HyperwalletException("Status Transition token may not be present");
+        }
+        return apiClient.get(url + "/users/" + userToken + "/bank-accounts/" + bankAccountToken + "/status-transitions/" + statusTransitionToken,
+                HyperwalletStatusTransition.class);
     }
 
     /**
@@ -2134,70 +2204,19 @@ public class Hyperwallet {
                 headers);
     }
 
-    //--------------------------------------
-    // Transfer refunds
-    //--------------------------------------
-
     /**
-     * Create Transfer Refund
+     * List Transfer Methods
      *
-     * @param transferToken  Transfer token assigned
-     * @param transferRefund Transfer Refund object to create
-     * @return Created Transfer Refund
+     * @param userToken String user token
+     * @param options   List filter option
+     * @return HyperwalletList of HyperwalletTransferMethod
      */
-    public HyperwalletTransferRefund createTransferRefund(String transferToken, HyperwalletTransferRefund transferRefund) {
-        if (transferRefund == null) {
-            throw new HyperwalletException("Transfer Refund is required");
+    public HyperwalletList<HyperwalletTransferMethod> listTransferMethods(String userToken, HyperwalletPaginationOptions options) {
+        String url = paginate(this.url + "/users/" + userToken + "/transfer-methods", options);
+        if (StringUtils.isEmpty(userToken)) {
+            throw new HyperwalletException("User token is required");
         }
-        if (StringUtils.isEmpty(transferToken)) {
-            throw new HyperwalletException("Transfer token is required");
-        }
-        if (StringUtils.isEmpty(transferRefund.getClientRefundId())) {
-            throw new HyperwalletException("ClientRefundId is required");
-        }
-
-        transferRefund = copy(transferRefund);
-        transferRefund.clearStatus();
-        transferRefund.clearCreatedOn();
-        return apiClient.post(url + "/transfers/" + transferToken + "/refunds", transferRefund, HyperwalletTransferRefund.class);
-    }
-
-    /**
-     * Get Transfer Refund
-     *
-     * @param transferToken       Transfer token assigned
-     * @param transferRefundToken Transfer Refund token assigned
-     * @return Transfer Refund object
-     */
-    public HyperwalletTransferRefund getTransferRefund(String transferToken, String transferRefundToken) {
-        if (StringUtils.isEmpty(transferToken)) {
-            throw new HyperwalletException("Transfer token is required");
-        }
-        if (StringUtils.isEmpty(transferRefundToken)) {
-            throw new HyperwalletException("Transfer Refund token is required");
-        }
-
-        return apiClient.get(url + "/transfers/" + transferToken + "/refunds/" + transferRefundToken, HyperwalletTransferRefund.class);
-    }
-
-    /**
-     * List Transfer Refund Requests
-     *
-     * @param options       List filter option
-     * @param transferToken Transfer token assigned
-     * @return HyperwalletList of HyperwalletTransferRefund
-     */
-    public HyperwalletList<HyperwalletTransferRefund> listTransferRefunds(String transferToken, HyperwalletTransferListOptions options) {
-        if (StringUtils.isEmpty(transferToken)) {
-            throw new HyperwalletException("Transfer token is required");
-        }
-
-        String url = paginate(this.url + "/transfers/" + transferToken + "/refunds", options);
-        if (options != null) {
-            url = addParameter(url, "clientRefundId", options.getDestinationToken());
-            url = addParameter(url, "sourceToken", options.getSourceToken());
-        }
-        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferRefund>>() {
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferMethod>>() {
         });
     }
 
@@ -2300,10 +2319,6 @@ public class Hyperwallet {
     private HyperwalletVenmoAccount copy(HyperwalletVenmoAccount venmoAccount) {
         venmoAccount = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(venmoAccount), HyperwalletVenmoAccount.class);
         return venmoAccount;
-    }
-
-    private HyperwalletTransferRefund copy(HyperwalletTransferRefund transferRefund) {
-        return HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transferRefund), HyperwalletTransferRefund.class);
     }
 
 }

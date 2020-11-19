@@ -1,0 +1,3 @@
+curl -X "GET" "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ad/transfer-methods" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Accept: application/json"
