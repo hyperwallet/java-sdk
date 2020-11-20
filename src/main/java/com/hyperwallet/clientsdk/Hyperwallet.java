@@ -2,13 +2,17 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
-import com.hyperwallet.clientsdk.util.*;
+import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
+import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
+import com.hyperwallet.clientsdk.util.HyperwalletJsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * The Hyperwallet Client
@@ -2217,33 +2221,70 @@ public class Hyperwallet {
     }
 
     //--------------------------------------
-    // Upload documents for user endpoint
+    // Transfer refunds
     //--------------------------------------
 
     /**
-     * Upload documents
+     * Create Transfer Refund
      *
-     * @param userToken userToken for which documents to be uploaded
-     * @param uploadData HyperwalletVerificationDocument to get uploaded
-     * @return HyperwalletUser user object with document upload status
+     * @param transferToken  Transfer token assigned
+     * @param transferRefund Transfer Refund object to create
+     * @return Created Transfer Refund
      */
-    public HyperwalletUser uploadUserDocuments(String userToken, List<HyperwalletVerificationDocument> uploadData) {
-        Multipart multipart = new Multipart();
-        if (StringUtils.isEmpty(userToken)) {
-            throw new HyperwalletException("User token is not present");
+    public HyperwalletTransferRefund createTransferRefund(String transferToken, HyperwalletTransferRefund transferRefund) {
+        if (transferRefund == null) {
+            throw new HyperwalletException("Transfer Refund is required");
         }
-        if (uploadData == null || uploadData.size() < 1) {
-            throw new HyperwalletException("Data for upload is missing");
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
         }
-        if (uploadData.get(0).getUploadFiles() == null || uploadData.get(0).getUploadFiles().size()  < 1) {
-            throw new HyperwalletException("Upload Files are missing");
+        if (StringUtils.isEmpty(transferRefund.getClientRefundId())) {
+            throw new HyperwalletException("ClientRefundId is required");
         }
-        try {
-            multipart = HyperwalletMultipartUtils.convert(uploadData);
-        } catch(IOException e) {
-            throw new HyperwalletException("Unable to convert to Multipart formdata");
+
+        transferRefund = copy(transferRefund);
+        transferRefund.clearStatus();
+        transferRefund.clearCreatedOn();
+        return apiClient.post(url + "/transfers/" + transferToken + "/refunds", transferRefund, HyperwalletTransferRefund.class);
+    }
+
+    /**
+     * Get Transfer Refund
+     *
+     * @param transferToken       Transfer token assigned
+     * @param transferRefundToken Transfer Refund token assigned
+     * @return Transfer Refund object
+     */
+    public HyperwalletTransferRefund getTransferRefund(String transferToken, String transferRefundToken) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
         }
-        return apiClient.put(url + "/users/" + userToken, multipart, HyperwalletUser.class);
+        if (StringUtils.isEmpty(transferRefundToken)) {
+            throw new HyperwalletException("Transfer Refund token is required");
+        }
+
+        return apiClient.get(url + "/transfers/" + transferToken + "/refunds/" + transferRefundToken, HyperwalletTransferRefund.class);
+    }
+
+    /**
+     * List Transfer Refund Requests
+     *
+     * @param options       List filter option
+     * @param transferToken Transfer token assigned
+     * @return HyperwalletList of HyperwalletTransferRefund
+     */
+    public HyperwalletList<HyperwalletTransferRefund> listTransferRefunds(String transferToken, HyperwalletTransferListOptions options) {
+        if (StringUtils.isEmpty(transferToken)) {
+            throw new HyperwalletException("Transfer token is required");
+        }
+
+        String url = paginate(this.url + "/transfers/" + transferToken + "/refunds", options);
+        if (options != null) {
+            url = addParameter(url, "clientRefundId", options.getDestinationToken());
+            url = addParameter(url, "sourceToken", options.getSourceToken());
+        }
+        return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferRefund>>() {
+        });
     }
 
     //--------------------------------------
@@ -2345,6 +2386,9 @@ public class Hyperwallet {
     private HyperwalletVenmoAccount copy(HyperwalletVenmoAccount venmoAccount) {
         venmoAccount = HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(venmoAccount), HyperwalletVenmoAccount.class);
         return venmoAccount;
+    }
+    private HyperwalletTransferRefund copy(HyperwalletTransferRefund transferRefund) {
+        return HyperwalletJsonUtil.fromJson(HyperwalletJsonUtil.toJson(transferRefund), HyperwalletTransferRefund.class);
     }
 
 }
