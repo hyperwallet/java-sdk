@@ -6,7 +6,6 @@ import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
-import com.hyperwallet.clientsdk.util.Multipart;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.testng.annotations.DataProvider;
@@ -7346,32 +7345,4 @@ public class HyperwalletTest {
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
-
-    @Test
-    public void testUploadUserDocuments_successful() throws Exception {
-        Hyperwallet client = new Hyperwallet("test-username", "test-password");
-        HyperwalletUser hyperwalletUser = new HyperwalletUser();
-        String userToken = "test-userToken";
-        Multipart multipart = new Multipart();
-
-        List<HyperwalletVerificationDocument> testUploadData = new ArrayList<>();
-        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();;
-        hyperwalletVerificationDocument.setType("test_DRIVERS_LICENSE");
-        hyperwalletVerificationDocument.setCategory("test_IDENTIFICATION");
-        hyperwalletVerificationDocument.setCountry("test_US");
-        Map<String, String> fileList =  new HashMap<>();
-        fileList.put("drivers_license_front","/test-path/drivers_license_front.png");
-        fileList.put("drivers_license_back","/test-path/drivers_license_back.png");
-        hyperwalletVerificationDocument.setUploadFiles(fileList);
-        testUploadData.add(hyperwalletVerificationDocument);
-
-        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
-
-        Mockito.when(mockApiClient.put(Mockito.anyString(), Mockito.anyObject(),Mockito.any(Class.class))).thenReturn(hyperwalletUser);
-
-        HyperwalletUser response= client.uploadUserDocuments(userToken,testUploadData);
-        Mockito.verify(mockApiClient).put("https://api.sandbox.hyperwallet.com/rest/v3/users/"+userToken,multipart, hyperwalletUser.getClass());
-        assertThat(response, is(equalTo(hyperwalletUser)));
-    }
-
 }

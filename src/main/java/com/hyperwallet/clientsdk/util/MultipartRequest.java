@@ -36,7 +36,6 @@ public class MultipartRequest {
     }
 
     MultipartRequest(String url, Multipart multipartList, String username, String password) throws IOException {
-        //super(url);
         requestURL = url;
         this.username  = username;
         this.password = password;
@@ -62,7 +61,7 @@ public class MultipartRequest {
         // checks server's status code first
         int status = this.connection.getResponseCode();
 
-        if (status == HttpURLConnection.HTTP_CREATED) {
+        if (status == HttpURLConnection.HTTP_OK ) {
             InputStream responseStream = new BufferedInputStream(connection.getInputStream());
             BufferedReader responseStreamReader = new BufferedReader(new InputStreamReader(responseStream));
             String line = "";
@@ -76,7 +75,7 @@ public class MultipartRequest {
             response.setHeaders(this.connection.getHeaderFields());
             this.connection.disconnect();
         } else {
-            throw new HyperwalletException("Server returned non-OK status: " + status + "; Message: " + this.connection.getResponseMessage());
+            throw new HyperwalletException("Server returned status: " + status + "; Message: " + this.connection.getResponseMessage());
         }
         return response;
     }

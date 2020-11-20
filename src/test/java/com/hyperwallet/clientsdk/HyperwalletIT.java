@@ -4,6 +4,7 @@ import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.Brand;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.CardType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.*;
+import com.hyperwallet.clientsdk.util.Multipart;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -16,9 +17,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 import static com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -1226,6 +1225,45 @@ public class HyperwalletIT {
         assertThat(cardTransferMethod.getCardBrand(), is(equalTo(Brand.VISA)));
         assertThat(cardTransferMethod.getDateOfExpiry(), is(equalTo(dateFormat.parse("2024-09-01T00:00:00 UTC"))));
         assertThat(cardTransferMethod.getUserToken(), is(equalTo("usr-539f5e81-a52e-4bc5-aba7-f17de183c900")));
+
+    }
+
+    //--------------------------------------
+    // Upload documents for user endpoint
+    //--------------------------------------
+
+    @Test
+    public void testUploadUserDocuments() throws Exception {
+        String functionality = "uploadUserDocuments";
+        initMockServer(functionality);
+
+        HyperwalletUser returnValue;
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();;
+        try {
+            String userToken = "usr-62f24150-5756-4234-9154-90ee4eed328b";
+            Multipart multipart = new Multipart();
+            List<HyperwalletVerificationDocument> documentList = new ArrayList<>();
+            hyperwalletVerificationDocument.setType("DRIVERS_LICENSE");
+            hyperwalletVerificationDocument.setCategory("IDENTIFICATION");
+            hyperwalletVerificationDocument.setCountry("US");
+            Map<String, String> fileList =  new HashMap<>();
+            fileList.put("drivers_license_front",  "src/test/resources/integration/test.png");
+            fileList.put("drivers_license_back",  "src/test/resources/integration/test1.png");
+            hyperwalletVerificationDocument.setUploadFiles(fileList);
+            documentList.add(hyperwalletVerificationDocument);
+            returnValue=client.uploadUserDocuments(userToken, documentList);
+
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        HyperwalletVerificationDocument document =new HyperwalletVerificationDocument();
+        assertThat(returnValue.getToken(), is(equalTo("usr-62f24150-5756-4234-9154-90ee4eed328b")));
+        assertThat(returnValue.getStatus(), is(equalTo(Status.PRE_ACTIVATED)));
+        assertThat(returnValue.getVerificationStatus(), is(equalTo(VerificationStatus.UNDER_REVIEW)));
+        assertThat(hyperwalletVerificationDocument.getCategory(), is(equalTo("IDENTIFICATION")));
+        assertThat(hyperwalletVerificationDocument.getType(), is(equalTo("DRIVERS_LICENSE")));
+        assertThat(hyperwalletVerificationDocument.getCountry(), is(equalTo("US")));
 
     }
 
