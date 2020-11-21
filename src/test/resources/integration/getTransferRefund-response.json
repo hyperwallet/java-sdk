@@ -1,0 +1,31 @@
+{
+  "token": "trd-19156720-01e8-4f1c-8ef3-7ced80672128",
+  "status": "COMPLETED",
+  "clientRefundId": "1573548663",
+  "sourceToken": "act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f",
+  "sourceAmount": "50.00",
+  "sourceCurrency": "USD",
+  "destinationToken": "usr-3deb34a0-ffd1-487d-8860-6d69435cea6c",
+  "destinationAmount": "50.00",
+  "destinationCurrency": "USD",
+  "createdOn": "2019-11-12T11:51:05",
+  "notes": "Merchant Payment return to Wallet Balance",
+  "memo": "TransferReturn123456",
+  "foreignExchanges": [
+    {
+      "sourceAmount": "100.00",
+      "sourceCurrency": "USD",
+      "destinationAmount": "63.49",
+      "destinationCurrency": "CAD",
+      "rate": "0.79"
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v3/transfers/trf-639579d9-4fe8-4fbf-8e34-827d27697f64/refunds/trd-19156720-01e8-4f1c-8ef3-7ced80672128"
+    }
+  ]
+}

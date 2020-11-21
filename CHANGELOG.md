@@ -1,5 +1,15 @@
 Changelog
 =========
+
+1.7.0
+-----------------
+- Added custom headers
+- Added multipart upload functionality without Jersey dependency
+- Added TransferStatusTransitions (get, list)
+- Added Tranfer Refund methods (create, get, list)
+- Added updatePaypalAccount method
+- Added methods - getBankAccountStatusTransition(), listTransferMethods
+
 1.6.1
 -----------------
 - Added 'processingTime' to BankCards
