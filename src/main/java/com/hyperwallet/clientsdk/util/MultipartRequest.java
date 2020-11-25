@@ -60,7 +60,7 @@ public class MultipartRequest {
         // checks server's status code first
         int status = this.connection.getResponseCode();
         InputStream responseStream;
-        if (status == HttpURLConnection.HTTP_OK ) {
+        if (status == HttpURLConnection.HTTP_OK || status == HttpURLConnection.HTTP_CREATED) {
             responseStream = new BufferedInputStream(connection.getInputStream());
         } else {
             responseStream = new BufferedInputStream(connection.getErrorStream());
