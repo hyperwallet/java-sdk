@@ -258,7 +258,7 @@ public class HyperwalletTest {
             docList.add(doc);
             client.uploadStakeholderDocuments("user-token", "stk-token", docList);
         } catch (Exception exception) {
-            assertThat(exception.getMessage(), is("Server returned non-OK status: 401; Message: Unauthorized"));
+            assertThat(exception.getMessage(), is("The information entered does not match our records. Please try again."));
         }
     }
 
@@ -7092,10 +7092,10 @@ public class HyperwalletTest {
                 client.uploadStakeholderDocuments(userToken, businessStakeholderToken, hyperwalletVerificationDocumentList);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("Server returned non-OK status: 401; Message: Unauthorized")));
-            assertThat(e.getMessage(), startsWith("Server returned non-OK status: 401"));
-            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getResponse(), is(notNullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("The information entered does not match our records. Please try again.")));
+            assertThat(e.getMessage(), startsWith("The information entered does not match our records. Please try again."));
+            assertThat(e.getHyperwalletErrors(), is(notNullValue()));
         }
     }
 
@@ -8151,11 +8151,11 @@ public class HyperwalletTest {
             hyperwalletUserresponse = client.uploadUserDocuments("usr-9aff8645-4bc3-4f12-9f95-f85652806472", hyperwalletDocumentList);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getErrorCode(), is(nullValue()));
-            assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("Server returned non-OK status: 401; Message: Unauthorized")));
-            assertThat(e.getMessage(), is(equalTo("Server returned non-OK status: 401; Message: Unauthorized")));
-            assertThat(e.getHyperwalletErrors(), is(nullValue()));
+            assertThat(e.getErrorCode(), is(equalTo("INCORRECT_LOGIN_CREDENTIALS")));
+            assertThat(e.getResponse(), is(notNullValue()));
+            assertThat(e.getErrorMessage(), is(equalTo("The information entered does not match our records. Please try again.")));
+            assertThat(e.getMessage(), is(equalTo("The information entered does not match our records. Please try again.")));
+            assertThat(e.getHyperwalletErrors(), is(notNullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }

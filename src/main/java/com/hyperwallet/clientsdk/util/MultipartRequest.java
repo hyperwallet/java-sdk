@@ -1,6 +1,5 @@
 package com.hyperwallet.clientsdk.util;
 
-import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
 import com.hyperwallet.clientsdk.HyperwalletException;
 
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MultipartRequest extends Request {
+public class MultipartRequest {
     private final String BOUNDARY = "--0011010110123111";
     private final String SEPARATOR = "--";
 
@@ -37,7 +36,6 @@ public class MultipartRequest extends Request {
     }
 
     MultipartRequest(String url, Multipart multipartList, String username, String password) throws IOException {
-        super(url);
         requestURL = url;
         this.username  = username;
         this.password = password;
@@ -46,7 +44,6 @@ public class MultipartRequest extends Request {
 
     public Response putResource() throws IOException {
         Response response = new Response() ;
-        buildHeaders();
         URL url = new URL(requestURL);
         final String pair = username + ":" + password;
         final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
@@ -62,34 +59,24 @@ public class MultipartRequest extends Request {
         outStream.close();
         // checks server's status code first
         int status = this.connection.getResponseCode();
-
-        if (status == HttpURLConnection.HTTP_CREATED) {
-            InputStream responseStream = new BufferedInputStream(connection.getInputStream());
-            BufferedReader responseStreamReader = new BufferedReader(new InputStreamReader(responseStream));
-            String line = "";
-            StringBuilder stringBuilder = new StringBuilder();
-            while ((line = responseStreamReader.readLine()) != null) {
-                stringBuilder.append(line).append("\n");
-            }
-            responseStreamReader.close();
-            response.setResponseCode(status);
-            response.setBody(stringBuilder.toString());
-            response.setHeaders(this.connection.getHeaderFields());
-            this.connection.disconnect();
+        InputStream responseStream;
+        if (status == HttpURLConnection.HTTP_OK ) {
+            responseStream = new BufferedInputStream(connection.getInputStream());
         } else {
-            throw new HyperwalletException("Server returned non-OK status: " + status + "; Message: " + this.connection.getResponseMessage());
+            responseStream = new BufferedInputStream(connection.getErrorStream());
         }
+        BufferedReader responseStreamReader = new BufferedReader(new InputStreamReader(responseStream));
+        String line = "";
+        StringBuilder stringBuilder = new StringBuilder();
+        while ((line = responseStreamReader.readLine()) != null) {
+            stringBuilder.append(line).append("\n");
+        }
+        responseStreamReader.close();
+        response.setResponseCode(status);
+        response.setBody(stringBuilder.toString());
+        response.setHeaders(this.connection.getHeaderFields());
+        this.connection.disconnect();
         return response;
-    }
-
-    private void buildHeaders() {
-        if (!headers.isEmpty()) {
-            for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
-                for (String value : entry.getValue()) {
-                    connection.addRequestProperty(entry.getKey(), value);
-                }
-            }
-        }
     }
 
     private void writeMultipartBody() throws IOException {
@@ -115,4 +102,3 @@ public class MultipartRequest extends Request {
 
     }
 }
-
