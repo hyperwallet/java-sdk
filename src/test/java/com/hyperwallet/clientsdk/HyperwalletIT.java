@@ -9,6 +9,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.VerificationSta
 import com.hyperwallet.clientsdk.model.HyperwalletUser.Gender;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.ProfileType;
+import com.hyperwallet.clientsdk.util.Multipart;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -58,6 +59,42 @@ public class HyperwalletIT {
     //
     // User
     //
+
+    @Test
+    public void testUploadUserDocuments() throws Exception {
+        String functionality = "uploadUserDocuments";
+        initMockServer(functionality);
+
+        HyperwalletUser returnValue;
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();;
+        try {
+            String userToken = "usr-62f24150-5756-4234-9154-90ee4eed328b";
+            Multipart multipart = new Multipart();
+            List<HyperwalletVerificationDocument> documentList = new ArrayList<>();
+            hyperwalletVerificationDocument.setType("DRIVERS_LICENSE");
+            hyperwalletVerificationDocument.setCategory("IDENTIFICATION");
+            hyperwalletVerificationDocument.setCountry("US");
+            Map<String, String> fileList =  new HashMap<>();
+            fileList.put("drivers_license_front",  "src/test/resources/integration/test.png");
+            fileList.put("drivers_license_back",  "src/test/resources/integration/test.png");
+            hyperwalletVerificationDocument.setUploadFiles(fileList);
+            documentList.add(hyperwalletVerificationDocument);
+            returnValue=client.uploadUserDocuments(userToken, documentList);
+
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        HyperwalletVerificationDocument document =new HyperwalletVerificationDocument();
+        assertThat(returnValue.getToken(), is(equalTo("usr-62f24150-5756-4234-9154-90ee4eed328b")));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletUser.Status.PRE_ACTIVATED)));
+        assertThat(returnValue.getVerificationStatus(), is(equalTo(HyperwalletUser.VerificationStatus.UNDER_REVIEW)));
+        assertThat(hyperwalletVerificationDocument.getCategory(), is(equalTo("IDENTIFICATION")));
+        assertThat(hyperwalletVerificationDocument.getType(), is(equalTo("DRIVERS_LICENSE")));
+        assertThat(hyperwalletVerificationDocument.getCountry(), is(equalTo("US")));
+
+    }
+
     @Test
     public void testListUserStatusTransitions() throws Exception {
         String functionality = "listUserStatusTransitions";
@@ -3113,6 +3150,41 @@ public class HyperwalletIT {
         HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
         assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
         assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
+
+    @Test
+    public void testUploadStakeholderDocuments() throws Exception {
+        String functionality = "uploadStakeholderDocuments";
+        initMockServer(functionality);
+
+        HyperwalletBusinessStakeholder returnValue;
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();;
+        try {
+            String userToken = "usr-490848fb-8e1f-4f7c-9a18-a5b7a372e602";
+            String stkToken = "stk-e08f13b8-0e54-43d2-a587-67d513633275";
+            Multipart multipart = new Multipart();
+            List<HyperwalletVerificationDocument> documentList = new ArrayList<>();
+            hyperwalletVerificationDocument.setType("DRIVERS_LICENSE");
+            hyperwalletVerificationDocument.setCategory("IDENTIFICATION");
+            hyperwalletVerificationDocument.setCountry("US");
+            Map<String, String> fileList =  new HashMap<>();
+            fileList.put("drivers_license_front",  "src/test/resources/integration/test.png");
+            fileList.put("drivers_license_back",  "src/test/resources/integration/test.png");
+            hyperwalletVerificationDocument.setUploadFiles(fileList);
+            documentList.add(hyperwalletVerificationDocument);
+            returnValue = client.uploadStakeholderDocuments(userToken, stkToken, documentList);
+
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        HyperwalletVerificationDocument document =new HyperwalletVerificationDocument();
+        assertThat(returnValue.getToken(), is(equalTo("stk-e08f13b8-0e54-43d2-a587-67d513633275")));
+        assertThat(returnValue.getVerificationStatus(), is(equalTo(HyperwalletBusinessStakeholder.VerificationStatus.UNDER_REVIEW)));
+        assertThat(hyperwalletVerificationDocument.getCategory(), is(equalTo("IDENTIFICATION")));
+        assertThat(hyperwalletVerificationDocument.getType(), is(equalTo("DRIVERS_LICENSE")));
+        assertThat(hyperwalletVerificationDocument.getCountry(), is(equalTo("US")));
+
     }
 
     //
