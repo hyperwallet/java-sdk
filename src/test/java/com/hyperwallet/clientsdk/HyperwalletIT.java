@@ -3180,8 +3180,7 @@ public class HyperwalletIT {
         }
         HyperwalletVerificationDocument document =new HyperwalletVerificationDocument();
         assertThat(returnValue.getToken(), is(equalTo("stk-e08f13b8-0e54-43d2-a587-67d513633275")));
-//        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletUser.Status.PRE_ACTIVATED)));
-        assertThat(returnValue.getVerificationStatus(), is(equalTo(HyperwalletUser.VerificationStatus.UNDER_REVIEW)));
+        assertThat(returnValue.getVerificationStatus(), is(equalTo(HyperwalletBusinessStakeholder.VerificationStatus.UNDER_REVIEW)));
         assertThat(hyperwalletVerificationDocument.getCategory(), is(equalTo("IDENTIFICATION")));
         assertThat(hyperwalletVerificationDocument.getType(), is(equalTo("DRIVERS_LICENSE")));
         assertThat(hyperwalletVerificationDocument.getCountry(), is(equalTo("US")));
