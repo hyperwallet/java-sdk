@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.2.1
+-----------------
+- Modified Multipart upload 
+
 2.2.0
 -----------------
 - Added Upload Multipart form-data (removed Jersey dependency)
