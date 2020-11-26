@@ -44,7 +44,6 @@ public class MultipartRequest {
 
     public Response putResource() throws IOException {
         Response response = new Response() ;
-        buildHeaders();
         URL url = new URL(requestURL);
         final String pair = username + ":" + password;
         final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
@@ -60,34 +59,24 @@ public class MultipartRequest {
         outStream.close();
         // checks server's status code first
         int status = this.connection.getResponseCode();
-
-        if (status == HttpURLConnection.HTTP_OK ) {
-            InputStream responseStream = new BufferedInputStream(connection.getInputStream());
-            BufferedReader responseStreamReader = new BufferedReader(new InputStreamReader(responseStream));
-            String line = "";
-            StringBuilder stringBuilder = new StringBuilder();
-            while ((line = responseStreamReader.readLine()) != null) {
-                stringBuilder.append(line).append("\n");
-            }
-            responseStreamReader.close();
-            response.setResponseCode(status);
-            response.setBody(stringBuilder.toString());
-            response.setHeaders(this.connection.getHeaderFields());
-            this.connection.disconnect();
+        InputStream responseStream;
+        if (status == HttpURLConnection.HTTP_OK || status == HttpURLConnection.HTTP_CREATED) {
+            responseStream = new BufferedInputStream(connection.getInputStream());
         } else {
-            throw new HyperwalletException("Server returned status: " + status + "; Message: " + this.connection.getResponseMessage());
+            responseStream = new BufferedInputStream(connection.getErrorStream());
         }
+        BufferedReader responseStreamReader = new BufferedReader(new InputStreamReader(responseStream));
+        String line = "";
+        StringBuilder stringBuilder = new StringBuilder();
+        while ((line = responseStreamReader.readLine()) != null) {
+            stringBuilder.append(line).append("\n");
+        }
+        responseStreamReader.close();
+        response.setResponseCode(status);
+        response.setBody(stringBuilder.toString());
+        response.setHeaders(this.connection.getHeaderFields());
+        this.connection.disconnect();
         return response;
-    }
-
-    private void buildHeaders() {
-        if (!headers.isEmpty()) {
-            for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
-                for (String value : entry.getValue()) {
-                    connection.addRequestProperty(entry.getKey(), value);
-                }
-            }
-        }
     }
 
     private void writeMultipartBody() throws IOException {
