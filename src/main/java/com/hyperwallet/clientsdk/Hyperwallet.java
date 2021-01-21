@@ -90,7 +90,7 @@ public class Hyperwallet {
      * Create a User
      *
      * @param user Hyperwallet user representation
-     * @return HyperwalletUser created User
+     * @return HyperwalletUser created user
      */
     public HyperwalletUser createUser(HyperwalletUser user) {
         if (user == null) {
