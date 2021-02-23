@@ -1,20 +1,18 @@
 package com.hyperwallet.clientsdk.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 import java.util.Map;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class
-HyperwalletVerificationDocument {
+public class HyperwalletVerificationDocument {
 
     private String category;
 
@@ -23,6 +21,8 @@ HyperwalletVerificationDocument {
     private String status;
 
     private String country;
+
+    private List<HyperwalletDocumentRejectReason> reasons;
 
     public Map<String, String> uploadFiles;
 
@@ -88,6 +88,20 @@ HyperwalletVerificationDocument {
 
     public HyperwalletVerificationDocument uploadFiles(Map<String, String> uploadFiles) {
         setUploadFiles(uploadFiles);
+        return this;
+    }
+
+    public List<HyperwalletDocumentRejectReason> getReasons() {
+        return reasons;
+    }
+
+    public void setReasons(
+            List<HyperwalletDocumentRejectReason> reasons) {
+        this.reasons = reasons;
+    }
+
+    public HyperwalletVerificationDocument reasons(List<HyperwalletDocumentRejectReason> reasons) {
+        setReasons(reasons);
         return this;
     }
 }
