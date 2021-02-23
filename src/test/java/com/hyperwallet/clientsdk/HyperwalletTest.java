@@ -5866,7 +5866,7 @@ public class HyperwalletTest {
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
         HyperwalletPaymentListOptions options = new HyperwalletPaymentListOptions();
-        options
+        options.clientPaymentId("gv47LDuf")
                 .sortBy("test-sort-by")
                 .offset(5)
                 .limit(10)
@@ -5878,7 +5878,10 @@ public class HyperwalletTest {
         HyperwalletList<HyperwalletPayment> resp = client.listPayments(options);
         assertThat(resp, is(equalTo(response)));
 
-        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/payments?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"), Mockito.any(TypeReference.class));
+        Mockito.verify(mockApiClient).get(Mockito
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v3/payments?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58"
+                                + ":26Z&sortBy=test-sort-by&offset=5&limit=10&clientPaymentId=gv47LDuf"),
+                Mockito.any(TypeReference.class));
     }
 
     @Test
@@ -5889,7 +5892,7 @@ public class HyperwalletTest {
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
         HyperwalletPaymentListOptions options = new HyperwalletPaymentListOptions();
-        options
+        options.clientPaymentId("gv47LDuf")
                 .sortBy("test-sort-by")
                 .offset(5)
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -5899,7 +5902,10 @@ public class HyperwalletTest {
         HyperwalletList<HyperwalletPayment> resp = client.listPayments(options);
         assertThat(resp, is(equalTo(response)));
 
-        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/payments?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"), Mockito.any(TypeReference.class));
+        Mockito.verify(mockApiClient).get(Mockito
+                        .eq("https://api.sandbox.hyperwallet.com/rest/v3/payments?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"
+                        + "&clientPaymentId=gv47LDuf"),
+                Mockito.any(TypeReference.class));
     }
 
     //--------------------------------------
