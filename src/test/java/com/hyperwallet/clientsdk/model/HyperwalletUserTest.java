@@ -2,6 +2,7 @@ package com.hyperwallet.clientsdk.model;
 
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -52,7 +53,8 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .country("test-country")
 
                 .language("test-language")
-                .programToken("test-program-token");
+                .programToken("test-program-token")
+                .documents(Arrays.asList(new HyperwalletVerificationDocument()));
 
         return user;
     }
