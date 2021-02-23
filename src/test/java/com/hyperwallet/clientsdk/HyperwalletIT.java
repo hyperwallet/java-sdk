@@ -1128,9 +1128,7 @@ public class HyperwalletIT {
         HyperwalletPaymentListOptions options = new HyperwalletPaymentListOptions();
         options.clientPaymentId("gv47LDuf")
                 .sortBy("test-sort-by")
-                .limit(10)
-                .createdAfter(convertStringToDate("2017-10-06T15:03:13Z"))
-                .createdBefore(convertStringToDate("2017-10-06T15:03:13Z"));
+                .limit(10);
         HyperwalletList<HyperwalletPayment> returnValue;
         try {
             returnValue = client.listPayments(options);
@@ -1553,11 +1551,4 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("Closing this account.")));
 
     }
-
-    private Date convertStringToDate(String date) throws Exception {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return dateFormat.parse(date);
-    }
-
 }
