@@ -53,8 +53,14 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .country("test-country")
 
                 .language("test-language")
-                .programToken("test-program-token")
-                .documents(Arrays.asList(new HyperwalletVerificationDocument()));
+                .programToken("test-program-token");
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
+        hyperwalletVerificationDocument.category("test-category")
+                .type("test-type")
+                .country("test-country")
+                .status("test-status")
+                .setReasons(Arrays.asList(new HyperwalletDocumentRejectReason()));
+        user.documents(Arrays.asList(hyperwalletVerificationDocument));
 
         return user;
     }

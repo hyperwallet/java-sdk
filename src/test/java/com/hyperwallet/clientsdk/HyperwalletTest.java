@@ -7,6 +7,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
+import com.hyperwallet.clientsdk.util.Multipart;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.testng.annotations.DataProvider;
@@ -7561,5 +7562,65 @@ public class HyperwalletTest {
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
+    }
+
+    @Test
+    public void uploadUserDocuments_withUploadFiles() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+        List<HyperwalletVerificationDocument> testUploadData = getHyperwalletVerificationDocuments();
+        final String url = "https://api.sandbox.hyperwallet.com/rest/v3/users/" + "test-userToken";
+        Mockito.when(mockApiClient.put(Mockito.eq(url), Mockito.any(), Mockito.eq(HyperwalletUser.class))).thenReturn(new HyperwalletUser());
+        HyperwalletUser user = client.uploadUserDocuments("test-userToken", testUploadData);
+        Mockito.verify(mockApiClient).put(Mockito.eq(url), Mockito.any(Multipart.class), Mockito.eq(HyperwalletUser.class));
+    }
+
+    private List<HyperwalletVerificationDocument> getHyperwalletVerificationDocuments() {
+        List<HyperwalletVerificationDocument> testUploadData = new ArrayList<>();
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
+        hyperwalletVerificationDocument.setType("test_DRIVERS_LICENSE");
+        hyperwalletVerificationDocument.setCategory("test_IDENTIFICATION");
+        hyperwalletVerificationDocument.setCountry("test_US");
+        Map<String, String> fileList = new HashMap<>();
+        fileList.put("fileName", "fileData");
+        hyperwalletVerificationDocument.setUploadFiles(fileList);
+        testUploadData.add(hyperwalletVerificationDocument);
+        return testUploadData;
+    }
+
+    @Test
+    public void getUser_WithVerificationDocumentAndRejectReasons() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+        HyperwalletUser hyperwalletUser = getHyperwalletUser();
+        final String url = "https://api.sandbox.hyperwallet.com/rest/v3/users/" + "test-userToken";
+        Mockito.when(mockApiClient.get(Mockito.eq(url), Mockito.eq(HyperwalletUser.class))).thenReturn(hyperwalletUser);
+        HyperwalletUser user = client.getUser("test-userToken");
+        Mockito.verify(mockApiClient).get(Mockito.eq(url), Mockito.eq(HyperwalletUser.class));
+        assertThat(user.getToken(), is(hyperwalletUser.getToken()));
+        assertThat(user.getDocuments().size(), is(1));
+        assertThat(user.getDocuments().get(0).getStatus(), is("INVALID"));
+        assertThat(user.getDocuments().get(0).getReasons().size(), is(1));
+        assertThat(user.getDocuments().get(0).getReasons().get(0).getName(), is(DocumentVerificationReason.DOCUMENT_EXPIRED));
+        assertThat(user.getDocuments().get(0).getReasons().get(0).getDescription(), is("Document has expired"));
+    }
+
+    private HyperwalletUser getHyperwalletUser() {
+        HyperwalletUser user = new HyperwalletUser();
+        user.token("test-userToken")
+                .verificationStatus(VerificationStatus.FAILED);
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
+        hyperwalletVerificationDocument.setType("test_DRIVERS_LICENSE");
+        hyperwalletVerificationDocument.setCategory("test_IDENTIFICATION");
+        hyperwalletVerificationDocument.setCountry("test_US");
+        Map<String, String> fileList = new HashMap<>();
+        fileList.put("fileName", "fileData");
+        hyperwalletVerificationDocument.setStatus("INVALID");
+        HyperwalletDocumentRejectReason documentRejectReason = new HyperwalletDocumentRejectReason();
+        documentRejectReason.setName(DocumentVerificationReason.DOCUMENT_EXPIRED);
+        documentRejectReason.setDescription("Document has expired");
+        hyperwalletVerificationDocument.reasons(Arrays.asList(documentRejectReason));
+        user.documents(Arrays.asList(hyperwalletVerificationDocument));
+        return user;
     }
 }
