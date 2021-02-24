@@ -294,6 +294,44 @@ public class HyperwalletTest {
     }
 
     @Test
+    public void getUser_WithVerificationDocumentAndRejectReasons() throws Exception {
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+        HyperwalletUser hyperwalletUser = getHyperwalletUser();
+        final String url = "https://api.sandbox.hyperwallet.com/rest/v4/users/" + "test-userToken";
+        Mockito.when(mockApiClient.get(Mockito.eq(url), Mockito.eq(HyperwalletUser.class))).thenReturn(hyperwalletUser);
+
+        HyperwalletUser user = client.getUser("test-userToken");
+
+        Mockito.verify(mockApiClient).get(Mockito.eq(url), Mockito.eq(HyperwalletUser.class));
+        assertThat(user.getToken(), is(hyperwalletUser.getToken()));
+        assertThat(user.getDocuments().size(), is(1));
+        assertThat(user.getDocuments().get(0).getStatus(), is("INVALID"));
+        assertThat(user.getDocuments().get(0).getReasons().size(), is(1));
+        assertThat(user.getDocuments().get(0).getReasons().get(0).getName(), is(DocumentVerificationReason.DOCUMENT_EXPIRED));
+        assertThat(user.getDocuments().get(0).getReasons().get(0).getDescription(), is("Document has expired"));
+    }
+
+    private HyperwalletUser getHyperwalletUser() {
+        HyperwalletUser user = new HyperwalletUser();
+        user.token("test-userToken")
+                .verificationStatus(VerificationStatus.FAILED);
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
+        hyperwalletVerificationDocument.setType("test_DRIVERS_LICENSE");
+        hyperwalletVerificationDocument.setCategory("test_IDENTIFICATION");
+        hyperwalletVerificationDocument.setCountry("test_US");
+        Map<String, String> fileList = new HashMap<>();
+        fileList.put("fileName", "fileData");
+        hyperwalletVerificationDocument.setStatus("INVALID");
+        HyperwalletDocumentRejectReason documentRejectReason = new HyperwalletDocumentRejectReason();
+        documentRejectReason.setName(DocumentVerificationReason.DOCUMENT_EXPIRED);
+        documentRejectReason.setDescription("Document has expired");
+        hyperwalletVerificationDocument.reasons(Arrays.asList(documentRejectReason));
+        user.documents(Arrays.asList(hyperwalletVerificationDocument));
+        return user;
+    }
+
+    @Test
     public void testUpdateUser_noUser() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
@@ -6998,8 +7036,43 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/users/" + token
-            + "/business-stakeholders?createdBefore=2016-06-29T17:58:26Z&limit=10"), Mockito.any(TypeReference.class));
+                + "/business-stakeholders?createdBefore=2016-06-29T17:58:26Z&limit=10"), Mockito.any(TypeReference.class));
 
+    }
+
+    @Test
+    public void listBusinessStakeholders_WithVerificationDocumentAndRejectReasons() throws Exception {
+        String token = "test-token";
+        HyperwalletBusinessStakeholder hyperwalletBusinessStakeholder = getHyperwalletBusinessStakeholder();
+        HyperwalletList<HyperwalletBusinessStakeholder> response = new HyperwalletList<>();
+        response.setData(Arrays.asList(hyperwalletBusinessStakeholder));
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+        final String url = "https://api.sandbox.hyperwallet.com/rest/v4/users/" + token + "/business-stakeholders";
+        Mockito.when(mockApiClient.get(Mockito.eq(url), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletBusinessStakeholder> resp = client.listBusinessStakeholders(token);
+
+        Mockito.verify(mockApiClient).get(Mockito.eq(url),
+                Mockito.any(TypeReference.class));
+        assertThat(resp.getData().size(), is(1));
+        assertThat(resp.getData().get(0).getToken(), is(hyperwalletBusinessStakeholder.getToken()));
+        assertThat(resp.getData().get(0).getDocuments().size(), is(1));
+        assertThat(resp.getData().get(0).getDocuments().get(0).getReasons().get(0).getName(), is(DocumentVerificationReason.DOCUMENT_EXPIRED));
+        assertThat(resp.getData().get(0).getDocuments().get(0).getReasons().get(0).getDescription(), is("Document has expired"));
+    }
+
+    private HyperwalletBusinessStakeholder getHyperwalletBusinessStakeholder() {
+        HyperwalletBusinessStakeholder businessStakeholder = new HyperwalletBusinessStakeholder();
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
+        HyperwalletDocumentRejectReason reason = new HyperwalletDocumentRejectReason();
+        reason.setName(DocumentVerificationReason.DOCUMENT_EXPIRED);
+        reason.setDescription("Document has expired");
+        hyperwalletVerificationDocument.setReasons(Arrays.asList(reason));
+        businessStakeholder.token("test-stakeholderToken")
+                .documents(Arrays.asList(hyperwalletVerificationDocument));
+        return businessStakeholder;
     }
 
 
@@ -8159,7 +8232,6 @@ public class HyperwalletTest {
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
     }
-
 
     @Test
     public void testUploadStakeholderDocuments_noUserToken() {
