@@ -2,6 +2,7 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletDocumentRejectReason.DocumentVerificationReason;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status;
 import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
@@ -24,6 +25,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.fail;
@@ -307,6 +309,7 @@ public class HyperwalletTest {
         assertThat(user.getToken(), is(hyperwalletUser.getToken()));
         assertThat(user.getDocuments().size(), is(1));
         assertThat(user.getDocuments().get(0).getStatus(), is("INVALID"));
+        assertThat(user.getDocuments().get(0).getCreatedOn(), is(hyperwalletUser.getDocuments().get(0).getCreatedOn()));
         assertThat(user.getDocuments().get(0).getReasons().size(), is(1));
         assertThat(user.getDocuments().get(0).getReasons().get(0).getName(), is(DocumentVerificationReason.DOCUMENT_EXPIRED));
         assertThat(user.getDocuments().get(0).getReasons().get(0).getDescription(), is("Document has expired"));
@@ -323,6 +326,7 @@ public class HyperwalletTest {
         Map<String, String> fileList = new HashMap<>();
         fileList.put("fileName", "fileData");
         hyperwalletVerificationDocument.setStatus("INVALID");
+        hyperwalletVerificationDocument.setCreatedOn(new Date());
         HyperwalletDocumentRejectReason documentRejectReason = new HyperwalletDocumentRejectReason();
         documentRejectReason.setName(DocumentVerificationReason.DOCUMENT_EXPIRED);
         documentRejectReason.setDescription("Document has expired");
@@ -7041,7 +7045,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void listBusinessStakeholders_WithVerificationDocumentAndRejectReasons() throws Exception {
+    public void listBusinessStakeholders_withVerificationDocumentAndRejectReasons() throws Exception {
         String token = "test-token";
         HyperwalletBusinessStakeholder hyperwalletBusinessStakeholder = getHyperwalletBusinessStakeholder();
         HyperwalletList<HyperwalletBusinessStakeholder> response = new HyperwalletList<>();
@@ -7054,13 +7058,13 @@ public class HyperwalletTest {
 
         HyperwalletList<HyperwalletBusinessStakeholder> resp = client.listBusinessStakeholders(token);
 
-        Mockito.verify(mockApiClient).get(Mockito.eq(url),
-                Mockito.any(TypeReference.class));
+        Mockito.verify(mockApiClient).get(Mockito.eq(url), Mockito.any(TypeReference.class));
         assertThat(resp.getData().size(), is(1));
         assertThat(resp.getData().get(0).getToken(), is(hyperwalletBusinessStakeholder.getToken()));
         assertThat(resp.getData().get(0).getDocuments().size(), is(1));
         assertThat(resp.getData().get(0).getDocuments().get(0).getReasons().get(0).getName(), is(DocumentVerificationReason.DOCUMENT_EXPIRED));
         assertThat(resp.getData().get(0).getDocuments().get(0).getReasons().get(0).getDescription(), is("Document has expired"));
+        assertThat(resp.getData().get(0).getDocuments().get(0).getCreatedOn(), is(hyperwalletBusinessStakeholder.getCreatedOn()));
     }
 
     private HyperwalletBusinessStakeholder getHyperwalletBusinessStakeholder() {
@@ -7070,6 +7074,7 @@ public class HyperwalletTest {
         reason.setName(DocumentVerificationReason.DOCUMENT_EXPIRED);
         reason.setDescription("Document has expired");
         hyperwalletVerificationDocument.setReasons(Arrays.asList(reason));
+        hyperwalletVerificationDocument.setCreatedOn(new Date());
         businessStakeholder.token("test-stakeholderToken")
                 .documents(Arrays.asList(hyperwalletVerificationDocument));
         return businessStakeholder;

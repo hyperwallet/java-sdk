@@ -6,6 +6,7 @@ import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public class HyperwalletVerificationDocument {
     private List<HyperwalletDocumentRejectReason> reasons;
 
     public Map<String, String> uploadFiles;
+
+    private Date createdOn;
 
     public String getCategory() {
         return category;
@@ -95,13 +98,25 @@ public class HyperwalletVerificationDocument {
         return reasons;
     }
 
-    public void setReasons(
-            List<HyperwalletDocumentRejectReason> reasons) {
+    public void setReasons(List<HyperwalletDocumentRejectReason> reasons) {
         this.reasons = reasons;
     }
 
     public HyperwalletVerificationDocument reasons(List<HyperwalletDocumentRejectReason> reasons) {
         setReasons(reasons);
+        return this;
+    }
+
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public HyperwalletVerificationDocument createdOn(Date createdOn) {
+        this.createdOn = createdOn;
         return this;
     }
 }
