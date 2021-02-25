@@ -7064,7 +7064,8 @@ public class HyperwalletTest {
         assertThat(resp.getData().get(0).getDocuments().size(), is(1));
         assertThat(resp.getData().get(0).getDocuments().get(0).getReasons().get(0).getName(), is(DocumentVerificationReason.DOCUMENT_EXPIRED));
         assertThat(resp.getData().get(0).getDocuments().get(0).getReasons().get(0).getDescription(), is("Document has expired"));
-        assertThat(resp.getData().get(0).getDocuments().get(0).getCreatedOn(), is(hyperwalletBusinessStakeholder.getCreatedOn()));
+        assertThat(resp.getData().get(0).getDocuments().get(0).getCreatedOn(),
+                is(hyperwalletBusinessStakeholder.getDocuments().get(0).getCreatedOn()));
     }
 
     private HyperwalletBusinessStakeholder getHyperwalletBusinessStakeholder() {
