@@ -59,7 +59,7 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .type("test-type")
                 .country("test-country")
                 .status("test-status")
-                .setReasons(Arrays.asList(new HyperwalletDocumentRejectReason()));
+                .setReasons(Arrays.asList(new HyperwalletVerificationDocumentReason()));
         user.documents(Arrays.asList(hyperwalletVerificationDocument));
 
         return user;

@@ -5,6 +5,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.Brand;
 import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.CardType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.*;
+import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocumentReason.RejectReason;
 import com.hyperwallet.clientsdk.util.Multipart;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
@@ -1258,7 +1259,7 @@ public class HyperwalletIT {
             mockServer.verify(parseRequest(functionality));
             throw e;
         }
-        HyperwalletVerificationDocument document =new HyperwalletVerificationDocument();
+        HyperwalletVerificationDocument document = new HyperwalletVerificationDocument();
         assertThat(returnValue.getToken(), is(equalTo("usr-62f24150-5756-4234-9154-90ee4eed328b")));
         assertThat(returnValue.getStatus(), is(equalTo(Status.PRE_ACTIVATED)));
         assertThat(returnValue.getVerificationStatus(), is(equalTo(VerificationStatus.UNDER_REVIEW)));
@@ -1266,6 +1267,45 @@ public class HyperwalletIT {
         assertThat(hyperwalletVerificationDocument.getType(), is(equalTo("DRIVERS_LICENSE")));
         assertThat(hyperwalletVerificationDocument.getCountry(), is(equalTo("US")));
 
+    }
+
+    @Test
+    public void uploadUserDocuments_invalidDocumentStatus() throws Exception {
+        String functionality = "uploadUserDocumentsWithInvalidStatus";
+        initMockServer(functionality);
+        HyperwalletUser returnValue;
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
+        try {
+            String userToken = "usr-62f24150-5756-4234-9154-90ee4eed328b";
+            Multipart multipart = new Multipart();
+            List<HyperwalletVerificationDocument> documentList = new ArrayList<>();
+            hyperwalletVerificationDocument.setType("DRIVERS_LICENSE");
+            hyperwalletVerificationDocument.setCategory("IDENTIFICATION");
+            hyperwalletVerificationDocument.setCountry("US");
+            Map<String, String> fileList = new HashMap<>();
+            fileList.put("drivers_license_front", "src/test/resources/integration/test.png");
+            fileList.put("drivers_license_back", "src/test/resources/integration/test.png");
+            hyperwalletVerificationDocument.setUploadFiles(fileList);
+            documentList.add(hyperwalletVerificationDocument);
+            returnValue = client.uploadUserDocuments(userToken, documentList);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        assertThat(returnValue.getToken(), is(equalTo("usr-62f24150-5756-4234-9154-90ee4eed328b")));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletUser.Status.PRE_ACTIVATED)));
+        assertThat(returnValue.getVerificationStatus(), is(equalTo(HyperwalletUser.VerificationStatus.UNDER_REVIEW)));
+        assertThat(returnValue.getDocuments().get(0).getCategory(), is(equalTo("IDENTIFICATION")));
+        assertThat(returnValue.getDocuments().get(0).getType(), is(equalTo("DRIVERS_LICENSE")));
+        assertThat(returnValue.getDocuments().get(0).getCountry(), is(equalTo("US")));
+        assertThat(returnValue.getDocuments().get(0).getStatus(), is("INVALID"));
+        assertThat(returnValue.getDocuments().get(0).getReasons().size(), is(2));
+        assertThat(returnValue.getDocuments().get(0).getReasons().get(0).getName(), is(RejectReason.DOCUMENT_CORRECTION_REQUIRED));
+        assertThat(returnValue.getDocuments().get(0).getReasons().get(0).getDescription(), is("Document requires correction"));
+        assertThat(returnValue.getDocuments().get(0).getReasons().get(1).getName(), is(RejectReason.DOCUMENT_NOT_DECISIVE));
+        assertThat(returnValue.getDocuments().get(0).getReasons().get(1).getDescription(),
+                is("Decision cannot be made based on document. Alternative document required"));
+        assertThat(returnValue.getDocuments().get(0).getCreatedOn(), is(dateFormat.parse("2020-11-24T19:05:02 UTC")));
     }
 
     //
