@@ -296,7 +296,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void getUser_WithVerificationDocumentAndRejectReasons() throws Exception {
+    public void getUser_withVerificationDocumentAndRejectReasons() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
         HyperwalletUser hyperwalletUser = getHyperwalletUser();
