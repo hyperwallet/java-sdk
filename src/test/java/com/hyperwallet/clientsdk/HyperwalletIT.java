@@ -101,7 +101,6 @@ public class HyperwalletIT {
 
         HyperwalletUser returnValue;
         HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
-        ;
         try {
             String userToken = "usr-62f24150-5756-4234-9154-90ee4eed328b";
             Multipart multipart = new Multipart();
@@ -120,7 +119,6 @@ public class HyperwalletIT {
             mockServer.verify(parseRequest(functionality));
             throw e;
         }
-        HyperwalletVerificationDocument document = new HyperwalletVerificationDocument();
         assertThat(returnValue.getToken(), is(equalTo("usr-62f24150-5756-4234-9154-90ee4eed328b")));
         assertThat(returnValue.getStatus(), is(equalTo(HyperwalletUser.Status.PRE_ACTIVATED)));
         assertThat(returnValue.getVerificationStatus(), is(equalTo(HyperwalletUser.VerificationStatus.UNDER_REVIEW)));
@@ -3231,7 +3229,6 @@ public class HyperwalletIT {
 
         HyperwalletBusinessStakeholder returnValue;
         HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
-        ;
         try {
             String userToken = "usr-490848fb-8e1f-4f7c-9a18-a5b7a372e602";
             String stkToken = "stk-e08f13b8-0e54-43d2-a587-67d513633275";
@@ -3250,7 +3247,6 @@ public class HyperwalletIT {
             mockServer.verify(parseRequest(functionality));
             throw e;
         }
-        HyperwalletVerificationDocument document = new HyperwalletVerificationDocument();
         assertThat(returnValue.getToken(), is(equalTo("stk-e08f13b8-0e54-43d2-a587-67d513633275")));
         assertThat(returnValue.getVerificationStatus(), is(equalTo(HyperwalletBusinessStakeholder.VerificationStatus.UNDER_REVIEW)));
         assertThat(returnValue.getDocuments().get(0).getCategory(), is(equalTo("IDENTIFICATION")));
