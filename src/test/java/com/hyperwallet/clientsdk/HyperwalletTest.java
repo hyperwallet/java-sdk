@@ -2,7 +2,6 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
-import com.hyperwallet.clientsdk.model.HyperwalletDocumentRejectReason.DocumentVerificationReason;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status;
 import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
@@ -10,6 +9,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletUser.BusinessStakeholderVerifi
 import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.LetterOfAuthorizationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocumentReason.RejectReason;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import net.minidev.json.JSONObject;
 import org.mockito.ArgumentCaptor;
@@ -311,7 +311,7 @@ public class HyperwalletTest {
         assertThat(user.getDocuments().get(0).getStatus(), is("INVALID"));
         assertThat(user.getDocuments().get(0).getCreatedOn(), is(hyperwalletUser.getDocuments().get(0).getCreatedOn()));
         assertThat(user.getDocuments().get(0).getReasons().size(), is(1));
-        assertThat(user.getDocuments().get(0).getReasons().get(0).getName(), is(DocumentVerificationReason.DOCUMENT_EXPIRED));
+        assertThat(user.getDocuments().get(0).getReasons().get(0).getName(), is(RejectReason.DOCUMENT_EXPIRED));
         assertThat(user.getDocuments().get(0).getReasons().get(0).getDescription(), is("Document has expired"));
     }
 
@@ -327,8 +327,8 @@ public class HyperwalletTest {
         fileList.put("fileName", "fileData");
         hyperwalletVerificationDocument.setStatus("INVALID");
         hyperwalletVerificationDocument.setCreatedOn(new Date());
-        HyperwalletDocumentRejectReason documentRejectReason = new HyperwalletDocumentRejectReason();
-        documentRejectReason.setName(DocumentVerificationReason.DOCUMENT_EXPIRED);
+        HyperwalletVerificationDocumentReason documentRejectReason = new HyperwalletVerificationDocumentReason();
+        documentRejectReason.setName(RejectReason.DOCUMENT_EXPIRED);
         documentRejectReason.setDescription("Document has expired");
         hyperwalletVerificationDocument.reasons(Arrays.asList(documentRejectReason));
         user.documents(Arrays.asList(hyperwalletVerificationDocument));
@@ -7062,7 +7062,7 @@ public class HyperwalletTest {
         assertThat(resp.getData().size(), is(1));
         assertThat(resp.getData().get(0).getToken(), is(hyperwalletBusinessStakeholder.getToken()));
         assertThat(resp.getData().get(0).getDocuments().size(), is(1));
-        assertThat(resp.getData().get(0).getDocuments().get(0).getReasons().get(0).getName(), is(DocumentVerificationReason.DOCUMENT_EXPIRED));
+        assertThat(resp.getData().get(0).getDocuments().get(0).getReasons().get(0).getName(), is(RejectReason.DOCUMENT_EXPIRED));
         assertThat(resp.getData().get(0).getDocuments().get(0).getReasons().get(0).getDescription(), is("Document has expired"));
         assertThat(resp.getData().get(0).getDocuments().get(0).getCreatedOn(),
                 is(hyperwalletBusinessStakeholder.getDocuments().get(0).getCreatedOn()));
@@ -7071,8 +7071,8 @@ public class HyperwalletTest {
     private HyperwalletBusinessStakeholder getHyperwalletBusinessStakeholder() {
         HyperwalletBusinessStakeholder businessStakeholder = new HyperwalletBusinessStakeholder();
         HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
-        HyperwalletDocumentRejectReason reason = new HyperwalletDocumentRejectReason();
-        reason.setName(DocumentVerificationReason.DOCUMENT_EXPIRED);
+        HyperwalletVerificationDocumentReason reason = new HyperwalletVerificationDocumentReason();
+        reason.setName(RejectReason.DOCUMENT_EXPIRED);
         reason.setDescription("Document has expired");
         hyperwalletVerificationDocument.setReasons(Arrays.asList(reason));
         hyperwalletVerificationDocument.setCreatedOn(new Date());

@@ -1,0 +1,2 @@
+curl -X "PUT" "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-490848fb-8e1f-4f7c-9a18-a5b7a372e602/business-stakeholders/stk-e08f13b8-0e54-43d2-a587-67d513633275" \
+-u testuser@12345678:myAccPassw0rd \

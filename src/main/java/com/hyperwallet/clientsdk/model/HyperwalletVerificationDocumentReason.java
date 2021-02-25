@@ -10,12 +10,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HyperwalletDocumentRejectReason {
+public class HyperwalletVerificationDocumentReason {
 
-    private DocumentVerificationReason name;
+    private RejectReason name;
     private String description;
 
-    public enum DocumentVerificationReason {
+    public enum RejectReason {
         DOCUMENT_EXPIRED,
         DOCUMENT_NOT_RELATED_TO_PROFILE,
         DOCUMENT_NOT_READABLE,
@@ -26,11 +26,11 @@ public class HyperwalletDocumentRejectReason {
         DOCUMENT_TYPE_NOT_VALID;
     }
 
-    public DocumentVerificationReason getName() {
+    public RejectReason getName() {
         return name;
     }
 
-    public void setName(DocumentVerificationReason name) {
+    public void setName(RejectReason name) {
         this.name = name;
     }
 

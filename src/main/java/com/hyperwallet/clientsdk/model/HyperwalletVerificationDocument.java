@@ -23,7 +23,7 @@ public class HyperwalletVerificationDocument {
 
     private String country;
 
-    private List<HyperwalletDocumentRejectReason> reasons;
+    private List<HyperwalletVerificationDocumentReason> reasons;
 
     public Map<String, String> uploadFiles;
 
@@ -94,15 +94,15 @@ public class HyperwalletVerificationDocument {
         return this;
     }
 
-    public List<HyperwalletDocumentRejectReason> getReasons() {
+    public List<HyperwalletVerificationDocumentReason> getReasons() {
         return reasons;
     }
 
-    public void setReasons(List<HyperwalletDocumentRejectReason> reasons) {
+    public void setReasons(List<HyperwalletVerificationDocumentReason> reasons) {
         this.reasons = reasons;
     }
 
-    public HyperwalletVerificationDocument reasons(List<HyperwalletDocumentRejectReason> reasons) {
+    public HyperwalletVerificationDocument reasons(List<HyperwalletVerificationDocumentReason> reasons) {
         setReasons(reasons);
         return this;
     }
