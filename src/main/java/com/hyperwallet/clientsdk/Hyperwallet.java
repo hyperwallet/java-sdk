@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class Hyperwallet {
 
-    public static final String VERSION = "2.2.1";
+    public static final String VERSION = "2.3.1";
     private final HyperwalletApiClient apiClient;
     private final String programToken;
     private final String url;
@@ -42,7 +42,7 @@ public class Hyperwallet {
      * @param username     API key assigned
      * @param password     API Password assigned
      * @param programToken API program token
-     * @param server          API serer url
+     * @param server       API serer url
      */
     public Hyperwallet(final String username, final String password, final String programToken, final String server) {
         this(username, password, programToken, server, null);
