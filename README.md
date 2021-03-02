@@ -5,8 +5,10 @@
 Hyperwallet REST SDK (Beta)
 ===========================
 
-A library to manage users, transfer methods and payments through the Hyperwallet Rest V3 API 
-For V4 Rest API, please use SDK V 2.x.x
+A library to manage users, transfer methods and payments through the Hyperwallet v3 API.
+
+Version 2.0.0 and higher are for use with Hyperwallet v4 API only. See [here|https://docs.hyperwallet.com/content/updates/v1/rest-api-v4] to learn about the differences between versions and the update process required to use REST API v4.
+
 
 Prerequisites
 ------------
@@ -21,13 +23,13 @@ Installation
 <dependency>
     <groupId>com.hyperwallet</groupId>
     <artifactId>sdk</artifactId>
-    <version>1.7.0</version>
+    <version>1.7.1</version>
 </dependency>
 ```
 
 **Gradle**
 ```
-compile 'com.hyperwallet:sdk:1.7.0'
+compile 'com.hyperwallet:sdk:1.7.1'
 ```
 
 Documentation
@@ -42,7 +44,7 @@ API Overview
 To write an app using the SDK
 
 * Register for a sandbox account and get your username, password and program token at the [Hyperwallet Program Portal](https://portal.hyperwallet.com).
-* Add dependency `com.hyperwallet:sdk:1.7.0` to your `pom.xml` (or `build.gradle`).
+* Add dependency `com.hyperwallet:sdk:1.7.1` to your `pom.xml` (or `build.gradle`).
 
 * Create a instance of the Hyperwallet Client (with username, password and program token)
   ```java
