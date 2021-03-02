@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
+import java.util.List;
 
 @JsonFilter(HyperwalletJsonConfiguration.INCLUSION_FILTER)
 @XmlRootElement
@@ -63,6 +64,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     private String country;
     private String language;
     private String programToken;
+    private List<HyperwalletVerificationDocument> documents;
 
     public String getToken() {
         return token;
@@ -796,6 +798,27 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     public HyperwalletUser clearProgramToken() {
         clearField("programToken");
         programToken = null;
+        return this;
+    }
+
+    public List<HyperwalletVerificationDocument> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<HyperwalletVerificationDocument> documents) {
+        addField("documents", documents);
+        this.documents = documents;
+    }
+
+    public HyperwalletUser documents(List<HyperwalletVerificationDocument> documents) {
+        addField("documents", documents);
+        this.documents = documents;
+        return this;
+    }
+
+    public HyperwalletUser clearDocuments() {
+        clearField("documents");
+        documents = null;
         return this;
     }
 }
