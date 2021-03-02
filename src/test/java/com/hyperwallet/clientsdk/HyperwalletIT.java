@@ -1122,6 +1122,30 @@ public class HyperwalletIT {
     }
 
     @Test
+    public void testListPayments() throws Exception {
+        String functionality = "listPayments";
+        initMockServer(functionality);
+        HyperwalletPaymentListOptions options = new HyperwalletPaymentListOptions();
+        options.clientPaymentId("gv47LDuf")
+                .sortBy("test-sort-by")
+                .limit(10);
+        HyperwalletList<HyperwalletPayment> returnValue;
+        try {
+            returnValue = client.listPayments(options);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("pmt-3ffb5fcc-1c98-48ce-9a6c-e4759933a037")));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo("SCHEDULED")));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-06T15:03:13 UTC"))));
+        assertThat(returnValue.getData().get(0).getAmount(), is(equalTo(50.00)));
+        assertThat(returnValue.getData().get(0).getCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getData().get(0).getClientPaymentId(), is(equalTo("gv47LDuf")));
+        assertThat(returnValue.getData().get(0).getPurpose(), is(equalTo("OTHER")));
+    }
+
+    @Test
     public void testCreatePaymentStatusTransition() throws Exception {
         String functionality = "createPaymentStatusTransition";
         initMockServer(functionality);
@@ -1527,5 +1551,4 @@ public class HyperwalletIT {
         assertThat(returnValue.getNotes(), is(equalTo("Closing this account.")));
 
     }
-
 }

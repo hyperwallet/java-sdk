@@ -1824,6 +1824,7 @@ public class Hyperwallet {
         if (options != null) {
             url = addParameter(url, "releasedOn", convert(options.getReleasedOn()));
             url = addParameter(url, "currency", options.getCurrency());
+            url = addParameter(url, "clientPaymentId", options.getClientPaymentId());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPayment>>() {
         });
