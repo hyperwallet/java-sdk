@@ -1,6 +1,6 @@
 Changelog
 =========
-2.3.1
+2.2.2
 -----------------
 - Reject reasons added to Multipart document upload functionality
 
