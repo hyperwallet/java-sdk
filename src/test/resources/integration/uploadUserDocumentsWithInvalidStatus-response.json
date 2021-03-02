@@ -1,0 +1,52 @@
+{
+  "token": "usr-62f24150-5756-4234-9154-90ee4eed328b",
+  "status": "PRE_ACTIVATED",
+  "verificationStatus": "UNDER_REVIEW",
+  "createdOn": "2020-11-20T10:59:03",
+  "clientUserId": "cc1605850141",
+  "profileType": "INDIVIDUAL",
+  "firstName": "jayaram",
+  "lastName": "kurra",
+  "dateOfBirth": "2000-01-01",
+  "gender": "MALE",
+  "phoneNumber": "605-555-1323",
+  "mobileNumber": "605-555-1323",
+  "email": "jay1605850141@sink.sendgrid.net",
+  "governmentId": "444444444",
+  "addressLine1": "1234 IndividualAddress St",
+  "addressLine2": "1234 AddressLineTwo St",
+  "city": "Test",
+  "stateProvince": "CA",
+  "country": "US",
+  "postalCode": "12345",
+  "language": "en",
+  "timeZone": "America/Vancouver",
+  "programToken": "prg-82499161-57d3-4160-8209-85db18d62c02",
+  "documents": [
+    {
+      "category": "IDENTIFICATION",
+      "type": "DRIVERS_LICENSE",
+      "country": "US",
+      "status": "INVALID",
+      "reasons": [
+        {
+          "name": "DOCUMENT_CORRECTION_REQUIRED",
+          "description": "Document requires correction"
+        },
+        {
+          "name": "DOCUMENT_NOT_DECISIVE",
+          "description": "Decision cannot be made based on document. Alternative document required"
+        }
+      ],
+      "createdOn": "2020-11-24T19:05:02"
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-62f24150-5756-4234-9154-90ee4eed328b"
+    }
+  ]
+}

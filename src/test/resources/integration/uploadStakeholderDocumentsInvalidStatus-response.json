@@ -1,0 +1,41 @@
+{
+  "token": "stk-e08f13b8-0e54-43d2-a587-67d513633275",
+  "isBusinessContact": false,
+  "isDirector": true,
+  "isUltimateBeneficialOwner": false,
+  "isSeniorManagingOfficial": false,
+  "status": "ACTIVATED",
+  "verificationStatus": "UNDER_REVIEW",
+  "createdOn": "2020-11-24T19:05:02",
+  "profileType": "INDIVIDUAL",
+  "firstName": "TestAA",
+  "lastName": "LastName",
+  "dateOfBirth": "2000-02-02",
+  "countryOfNationality": "US",
+  "phoneNumber": "+16046666666",
+  "governmentId": "333333333",
+  "addressLine1": "abc",
+  "addressLine2": "def",
+  "city": "vancouver",
+  "country": "US",
+  "postalCode": "31939",
+  "documents": [
+    {
+      "category": "IDENTIFICATION",
+      "type": "DRIVERS_LICENSE",
+      "country": "US",
+      "status": "INVALID",
+      "reasons": [
+        {
+          "name": "DOCUMENT_CORRECTION_REQUIRED",
+          "description": "Document requires correction"
+        },
+        {
+          "name": "DOCUMENT_NOT_DECISIVE",
+          "description": "Decision cannot be made based on document. Alternative document required"
+        }
+      ],
+      "createdOn": "2020-11-24T19:05:02"
+    }
+  ]
+}
