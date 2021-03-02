@@ -1,8 +1,12 @@
 Changelog
 =========
-1.7.1 
+1.7.2 
 -----------------
 - Added Reject reasons for Multipart upload document functionality
+
+1.7.1 
+-----------------
+- Modified response message and response code for Multipart upload functionality
 
 1.7.0
 -----------------
