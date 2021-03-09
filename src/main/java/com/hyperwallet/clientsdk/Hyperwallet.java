@@ -1586,6 +1586,7 @@ public class Hyperwallet {
      */
     public HyperwalletVenmoAccount createVenmoAccount(HyperwalletVenmoAccount venmoAccount) {
         if (venmoAccount == null) {
+
             throw new HyperwalletException("Venmo Account is required");
         }
         if (StringUtils.isEmpty(venmoAccount.getUserToken())) {
