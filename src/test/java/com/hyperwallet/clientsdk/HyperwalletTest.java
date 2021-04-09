@@ -326,7 +326,10 @@ public class HyperwalletTest {
         HyperwalletList<HyperwalletUser> resp = client.listUsers(options);
         assertThat(resp, is(equalTo(response)));
 
-        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"), Mockito.any(TypeReference.class));
+        Mockito.verify(mockApiClient).get(Mockito.
+                eq("https://api.sandbox.hyperwallet.com/rest/v3/users?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&clientUserId=test-cleint-user-id&email=test-email&programToken=test-program-token&status=ACTIVATED&verificationStatus=REQUESTED"), Mockito.any(TypeReference.class));
+
+
     }
 
     @Test
