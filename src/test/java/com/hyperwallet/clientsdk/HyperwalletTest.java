@@ -7478,7 +7478,6 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/transfers/" + transferToken + "/refunds?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=sortByField&limit=10&clientRefundId" + "=destinationToken&sourceToken=sourceToken"), Mockito.any(TypeReference.class));
-        System.out.println();
     }
 
     @Test
