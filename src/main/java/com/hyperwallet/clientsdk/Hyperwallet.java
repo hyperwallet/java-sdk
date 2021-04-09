@@ -159,7 +159,6 @@ public class Hyperwallet {
             url = addParameter(url, "status", options.getStatus());
             url = addParameter(url, "verificationStatus", options.getVerificationStatus());
         }
-        System.out.println("=========URL=============="+url);
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {
         });
     }
