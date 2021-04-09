@@ -310,14 +310,17 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
-        options
+        HyperwalletUsersListPaginationOptions options = new HyperwalletUsersListPaginationOptions();
+        options.clientUserId("test-cleint-user-id")
+                .email("test-email")
+                .programToken("test-program-token")
+                .status(HyperwalletUser.Status.ACTIVATED)
+                .verificationStatus(VerificationStatus.REQUESTED)
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"))
                 .sortBy("test-sort-by")
                 .offset(5)
-                .limit(10)
-                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
-                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
-
+                .limit(10);
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
         HyperwalletList<HyperwalletUser> resp = client.listUsers(options);
@@ -333,7 +336,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletUsersListPaginationOptions options = new HyperwalletUsersListPaginationOptions();
         options
                 .sortBy("test-sort-by")
                 .offset(5)

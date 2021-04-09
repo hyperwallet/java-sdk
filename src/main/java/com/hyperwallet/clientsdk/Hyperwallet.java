@@ -150,8 +150,16 @@ public class Hyperwallet {
      * @param options List filter option
      * @return HyperwalletList of HyperwalletUser
      */
-    public HyperwalletList<HyperwalletUser> listUsers(HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletUser> listUsers(HyperwalletUsersListPaginationOptions options) {
         String url = paginate(this.url + "/users", options);
+        if (options != null) {
+            url = addParameter(url, "clientUserId", options.getClientUserId());
+            url = addParameter(url, "email", options.getEmail());
+            url = addParameter(url, "programToken", options.getProgramToken());
+            url = addParameter(url, "status", options.getStatus());
+            url = addParameter(url, "verificationStatus", options.getVerificationStatus());
+        }
+        System.out.println("=========URL=============="+url);
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletUser>>() {
         });
     }
