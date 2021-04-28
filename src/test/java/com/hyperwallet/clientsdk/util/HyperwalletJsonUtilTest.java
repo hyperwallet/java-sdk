@@ -71,9 +71,17 @@ public class HyperwalletJsonUtilTest {
         assertThat(body, is(nullValue()));
     }
 
+    /*
     @Test(expectedExceptions = HyperwalletException.class)
     public void testFromJson_byClassReference_Invalid_JSON_Content() {
         HyperwalletJsonUtil.fromJson("{\"amount\": \"1,023.37\" }", TestBody.class);
+    }
+    */
+
+    @Test
+    public void testFromJson_byClassReference_Valid_withComma_JSON_Content() {
+        TestBody body = HyperwalletJsonUtil.fromJson("{\"amount\": \"1,023.37\" }", TestBody.class);
+        assertThat(body.amount.toString(), is("1023.37"));
     }
 
     @Test

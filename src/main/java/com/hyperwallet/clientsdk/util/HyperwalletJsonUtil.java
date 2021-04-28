@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletBaseMonitor;
 import org.apache.commons.lang3.StringUtils;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.io.IOException;
 
@@ -27,7 +30,7 @@ public class HyperwalletJsonUtil {
             return null;
         }
         try {
-            return HyperwalletJsonUtil.parser.readValue(content, valueType);
+            return HyperwalletJsonUtil.parser.readValue(changeAmountFormat(content), valueType);
         } catch (IOException e) {
             throw new HyperwalletException(e);
         }
@@ -38,7 +41,7 @@ public class HyperwalletJsonUtil {
             return null;
         }
         try {
-            return HyperwalletJsonUtil.parser.readValue(content, valueType);
+            return HyperwalletJsonUtil.parser.readValue(changeAmountFormat(content), valueType);
         } catch (IOException e) {
             throw new HyperwalletException(e);
         }
@@ -59,5 +62,29 @@ public class HyperwalletJsonUtil {
         } catch (JsonProcessingException e) {
             return null;
         }
+    }
+
+    /**
+     * Remove commas in the numbers returned in json response body to avoid json deserianization errors and to
+     * accommodate variances in numbering systems
+     *
+     * @param responseBody response object
+     * @return String responseBody with numbers without commas
+     */
+    private static String changeAmountFormat(String responseBody) {
+        String regexStr = "\\d{1,3}([,]\\d{2,3})*([,]\\d{3})+([.]*\\d+[\\W])?";
+        String toReplace = ",";
+        String replacementStr = "";  // replacement pattern
+        Pattern pattern = Pattern.compile(regexStr);
+        Matcher matcher = pattern.matcher(responseBody);
+        ArrayList<String> list = new ArrayList<>();
+        while (matcher.find()) {
+            list.add(matcher.group());
+        }
+        for (String oldString : list) {
+            String newString = oldString.replace(toReplace, replacementStr);
+            responseBody = responseBody.replace(oldString, newString);
+        }
+        return responseBody;
     }
 }
