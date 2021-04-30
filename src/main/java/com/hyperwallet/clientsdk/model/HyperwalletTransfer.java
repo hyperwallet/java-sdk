@@ -21,12 +21,12 @@ public class HyperwalletTransfer extends HyperwalletBaseMonitor {
     private Date createdOn;
     private String clientTransferId;
     private String sourceToken;
-    private Double sourceAmount;
-    private Double sourceFeeAmount;
+    private String sourceAmount;
+    private String sourceFeeAmount;
     private String sourceCurrency;
     private String destinationToken;
-    private Double destinationAmount;
-    private Double destinationFeeAmount;
+    private String destinationAmount;
+    private String destinationFeeAmount;
     private String destinationCurrency;
     private List<ForeignExchange> foreignExchanges;
     private String notes;
@@ -139,16 +139,16 @@ public class HyperwalletTransfer extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public Double getSourceAmount() {
+    public String getSourceAmount() {
         return sourceAmount;
     }
 
-    public void setSourceAmount(Double sourceAmount) {
+    public void setSourceAmount(String sourceAmount) {
         addField("sourceAmount", sourceAmount);
         this.sourceAmount = sourceAmount;
     }
 
-    public HyperwalletTransfer sourceAmount(Double sourceAmount) {
+    public HyperwalletTransfer sourceAmount(String sourceAmount) {
         addField("sourceAmount", sourceAmount);
         this.sourceAmount = sourceAmount;
         return this;
@@ -160,16 +160,16 @@ public class HyperwalletTransfer extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public Double getSourceFeeAmount() {
+    public String getSourceFeeAmount() {
         return sourceFeeAmount;
     }
 
-    public void setSourceFeeAmount(Double sourceFeeAmount) {
+    public void setSourceFeeAmount(String sourceFeeAmount) {
         addField("sourceFeeAmount", sourceFeeAmount);
         this.sourceFeeAmount = sourceFeeAmount;
     }
 
-    public HyperwalletTransfer sourceFeeAmount(Double sourceFeeAmount) {
+    public HyperwalletTransfer sourceFeeAmount(String sourceFeeAmount) {
         addField("sourceFeeAmount", sourceFeeAmount);
         this.sourceFeeAmount = sourceFeeAmount;
         return this;
@@ -223,16 +223,16 @@ public class HyperwalletTransfer extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public Double getDestinationAmount() {
+    public String getDestinationAmount() {
         return destinationAmount;
     }
 
-    public void setDestinationAmount(Double destinationAmount) {
+    public void setDestinationAmount(String destinationAmount) {
         addField("destinationAmount", destinationAmount);
         this.destinationAmount = destinationAmount;
     }
 
-    public HyperwalletTransfer destinationAmount(Double destinationAmount) {
+    public HyperwalletTransfer destinationAmount(String destinationAmount) {
         addField("destinationAmount", destinationAmount);
         this.destinationAmount = destinationAmount;
         return this;
@@ -244,16 +244,16 @@ public class HyperwalletTransfer extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public Double getDestinationFeeAmount() {
+    public String getDestinationFeeAmount() {
         return destinationFeeAmount;
     }
 
-    public void setDestinationFeeAmount(Double destinationFeeAmount) {
+    public void setDestinationFeeAmount(String destinationFeeAmount) {
         addField("destinationFeeAmount", destinationFeeAmount);
         this.destinationFeeAmount = destinationFeeAmount;
     }
 
-    public HyperwalletTransfer destinationFeeAmount(Double destinationFeeAmount) {
+    public HyperwalletTransfer destinationFeeAmount(String destinationFeeAmount) {
         addField("destinationFeeAmount", destinationFeeAmount);
         this.destinationFeeAmount = destinationFeeAmount;
         return this;
