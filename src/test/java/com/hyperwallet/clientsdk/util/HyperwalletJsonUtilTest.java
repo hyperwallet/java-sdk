@@ -74,7 +74,7 @@ public class HyperwalletJsonUtilTest {
     //(expectedExceptions = HyperwalletException.class)
     @Test
     public void testFromJson_byClassReference_Invalid_JSON_Content() {
-        TestBody body = qHyperwalletJsonUtil.fromJson("{\"amount\": \"1,023.37\" }", TestBody.class);
+        TestBody body = HyperwalletJsonUtil.fromJson("{\"amount\": \"1,023.37\" }", TestBody.class);
         assertThat(body.amount, is(1023.37));
     }
 
