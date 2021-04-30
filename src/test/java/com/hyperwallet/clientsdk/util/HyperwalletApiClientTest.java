@@ -564,7 +564,7 @@ public class HyperwalletApiClientTest {
             multipart.add(formFields);
             hyperwalletApiClient.put("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token", multipart, HyperwalletUser.class);
         } catch (Exception exception) {
-            assertThat(exception.getMessage(), startsWith("The information entered does not match our records. Please try again."));
+            assertThat(exception.getMessage(), startsWith("Invalid Content-Type specified in Response Header"));
         }
     }
 
