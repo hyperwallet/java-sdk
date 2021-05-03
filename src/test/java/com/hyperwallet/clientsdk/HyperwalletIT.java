@@ -1155,11 +1155,11 @@ public class HyperwalletIT {
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getClientTransferId(), is(equalTo("clientTransferId")));
         assertThat(returnValue.getSourceToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getSourceAmount(), is(equalTo("2,100.4")));
+        assertThat(returnValue.getSourceAmount(), is(equalTo("2100.4")));
         assertThat(returnValue.getSourceFeeAmount(), is(equalTo("20.3")));
         assertThat(returnValue.getSourceCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getDestinationToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getDestinationAmount(), is(equalTo("2,100.2")));
+        assertThat(returnValue.getDestinationAmount(), is(equalTo("2100.2")));
         assertThat(returnValue.getDestinationFeeAmount(), is(equalTo("30.5")));
         assertThat(returnValue.getDestinationCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getNotes(), is(equalTo("notes")));
@@ -1211,11 +1211,11 @@ public class HyperwalletIT {
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getClientTransferId(), is(equalTo("clientTransferId")));
         assertThat(returnValue.getSourceToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getSourceAmount(), is(equalTo("200.4")));
+        assertThat(returnValue.getSourceAmount(), is(equalTo("2200.4")));
         assertThat(returnValue.getSourceFeeAmount(), is(equalTo("20.3")));
         assertThat(returnValue.getSourceCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getDestinationToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getDestinationAmount(), is(equalTo("100.2")));
+        assertThat(returnValue.getDestinationAmount(), is(equalTo("2100.2")));
         assertThat(returnValue.getDestinationFeeAmount(), is(equalTo("30.5")));
         assertThat(returnValue.getDestinationCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getNotes(), is(equalTo("notes")));
