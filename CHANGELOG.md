@@ -1,5 +1,10 @@
 Changelog
 =========
+
+2.2.3
+-----------------
+- Amount field data type changed from Double to String
+
 2.2.2
 -----------------
 - Reject reasons added to Multipart document upload functionality
