@@ -1,7 +1,5 @@
 package com.hyperwallet.clientsdk.model;
 
-import java.util.Date;
-
 public class HyperwalletUsersListPaginationOptionsTest extends BaseModelTest<HyperwalletUsersListPaginationOptions> {
     protected HyperwalletUsersListPaginationOptions createBaseModel() {
         HyperwalletUsersListPaginationOptions options = new HyperwalletUsersListPaginationOptions();
