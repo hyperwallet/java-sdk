@@ -77,6 +77,60 @@ public class HyperwalletIT {
     }
 
     @Test
+    public void testListUsers_withNoParameters() throws Exception {
+        String functionality = "listUsers";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletUser> returnValue;
+        try {
+            returnValue = client.listUsers();
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        assertThat(returnValue.getCount(), is(equalTo(2)));
+        HyperwalletUser userOne = returnValue.getData().get(0);
+        assertThat(userOne.getToken(), is(equalTo("usr-00c6cfda-a43d-4b29-a20b-1abc7e800b58")));
+        assertThat(userOne.getCreatedOn(), is(equalTo(dateFormat.parse("2019-10-30T22:15:35 UTC"))));
+        assertThat(userOne.getStatus(), is(equalTo(HyperwalletUser.Status.PRE_ACTIVATED)));
+        assertThat(userOne.getVerificationStatus(), is(equalTo(HyperwalletUser.VerificationStatus.NOT_REQUIRED)));
+        HyperwalletUser userTwo = returnValue.getData().get(1);
+        assertThat(userTwo.getToken(), is(equalTo("usr-f9154016-94e8-4686-a840-075688ac07b5")));
+        assertThat(userTwo.getCreatedOn(), is(equalTo(dateFormat.parse("2019-10-30T22:15:45 UTC"))));
+        assertThat(userTwo.getStatus(), is(equalTo(HyperwalletUser.Status.PRE_ACTIVATED)));
+        assertThat(userTwo.getVerificationStatus(), is(equalTo(HyperwalletUser.VerificationStatus.REQUIRED)));
+    }
+
+    @Test
+    public void testListUsers_withParameters() throws Exception {
+        String functionality = "listUsers";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletUser> returnValue;
+        try {
+            HyperwalletUsersListPaginationOptions options = new HyperwalletUsersListPaginationOptions();
+            options.limit(2);
+            //options.clientUserId("CSLAJQt7bD");
+            returnValue = client.listUsers(options);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        assertThat(returnValue.getCount(), is(equalTo(2)));
+        HyperwalletUser userOne = returnValue.getData().get(0);
+        assertThat(userOne.getToken(), is(equalTo("usr-00c6cfda-a43d-4b29-a20b-1abc7e800b58")));
+        assertThat(userOne.getCreatedOn(), is(equalTo(dateFormat.parse("2019-10-30T22:15:35 UTC"))));
+        assertThat(userOne.getStatus(), is(equalTo(HyperwalletUser.Status.PRE_ACTIVATED)));
+        assertThat(userOne.getVerificationStatus(), is(equalTo(HyperwalletUser.VerificationStatus.NOT_REQUIRED)));
+        HyperwalletUser userTwo = returnValue.getData().get(1);
+        assertThat(userTwo.getToken(), is(equalTo("usr-f9154016-94e8-4686-a840-075688ac07b5")));
+        assertThat(userTwo.getCreatedOn(), is(equalTo(dateFormat.parse("2019-10-30T22:15:45 UTC"))));
+        assertThat(userTwo.getStatus(), is(equalTo(HyperwalletUser.Status.PRE_ACTIVATED)));
+        assertThat(userTwo.getVerificationStatus(), is(equalTo(HyperwalletUser.VerificationStatus.REQUIRED)));
+
+    }
+
+    @Test
     public void testGetUserStatusTransition() throws Exception {
         String functionality = "getUserStatusTransition";
         initMockServer(functionality);

@@ -1,0 +1,69 @@
+{
+  "count": 2,
+  "offset": 0,
+  "limit": 10,
+  "data": [
+    {
+      "token": "usr-00c6cfda-a43d-4b29-a20b-1abc7e800b58",
+      "status": "PRE_ACTIVATED",
+      "verificationStatus": "NOT_REQUIRED",
+      "createdOn": "2019-10-30T22:15:35",
+      "clientUserId": "CSLAJQt7bD",
+      "profileType": "INDIVIDUAL",
+      "firstName": "John",
+      "lastName": "Smith",
+      "dateOfBirth": "1980-01-01",
+      "email": "john@company.com",
+      "addressLine1": "123 Main Street",
+      "city": "New York",
+      "stateProvince": "NY",
+      "country": "US",
+      "postalCode": "10016",
+      "language": "en",
+      "programToken": "prg-83836cdf-2ce2-4696-8bc5-f1b86077238c",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-00c6cfda-a43d-4b29-a20b-1abc7e800b58"
+        }
+      ]
+    },
+    {
+      "token": "usr-f9154016-94e8-4686-a840-075688ac07b5",
+      "status": "PRE_ACTIVATED",
+      "verificationStatus": "REQUIRED",
+      "createdOn": "2019-10-30T22:15:45",
+      "clientUserId": "CSK7b8Ffch",
+      "profileType": "INDIVIDUAL",
+      "firstName": "John",
+      "lastName": "Smith",
+      "dateOfBirth": "1980-01-01",
+      "email": "john@company.com",
+      "addressLine1": "123 Smith Street",
+      "city": "New York",
+      "stateProvince": "NY",
+      "country": "US",
+      "postalCode": "10016",
+      "language": "en",
+      "programToken": "prg-83836cdf-2ce2-4696-8bc5-f1b86077238c",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-f9154016-94e8-4686-a840-075688ac07b5"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v3/users?offset=0&limit=10"
+    }
+  ]
+}
