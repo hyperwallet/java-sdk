@@ -1411,7 +1411,7 @@ public class HyperwalletIT {
         assertThat(hyperwalletTransfer.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(hyperwalletTransfer.getClientTransferId(), is(equalTo("clientTransferId")));
         assertThat(hyperwalletTransfer.getSourceToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(hyperwalletTransfer.getSourceAmount(), is(equalTo(String.valueOf(1200.4))));
+        assertThat(hyperwalletTransfer.getSourceAmount(), is(equalTo(String.valueOf(2200.4))));
         assertThat(hyperwalletTransfer.getSourceFeeAmount(), is(equalTo(String.valueOf(20.3))));
         assertThat(hyperwalletTransfer.getSourceCurrency(), is(equalTo("USD")));
         assertThat(hyperwalletTransfer.getDestinationToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
