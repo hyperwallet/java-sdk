@@ -3159,6 +3159,61 @@ public class HyperwalletTest {
         assertThat(foreignExchange.getRate(), is(equalTo(2.3)));
     }
 
+
+    @Test
+    public void testCreateTransfer_source_destionation_amounts_more_than_1k_successful() throws Exception {
+        ForeignExchange foreignExchange = new ForeignExchange();
+        foreignExchange.setSourceAmount(200.0);
+        foreignExchange.setSourceCurrency("USD");
+        foreignExchange.setDestinationAmount(100.0);
+        foreignExchange.setDestinationCurrency("CAD");
+        foreignExchange.setRate(2.3);
+
+        HyperwalletTransfer transfer = new HyperwalletTransfer();
+        transfer.setSourceToken("test-source-token");
+        transfer.sourceAmount("2,100");
+        transfer.sourceFeeAmount("10");
+        transfer.setDestinationToken("test-destination-token");
+        transfer.destinationAmount("2,100");
+        transfer.destinationFeeAmount("10");
+        transfer.setStatus(HyperwalletTransfer.Status.QUOTED);
+        transfer.setCreatedOn(new Date());
+        transfer.setClientTransferId("test-client-transfer-id");
+        transfer.setSourceCurrency("USD");
+        transfer.setForeignExchanges(Collections.singletonList(foreignExchange));
+
+        HyperwalletTransfer transferResponse = new HyperwalletTransfer();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(transferResponse);
+
+        HyperwalletTransfer resp = client.createTransfer(transfer);
+        assertThat(resp, is(equalTo(transferResponse)));
+
+        ArgumentCaptor<HyperwalletTransfer> argument = ArgumentCaptor.forClass(HyperwalletTransfer.class);
+        Mockito.verify(mockApiClient)
+                .post(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v4/transfers"), argument.capture(), Mockito.eq(transfer.getClass()));
+
+        HyperwalletTransfer apiTransfer = argument.getValue();
+        assertThat(apiTransfer, is(notNullValue()));
+        assertThat(apiTransfer.getSourceToken(), is(equalTo("test-source-token")));
+        assertThat(apiTransfer.getClientTransferId(), is(equalTo("test-client-transfer-id")));
+        assertThat(apiTransfer.getSourceCurrency(), is(equalTo("USD")));
+        assertThat(apiTransfer.getStatus(), is(nullValue()));
+        assertThat(apiTransfer.getCreatedOn(), is(nullValue()));
+        assertThat(apiTransfer.getExpiresOn(), is(nullValue()));
+        assertThat(apiTransfer.getSourceAmount(), is(equalTo("2,100")));
+        assertThat(apiTransfer.getDestinationAmount(), is(equalTo("2,100")));
+        ForeignExchange foreignExchangeResponse= apiTransfer.getForeignExchanges().get(0);
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo(200.0)));
+        assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(100.0)));
+        assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
+        assertThat(foreignExchange.getRate(), is(equalTo(2.3)));
+    }
+
     @Test
     public void testGetTransfer_noTransferToken() {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
