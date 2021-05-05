@@ -1,5 +1,9 @@
 Changelog
 =========
+1.7.3 
+-----------------
+- Added clientUserId filter 
+
 1.7.2 
 -----------------
 - Added Reject reasons for Multipart upload document functionality
