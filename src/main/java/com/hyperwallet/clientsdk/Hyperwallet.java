@@ -1565,11 +1565,15 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletBankAccount
      */
-    public HyperwalletList<HyperwalletBankAccount> listBankAccounts(String userToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletBankAccount> listBankAccounts(String userToken, HyperwalletBankAccountListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/bank-accounts", options);
+        if (options != null) {
+            url = addParameter(url, "type", options.getType());
+            url = addParameter(url, "status", options.getStatus());
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBankAccount>>() {
         });
     }

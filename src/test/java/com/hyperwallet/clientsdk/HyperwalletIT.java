@@ -1053,6 +1053,30 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getEmail(), is(equalTo("user@domain.com")));
     }
 
+
+    @Test
+    public void testListBankAccounts() throws Exception {
+        String functionality = "listBankAccounts";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletBankAccount> returnValue;
+        try {
+            returnValue = client.listBankAccounts("usr-e7b61829-a73a-45dc-930e-afa8a56b923b");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-54b0db9c-5565-47f7-aee6-685e713595f3")));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletBankAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletBankAccount.Type.BANK_ACCOUNT)));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2018-05-01T00:00:00 UTC"))));
+        assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getData().get(0).getEmail(), is(equalTo("user@domain.com")));
+    }
+
     @Test
     public void testDeactivatePayPalAccount() throws Exception {
         String functionality = "deactivatePayPalAccount";
