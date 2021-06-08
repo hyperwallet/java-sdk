@@ -1,16 +1,19 @@
 package com.hyperwallet.clientsdk.model;
 
-public class HyperwalletBankAccountListPaginationOptionsTest extends BaseModelTest<HyperwalletBankAccountListPaginationOptions> {
-    protected HyperwalletBankAccountListPaginationOptions createBaseModel() {
-        HyperwalletBankAccountListPaginationOptions options = new HyperwalletBankAccountListPaginationOptions();
+import java.util.Date;
+
+public class HyperwalletBankCardListPaginationOptionsTest extends BaseModelTest<HyperwalletBankCardListPaginationOptions> {
+    protected HyperwalletBankCardListPaginationOptions createBaseModel() {
+        HyperwalletBankCardListPaginationOptions options = new HyperwalletBankCardListPaginationOptions();
         options
-                .type(HyperwalletBankAccount.Type.BANK_ACCOUNT)
-                .status(HyperwalletBankAccount.Status.ACTIVATED);
+                .createdOn(new Date())
+                .type(HyperwalletBankCard.Type.BANK_CARD)
+                .status(HyperwalletBankCard.Status.ACTIVATED);
         return options;
     }
 
-    protected Class<HyperwalletBankAccountListPaginationOptions> createModelClass() {
-        return HyperwalletBankAccountListPaginationOptions.class;
+    protected Class<HyperwalletBankCardListPaginationOptions> createModelClass() {
+        return HyperwalletBankCardListPaginationOptions.class;
     }
 }
 

@@ -15,14 +15,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class HyperwalletBankCard extends HyperwalletBaseMonitor {
 
     public enum Brand {VISA, MASTERCARD}
-
     public enum CardType {DEBIT}
-
-    private HyperwalletTransferMethod.Type type;
+    public static enum Type {BANK_CARD}
+    public static enum Status {ACTIVATED, VERIFIED, INVALID, DE_ACTIVATED}
+    
+    private Type type;
+    private Status status;
     private String token;
-    private HyperwalletTransferMethod.Status status;
     private Date createdOn;
-
     private String transferMethodCountry;
     private String transferMethodCurrency;
     private Brand cardBrand;
@@ -35,16 +35,16 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     private String userToken;
     private String processingTime;
 
-    public HyperwalletTransferMethod.Type getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(HyperwalletTransferMethod.Type type) {
+    public void setType(Type type) {
         addField("type", type);
         this.type = type;
     }
 
-    public HyperwalletBankCard type(HyperwalletTransferMethod.Type type) {
+    public HyperwalletBankCard type(Type type) {
         addField("type", type);
         this.type = type;
         return this;
@@ -77,16 +77,16 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletTransferMethod.Status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(HyperwalletTransferMethod.Status status) {
+    public void setStatus(Status status) {
         addField("status", status);
         this.status = status;
     }
 
-    public HyperwalletBankCard status(HyperwalletTransferMethod.Status status) {
+    public HyperwalletBankCard status(Status status) {
         addField("status", status);
         this.status = status;
         return this;

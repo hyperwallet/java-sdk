@@ -15,7 +15,7 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
 
     public static enum Type {BANK_ACCOUNT, WIRE_ACCOUNT}
 
-    public static enum Status {ACTIVATED, INVALID, DE_ACTIVATED}
+    public static enum Status {ACTIVATED, VERIFIED, INVALID, DE_ACTIVATED}
 
     private String token;
 

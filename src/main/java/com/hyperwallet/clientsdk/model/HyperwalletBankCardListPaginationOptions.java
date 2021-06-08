@@ -1,33 +1,50 @@
 package com.hyperwallet.clientsdk.model;
 
-public class HyperwalletBankAccountListPaginationOptions extends HyperwalletPaginationOptions{
+import java.util.Date;
 
-    private HyperwalletBankAccount.Type type;
-    private HyperwalletBankAccount.Status status;
+public class HyperwalletBankCardListPaginationOptions extends HyperwalletPaginationOptions{
 
-    public HyperwalletBankAccount.Status getStatus() {
+    private HyperwalletBankCard.Type type;
+    private HyperwalletBankCard.Status status;
+    private Date createdOn;
+
+
+    public HyperwalletBankCard.Status getStatus() {
         return status;
     }
 
-    public void setStatus(HyperwalletBankAccount.Status status) {
+    public void setStatus(HyperwalletBankCard.Status status) {
         this.status = status;
     }
 
-    public HyperwalletBankAccountListPaginationOptions status(HyperwalletBankAccount.Status status) {
+    public HyperwalletBankCardListPaginationOptions status(HyperwalletBankCard.Status status) {
         this.status = status;
         return this;
     }
 
-    public HyperwalletBankAccount.Type getType() {
+    public HyperwalletBankCard.Type getType() {
         return type;
     }
 
-    public void setType(HyperwalletBankAccount.Type type) {
+    public void setType(HyperwalletBankCard.Type type) {
         this.type = type;
     }
 
-    public HyperwalletBankAccountListPaginationOptions type(HyperwalletBankAccount.Type type) {
+    public HyperwalletBankCardListPaginationOptions type(HyperwalletBankCard.Type type) {
         this.type = type;
+        return this;
+    }
+
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public HyperwalletBankCardListPaginationOptions createdOn(Date createdOn) {
+        this.createdOn = createdOn;
         return this;
     }
 }
