@@ -16,25 +16,16 @@ public class HyperwalletMultipartUtils {
 
     public static Multipart convert(List<HyperwalletVerificationDocument> uploadList) throws IOException {
 
-        JSONObject document = new JSONObject();
         Multipart multipartList = new Multipart();
+        List<JSONObject> documents = new ArrayList<>();
         for (HyperwalletVerificationDocument uploadData : uploadList) {
 
+            JSONObject document = new JSONObject();
             addDocumentValue(document, "type", uploadData.getType());
             addDocumentValue(document, "country", uploadData.getCountry());
             addDocumentValue(document, "category", uploadData.getCategory());
             addDocumentValue(document, "status", uploadData.getStatus());
-            List<JSONObject> documents = new ArrayList<>();
             documents.add(document);
-            JSONObject data = new JSONObject();
-            data.put("documents", documents);
-            Map<String, String> multiPartUploadData = new HashMap<>();
-            multiPartUploadData.put("data", data.toString());
-
-            Multipart.MultipartData multipart = new Multipart.MultipartData("Content-Type: application/json" + MultipartRequest.CRLF,
-                    "Content-Disposition: form-data; name=\"" + "data" + "\"" + MultipartRequest.CRLF,
-                    multiPartUploadData);
-            multipartList.add(multipart);
 
             for (Map.Entry<String, String> entry : uploadData.getUploadFiles().entrySet()) {
 
@@ -56,6 +47,15 @@ public class HyperwalletMultipartUtils {
                 multipartList.add(multipart1);
             }
         }
+
+        JSONObject data = new JSONObject();
+        data.put("documents", documents);
+        Map<String, String> multiPartUploadData = new HashMap<>();
+        multiPartUploadData.put("data", data.toString());
+
+        Multipart.MultipartData multipart = new Multipart.MultipartData("Content-Type: application/json" + MultipartRequest.CRLF,
+                "Content-Disposition: form-data; name=\"" + "data" + "\"" + MultipartRequest.CRLF, multiPartUploadData);
+        multipartList.add(multipart);
 
         return multipartList;
     }
