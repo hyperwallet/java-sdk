@@ -6,7 +6,6 @@ public class HyperwalletBankCardListPaginationOptionsTest extends BaseModelTest<
     protected HyperwalletBankCardListPaginationOptions createBaseModel() {
         HyperwalletBankCardListPaginationOptions options = new HyperwalletBankCardListPaginationOptions();
         options
-                .type(Type.BANK_CARD)
                 .status(HyperwalletBankCard.Status.ACTIVATED);
         return options;
     }

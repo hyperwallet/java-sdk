@@ -847,7 +847,7 @@ public class Hyperwallet {
         String url = paginate(this.url + "/users/" + userToken + "/bank-cards", options);
         if (options != null) {
             url = addParameter(url, "status", options.getStatus());
-            url = addParameter(url, "type", options.getType());
+
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletBankCard>>() {
         });
@@ -1425,7 +1425,7 @@ public class Hyperwallet {
      * @param options           List filter option
      * @return HyperwalletList of HyperwalletPayPalAccount
      */
-    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken, HyperwalletListPaginationOptions options) {
+    public HyperwalletList<HyperwalletPayPalAccount> listPayPalAccounts(String userToken, HyperwalletPayPalAccountListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
@@ -1606,7 +1606,7 @@ public class Hyperwallet {
             throw new HyperwalletException("Venmo Account token may not be present");
         }
         if (venmoAccount.getType() == null) {
-            venmoAccount.setType(HyperwalletTransferMethod.Type.VENMO_ACCOUNT);
+            venmoAccount.setType(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT);
         }
         venmoAccount = copy(venmoAccount);
         venmoAccount.setStatus(null);
@@ -1638,11 +1638,15 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletVenmoAccount
      */
-    public HyperwalletList<HyperwalletVenmoAccount> listVenmoAccounts(String userToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletVenmoAccount> listVenmoAccounts(String userToken, HyperwalletVenmoAccountListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/venmo-accounts", options);
+        if (options != null) {
+            url = addParameter(url, "type", options.getType());
+            url = addParameter(url, "status", options.getStatus());
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletVenmoAccount>>() {
         });
     }
@@ -1774,7 +1778,7 @@ public class Hyperwallet {
      * @return HyperwalletList of HyperwalletStatusTransition
      */
     public HyperwalletList<HyperwalletStatusTransition> listVenmoAccountStatusTransitions(String userToken, String venmoAccountToken,
-                                                                                          HyperwalletPaginationOptions options) {
+                                                                                          HyperwalletStatusTransitionListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
@@ -1782,6 +1786,9 @@ public class Hyperwallet {
             throw new HyperwalletException("Venmo account token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/venmo-accounts/" + venmoAccountToken + "/status-transitions", options);
+        if (options != null) {
+            url = addParameter(url, "transition", options.getTransition());
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
         });
     }

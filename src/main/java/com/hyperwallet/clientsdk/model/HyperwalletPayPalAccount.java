@@ -14,9 +14,10 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletPayPalAccount extends HyperwalletBaseMonitor {
 
+    public enum Status {ACTIVATED, INVALID, VERIFIED,DE_ACTIVATED}
     private String token;
     private HyperwalletTransferMethod.Type type;
-    private HyperwalletTransferMethod.Status status;
+    private Status status;
     private Date createdOn;
     private String transferMethodCountry;
     private String transferMethodCurrency;
@@ -67,16 +68,16 @@ public class HyperwalletPayPalAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletTransferMethod.Status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(HyperwalletTransferMethod.Status status) {
+    public void setStatus(Status status) {
         addField("status", status);
         this.status = status;
     }
 
-    public HyperwalletPayPalAccount status(HyperwalletTransferMethod.Status status) {
+    public HyperwalletPayPalAccount status(Status status) {
         addField("status", status);
         this.status = status;
         return this;
