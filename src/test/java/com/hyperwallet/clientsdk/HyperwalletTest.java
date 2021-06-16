@@ -7769,7 +7769,7 @@ public class HyperwalletTest {
 
         Mockito.verify(mockApiClient).get(Mockito
                 .eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/venmo-accounts?createdAfter=2020-08-20T21:58:26Z"
-                    + "&createdBefore=2020-08-20T21:58:26Z&sortBy=test-sort-by&limit=10&status=ACTIVATED&type=VENMO_ACCOUNT"),
+                    + "&createdBefore=2020-08-20T21:58:26Z&sortBy=test-sort-by&limit=10&type=VENMO_ACCOUNT&status=ACTIVATED"),
             Mockito.any(TypeReference.class));
     }
 

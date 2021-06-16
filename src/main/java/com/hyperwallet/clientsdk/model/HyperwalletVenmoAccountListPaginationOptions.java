@@ -29,7 +29,7 @@ public class HyperwalletVenmoAccountListPaginationOptions extends HyperwalletPag
         this.type = type;
     }
     public HyperwalletVenmoAccountListPaginationOptions type(HyperwalletVenmoAccount.Type type){
-        this.status = status;
+        this.type = type;
         return this;
     }
 }
