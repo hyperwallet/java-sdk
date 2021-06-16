@@ -1654,7 +1654,7 @@ public class HyperwalletTest {
     public void testCreateBankCard_noType() throws Exception {
         HyperwalletBankCard bankCard = new HyperwalletBankCard();
         bankCard.setUserToken("test-user-token");
-        bankCard.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        bankCard.setStatus(HyperwalletBankCard.Status.ACTIVATED);
         bankCard.setCreatedOn(new Date());
         bankCard.setCardType(HyperwalletBankCard.CardType.DEBIT);
         bankCard.setTransferMethodCountry("test-transfer-method-country");
@@ -1681,7 +1681,7 @@ public class HyperwalletTest {
 
         HyperwalletBankCard apiClientBankCard = argument.getValue();
         assertThat(apiClientBankCard, is(notNullValue()));
-        assertThat(apiClientBankCard.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
+        assertThat(apiClientBankCard.getType(), is(equalTo(HyperwalletBankCard.Type.BANK_CARD)));
         assertThat(apiClientBankCard.getStatus(), is(nullValue()));
         assertThat(apiClientBankCard.getCreatedOn(), is(nullValue()));
         assertThat(apiClientBankCard.getCardType(), is(nullValue()));
@@ -1692,8 +1692,8 @@ public class HyperwalletTest {
     public void testCreateBankCard_withType() throws Exception {
         HyperwalletBankCard bankCard = new HyperwalletBankCard();
         bankCard.setUserToken("test-user-token");
-        bankCard.setType(HyperwalletTransferMethod.Type.BANK_ACCOUNT);
-        bankCard.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        bankCard.setType(HyperwalletBankCard.Type.BANK_CARD);
+        bankCard.setStatus(HyperwalletBankCard.Status.ACTIVATED);
         bankCard.setCreatedOn(new Date());
         bankCard.setCardType(HyperwalletBankCard.CardType.DEBIT);
         bankCard.setTransferMethodCountry("test-transfer-method-country");
@@ -1720,7 +1720,7 @@ public class HyperwalletTest {
 
         HyperwalletBankCard apiClienBankCard = argument.getValue();
         assertThat(apiClienBankCard, is(notNullValue()));
-        assertThat(apiClienBankCard.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
+        assertThat(apiClienBankCard.getType(), is(equalTo(HyperwalletBankCard.Type.BANK_CARD)));
         assertThat(apiClienBankCard.getStatus(), is(nullValue()));
         assertThat(apiClienBankCard.getCreatedOn(), is(nullValue()));
         assertThat(apiClienBankCard.getCardType(), is(nullValue()));
@@ -1893,7 +1893,7 @@ public class HyperwalletTest {
     public void testListBankCards_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listBankCards(null, new HyperwalletListPaginationOptions());
+            client.listBankCards(null, new HyperwalletBankCardListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -1912,9 +1912,9 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
+        HyperwalletBankCardListPaginationOptions options = new HyperwalletBankCardListPaginationOptions();
         options
-            .status(HyperwalletTransferMethod.Status.ACTIVATED)
+            .status(HyperwalletBankCard.Status.ACTIVATED)
             .sortBy("test-sort-by")
             .limit(10)
             .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
@@ -1937,7 +1937,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
+        HyperwalletBankCardListPaginationOptions options = new HyperwalletBankCardListPaginationOptions();
         options
             .sortBy("test-sort-by")
             .createdBefore(convertStringToDate("2019-06-29T17:58:26Z"));

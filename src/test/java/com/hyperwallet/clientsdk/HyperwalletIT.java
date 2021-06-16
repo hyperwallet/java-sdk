@@ -3,8 +3,10 @@ package com.hyperwallet.clientsdk;
 import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.Brand;
 import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.EReplacePrepaidCardReason;
+import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status;
 import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.CardType;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.VerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.Gender;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
@@ -471,8 +473,8 @@ public class HyperwalletIT {
         hyperwalletLinks.add(hyperwalletLink);
 
         assertThat(returnValue.getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletBankCard.Type.BANK_CARD)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletBankCard.Status.ACTIVATED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-09T22:50:14 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -518,8 +520,8 @@ public class HyperwalletIT {
         hyperwalletLinks.add(hyperwalletLink);
 
         assertThat(returnValue.getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletBankCard.Type.BANK_CARD)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletBankCard.Status.ACTIVATED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-09T22:50:14 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -560,8 +562,8 @@ public class HyperwalletIT {
         hyperwalletLinks.add(hyperwalletLink);
 
         assertThat(returnValue.getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletBankCard.Type.BANK_CARD)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletBankCard.Status.ACTIVATED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-09T22:50:14 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -585,8 +587,8 @@ public class HyperwalletIT {
 
         HyperwalletList<HyperwalletBankCard> returnValue;
 
-        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
-        options.status(HyperwalletTransferMethod.Status.ACTIVATED)
+        HyperwalletBankCardListPaginationOptions options = new HyperwalletBankCardListPaginationOptions();
+        options.status(HyperwalletBankCard.Status.ACTIVATED)
                 .sortBy("test-sort-by")
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
@@ -611,8 +613,8 @@ public class HyperwalletIT {
         assertThat(returnValue.hasNextPage(), is(equalTo(true)));
         assertThat(returnValue.hasPreviousPage(), is(equalTo(true)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
-        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
-        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletBankCard.Type.BANK_CARD)));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletBankCard.Status.ACTIVATED)));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-09T22:50:14 UTC"))));
         assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
