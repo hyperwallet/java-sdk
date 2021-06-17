@@ -7,13 +7,11 @@ public class HyperwalletBankCardTest extends BaseModelTest<HyperwalletBankCard> 
         HyperwalletBankCard bankCard = new HyperwalletBankCard();
         bankCard
                 .token("test-token")
-                .type(HyperwalletTransferMethod.Type.PREPAID_CARD)
-
-                .status(HyperwalletTransferMethod.Status.ACTIVATED)
+                .type(HyperwalletBankCard.Type.BANK_CARD)
+                .status(HyperwalletBankCard.Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")
-
                 .cardType(HyperwalletBankCard.CardType.DEBIT)
                 .cardNumber("test-card-number")
                 .cardBrand(HyperwalletBankCard.Brand.VISA)

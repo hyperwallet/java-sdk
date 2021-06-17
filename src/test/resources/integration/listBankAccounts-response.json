@@ -1,0 +1,37 @@
+{
+  "count": 1,
+  "offset": 0,
+  "limit": 10,
+  "data":[
+    {
+      "token": "trm-54b0db9c-5565-47f7-aee6-685e713595f3",
+      "type": "BANK_ACCOUNT",
+      "status": "ACTIVATED",
+      "createdOn": "2018-05-01T00:00:00",
+      "transferMethodCountry": "US",
+      "transferMethodCurrency": "USD",
+      "email": "user@domain.com",
+      "userToken": "usr-c4292f1a-866f-4310-a289-b916853939de",
+      "branchId": "026009593",
+      "bankAccountId": "****8670",
+      "bankAccountPurpose": "CHECKING",
+      "profileType": "INDIVIDUAL",
+      "firstName": "John",
+      "lastName": "Smith",
+      "dateOfBirth": "1980-01-01",
+      "addressLine1": "123 Main Street",
+      "city": "New York",
+      "stateProvince": "NY",
+      "country": "US",
+      "postalCode": "10016",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-e7b61829-a73a-45dc-930e-afa8a56b923b/bank-accounts/trm-54b0db9c-5565-47f7-aee6-685e713595f3"
+        }
+      ]
+    }
+  ]
+}
