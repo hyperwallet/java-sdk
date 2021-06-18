@@ -1,5 +1,10 @@
 Changelog
 =========
+1.7.4 
+-----------------
+- Fixed multipart upload 
+- Filters for Bank accounts, bank cards and paypal accounts 
+
 1.7.3 
 -----------------
 - Added clientUserId filter 
