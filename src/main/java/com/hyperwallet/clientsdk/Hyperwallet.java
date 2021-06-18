@@ -764,7 +764,7 @@ public class Hyperwallet {
             throw new HyperwalletException("Paper Check token may not be present");
         }
         if (paperCheck.getType() == null) {
-            paperCheck.setType(HyperwalletTransferMethod.Type.PAPER_CHECK);
+            paperCheck.setType(HyperwalletPaperCheck.Type.PAPER_CHECK);
         }
         paperCheck = copy(paperCheck);
         paperCheck.setStatus(null);
@@ -825,11 +825,14 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletPaperCheck
      */
-    public HyperwalletList<HyperwalletPaperCheck> listPaperChecks(String userToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletPaperCheck> listPaperChecks(String userToken, HyperwalletPaperCheckListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/paper-checks", options);
+        if (options != null) {
+            url = addParameter(url, "status", options.getStatus());
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPaperCheck>>() {
         });
     }

@@ -544,8 +544,8 @@ public class HyperwalletIT {
         }
 
         assertThat(returnValue.getToken(), is(equalTo("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAPER_CHECK)));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletPaperCheck.Type.PAPER_CHECK)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletPaperCheck.Status.ACTIVATED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -582,8 +582,8 @@ public class HyperwalletIT {
         }
 
         assertThat(returnValue.getToken(), is(equalTo("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAPER_CHECK)));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletPaperCheck.Type.PAPER_CHECK)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletPaperCheck.Status.ACTIVATED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:42:46 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -615,8 +615,8 @@ public class HyperwalletIT {
         }
 
         assertThat(returnValue.getToken(), is(equalTo("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAPER_CHECK)));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletPaperCheck.Type.PAPER_CHECK)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletPaperCheck.Status.ACTIVATED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -648,8 +648,8 @@ public class HyperwalletIT {
 
         assertThat(returnValue.getCount(), is(equalTo(1)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-59f67c62-fd06-497e-a9ea-99d6eb38b12b")));
-        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.PAPER_CHECK)));
-        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletPaperCheck.Type.PAPER_CHECK)));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletPaperCheck.Status.ACTIVATED)));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
@@ -1387,7 +1387,7 @@ public class HyperwalletIT {
         initMockServer(functionality);
 
         HyperwalletUser returnValue;
-        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();;
+        HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
         try {
             String userToken = "usr-62f24150-5756-4234-9154-90ee4eed328b";
             Multipart multipart = new Multipart();

@@ -2233,7 +2233,7 @@ public class HyperwalletTest {
     public void testCreatePaperCheck_noType() throws Exception {
         HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
         paperCheck.setUserToken("test-user-token");
-        paperCheck.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        paperCheck.setStatus(HyperwalletPaperCheck.Status.ACTIVATED);
         paperCheck.setCreatedOn(new Date());
         paperCheck.setAddressLine1("test-address-line1");
 
@@ -2252,7 +2252,7 @@ public class HyperwalletTest {
 
         HyperwalletPaperCheck apiClientPaperCheck = argument.getValue();
         assertThat(apiClientPaperCheck, is(notNullValue()));
-        assertThat(apiClientPaperCheck.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAPER_CHECK)));
+        assertThat(apiClientPaperCheck.getType(), is(equalTo(HyperwalletPaperCheck.Type.PAPER_CHECK)));
         assertThat(apiClientPaperCheck.getStatus(), is(nullValue()));
         assertThat(apiClientPaperCheck.getCreatedOn(), is(nullValue()));
     }
@@ -2261,8 +2261,8 @@ public class HyperwalletTest {
     public void testCreatePaperCheck_withType() throws Exception {
         HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
         paperCheck.setUserToken("test-user-token");
-        paperCheck.setType(HyperwalletTransferMethod.Type.PAPER_CHECK);
-        paperCheck.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        paperCheck.setType(HyperwalletPaperCheck.Type.PAPER_CHECK);
+        paperCheck.setStatus(HyperwalletPaperCheck.Status.ACTIVATED);
         paperCheck.setCreatedOn(new Date());
         paperCheck.setAddressLine1("test-address-line1");
 
@@ -2281,7 +2281,7 @@ public class HyperwalletTest {
 
         HyperwalletPaperCheck apiClienPaperCheck = argument.getValue();
         assertThat(apiClienPaperCheck, is(notNullValue()));
-        assertThat(apiClienPaperCheck.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAPER_CHECK)));
+        assertThat(apiClienPaperCheck.getType(), is(equalTo(HyperwalletPaperCheck.Type.PAPER_CHECK)));
         assertThat(apiClienPaperCheck.getStatus(), is(nullValue()));
         assertThat(apiClienPaperCheck.getCreatedOn(), is(nullValue()));
     }
@@ -2448,7 +2448,7 @@ public class HyperwalletTest {
     public void testListPaperChecks_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPaperChecks(null, new HyperwalletPaginationOptions());
+            client.listPaperChecks(null, new HyperwalletPaperCheckListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2467,20 +2467,21 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletPaperCheckListPaginationOptions options = new HyperwalletPaperCheckListPaginationOptions();
         options
-            .sortBy("test-sort-by")
-            .offset(5)
-            .limit(10)
-            .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
-            .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+                .status(HyperwalletPaperCheck.Status.ACTIVATED)
+                .sortBy("test-sort-by")
+                .offset(5)
+                .limit(10)
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
 
         Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
 
         HyperwalletList<HyperwalletPaperCheck> resp = client.listPaperChecks("test-user-token", options);
         assertThat(resp, is(equalTo(response)));
 
-        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"), Mockito.any(TypeReference.class));
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/paper-checks?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&status=ACTIVATED"), Mockito.any(TypeReference.class));
     }
 
     @Test
@@ -2490,7 +2491,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletPaperCheckListPaginationOptions options = new HyperwalletPaperCheckListPaginationOptions();
         options
             .sortBy("test-sort-by")
             .offset(5)
