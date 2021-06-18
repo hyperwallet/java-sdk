@@ -281,8 +281,8 @@ public class HyperwalletIT {
         }
 
         assertThat(returnValue.getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletPrepaidCard.Type.PREPAID_CARD)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletPrepaidCard.Status.ACTIVATED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-09T22:50:14 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -1054,6 +1054,50 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getEmail(), is(equalTo("user@domain.com")));
     }
 
+
+    @Test
+    public void testListVenmoAccounts() throws Exception {
+        String functionality = "listVenmoAccounts";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletVenmoAccount> returnValue;
+        try {
+            returnValue = client.listVenmoAccounts("usr-c4292f1a-866f-4310-a289-b916853939de");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b")));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletVenmoAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT)));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2019-01-09T22:50:14 UTC"))));
+        assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
+    }
+
+    @Test
+    public void testPrepaidCards() throws Exception {
+        String functionality = "listPrepaidCards";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletPrepaidCard> returnValue;
+        try {
+            returnValue = client.listPrepaidCards("usr-c4292f1a-866f-4310-a289-b916853939de");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-e1adcd22-eab4-4152-a9b5-3dae99d32df3")));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletPrepaidCard.Status.PRE_ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletPrepaidCard.Type.PREPAID_CARD)));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2019-10-31T18:25:07 UTC"))));
+        assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
+    }
 
     @Test
     public void testListBankAccounts() throws Exception {

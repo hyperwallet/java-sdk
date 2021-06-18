@@ -815,7 +815,7 @@ public class HyperwalletTest {
     public void testCreatePrepaidCard_noType() throws Exception {
         HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard();
         prepaidCard.setUserToken("test-user-token");
-        prepaidCard.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        prepaidCard.setStatus(HyperwalletPrepaidCard.Status.ACTIVATED);
         prepaidCard.setCreatedOn(new Date());
         prepaidCard.setCardType(HyperwalletPrepaidCard.CardType.VIRTUAL);
         prepaidCard.setTransferMethodCountry("test-transfer-method-country");
@@ -840,7 +840,7 @@ public class HyperwalletTest {
 
         HyperwalletPrepaidCard apiClientPrepaidCard = argument.getValue();
         assertThat(apiClientPrepaidCard, is(notNullValue()));
-        assertThat(apiClientPrepaidCard.getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
+        assertThat(apiClientPrepaidCard.getType(), is(equalTo(HyperwalletPrepaidCard.Type.PREPAID_CARD)));
         assertThat(apiClientPrepaidCard.getCardPackage(), is(equalTo("test-card-package")));
         assertThat(apiClientPrepaidCard.getStatus(), is(nullValue()));
         assertThat(apiClientPrepaidCard.getCreatedOn(), is(nullValue()));
@@ -855,8 +855,8 @@ public class HyperwalletTest {
     public void testCreatePrepaidCard_withType() throws Exception {
         HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard();
         prepaidCard.setUserToken("test-user-token");
-        prepaidCard.setType(HyperwalletTransferMethod.Type.BANK_ACCOUNT);
-        prepaidCard.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        prepaidCard.setType(HyperwalletPrepaidCard.Type.PREPAID_CARD);
+        prepaidCard.setStatus(HyperwalletPrepaidCard.Status.ACTIVATED);
         prepaidCard.setCreatedOn(new Date());
         prepaidCard.setCardType(HyperwalletPrepaidCard.CardType.VIRTUAL);
         prepaidCard.setTransferMethodCountry("test-transfer-method-country");
@@ -881,7 +881,7 @@ public class HyperwalletTest {
 
         HyperwalletPrepaidCard apiClientPrepaidCard = argument.getValue();
         assertThat(apiClientPrepaidCard, is(notNullValue()));
-        assertThat(apiClientPrepaidCard.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
+        assertThat(apiClientPrepaidCard.getType(), is(equalTo(HyperwalletPrepaidCard.Type.PREPAID_CARD)));
         assertThat(apiClientPrepaidCard.getCardPackage(), is(equalTo("test-card-package")));
         assertThat(apiClientPrepaidCard.getStatus(), is(nullValue()));
         assertThat(apiClientPrepaidCard.getCreatedOn(), is(nullValue()));
@@ -974,7 +974,7 @@ public class HyperwalletTest {
     public void testListPrepaidCards_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPrepaidCards(null, new HyperwalletPaginationOptions());
+            client.listPrepaidCards(null, new HyperwalletPrepaidCardListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -993,8 +993,9 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletPrepaidCardListPaginationOptions options = new HyperwalletPrepaidCardListPaginationOptions();
         options
+                .status(HyperwalletPrepaidCard.Status.ACTIVATED)
                 .sortBy("test-sort-by")
                 .offset(5)
                 .limit(10)
@@ -1006,7 +1007,7 @@ public class HyperwalletTest {
         HyperwalletList<HyperwalletPrepaidCard> resp = client.listPrepaidCards("test-user-token", options);
         assertThat(resp, is(equalTo(response)));
 
-        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/prepaid-cards?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10"), Mockito.any(TypeReference.class));
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/prepaid-cards?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&status=ACTIVATED"), Mockito.any(TypeReference.class));
     }
 
     @Test
@@ -1016,7 +1017,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletPrepaidCardListPaginationOptions options = new HyperwalletPrepaidCardListPaginationOptions();
         options
                 .sortBy("test-sort-by")
                 .offset(5)
@@ -4121,7 +4122,7 @@ public class HyperwalletTest {
         venmoAccount.setTransferMethodCountry("test-transfer-method-country");
         venmoAccount.setTransferMethodCurrency("test-transfer-method-currency");
         venmoAccount.setAccountId("test-account");
-        venmoAccount.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        venmoAccount.setStatus(HyperwalletVenmoAccount.Status.ACTIVATED);
         venmoAccount.setCreatedOn(new Date());
 
         HyperwalletVenmoAccount venmoAccountResponse = new HyperwalletVenmoAccount();
@@ -4146,7 +4147,7 @@ public class HyperwalletTest {
         assertThat(apiVenmoAccount.getTransferMethodCurrency(), is(equalTo("test-transfer-method-currency")));
         assertThat(apiVenmoAccount.getStatus(), is(nullValue()));
         assertThat(apiVenmoAccount.getCreatedOn(), is(nullValue()));
-        assertThat(apiVenmoAccount.getType(), is(HyperwalletTransferMethod.Type.VENMO_ACCOUNT));
+        assertThat(apiVenmoAccount.getType(), is(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT));
     }
 
     @Test
@@ -4155,8 +4156,8 @@ public class HyperwalletTest {
         venmoAccount.setUserToken("test-user-token");
         venmoAccount.setTransferMethodCountry("test-transfer-method-country");
         venmoAccount.setTransferMethodCurrency("test-transfer-method-currency");
-        venmoAccount.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
-        venmoAccount.setType(HyperwalletTransferMethod.Type.VENMO_ACCOUNT);
+        venmoAccount.setStatus(HyperwalletVenmoAccount.Status.ACTIVATED);
+        venmoAccount.setType(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT);
         venmoAccount.setAccountId("test-account");
         venmoAccount.setCreatedOn(new Date());
 
@@ -4182,7 +4183,7 @@ public class HyperwalletTest {
         assertThat(apiVenmoAccount.getTransferMethodCurrency(), is(equalTo("test-transfer-method-currency")));
         assertThat(apiVenmoAccount.getStatus(), is(nullValue()));
         assertThat(apiVenmoAccount.getCreatedOn(), is(nullValue()));
-        assertThat(apiVenmoAccount.getType(), is(HyperwalletTransferMethod.Type.VENMO_ACCOUNT));
+        assertThat(apiVenmoAccount.getType(), is(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT));
     }
 
     @Test
@@ -4266,13 +4267,62 @@ public class HyperwalletTest {
     }
 
     @Test
+    public void testListVenmoAccount_withParameters() throws Exception {
+        HyperwalletList<HyperwalletVenmoAccount> response = new HyperwalletList<HyperwalletVenmoAccount>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletVenmoAccountListPaginationOptions options = new HyperwalletVenmoAccountListPaginationOptions();
+        options
+                .type(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT)
+                .status(HyperwalletVenmoAccount.Status.ACTIVATED)
+                .sortBy("test-sort-by")
+                .offset(5)
+                .limit(10)
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletVenmoAccount> resp = client.listVenmoAccounts("test-user-token", options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/venmo-accounts?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&type=VENMO_ACCOUNT&status=ACTIVATED"), Mockito.any(TypeReference.class));
+    }
+
+    @Test
+    public void testListVenmoAccount_withSomeParameters() throws Exception {
+        HyperwalletList<HyperwalletVenmoAccount> response = new HyperwalletList<HyperwalletVenmoAccount>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletVenmoAccountListPaginationOptions options = new HyperwalletVenmoAccountListPaginationOptions();
+        options
+                .sortBy("test-sort-by")
+                .offset(5)
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        HyperwalletList<HyperwalletVenmoAccount> resp = client.listVenmoAccounts("test-user-token", options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/test-user-token/venmo-accounts?createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5"), Mockito.any(TypeReference.class));
+    }
+
+
+
+
+    @Test
     public void testVenmoAccountListTransfer_withListOptions() throws Exception {
         HyperwalletList<HyperwalletVenmoAccount> response = new HyperwalletList<>();
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
+        HyperwalletVenmoAccountListPaginationOptions options = new HyperwalletVenmoAccountListPaginationOptions();
         options
                 .sortBy("test-sort-by")
                 .offset(5)
