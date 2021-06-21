@@ -1,7 +1,5 @@
 package com.hyperwallet.clientsdk.model;
 
-import com.hyperwallet.clientsdk.model.HyperwalletVenmoAccount.Type;
-
 public class HyperwalletVenmoAccountListPaginationOptionsTest extends BaseModelTest<HyperwalletVenmoAccountListPaginationOptions> {
     protected HyperwalletVenmoAccountListPaginationOptions createBaseModel() {
         HyperwalletVenmoAccountListPaginationOptions options = new HyperwalletVenmoAccountListPaginationOptions();

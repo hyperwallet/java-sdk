@@ -12,7 +12,6 @@ public class HyperwalletPayPalAccountTest extends BaseModelTest<HyperwalletPayPa
         HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
         payPalAccount
                 .token("test-token")
-                .type(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)
                 .status(HyperwalletPayPalAccount.Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")

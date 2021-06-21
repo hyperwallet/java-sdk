@@ -775,7 +775,7 @@ public class Hyperwallet {
             throw new HyperwalletException("Bank Card token may not be present");
         }
         if (bankCard.getType() == null) {
-            bankCard.setType(Type.BANK_CARD);
+            bankCard.setType(HyperwalletBankCard.Type.BANK_CARD);
         }
         bankCard = copy(bankCard);
         bankCard.setStatus(null);

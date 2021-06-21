@@ -1,7 +1,4 @@
 package com.hyperwallet.clientsdk.model;
-
-import com.hyperwallet.clientsdk.model.HyperwalletVenmoAccount.Type;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
