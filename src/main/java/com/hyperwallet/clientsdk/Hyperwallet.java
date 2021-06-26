@@ -1851,9 +1851,11 @@ public class Hyperwallet {
     public HyperwalletList<HyperwalletPayment> listPayments(HyperwalletPaymentListOptions options) {
         String url = paginate(this.url + "/payments", options);
         if (options != null) {
-            url = addParameter(url, "releasedOn", convert(options.getReleasedOn()));
+            url = addParameter(url, "releasedOn", convert(options.getReleaseDate()));
             url = addParameter(url, "currency", options.getCurrency());
             url = addParameter(url, "clientPaymentId", options.getClientPaymentId());
+            url = addParameter(url, "memo", options.getMemo());
+
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPayment>>() {
         });

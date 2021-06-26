@@ -5956,6 +5956,8 @@ public class HyperwalletTest {
 
         HyperwalletPaymentListOptions options = new HyperwalletPaymentListOptions();
         options.clientPaymentId("gv47LDuf")
+                .currency("test-currency")
+                .memo("test-memo")
                 .sortBy("test-sort-by")
                 .offset(5)
                 .limit(10)
@@ -5969,7 +5971,7 @@ public class HyperwalletTest {
 
         Mockito.verify(mockApiClient).get(Mockito
                         .eq("https://api.sandbox.hyperwallet.com/rest/v3/payments?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58"
-                                + ":26Z&sortBy=test-sort-by&offset=5&limit=10&clientPaymentId=gv47LDuf"),
+                                + ":26Z&sortBy=test-sort-by&offset=5&limit=10&currency=test-currency&clientPaymentId=gv47LDuf&memo=test-memo"),
                 Mockito.any(TypeReference.class));
     }
 
