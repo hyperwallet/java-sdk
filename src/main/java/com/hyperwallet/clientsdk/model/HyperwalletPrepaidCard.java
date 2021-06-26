@@ -1,6 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,37 +15,35 @@ import java.util.Date;
 public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
 
     public enum Brand {VISA, MASTERCARD}
-
     public enum CardType {PERSONALIZED, INSTANT_ISSUE, VIRTUAL}
+    public enum Status {QUEUED, PRE_ACTIVATED, ACTIVATED, DECLINED, LOCKED, SUSPENDED, LOST_OR_STOLEN, DE_ACTIVATED, COMPLIANCE_HOLD, KYC_HOLD}
+    public enum Type {PREPAID_CARD}
 
-    private HyperwalletTransferMethod.Type type;
-
+    private Type type;
     private String token;
-
-    private HyperwalletTransferMethod.Status status;
+    private Status status;
     private Date createdOn;
     private String transferMethodCountry;
     private String transferMethodCurrency;
-
     private CardType cardType;
     private String cardPackage;
     private String cardNumber;
     private Brand cardBrand;
-
+    @JsonFormat(pattern = "yyyy-MM", timezone = "UTC")
     private Date dateOfExpiry;
 
     private String userToken;
 
-    public HyperwalletTransferMethod.Type getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(HyperwalletTransferMethod.Type type) {
+    public void setType(Type type) {
         addField("type", type);
         this.type = type;
     }
 
-    public HyperwalletPrepaidCard type(HyperwalletTransferMethod.Type type) {
+    public HyperwalletPrepaidCard type(Type type) {
         addField("type", type);
         this.type = type;
         return this;
@@ -77,16 +76,16 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletTransferMethod.Status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(HyperwalletTransferMethod.Status status) {
+    public void setStatus(Status status) {
         addField("status", status);
         this.status = status;
     }
 
-    public HyperwalletPrepaidCard status(HyperwalletTransferMethod.Status status) {
+    public HyperwalletPrepaidCard status(Status status) {
         addField("status", status);
         this.status = status;
         return this;

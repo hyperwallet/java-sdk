@@ -10,7 +10,8 @@ public class HyperwalletPaymentListOptionsTest extends BaseModelTest<Hyperwallet
         HyperwalletPaymentListOptions options = new HyperwalletPaymentListOptions();
         options.clientPaymentId("gv47LDuf")
                 .currency("test-currency")
-                .releasedOn(new Date());
+                .memo("test-memo")
+                .releaseDate(new Date());
         return options;
     }
 

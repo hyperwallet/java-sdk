@@ -13,14 +13,11 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
 
-    public enum Type {BANK_ACCOUNT, WIRE_ACCOUNT, PREPAID_CARD, BANK_CARD, PAPER_CHECK, PAYPAL_ACCOUNT, VENMO_ACCOUNT}
-
-    public enum Status {ACTIVATED, INVALID, DE_ACTIVATED, PRE_ACTIVATED, SUSPENDED, LOST_OR_STOLEN, QUEUED, DECLINED, LOCKED, COMPLIANCE_HOLE, KYC_HOLD, VERIFIED}
-
+    public enum Type {BANK_ACCOUNT, WIRE_ACCOUNT, BANK_CARD, PAYPAL_ACCOUNT,VENMO_ACCOUNT, PREPAID_CARD,  PAPER_CHECK }
+    public enum Status {ACTIVATED, INVALID, DE_ACTIVATED}
     public enum CardType {PERSONALIZED, INSTANT_ISSUE, VIRTUAL}
 
     private String token;
-
     private Type type;
     private Status status;
     private Date createdOn;
