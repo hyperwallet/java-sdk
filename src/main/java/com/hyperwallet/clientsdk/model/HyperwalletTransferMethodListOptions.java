@@ -1,33 +1,33 @@
 package com.hyperwallet.clientsdk.model;
 
-public class HyperwalletTransferListOptions extends HyperwalletPaginationOptions {
+public class HyperwalletTransferMethodListOptions extends HyperwalletPaginationOptions {
 
-    private String sourceToken;
-    private String destinationToken;
+    private String type;
+    private String status;
 
-    public String getSourceToken() {
-        return sourceToken;
+    public String getType() {
+        return type;
     }
 
-    public void setSourceToken(String sourceToken) {
-        this.sourceToken = sourceToken;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public HyperwalletTransferListOptions sourceToken(String sourceToken) {
-        this.sourceToken = sourceToken;
+    public HyperwalletTransferMethodListOptions type(String type) {
+        this.type = type;
         return this;
     }
 
-    public String getDestinationToken() {
-        return destinationToken;
+    public String getStatus() {
+        return status;
     }
 
-    public void setDestinationToken(String destinationToken) {
-        this.destinationToken = destinationToken;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public HyperwalletTransferListOptions destinationToken(String destinationToken) {
-        this.destinationToken = destinationToken;
+    public HyperwalletTransferMethodListOptions status(String status) {
+        this.status = status;
         return this;
     }
 }

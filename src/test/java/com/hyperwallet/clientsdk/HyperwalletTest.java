@@ -7348,7 +7348,7 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListTransferMethods() throws Exception {
+    public void testListTransferMethods_noParameters() throws Exception {
 
         String userToken = "user-token";
         HyperwalletList<HyperwalletTransferMethod> response = new HyperwalletList<HyperwalletTransferMethod>();
@@ -7362,7 +7362,6 @@ public class HyperwalletTest {
         cardTransferMethod.setType(Type.PREPAID_CARD);
         hyperwalletTransferMethodsList.add(bankTransferMethod);
         hyperwalletTransferMethodsList.add(cardTransferMethod);
-
         response.setData(hyperwalletTransferMethodsList);
 
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
@@ -7379,6 +7378,33 @@ public class HyperwalletTest {
         assertThat(response2.getToken(), is(equalTo("card-token")));
         assertThat(response2.getType(), is(equalTo(Type.PREPAID_CARD)));
     }
+
+
+    @Test
+    public void testListTransferMethods_withAllParameters() throws Exception {
+        HyperwalletList<HyperwalletTransferMethod> response = new HyperwalletList<>();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        HyperwalletTransferMethodListOptions options = new HyperwalletTransferMethodListOptions();
+        options
+                .type("testType")
+                .status("testStatus")
+                .sortBy("sortByField")
+                .limit(10)
+                .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+                .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
+
+        Mockito.when(mockApiClient.get(Mockito.anyString(), Mockito.any(TypeReference.class))).thenReturn(response);
+
+        String userToken = "usr-c4292f1a-866f-4310-a289-b916853939de";
+        HyperwalletList<HyperwalletTransferMethod> resp = client.listTransferMethods(userToken, options);
+        assertThat(resp, is(equalTo(response)));
+
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/users/usr-c4292f1a-866f-4310-a289-b916853939de/transfer-methods?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=sortByField&limit=10&type=testType&status=testStatus"), Mockito.any(TypeReference.class));
+    }
+
 
     //--------------------------------------
     // Transfer Refund

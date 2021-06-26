@@ -1364,7 +1364,7 @@ public class HyperwalletIT {
 
         assertThat(cardTransferMethod.getToken(), is(equalTo("trm-c8e4c164-7d5b-4b5b-8b6a-9c4d68c2a9fe")));
         assertThat(cardTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
-        assertThat(cardTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.PRE_ACTIVATED)));
+        assertThat(cardTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.DE_ACTIVATED)));
         assertThat(cardTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2020-09-09T18:43:34 UTC"))));
         assertThat(cardTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(cardTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));

@@ -2237,10 +2237,14 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletTransferMethod
      */
-    public HyperwalletList<HyperwalletTransferMethod> listTransferMethods(String userToken, HyperwalletPaginationOptions options) {
-        String url = paginate(this.url + "/users/" + userToken + "/transfer-methods", options);
+    public HyperwalletList<HyperwalletTransferMethod> listTransferMethods(String userToken, HyperwalletTransferMethodListOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
+        }
+        String url = paginate(this.url + "/users/" + userToken + "/transfer-methods", options);
+        if (options != null) {
+            url = addParameter(url, "type", options.getType());
+            url = addParameter(url, "status", options.getStatus());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferMethod>>() {
         });
