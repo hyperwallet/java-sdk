@@ -10,6 +10,7 @@ public class HyperwalletReceiptPaginationOptionsTest extends BaseModelTest<Hyper
         HyperwalletReceiptPaginationOptions options = new HyperwalletReceiptPaginationOptions();
         options
                 .type(HyperwalletReceipt.Type.ADJUSTMENT)
+                .currency("USD")
                 .createdAfter(new Date())
                 .createdBefore(new Date())
                 .limit(10)
