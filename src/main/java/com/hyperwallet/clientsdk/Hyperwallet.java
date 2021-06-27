@@ -988,6 +988,7 @@ public class Hyperwallet {
     public HyperwalletList<HyperwalletTransfer> listTransfers(HyperwalletTransferListOptions options) {
         String url = paginate(this.url + "/transfers", options);
         if (options != null) {
+            url = addParameter(url, "clientTransferId", options.getClientTransferId());
             url = addParameter(url, "sourceToken", options.getSourceToken());
             url = addParameter(url, "destinationToken", options.getDestinationToken());
         }

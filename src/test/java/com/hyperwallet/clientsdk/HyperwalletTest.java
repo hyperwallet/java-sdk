@@ -3023,6 +3023,7 @@ public class HyperwalletTest {
 
         HyperwalletTransferListOptions options = new HyperwalletTransferListOptions();
         options
+                .clientTransferId("test-clientTransferId")
                 .sourceToken("test-source-token")
                 .destinationToken("test-destination-token")
                 .sortBy("test-sort-by")
@@ -3036,7 +3037,7 @@ public class HyperwalletTest {
         HyperwalletList<HyperwalletTransfer> resp = client.listTransfers(options);
         assertThat(resp, is(equalTo(response)));
 
-        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/transfers?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&sourceToken=test-source-token&destinationToken=test-destination-token"), Mockito.any(TypeReference.class));
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/transfers?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&clientTransferId=test-clientTransferId&sourceToken=test-source-token&destinationToken=test-destination-token"), Mockito.any(TypeReference.class));
     }
 
     @Test
