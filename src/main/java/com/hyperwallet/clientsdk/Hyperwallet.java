@@ -2161,8 +2161,9 @@ public class Hyperwallet {
      * */
     public HyperwalletList<HyperwalletWebhookNotification> listWebhookEvents(HyperwalletWebhookNotificationPaginationOptions options) {
         String url = paginate(this.url + "/webhook-notifications", options);
-        if (options != null && options.getType() != null) {
+        if (options != null) {
             url = addParameter(url, "type", options.getType());
+            url = addParameter(url, "programToken", options.getProgramToken());
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletWebhookNotification>>() {});
     }

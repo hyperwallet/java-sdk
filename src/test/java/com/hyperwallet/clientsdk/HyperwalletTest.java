@@ -6849,6 +6849,7 @@ public class HyperwalletTest {
 
         HyperwalletWebhookNotificationPaginationOptions options = new HyperwalletWebhookNotificationPaginationOptions();
         options
+                .programToken("test-program-token")
                 .type(HyperwalletWebhookNotification.Type.PREPAID_CARD_CREATED.toString())
                 .sortBy("test-sort-by")
                 .offset(5)
@@ -6861,7 +6862,7 @@ public class HyperwalletTest {
         HyperwalletList<HyperwalletWebhookNotification> resp = client.listWebhookEvents(options);
         assertThat(resp, is(equalTo(response)));
 
-        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/webhook-notifications?createdAfter=2016-08-24T13:56:26Z&createdBefore=2016-08-24T13:56:26Z&sortBy=test-sort-by&offset=5&limit=10&type=USERS.PREPAID_CARDS.CREATED"), Mockito.any(TypeReference.class));
+        Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/webhook-notifications?createdAfter=2016-08-24T13:56:26Z&createdBefore=2016-08-24T13:56:26Z&sortBy=test-sort-by&offset=5&limit=10&type=USERS.PREPAID_CARDS.CREATED&programToken=test-program-token"), Mockito.any(TypeReference.class));
     }
 
     @Test
