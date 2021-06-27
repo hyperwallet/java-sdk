@@ -5452,6 +5452,7 @@ public class HyperwalletTest {
 
         HyperwalletBalanceListOptions options = new HyperwalletBalanceListOptions();
         options
+                .currency("USD")
                 .sortBy("test-sort-by")
                 .offset(5)
                 .limit(10)
@@ -5574,6 +5575,7 @@ public class HyperwalletTest {
 
         HyperwalletBalanceListOptions options = new HyperwalletBalanceListOptions();
         options
+                .currency("USD")
                 .sortBy("test-sort-by")
                 .offset(5)
                 .limit(10)
