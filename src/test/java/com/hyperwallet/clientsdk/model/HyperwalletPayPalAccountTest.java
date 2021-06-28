@@ -1,5 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
+import com.hyperwallet.clientsdk.model.HyperwalletPayPalAccount.Type;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +15,7 @@ public class HyperwalletPayPalAccountTest extends BaseModelTest<HyperwalletPayPa
         payPalAccount
                 .token("test-token")
                 .status(HyperwalletPayPalAccount.Status.ACTIVATED)
+                .type(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")

@@ -1393,7 +1393,7 @@ public class Hyperwallet {
             throw new HyperwalletException("PayPal Account token may not be present");
         }
         if (payPalAccount.getType() == null) {
-            payPalAccount.setType(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT);
+            payPalAccount.setType(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT);
         }
         payPalAccount = copy(payPalAccount);
         payPalAccount.setStatus(null);

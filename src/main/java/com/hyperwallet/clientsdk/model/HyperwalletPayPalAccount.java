@@ -15,8 +15,9 @@ import java.util.List;
 public class HyperwalletPayPalAccount extends HyperwalletBaseMonitor {
 
     public enum Status {ACTIVATED, INVALID, VERIFIED,DE_ACTIVATED}
+    public enum Type {PAYPAL_ACCOUNT}
     private String token;
-    private HyperwalletTransferMethod.Type type;
+    private Type type;
     private Status status;
     private Date createdOn;
     private String transferMethodCountry;
@@ -47,16 +48,16 @@ public class HyperwalletPayPalAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletTransferMethod.Type getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(HyperwalletTransferMethod.Type type) {
+    public void setType(Type type) {
         addField("type", type);
         this.type = type;
     }
 
-    public HyperwalletPayPalAccount type(HyperwalletTransferMethod.Type type) {
+    public HyperwalletPayPalAccount type(Type type) {
         addField("type", type);
         this.type = type;
         return this;

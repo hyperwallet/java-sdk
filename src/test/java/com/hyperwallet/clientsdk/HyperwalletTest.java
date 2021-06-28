@@ -3632,7 +3632,7 @@ public class HyperwalletTest {
         assertThat(apiPayPalAccount.getTransferMethodCurrency(), is(equalTo("test-transfer-method-currency")));
         assertThat(apiPayPalAccount.getStatus(), is(nullValue()));
         assertThat(apiPayPalAccount.getCreatedOn(), is(nullValue()));
-        assertThat(apiPayPalAccount.getType(), is(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT));
+        assertThat(apiPayPalAccount.getType(), is(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT));
     }
 
     @Test
@@ -3642,7 +3642,7 @@ public class HyperwalletTest {
         payPalAccount.setTransferMethodCountry("test-transfer-method-country");
         payPalAccount.setTransferMethodCurrency("test-transfer-method-currency");
         payPalAccount.setStatus(HyperwalletPayPalAccount.Status.ACTIVATED);
-        payPalAccount.setType(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT);
+        payPalAccount.setType(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT);
         payPalAccount.setEmail("test-email");
         payPalAccount.setCreatedOn(new Date());
 
@@ -3668,7 +3668,7 @@ public class HyperwalletTest {
         assertThat(apiPayPalAccount.getTransferMethodCurrency(), is(equalTo("test-transfer-method-currency")));
         assertThat(apiPayPalAccount.getStatus(), is(nullValue()));
         assertThat(apiPayPalAccount.getCreatedOn(), is(nullValue()));
-        assertThat(apiPayPalAccount.getType(), is(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT));
+        assertThat(apiPayPalAccount.getType(), is(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT));
     }
 
     @Test

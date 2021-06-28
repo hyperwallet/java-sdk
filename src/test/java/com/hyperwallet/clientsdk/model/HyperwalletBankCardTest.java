@@ -20,11 +20,9 @@ public class HyperwalletBankCardTest extends BaseModelTest<HyperwalletBankCard> 
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")
-
                 .cardType(HyperwalletBankCard.CardType.DEBIT)
                 .cardNumber("test-card-number")
                 .cardBrand(HyperwalletBankCard.Brand.VISA)
-
                 .dateOfExpiry(new Date())
                 .cvv("cvv")
                 .processingTime("processing-time")
