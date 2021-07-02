@@ -15,6 +15,7 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
         user
                 .token("test-token")
                 .status(HyperwalletUser.Status.ACTIVATED)
+                .transition(HyperwalletUser.Status.ACTIVATED)
                 .verificationStatus(VerificationStatus.VERIFIED)
                 .createdOn(new Date())
                 .clientUserId("test-client-user-id")

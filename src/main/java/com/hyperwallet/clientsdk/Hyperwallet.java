@@ -284,11 +284,14 @@ public class Hyperwallet {
      * @param options          List filter option
      * @return HyperwalletList of HyperwalletStatusTransition
      */
-    public HyperwalletList<HyperwalletStatusTransition> listUserStatusTransitions(String userToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletStatusTransition> listUserStatusTransitions(String userToken, HyperwalletUsersListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
         String url = paginate(this.url + "/users/" + userToken + "/status-transitions", options);
+        if (options != null) {
+            url = addParameter(url, "transition", options.getTransition());
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletStatusTransition>>() {
         });
     }

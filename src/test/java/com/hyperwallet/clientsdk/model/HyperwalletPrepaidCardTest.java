@@ -11,8 +11,8 @@ public class HyperwalletPrepaidCardTest extends BaseModelTest<HyperwalletPrepaid
         prepaidCard
                 .token("test-token")
                 .type(HyperwalletTransferMethod.Type.PREPAID_CARD)
-
                 .status(HyperwalletTransferMethod.Status.ACTIVATED)
+                .transition(HyperwalletTransferMethod.Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")
