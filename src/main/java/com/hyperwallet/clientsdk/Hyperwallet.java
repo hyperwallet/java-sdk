@@ -522,7 +522,7 @@ public class Hyperwallet {
             throw new HyperwalletException("Prepaid Card token may not be present");
         }
         if (prepaidCard.getType() == null) {
-            prepaidCard.setType(HyperwalletTransferMethod.Type.PREPAID_CARD);
+            prepaidCard.setType(HyperwalletPrepaidCard.Type.PREPAID_CARD);
         }
         prepaidCard = copy(prepaidCard);
         prepaidCard.setStatus(null);
@@ -591,7 +591,7 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletPrepaidCard
      */
-    public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(String userToken, HyperwalletListPaginationOptions options) {
+    public HyperwalletList<HyperwalletPrepaidCard> listPrepaidCards(String userToken, HyperwalletPrepaidCardListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
@@ -981,7 +981,7 @@ public class Hyperwallet {
             throw new HyperwalletException("Paper Check token may not be present");
         }
         if (paperCheck.getType() == null) {
-            paperCheck.setType(HyperwalletTransferMethod.Type.PAPER_CHECK);
+            paperCheck.setType(HyperwalletPaperCheck.Type.PAPER_CHECK);
         }
         paperCheck = copy(paperCheck);
         paperCheck.setStatus(null);
@@ -1042,7 +1042,7 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletPaperCheck
      */
-    public HyperwalletList<HyperwalletPaperCheck> listPaperChecks(String userToken, HyperwalletListPaginationOptions options) {
+    public HyperwalletList<HyperwalletPaperCheck> listPaperChecks(String userToken, HyperwalletPaperCheckListPaginationOptions options) {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
@@ -2523,7 +2523,7 @@ public class Hyperwallet {
      * @param options   List filter option
      * @return HyperwalletList of HyperwalletTransferMethod
      */
-    public HyperwalletList<HyperwalletTransferMethod> listTransferMethods(String userToken, HyperwalletPaginationOptions options) {
+    public HyperwalletList<HyperwalletTransferMethod> listTransferMethods(String userToken, HyperwalletTransferMethodListOptions options) {
         String url = paginate(this.url + "/users/" + userToken + "/transfer-methods", options);
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");

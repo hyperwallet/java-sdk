@@ -16,10 +16,12 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
 
     public enum ShippingMethod {STANDARD,EXPEDITED}
     public enum GovernmentIdType {PASSPORT,NATIONAL_ID_CARD}
+    public enum Status {ACTIVATED,VERIFIED,INVALID,DE_ACTIVATED}
+    public enum Type{PAPER_CHECK}
 
-    private HyperwalletTransferMethod.Type type;
+    private Type type;
     private String token;
-    private HyperwalletTransferMethod.Status status;
+    private Status status;
     private Date createdOn;
 
     private String transferMethodCountry;
@@ -58,16 +60,16 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
     private String userToken;
     private List<HyperwalletLink> links;
 
-    public HyperwalletTransferMethod.Type getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(HyperwalletTransferMethod.Type type) {
+    public void setType(Type type) {
         addField("type", type);
         this.type = type;
     }
 
-    public HyperwalletPaperCheck type(HyperwalletTransferMethod.Type type) {
+    public HyperwalletPaperCheck type(Type type) {
         addField("type", type);
         this.type = type;
         return this;
@@ -100,16 +102,16 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletTransferMethod.Status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(HyperwalletTransferMethod.Status status) {
+    public void setStatus(Status status) {
         addField("status", status);
         this.status = status;
     }
 
-    public HyperwalletPaperCheck status(HyperwalletTransferMethod.Status status) {
+    public HyperwalletPaperCheck status(Status status) {
         addField("status", status);
         this.status = status;
         return this;

@@ -924,7 +924,7 @@ public class HyperwalletTest {
     public void testCreatePrepaidCard_noType() throws Exception {
         HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard();
         prepaidCard.setUserToken("test-user-token");
-        prepaidCard.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        prepaidCard.setStatus(HyperwalletPrepaidCard.Status.ACTIVATED);
         prepaidCard.setCreatedOn(new Date());
         prepaidCard.setCardType(HyperwalletPrepaidCard.CardType.VIRTUAL);
         prepaidCard.setTransferMethodCountry("test-transfer-method-country");
@@ -951,7 +951,7 @@ public class HyperwalletTest {
 
         HyperwalletPrepaidCard apiClientPrepaidCard = argument.getValue();
         assertThat(apiClientPrepaidCard, is(notNullValue()));
-        assertThat(apiClientPrepaidCard.getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
+        assertThat(apiClientPrepaidCard.getType(), is(equalTo(HyperwalletPrepaidCard.Type.PREPAID_CARD)));
         assertThat(apiClientPrepaidCard.getCardPackage(), is(equalTo("test-card-package")));
         assertThat(apiClientPrepaidCard.getStatus(), is(nullValue()));
         assertThat(apiClientPrepaidCard.getCreatedOn(), is(nullValue()));
@@ -966,8 +966,8 @@ public class HyperwalletTest {
     public void testCreatePrepaidCard_withType() throws Exception {
         HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard();
         prepaidCard.setUserToken("test-user-token");
-        prepaidCard.setType(HyperwalletTransferMethod.Type.BANK_ACCOUNT);
-        prepaidCard.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        prepaidCard.setType(HyperwalletPrepaidCard.Type.PREPAID_CARD);
+        prepaidCard.setStatus(HyperwalletPrepaidCard.Status.ACTIVATED);
         prepaidCard.setCreatedOn(new Date());
         prepaidCard.setCardType(HyperwalletPrepaidCard.CardType.VIRTUAL);
         prepaidCard.setTransferMethodCountry("test-transfer-method-country");
@@ -994,7 +994,7 @@ public class HyperwalletTest {
 
         HyperwalletPrepaidCard apiClientPrepaidCard = argument.getValue();
         assertThat(apiClientPrepaidCard, is(notNullValue()));
-        assertThat(apiClientPrepaidCard.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_ACCOUNT)));
+        assertThat(apiClientPrepaidCard.getType(), is(equalTo(HyperwalletPrepaidCard.Type.PREPAID_CARD)));
         assertThat(apiClientPrepaidCard.getCardPackage(), is(equalTo("test-card-package")));
         assertThat(apiClientPrepaidCard.getStatus(), is(nullValue()));
         assertThat(apiClientPrepaidCard.getCreatedOn(), is(nullValue()));
@@ -1089,7 +1089,7 @@ public class HyperwalletTest {
     public void testListPrepaidCards_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPrepaidCards(null, new HyperwalletListPaginationOptions());
+            client.listPrepaidCards(null, new HyperwalletPrepaidCardListPaginationOptions());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -1108,8 +1108,8 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
-        options.status(HyperwalletTransferMethod.Status.ACTIVATED)
+        HyperwalletPrepaidCardListPaginationOptions options = new HyperwalletPrepaidCardListPaginationOptions();
+        options.status(HyperwalletPrepaidCard.Status.ACTIVATED)
             .sortBy("test-sort-by")
             .limit(10)
             .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
@@ -1132,7 +1132,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
+        HyperwalletPrepaidCardListPaginationOptions options = new HyperwalletPrepaidCardListPaginationOptions();
         options
             .sortBy("test-sort-by")
             .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
@@ -2384,7 +2384,7 @@ public class HyperwalletTest {
     public void testCreatePaperCheck_noType() throws Exception {
         HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
         paperCheck.setUserToken("test-user-token");
-        paperCheck.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        paperCheck.setStatus(HyperwalletPaperCheck.Status.ACTIVATED);
         paperCheck.setCreatedOn(new Date());
         paperCheck.setAddressLine1("test-address-line1");
 
@@ -2405,7 +2405,7 @@ public class HyperwalletTest {
 
         HyperwalletPaperCheck apiClientPaperCheck = argument.getValue();
         assertThat(apiClientPaperCheck, is(notNullValue()));
-        assertThat(apiClientPaperCheck.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAPER_CHECK)));
+        assertThat(apiClientPaperCheck.getType(), is(equalTo(HyperwalletPaperCheck.Type.PAPER_CHECK)));
         assertThat(apiClientPaperCheck.getStatus(), is(nullValue()));
         assertThat(apiClientPaperCheck.getCreatedOn(), is(nullValue()));
     }
@@ -2414,8 +2414,8 @@ public class HyperwalletTest {
     public void testCreatePaperCheck_withType() throws Exception {
         HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
         paperCheck.setUserToken("test-user-token");
-        paperCheck.setType(HyperwalletTransferMethod.Type.PAPER_CHECK);
-        paperCheck.setStatus(HyperwalletTransferMethod.Status.ACTIVATED);
+        paperCheck.setType(HyperwalletPaperCheck.Type.PAPER_CHECK);
+        paperCheck.setStatus(HyperwalletPaperCheck.Status.ACTIVATED);
         paperCheck.setCreatedOn(new Date());
         paperCheck.setAddressLine1("test-address-line1");
 
@@ -2436,7 +2436,7 @@ public class HyperwalletTest {
 
         HyperwalletPaperCheck apiClienPaperCheck = argument.getValue();
         assertThat(apiClienPaperCheck, is(notNullValue()));
-        assertThat(apiClienPaperCheck.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAPER_CHECK)));
+        assertThat(apiClienPaperCheck.getType(), is(equalTo(HyperwalletPaperCheck.Type.PAPER_CHECK)));
         assertThat(apiClienPaperCheck.getStatus(), is(nullValue()));
         assertThat(apiClienPaperCheck.getCreatedOn(), is(nullValue()));
     }
@@ -2607,7 +2607,7 @@ public class HyperwalletTest {
     public void testListPaperChecks_withParameters_noUserToken() throws Exception {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         try {
-            client.listPaperChecks(null, new HyperwalletListPaginationOptions());
+            client.listPaperChecks(null, new HyperwalletPaperCheckListPaginationOptions ());
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
@@ -2626,8 +2626,8 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
-        options.status(HyperwalletTransferMethod.Status.PRE_ACTIVATED)
+        HyperwalletPaperCheckListPaginationOptions options = new HyperwalletPaperCheckListPaginationOptions ();
+        options.status(HyperwalletPaperCheck.Status.ACTIVATED)
             .sortBy("test-sort-by")
             .limit(10)
             .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
@@ -2650,7 +2650,7 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
+        HyperwalletPaperCheckListPaginationOptions  options = new HyperwalletPaperCheckListPaginationOptions ();
         options
             .sortBy("test-sort-by")
             .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"));
