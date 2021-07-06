@@ -15,7 +15,7 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
 
     private String token;
     private String status;
-
+    private String transition;
     private Date createdOn;
     private Double amount;
     private String currency;
@@ -68,6 +68,27 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     public HyperwalletPayment clearStatus() {
         clearField("status");
         status = null;
+        return this;
+    }
+
+
+    public String getTransition() {
+        return transition;
+    }
+
+    public void setTransition(String transition) {
+        this.transition = transition;
+    }
+
+    public HyperwalletPayment transition(String transition) {
+        addField("transition", transition);
+        this.transition = transition;
+        return this;
+    }
+
+    public HyperwalletPayment clearTransition() {
+        clearField("transition");
+        transition = null;
         return this;
     }
 

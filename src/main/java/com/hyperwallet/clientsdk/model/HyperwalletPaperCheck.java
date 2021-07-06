@@ -19,6 +19,8 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
     private HyperwalletTransferMethod.Type type;
     private String token;
     private HyperwalletTransferMethod.Status status;
+    private HyperwalletTransferMethod.Status transition;
+
     private Date createdOn;
 
     private String transferMethodCountry;
@@ -118,6 +120,28 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
         this.status = null;
         return this;
     }
+
+    public HyperwalletTransferMethod.Status getTransition() {
+        return transition;
+    }
+
+    public void setTransition(HyperwalletTransferMethod.Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+    }
+
+    public HyperwalletPaperCheck transition(HyperwalletTransferMethod.Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+        return this;
+    }
+
+    public HyperwalletPaperCheck clearTransition() {
+        clearField("transition");
+        this.status = null;
+        return this;
+    }
+
 
     public Date getCreatedOn() {
         return createdOn;

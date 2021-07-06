@@ -29,6 +29,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     private String token;
     private Status status;
+    private Status transition;
     private VerificationStatus verificationStatus;
     private Date createdOn;
     private String clientUserId;
@@ -105,6 +106,27 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     public HyperwalletUser clearStatus() {
         clearField("status");
         status = null;
+        return this;
+    }
+
+    public Status getTransition() {
+        return transition;
+    }
+
+    public void setTransition(Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+    }
+
+    public HyperwalletUser transition(Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+        return this;
+    }
+
+    public HyperwalletUser clearTransition() {
+        clearField("transition");
+        transition = null;
         return this;
     }
 
