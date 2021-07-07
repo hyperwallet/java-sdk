@@ -2134,6 +2134,7 @@ public class Hyperwallet {
         String url = paginate(this.url + "/payments", options);
         if (options != null) {
             url = addParameter(url, "clientPaymentId", options.getClientPaymentId());
+            url = addParameter(url, "releaseDate", convert(options.getReleaseDate()));
         }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletPayment>>() {
         });

@@ -19,13 +19,10 @@ public class HyperwalletPaymentTest extends BaseModelTest<HyperwalletPayment> {
                 .createdOn(new Date())
                 .amount(15.99)
                 .currency("test-currency")
-
                 .memo("test-memo")
                 .notes("test-note")
-
                 .purpose("test-purpose")
                 .releaseOn(new Date())
-
                 .destinationToken("test-destination-token")
                 .programToken("test-program-token")
                 .clientPaymentId("test-client-payment-id")
