@@ -138,7 +138,7 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
 
     public HyperwalletPaperCheck clearTransition() {
         clearField("transition");
-        this.status = null;
+        this.transition = null;
         return this;
     }
 

@@ -15,7 +15,7 @@
           "params": {
             "rel": "self"
           },
-          "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-f695ef43-9614-4e17-9269-902c234616c3/paypal-accounts/trm-da21954a-3910-4d70-b83d-0c2d96104394/status-transitions/sts-70ddc78a-0c14-4a72-8390-75d49ff376f2"
+          "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-f695ef43-9614-4e17-9269-902c234616c3/venmo-accounts/trm-da21954a-3910-4d70-b83d-0c2d96104394/status-transitions/sts-70ddc78a-0c14-4a72-8390-75d49ff376f2"
         }
       ]
     }
@@ -25,7 +25,7 @@
       "params": {
         "rel": "self"
       },
-      "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-f695ef43-9614-4e17-9269-902c234616c3/paypal-accounts/trm-da21954a-3910-4d70-b83d-0c2d96104394/status-transitions?offset=0&limit=10"
+      "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-f695ef43-9614-4e17-9269-902c234616c3/venmo-accounts/trm-da21954a-3910-4d70-b83d-0c2d96104394/status-transitions?offset=0&limit=10"
     }
   ]
 }

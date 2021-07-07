@@ -77,9 +77,9 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     }
 
     public void setTransition(String transition) {
+        addField("transition", transition);
         this.transition = transition;
     }
-
     public HyperwalletPayment transition(String transition) {
         addField("transition", transition);
         this.transition = transition;

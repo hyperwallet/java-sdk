@@ -10,6 +10,7 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
                 .type(HyperwalletTransferMethod.Type.PREPAID_CARD)
                 .status(HyperwalletTransferMethod.Status.ACTIVATED)
                 .transition(HyperwalletTransferMethod.Status.ACTIVATED)
+                .transition(HyperwalletTransferMethod.Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")
@@ -43,7 +44,6 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
                 .profileType(HyperwalletUser.ProfileType.BUSINESS)
                 .shippingMethod(HyperwalletPaperCheck.ShippingMethod.STANDARD)
                 .stateProvince("test-state-province")
-
                 .userToken("test-user-token");
         return paperCheck;
     }

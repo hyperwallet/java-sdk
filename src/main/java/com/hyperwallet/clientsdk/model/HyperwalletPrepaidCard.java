@@ -104,7 +104,7 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         return transition;
     }
 
-    public void getTransition(HyperwalletTransferMethod.Status transition) {
+    public void setTransition(HyperwalletTransferMethod.Status transition) {
         addField("transition", transition);
         this.transition = transition;
     }
