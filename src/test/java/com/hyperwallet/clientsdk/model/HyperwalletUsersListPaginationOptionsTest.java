@@ -8,6 +8,7 @@ public class HyperwalletUsersListPaginationOptionsTest extends BaseModelTest<Hyp
                 .email("test@test.com")
                 .programToken("test-prg-token")
                 .status(HyperwalletUser.Status.ACTIVATED)
+                .transition(HyperwalletUser.Status.ACTIVATED)
                 .verificationStatus(HyperwalletUser.VerificationStatus.REQUIRED);
 
         return options;

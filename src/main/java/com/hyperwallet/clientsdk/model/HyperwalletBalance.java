@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletBalance {
     private String currency;
-    private Double amount;
 
     public HyperwalletBalance() {
     }
@@ -23,19 +22,6 @@ public class HyperwalletBalance {
 
     public HyperwalletBalance currency(String currency) {
         this.currency = currency;
-        return this;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public HyperwalletBalance amount(Double amount) {
-        this.amount = amount;
         return this;
     }
 }

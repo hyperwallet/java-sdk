@@ -6,6 +6,8 @@ public class HyperwalletUsersListPaginationOptions extends HyperwalletPagination
     private String email;
     private String programToken;
     private HyperwalletUser.Status status;
+    private HyperwalletUser.Status transition;
+
     private HyperwalletUser.VerificationStatus verificationStatus;
 
     public String getClientUserId() {
@@ -60,6 +62,20 @@ public class HyperwalletUsersListPaginationOptions extends HyperwalletPagination
         this.status = status;
         return this;
     }
+
+    public HyperwalletUser.Status getTransition() {
+        return transition;
+    }
+
+    public void setTransition(HyperwalletUser.Status transition) {
+        this.transition = transition;
+    }
+
+    public HyperwalletUsersListPaginationOptions transition(HyperwalletUser.Status transition) {
+        this.transition = transition;
+        return this;
+    }
+
     public HyperwalletUser.VerificationStatus getVerificationStatus() {
         return verificationStatus;
     }

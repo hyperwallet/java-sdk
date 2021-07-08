@@ -12,6 +12,7 @@ public class HyperwalletVenmoAccountTest extends BaseModelTest<HyperwalletVenmoA
                 .type(HyperwalletTransferMethod.Type.VENMO_ACCOUNT)
                 .accountId("9620766696")
                 .status(HyperwalletTransferMethod.Status.ACTIVATED)
+                .transition(HyperwalletTransferMethod.Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")

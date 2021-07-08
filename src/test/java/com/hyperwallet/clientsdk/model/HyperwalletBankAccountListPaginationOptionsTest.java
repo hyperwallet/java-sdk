@@ -5,7 +5,8 @@ public class HyperwalletBankAccountListPaginationOptionsTest extends BaseModelTe
         HyperwalletBankAccountListPaginationOptions options = new HyperwalletBankAccountListPaginationOptions();
         options
                 .type(HyperwalletBankAccount.Type.BANK_ACCOUNT)
-                .status(HyperwalletBankAccount.Status.ACTIVATED);
+                .status(HyperwalletBankAccount.Status.ACTIVATED)
+                .transition(HyperwalletBankAccount.Status.ACTIVATED);
         return options;
     }
 

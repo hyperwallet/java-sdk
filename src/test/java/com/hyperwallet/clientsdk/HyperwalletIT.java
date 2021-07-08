@@ -261,7 +261,6 @@ public class HyperwalletIT {
     //
     // Prepaid Card
     //
-
     @Test
     public void testUpdatePrepaidCard() throws Exception {
         String functionality = "updatePrepaidCard";
@@ -1102,6 +1101,30 @@ public class HyperwalletIT {
     }
 
     @Test
+    public void testListBankAccountStatusTransitions() throws Exception {
+        String functionality = "listBankAccountStatusTransitions";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletStatusTransition> returnValue;
+        try {
+            returnValue = client.listBankAccountStatusTransitions("usr-f695ef43-9614-4e17-9269-902c234616c3",
+                    "trm-d69300ef-5011-486b-bd2e-bfd8b20fef26");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-1825afa2-61f1-4860-aa69-a65b9d14f556")));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-16T00:55:57 UTC"))));
+        assertThat(returnValue.getData().get(0).getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getToStatus(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getNotes(), is(equalTo("Closing this account.")));
+    }
+
+
+    @Test
     public void testListPayPalAccountStatusTransitions() throws Exception {
         String functionality = "listPayPalAccountStatusTransitions";
         initMockServer(functionality);
@@ -1176,6 +1199,57 @@ public class HyperwalletIT {
         assertThat(returnValue.getToStatus(), is(equalTo(DE_ACTIVATED)));
         assertThat(returnValue.getNotes(), is(equalTo("PayPal account is removed.")));
     }
+
+    @Test
+    public void testListVenmoAccountStatusTransitions() throws Exception {
+        String functionality = "listVenmoAccountStatusTransitions";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletStatusTransition> returnValue;
+        try {
+            returnValue = client.listVenmoAccountStatusTransitions("usr-f695ef43-9614-4e17-9269-902c234616c3",
+                    "trm-da21954a-3910-4d70-b83d-0c2d96104394");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.getOffset(), is(equalTo(0)));
+        assertThat(returnValue.getLimit(), is(equalTo(10)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-70ddc78a-0c14-4a72-8390-75d49ff376f2")));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2018-10-30T18:50:20 UTC"))));
+        assertThat(returnValue.getData().get(0).getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getToStatus(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getNotes(), is(equalTo("PayPal account is removed.")));
+    }
+
+    @Test
+    public void testListPrepaidCardStatusTransitions() throws Exception {
+        String functionality = "listPrepaidCardStatusTransitions";
+        initMockServer(functionality);
+
+        HyperwalletList<HyperwalletStatusTransition> returnValue;
+        try {
+            returnValue = client.listPrepaidCardStatusTransitions("usr-f695ef43-9614-4e17-9269-902c234616c3",
+                    "trm-da21954a-3910-4d70-b83d-0c2d96104394");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getCount(), is(equalTo(1)));
+        assertThat(returnValue.getOffset(), is(equalTo(0)));
+        assertThat(returnValue.getLimit(), is(equalTo(10)));
+        assertThat(returnValue.getData().get(0).getToken(), is(equalTo("sts-70ddc78a-0c14-4a72-8390-75d49ff376f2")));
+        assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2018-10-30T18:50:20 UTC"))));
+        assertThat(returnValue.getData().get(0).getTransition(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getFromStatus(), is(equalTo(ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getToStatus(), is(equalTo(DE_ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getNotes(), is(equalTo("PayPal account is removed.")));
+    }
+
 
     //
     // Payments

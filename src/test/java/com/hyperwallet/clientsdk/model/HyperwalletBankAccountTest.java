@@ -10,13 +10,12 @@ public class HyperwalletBankAccountTest extends BaseModelTest<HyperwalletBankAcc
         HyperwalletBankAccount bankAccount = new HyperwalletBankAccount();
         bankAccount
                 .token("test-token")
-
                 .type(HyperwalletBankAccount.Type.BANK_ACCOUNT)
                 .status(HyperwalletBankAccount.Status.ACTIVATED)
+                .transition(HyperwalletBankAccount.Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")
-
                 .bankName("test-bank-name")
                 .bankId("test-bank-id")
                 .branchName("test-branch-name")

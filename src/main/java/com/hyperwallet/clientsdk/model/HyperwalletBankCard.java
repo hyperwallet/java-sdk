@@ -21,6 +21,7 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     
     private Type type;
     private Status status;
+    private Status transition;
     private String token;
     private Date createdOn;
     private String transferMethodCountry;
@@ -95,6 +96,27 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     public HyperwalletBankCard clearStatus() {
         clearField("status");
         this.status = null;
+        return this;
+    }
+
+    public Status getTransition() {
+        return transition;
+    }
+
+    public void setTransition(Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+    }
+
+    public HyperwalletBankCard transition(Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+        return this;
+    }
+
+    public HyperwalletBankCard clearTransition() {
+        clearField("transition");
+        this.transition = null;
         return this;
     }
 

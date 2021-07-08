@@ -6,6 +6,7 @@ public class HyperwalletTransferListOptionsTest extends BaseModelTest<Hyperwalle
     protected HyperwalletTransferListOptions createBaseModel() {
         HyperwalletTransferListOptions options = new HyperwalletTransferListOptions();
         options
+                .clientTransferId("test-clientTransferId")
                 .sourceToken("source-token")
                 .destinationToken("destination-token")
                 .createdAfter(new Date())

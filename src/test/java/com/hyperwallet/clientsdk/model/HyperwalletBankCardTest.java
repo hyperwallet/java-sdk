@@ -9,6 +9,7 @@ public class HyperwalletBankCardTest extends BaseModelTest<HyperwalletBankCard> 
                 .token("test-token")
                 .type(HyperwalletBankCard.Type.BANK_CARD)
                 .status(HyperwalletBankCard.Status.ACTIVATED)
+                .transition(HyperwalletBankCard.Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")

@@ -16,6 +16,7 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
     private String token;
     private HyperwalletTransferMethod.Type type;
     private HyperwalletTransferMethod.Status status;
+    private HyperwalletTransferMethod.Status transition;
     private Date createdOn;
     private String transferMethodCountry;
     private String transferMethodCurrency;
@@ -85,6 +86,28 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
         this.status = null;
         return this;
     }
+
+    public HyperwalletTransferMethod.Status getTransition() {
+        return transition;
+    }
+
+    public void setTransition(HyperwalletTransferMethod.Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+    }
+
+    public HyperwalletVenmoAccount transition(HyperwalletTransferMethod.Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+        return this;
+    }
+
+    public HyperwalletVenmoAccount clearTransition() {
+        clearField("transition");
+        this.transition = null;
+        return this;
+    }
+
 
     public Date getCreatedOn() {
         return createdOn;
