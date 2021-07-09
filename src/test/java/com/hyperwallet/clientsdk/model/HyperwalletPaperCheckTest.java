@@ -1,5 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
+import com.hyperwallet.clientsdk.model.HyperwalletPaperCheck.Type;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,8 +14,8 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
         HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
         paperCheck
                 .token("test-token")
-                .type(HyperwalletTransferMethod.Type.PREPAID_CARD)
-                .status(HyperwalletTransferMethod.Status.ACTIVATED)
+                .type(HyperwalletPaperCheck.Type.PAPER_CHECK)
+                .status(HyperwalletPaperCheck.Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")

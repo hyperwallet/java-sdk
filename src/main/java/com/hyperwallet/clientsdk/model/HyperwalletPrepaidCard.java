@@ -21,11 +21,15 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
 
     public enum EReplacePrepaidCardReason {LOST_STOLEN, DAMAGED, COMPROMISED, EXPIRED, VIRTUAL_TO_PHYSICAL}
 
-    private HyperwalletTransferMethod.Type type;
+    public enum Status {PRE_ACTIVATED,ACTIVATED,SUSPENDED,LOST_OR_STOLEN,DE_ACTIVATED }
+
+    public enum Type{PREPAID_CARD}
+
+    private Type type;
 
     private String token;
 
-    private HyperwalletTransferMethod.Status status;
+    private Status status;
     private Date createdOn;
     private String transferMethodCountry;
     private String transferMethodCurrency;
@@ -42,16 +46,16 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     private String replacementOf;
     private EReplacePrepaidCardReason replacementReason;
 
-    public HyperwalletTransferMethod.Type getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(HyperwalletTransferMethod.Type type) {
+    public void setType(Type type) {
         addField("type", type);
         this.type = type;
     }
 
-    public HyperwalletPrepaidCard type(HyperwalletTransferMethod.Type type) {
+    public HyperwalletPrepaidCard type(Type type) {
         addField("type", type);
         this.type = type;
         return this;
@@ -84,16 +88,16 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletTransferMethod.Status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(HyperwalletTransferMethod.Status status) {
+    public void setStatus(Status status) {
         addField("status", status);
         this.status = status;
     }
 
-    public HyperwalletPrepaidCard status(HyperwalletTransferMethod.Status status) {
+    public HyperwalletPrepaidCard status(Status status) {
         addField("status", status);
         this.status = status;
         return this;

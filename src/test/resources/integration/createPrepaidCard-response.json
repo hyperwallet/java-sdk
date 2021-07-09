@@ -1,6 +1,6 @@
 {
   "token": "trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f",
-  "type": "BANK_CARD",
+  "type": "PREPAID_CARD",
   "status": "ACTIVATED",
   "links": [
     {

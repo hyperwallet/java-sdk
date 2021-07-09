@@ -41,7 +41,7 @@
     {
       "token": "trm-c8e4c164-7d5b-4b5b-8b6a-9c4d68c2a9fe",
       "type": "PREPAID_CARD",
-      "status": "PRE_ACTIVATED",
+      "status": "ACTIVATED",
       "verificationStatus": "NOT_REQUIRED",
       "createdOn": "2020-09-09T18:43:34",
       "transferMethodCountry": "US",
