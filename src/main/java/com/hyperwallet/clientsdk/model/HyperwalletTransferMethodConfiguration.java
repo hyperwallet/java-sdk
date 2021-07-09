@@ -38,7 +38,7 @@ public class HyperwalletTransferMethodConfiguration {
 
         public enum Category {ACCOUNT, INTERMEDIARY_ACCOUNT, PROFILE, ADDRESS}
 
-        public enum DataType {TEXT, SELECTION, BOOLEAN, NUMBER}
+        public enum DataType {TEXT, SELECTION, BOOLEAN, NUMBER, DATE, PHONE}
 
         private String name;
         private String label;
