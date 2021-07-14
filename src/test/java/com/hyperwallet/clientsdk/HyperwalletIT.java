@@ -4,6 +4,8 @@ import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.model.HyperwalletPrepaidCard.Brand;
 import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.CardType;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
+import com.hyperwallet.clientsdk.model.HyperwalletTransferMethodConfiguration.Field.DataType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.*;
 import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocumentReason.RejectReason;
 import com.hyperwallet.clientsdk.util.Multipart;
@@ -880,6 +882,32 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
     }
+
+    //
+    //TransferMethodConfiguration
+    //
+
+    @Test
+    public void testGetTransferMethodConfiguration() throws Exception {
+        String functionality = "getTransferMethodConfiguration";
+        initMockServer(functionality);
+
+        HyperwalletTransferMethodConfiguration returnValue;
+        try {
+            returnValue = client.getTransferMethodConfiguration("usr-b86ab524-2787-46e2-b536-5a70e37349f7","US","USD", Type.BANK_ACCOUNT, ProfileType.INDIVIDUAL);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getCountries().get(0), is(equalTo("US")));
+        assertThat(returnValue.getCurrencies().get(0), is(equalTo("USD")));
+        assertThat(returnValue.getFields().get(0).getDataType(), is(equalTo(DataType.NUMBER)));
+    }
+
+    //
+    //TransferStatusTransition
+    //
 
     @Test
     public void testCreateTransferStatusTransition() throws Exception {

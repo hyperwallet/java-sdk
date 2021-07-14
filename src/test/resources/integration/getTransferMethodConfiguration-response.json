@@ -1,0 +1,48 @@
+{
+  "countries": [
+    "US"
+  ],
+  "currencies": [
+    "USD"
+  ],
+  "type": "BANK_ACCOUNT",
+  "profileType": "INDIVIDUAL",
+  "fields": [
+    {
+      "name": "branchId",
+      "label": "Routing Number",
+      "category": "ACCOUNT",
+      "dataType": "NUMBER",
+      "isRequired": true,
+      "regularExpression": "[0-9]{9}",
+      "minLength": 9,
+      "maxLength": 9
+    },
+    {
+      "name": "bankAccountId",
+      "label": "Account Number",
+      "category": "ACCOUNT",
+      "dataType": "NUMBER",
+      "isRequired": true,
+      "regularExpression": "^(?![0-]+$)[0-9-]{4,20}$",
+      "minLength": 4,
+      "maxLength": 20
+    },
+    {
+      "name": "firstName",
+      "label": "First Name",
+      "category": "PROFILE",
+      "dataType": "TEXT",
+      "isRequired": true,
+      "regularExpression": "[a-zA-Z]"
+    }
+  ],
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v3/transfer-method-configurations/usr-b86ab524-2787-46e2-b536-5a70e37349f7"
+    }
+  ]
+}
