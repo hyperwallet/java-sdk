@@ -487,7 +487,6 @@ public class HyperwalletTest {
         Hyperwallet client = new Hyperwallet("test-username", "test-password");
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
-        //HyperwalletPaginationOptions options = new HyperwalletPaginationOptions();
         HyperwalletUsersListPaginationOptions options = new HyperwalletUsersListPaginationOptions();
 
         options
