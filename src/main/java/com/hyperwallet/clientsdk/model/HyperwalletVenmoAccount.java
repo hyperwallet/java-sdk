@@ -13,10 +13,13 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
 
+    public enum Type {VENMO_ACCOUNT}
+    public enum Status {ACTIVATED, VERIFIED, INVALID, DE_ACTIVATED}
     private String token;
-    private HyperwalletTransferMethod.Type type;
-    private HyperwalletTransferMethod.Status status;
-    private HyperwalletTransferMethod.Status transition;
+
+    private Type type;
+    private Status status;
+    private Status transition;
     private Date createdOn;
     private String transferMethodCountry;
     private String transferMethodCurrency;
@@ -45,16 +48,16 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletTransferMethod.Type getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(HyperwalletTransferMethod.Type type) {
+    public void setType(Type type) {
         addField("type", type);
         this.type = type;
     }
 
-    public HyperwalletVenmoAccount type(HyperwalletTransferMethod.Type type) {
+    public HyperwalletVenmoAccount type(Type type) {
         addField("type", type);
         this.type = type;
         return this;
@@ -66,16 +69,16 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletTransferMethod.Status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(HyperwalletTransferMethod.Status status) {
+    public void setStatus(Status status) {
         addField("status", status);
         this.status = status;
     }
 
-    public HyperwalletVenmoAccount status(HyperwalletTransferMethod.Status status) {
+    public HyperwalletVenmoAccount status(Status status) {
         addField("status", status);
         this.status = status;
         return this;
@@ -87,16 +90,16 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletTransferMethod.Status getTransition() {
+    public Status getTransition() {
         return transition;
     }
 
-    public void setTransition(HyperwalletTransferMethod.Status transition) {
+    public void setTransition(Status transition) {
         addField("transition", transition);
         this.transition = transition;
     }
 
-    public HyperwalletVenmoAccount transition(HyperwalletTransferMethod.Status transition) {
+    public HyperwalletVenmoAccount transition(Status transition) {
         addField("transition", transition);
         this.transition = transition;
         return this;

@@ -7,10 +7,9 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
         HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
         paperCheck
                 .token("test-token")
-                .type(HyperwalletTransferMethod.Type.PREPAID_CARD)
-                .status(HyperwalletTransferMethod.Status.ACTIVATED)
-                .transition(HyperwalletTransferMethod.Status.ACTIVATED)
-                .transition(HyperwalletTransferMethod.Status.ACTIVATED)
+                .type(HyperwalletPaperCheck.Type.PAPER_CHECK)
+                .status(HyperwalletPaperCheck.Status.ACTIVATED)
+                .transition(HyperwalletPaperCheck.Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")
