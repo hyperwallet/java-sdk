@@ -2,8 +2,22 @@ package com.hyperwallet.clientsdk.model;
 
 public class HyperwalletTransferListOptions extends HyperwalletPaginationOptions {
 
+    private String clientTransferId;
     private String sourceToken;
     private String destinationToken;
+
+    public String getClientTransferId() {
+        return clientTransferId;
+    }
+
+    public void setClientTransferId(String clientTransferId) {
+        this.clientTransferId = clientTransferId;
+    }
+
+    public HyperwalletTransferListOptions clientTransferId(String clientTransferId) {
+        this.clientTransferId = clientTransferId;
+        return this;
+    }
 
     public String getSourceToken() {
         return sourceToken;

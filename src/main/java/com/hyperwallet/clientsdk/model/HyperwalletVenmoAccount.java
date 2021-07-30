@@ -16,8 +16,10 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
     public enum Type {VENMO_ACCOUNT}
     public enum Status {ACTIVATED, VERIFIED, INVALID, DE_ACTIVATED}
     private String token;
+
     private Type type;
     private Status status;
+    private Status transition;
     private Date createdOn;
     private String transferMethodCountry;
     private String transferMethodCurrency;
@@ -87,6 +89,28 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
         this.status = null;
         return this;
     }
+
+    public Status getTransition() {
+        return transition;
+    }
+
+    public void setTransition(Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+    }
+
+    public HyperwalletVenmoAccount transition(Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+        return this;
+    }
+
+    public HyperwalletVenmoAccount clearTransition() {
+        clearField("transition");
+        this.transition = null;
+        return this;
+    }
+
 
     public Date getCreatedOn() {
         return createdOn;

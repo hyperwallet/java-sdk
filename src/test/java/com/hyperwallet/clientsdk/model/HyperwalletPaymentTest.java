@@ -9,15 +9,14 @@ public class HyperwalletPaymentTest extends BaseModelTest<HyperwalletPayment> {
     protected HyperwalletPayment createBaseModel() {
         HyperwalletPayment payment = new HyperwalletPayment();
         payment
-                .status("COMPLETED")
+                .status("SUSPENDED")
+                .transition("LOCKED")
                 .token("test-token")
                 .createdOn(new Date())
                 .amount(15.99)
                 .currency("test-currency")
-
                 .memo("test-memo")
                 .notes("test-note")
-
                 .purpose("test-purpose")
                 .releaseOn(new Date())
                 .expiresOn(new Date())

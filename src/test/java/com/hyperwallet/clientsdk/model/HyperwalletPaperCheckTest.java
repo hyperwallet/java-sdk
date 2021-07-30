@@ -9,11 +9,11 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
                 .token("test-token")
                 .type(HyperwalletPaperCheck.Type.PAPER_CHECK)
                 .status(HyperwalletPaperCheck.Status.ACTIVATED)
+                .transition(HyperwalletPaperCheck.Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")
                 .isDefaultTransferMethod(Boolean.FALSE)
-
                 .addressLine1("test-address-line1")
                 .addressLine2("test-address-line2")
                 .businessContactRole(HyperwalletUser.BusinessContactRole.OWNER)
@@ -43,7 +43,6 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
                 .profileType(HyperwalletUser.ProfileType.BUSINESS)
                 .shippingMethod(HyperwalletPaperCheck.ShippingMethod.STANDARD)
                 .stateProvince("test-state-province")
-
                 .userToken("test-user-token");
         return paperCheck;
     }

@@ -3,6 +3,7 @@ package com.hyperwallet.clientsdk.model;
 public class HyperwalletReceiptPaginationOptions extends HyperwalletPaginationOptions {
 
     private HyperwalletReceipt.Type type;
+    private String currency;
 
     public HyperwalletReceipt.Type getType() {
         return type;
@@ -17,4 +18,16 @@ public class HyperwalletReceiptPaginationOptions extends HyperwalletPaginationOp
         return this;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public HyperwalletReceiptPaginationOptions currency(String currency) {
+        this.currency = currency;
+        return this;
+    }
 }

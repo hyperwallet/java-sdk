@@ -22,6 +22,8 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     private Type type;
     private String token;
     private Status status;
+    private Status transition;
+
     private Date createdOn;
     private String transferMethodCountry;
     private String transferMethodCurrency;
@@ -96,6 +98,28 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         this.status = null;
         return this;
     }
+
+    public Status getTransition() {
+        return transition;
+    }
+
+    public void setTransition(Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+    }
+
+    public HyperwalletPrepaidCard transition(Status transition) {
+        addField("transition", transition);
+        this.transition = transition;
+        return this;
+    }
+
+    public HyperwalletPrepaidCard clearTransition() {
+        clearField("transition");
+        this.transition = null;
+        return this;
+    }
+
 
     public Date getCreatedOn() {
         return createdOn;
