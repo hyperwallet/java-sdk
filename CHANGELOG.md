@@ -1,5 +1,11 @@
 Changelog
 =========
+1.7.5 
+-----------------
+- Bugfix for Phone and Date fields in HyperwalletTransferMethodConfiguration 
+- Added query parameters to list methods for Venmo Accounts,Prepaid Cards,Paper Checks,Transfer Methods,Payments
+   Transfers, Spendback, Balances, Receipts, Webhook notifications, Status Transitions
+
 1.7.4 
 -----------------
 - Fixed multipart upload 
