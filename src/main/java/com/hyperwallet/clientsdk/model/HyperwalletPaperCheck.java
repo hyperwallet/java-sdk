@@ -14,19 +14,10 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
 
-    public enum ShippingMethod {STANDARD, EXPEDITED}
-
-    public enum GovernmentIdType {PASSPORT, NATIONAL_ID_CARD}
-
-    public enum Status {ACTIVATED, VERIFIED, INVALID, DE_ACTIVATED}
-
-    public enum Type {PAPER_CHECK}
-
     private Type type;
     private String token;
     private Status status;
     private Date createdOn;
-
     private String transferMethodCountry;
     private String transferMethodCurrency;
     private Boolean isDefaultTransferMethod;
@@ -59,7 +50,6 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
     private HyperwalletUser.ProfileType profileType;
     private ShippingMethod shippingMethod;
     private String stateProvince;
-
     private String userToken;
     private List<HyperwalletLink> links;
 
@@ -819,7 +809,6 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
         return this;
     }
 
-
     public String getUserToken() {
         return userToken;
     }
@@ -861,4 +850,12 @@ public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
         this.links = null;
         return this;
     }
+
+    public enum ShippingMethod {STANDARD, EXPEDITED}
+
+    public enum GovernmentIdType {PASSPORT, NATIONAL_ID_CARD}
+
+    public enum Status {ACTIVATED, VERIFIED, INVALID, DE_ACTIVATED}
+
+    public enum Type {PAPER_CHECK}
 }

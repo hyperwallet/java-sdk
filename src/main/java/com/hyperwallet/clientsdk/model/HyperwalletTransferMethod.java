@@ -15,16 +15,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
 
-    public enum Type {BANK_ACCOUNT, WIRE_ACCOUNT, PREPAID_CARD, BANK_CARD, PAPER_CHECK, PAYPAL_ACCOUNT, VENMO_ACCOUNT}
-
-    public enum Status {ACTIVATED, INVALID, DE_ACTIVATED}
-
-    public enum CardType {PERSONALIZED, INSTANT_ISSUE, VIRTUAL}
-
-    public static enum VerificationStatus {EXPIRED, FAILED, UNDER_REVIEW, VERIFIED, REQUIRED, NOT_REQUIRED, READY_FOR_REVIEW, REQUESTED}
-
     private String token;
-
     private Type type;
     private Status status;
     private VerificationStatus verificationStatus;
@@ -53,7 +44,6 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
     private String intermediaryBankStateProvince;
     private String intermediaryBankCountry;
     private String intermediaryBankPostalCode;
-
     private CardType cardType;
     private String cardPackage;
     private String cardNumber;
@@ -61,9 +51,7 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
     @JsonFormat(pattern = "yyyy-MM", timezone = "UTC")
     private Date dateOfExpiry;
     private String cvv;
-
     private String userToken;
-
     private HyperwalletUser.ProfileType profileType;
     private String businessName;
     private String businessOperatingName;
@@ -1414,4 +1402,12 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
         this.links = null;
         return this;
     }
+
+    public enum Type {BANK_ACCOUNT, WIRE_ACCOUNT, PREPAID_CARD, BANK_CARD, PAPER_CHECK, PAYPAL_ACCOUNT, VENMO_ACCOUNT}
+
+    public enum Status {ACTIVATED, INVALID, DE_ACTIVATED}
+
+    public enum CardType {PERSONALIZED, INSTANT_ISSUE, VIRTUAL}
+
+    public enum VerificationStatus {EXPIRED, FAILED, UNDER_REVIEW, VERIFIED, REQUIRED, NOT_REQUIRED, READY_FOR_REVIEW, REQUESTED}
 }

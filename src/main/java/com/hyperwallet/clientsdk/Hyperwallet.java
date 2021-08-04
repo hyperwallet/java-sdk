@@ -2559,6 +2559,12 @@ public class Hyperwallet {
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
         }
+
+        if (options != null && options.getStatus() != null) {
+            url = addParameter(url, "status", options.getStatus());
+            url = addParameter(url, "type", options.getType());
+
+        }
         return apiClient.get(url, new TypeReference<HyperwalletList<HyperwalletTransferMethod>>() {
         });
     }

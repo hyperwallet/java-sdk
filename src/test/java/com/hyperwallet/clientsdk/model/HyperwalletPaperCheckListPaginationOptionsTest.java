@@ -3,6 +3,7 @@ package com.hyperwallet.clientsdk.model;
 
 public class HyperwalletPaperCheckListPaginationOptionsTest extends BaseModelTest<HyperwalletPaperCheckListPaginationOptions> {
 
+    @Override
     protected HyperwalletPaperCheckListPaginationOptions createBaseModel() {
         HyperwalletPaperCheckListPaginationOptions options = new HyperwalletPaperCheckListPaginationOptions();
         options
@@ -11,6 +12,7 @@ public class HyperwalletPaperCheckListPaginationOptionsTest extends BaseModelTes
         return options;
     }
 
+    @Override
     protected Class<HyperwalletPaperCheckListPaginationOptions> createModelClass() {
         return HyperwalletPaperCheckListPaginationOptions.class;
     }
