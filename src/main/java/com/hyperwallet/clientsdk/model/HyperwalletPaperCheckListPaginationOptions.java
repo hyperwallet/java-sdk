@@ -1,7 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
 
-public class HyperwalletPaperCheckListPaginationOptions extends HyperwalletPaginationOptions{
+public class HyperwalletPaperCheckListPaginationOptions extends HyperwalletPaginationOptions {
 
     private HyperwalletPaperCheck.Status status;
 

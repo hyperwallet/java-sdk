@@ -1,6 +1,6 @@
 package com.hyperwallet.clientsdk.model;
 
-public class HyperwalletPrepaidCardListPaginationOptions extends HyperwalletPaginationOptions{
+public class HyperwalletPrepaidCardListPaginationOptions extends HyperwalletPaginationOptions {
 
     private HyperwalletPrepaidCard.Status status;
 
@@ -13,10 +13,10 @@ public class HyperwalletPrepaidCardListPaginationOptions extends HyperwalletPagi
         this.status = status;
     }
 
-        public HyperwalletPrepaidCardListPaginationOptions status(HyperwalletPrepaidCard.Status status) {
-            this.status = status;
-            return this;
-        }
+    public HyperwalletPrepaidCardListPaginationOptions status(HyperwalletPrepaidCard.Status status) {
+        this.status = status;
+        return this;
+    }
 
 }
 
