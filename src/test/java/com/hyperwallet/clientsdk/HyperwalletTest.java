@@ -1935,11 +1935,19 @@ public class HyperwalletTest {
 
         HyperwalletBankCardListPaginationOptions options = new HyperwalletBankCardListPaginationOptions();
         options
+<<<<<<< HEAD
+            .status(HyperwalletBankCard.Status.ACTIVATED)
+            .sortBy("test-sort-by")
+            .limit(10)
+            .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
+            .createdBefore(convertStringToDate("2019-06-29T17:58:26Z"));
+=======
                 .status(HyperwalletBankCard.Status.ACTIVATED)
                 .sortBy("test-sort-by")
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
                 .createdBefore(convertStringToDate("2019-06-29T17:58:26Z"));
+>>>>>>> eeeca2b2e7d3148d6ebed160923ed7f7157002a0
 
         Mockito.when(mockApiClient.get(ArgumentMatchers.anyString(), ArgumentMatchers.any(TypeReference.class))).thenReturn(response);
 

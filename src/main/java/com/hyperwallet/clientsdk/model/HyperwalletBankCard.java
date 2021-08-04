@@ -15,6 +15,16 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletBankCard extends HyperwalletBaseMonitor {
 
+<<<<<<< HEAD
+    public enum Brand {VISA, MASTERCARD}
+
+    public enum CardType {DEBIT}
+
+    public enum Type {BANK_CARD}
+
+    public enum Status {ACTIVATED, INVALID, VERIFIED,DE_ACTIVATED}
+=======
+>>>>>>> eeeca2b2e7d3148d6ebed160923ed7f7157002a0
     private Type type;
     private String token;
     private Status status;

@@ -2,6 +2,7 @@ package com.hyperwallet.clientsdk;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.model.HyperwalletBankCard.Type;
 import com.hyperwallet.clientsdk.util.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -785,7 +786,11 @@ public class Hyperwallet {
             throw new HyperwalletException("Bank Card token may not be present");
         }
         if (bankCard.getType() == null) {
+<<<<<<< HEAD
+            bankCard.setType(Type.BANK_CARD);
+=======
             bankCard.setType(HyperwalletBankCard.Type.BANK_CARD);
+>>>>>>> eeeca2b2e7d3148d6ebed160923ed7f7157002a0
         }
         bankCard = copy(bankCard);
         bankCard.setStatus(null);
@@ -849,6 +854,10 @@ public class Hyperwallet {
      * @return HyperwalletList of HyperwalletBankCard
      */
     public HyperwalletList<HyperwalletBankCard> listBankCards(String userToken, HyperwalletBankCardListPaginationOptions options) {
+<<<<<<< HEAD
+
+=======
+>>>>>>> eeeca2b2e7d3148d6ebed160923ed7f7157002a0
 
         if (StringUtils.isEmpty(userToken)) {
             throw new HyperwalletException("User token is required");
