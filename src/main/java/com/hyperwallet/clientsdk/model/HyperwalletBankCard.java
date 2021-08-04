@@ -3,6 +3,7 @@ package com.hyperwallet.clientsdk.model;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,6 +15,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletBankCard extends HyperwalletBaseMonitor {
 
+<<<<<<< HEAD
     public enum Brand {VISA, MASTERCARD}
 
     public enum CardType {DEBIT}
@@ -21,11 +23,12 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     public enum Type {BANK_CARD}
 
     public enum Status {ACTIVATED, INVALID, VERIFIED,DE_ACTIVATED}
+=======
+>>>>>>> eeeca2b2e7d3148d6ebed160923ed7f7157002a0
     private Type type;
     private String token;
     private Status status;
     private Date createdOn;
-
     private String transferMethodCountry;
     private String transferMethodCurrency;
     private Brand cardBrand;
@@ -34,7 +37,6 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     @JsonFormat(pattern = "yyyy-MM", timezone = "UTC")
     private Date dateOfExpiry;
     private String cvv;
-
     private String userToken;
     private String processingTime;
     private List<HyperwalletLink> links;
@@ -186,7 +188,6 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-
     public Date getDateOfExpiry() {
         return dateOfExpiry;
     }
@@ -333,4 +334,12 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
         this.links = null;
         return this;
     }
+
+    public enum Brand {VISA, MASTERCARD}
+
+    public enum CardType {DEBIT}
+
+    public enum Type {BANK_CARD}
+
+    public enum Status {ACTIVATED, INVALID, VERIFIED, DE_ACTIVATED}
 }
