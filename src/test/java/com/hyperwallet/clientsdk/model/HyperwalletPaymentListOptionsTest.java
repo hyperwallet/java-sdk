@@ -9,7 +9,8 @@ import java.util.Locale;
  * @author fkrauthan
  */
 public class HyperwalletPaymentListOptionsTest extends BaseModelTest<HyperwalletPaymentListOptions> {
-    protected HyperwalletPaymentListOptions createBaseModel()  {
+
+    protected HyperwalletPaymentListOptions createBaseModel() {
         HyperwalletPaymentListOptions options = new HyperwalletPaymentListOptions();
         options
                 .clientPaymentId("test-clientPaymentId");

@@ -2,6 +2,7 @@ package com.hyperwallet.clientsdk.model;
 
 
 public class HyperwalletPrepaidCardListPaginationOptionsTest extends BaseModelTest<HyperwalletPrepaidCardListPaginationOptions> {
+
     protected HyperwalletPrepaidCardListPaginationOptions createBaseModel() {
         HyperwalletPrepaidCardListPaginationOptions options = new HyperwalletPrepaidCardListPaginationOptions();
         options

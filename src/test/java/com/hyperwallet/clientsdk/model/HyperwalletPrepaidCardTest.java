@@ -10,6 +10,7 @@ import java.util.List;
  * @author fkrauthan
  */
 public class HyperwalletPrepaidCardTest extends BaseModelTest<HyperwalletPrepaidCard> {
+
     protected HyperwalletPrepaidCard createBaseModel() {
         HyperwalletPrepaidCard prepaidCard = new HyperwalletPrepaidCard();
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();

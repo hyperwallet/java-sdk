@@ -1,12 +1,12 @@
 package com.hyperwallet.clientsdk.model;
 
-import com.hyperwallet.clientsdk.model.HyperwalletPaperCheck.Type;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperCheck> {
+
+    @Override
     protected HyperwalletPaperCheck createBaseModel() {
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
@@ -56,6 +56,7 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
         return paperCheck;
     }
 
+    @Override
     protected Class<HyperwalletPaperCheck> createModelClass() {
         return HyperwalletPaperCheck.class;
     }

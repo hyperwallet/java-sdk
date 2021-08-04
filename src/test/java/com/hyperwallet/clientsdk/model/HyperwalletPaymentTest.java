@@ -8,6 +8,7 @@ import java.util.List;
  * @author fkrauthan
  */
 public class HyperwalletPaymentTest extends BaseModelTest<HyperwalletPayment> {
+
     protected HyperwalletPayment createBaseModel() {
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();

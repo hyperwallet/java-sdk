@@ -14,10 +14,13 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletPaperCheck extends HyperwalletBaseMonitor {
 
-    public enum ShippingMethod {STANDARD,EXPEDITED}
-    public enum GovernmentIdType {PASSPORT,NATIONAL_ID_CARD}
-    public enum Status {ACTIVATED,VERIFIED,INVALID,DE_ACTIVATED}
-    public enum Type{PAPER_CHECK}
+    public enum ShippingMethod {STANDARD, EXPEDITED}
+
+    public enum GovernmentIdType {PASSPORT, NATIONAL_ID_CARD}
+
+    public enum Status {ACTIVATED, VERIFIED, INVALID, DE_ACTIVATED}
+
+    public enum Type {PAPER_CHECK}
 
     private Type type;
     private String token;

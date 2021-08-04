@@ -6,6 +6,7 @@ import java.util.List;
 
 public class HyperwalletVenmoAccountTest extends BaseModelTest<HyperwalletVenmoAccount> {
 
+    @Override
     protected HyperwalletVenmoAccount createBaseModel() {
 
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
@@ -27,6 +28,7 @@ public class HyperwalletVenmoAccountTest extends BaseModelTest<HyperwalletVenmoA
         return venmoAccount;
     }
 
+    @Override
     protected Class<HyperwalletVenmoAccount> createModelClass() {
         return HyperwalletVenmoAccount.class;
     }

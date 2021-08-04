@@ -1,8 +1,8 @@
 package com.hyperwallet.clientsdk.model;
 
-import java.util.Date;
-
 public class HyperwalletStatusTransitionListPaginationOptionsTest extends BaseModelTest<HyperwalletStatusTransitionListPaginationOptions> {
+
+    @Override
     protected HyperwalletStatusTransitionListPaginationOptions createBaseModel() {
         HyperwalletStatusTransitionListPaginationOptions options = new HyperwalletStatusTransitionListPaginationOptions();
         options
@@ -11,6 +11,7 @@ public class HyperwalletStatusTransitionListPaginationOptionsTest extends BaseMo
         return options;
     }
 
+    @Override
     protected Class<HyperwalletStatusTransitionListPaginationOptions> createModelClass() {
         return HyperwalletStatusTransitionListPaginationOptions.class;
     }

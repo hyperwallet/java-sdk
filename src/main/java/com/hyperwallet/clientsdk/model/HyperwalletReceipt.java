@@ -12,7 +12,9 @@ import java.util.Map;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletReceipt {
 
-    public static enum Entry { DEBIT, CREDIT };
+    public static enum Entry {DEBIT, CREDIT}
+
+    ;
 
     public static enum Type {
         // Generic Fees
@@ -192,6 +194,7 @@ public class HyperwalletReceipt {
         SECURITY_ANSWER("securityAnswer");
 
         private String key;
+
         DetailFieldKey(String key) {
             this.key = key;
         }

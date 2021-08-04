@@ -88,7 +88,7 @@ public class HyperwalletTransferMethodConfigurationTest {
         HyperwalletLink link = new HyperwalletLink();
         link.setHref("https://localhost:8181/test");
         Map<String, String> params = new HashMap<>();
-        params.put("rel","self");
+        params.put("rel", "self");
         link.setParams(params);
         List<HyperwalletLink> links = new ArrayList<HyperwalletLink>();
         links.add(link);

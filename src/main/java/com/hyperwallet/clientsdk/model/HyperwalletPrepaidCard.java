@@ -21,9 +21,9 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
 
     public enum EReplacePrepaidCardReason {LOST_STOLEN, DAMAGED, COMPROMISED, EXPIRED, VIRTUAL_TO_PHYSICAL}
 
-    public enum Status {PRE_ACTIVATED,ACTIVATED,SUSPENDED,LOST_OR_STOLEN,DE_ACTIVATED }
+    public enum Status {PRE_ACTIVATED, ACTIVATED, SUSPENDED, LOST_OR_STOLEN, DE_ACTIVATED}
 
-    public enum Type{PREPAID_CARD}
+    public enum Type {PREPAID_CARD}
 
     private Type type;
 

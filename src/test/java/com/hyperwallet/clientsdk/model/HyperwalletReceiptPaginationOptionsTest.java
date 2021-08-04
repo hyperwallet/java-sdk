@@ -6,6 +6,8 @@ import java.util.Date;
  * @author fkrauthan
  */
 public class HyperwalletReceiptPaginationOptionsTest extends BaseModelTest<HyperwalletReceiptPaginationOptions> {
+
+    @Override
     protected HyperwalletReceiptPaginationOptions createBaseModel() {
         HyperwalletReceiptPaginationOptions options = new HyperwalletReceiptPaginationOptions();
         options
@@ -17,6 +19,7 @@ public class HyperwalletReceiptPaginationOptionsTest extends BaseModelTest<Hyper
         return options;
     }
 
+    @Override
     protected Class<HyperwalletReceiptPaginationOptions> createModelClass() {
         return HyperwalletReceiptPaginationOptions.class;
     }

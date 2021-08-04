@@ -13,6 +13,8 @@ import static org.hamcrest.Matchers.*;
  * @author fkrauthan
  */
 public class HyperwalletStatusTransitionTest extends BaseModelTest<HyperwalletStatusTransition> {
+
+    @Override
     protected HyperwalletStatusTransition createBaseModel() {
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
@@ -29,6 +31,7 @@ public class HyperwalletStatusTransitionTest extends BaseModelTest<HyperwalletSt
         return transition;
     }
 
+    @Override
     protected Class<HyperwalletStatusTransition> createModelClass() {
         return HyperwalletStatusTransition.class;
     }
