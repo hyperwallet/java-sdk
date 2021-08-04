@@ -1,6 +1,8 @@
 package com.hyperwallet.clientsdk.model;
 
-public class HyperwalletPayPalListPaginationOptionsTest extends BaseModelTest<HyperwalletPayPalAccountListPaginationOptions>{
+public class HyperwalletPayPalListPaginationOptionsTest extends BaseModelTest<HyperwalletPayPalAccountListPaginationOptions> {
+
+    @Override
     protected HyperwalletPayPalAccountListPaginationOptions createBaseModel() {
         HyperwalletPayPalAccountListPaginationOptions options = new HyperwalletPayPalAccountListPaginationOptions();
         options
@@ -8,6 +10,7 @@ public class HyperwalletPayPalListPaginationOptionsTest extends BaseModelTest<Hy
         return options;
     }
 
+    @Override
     protected Class<HyperwalletPayPalAccountListPaginationOptions> createModelClass() {
         return HyperwalletPayPalAccountListPaginationOptions.class;
     }

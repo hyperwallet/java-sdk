@@ -15,8 +15,6 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
 
-    public enum Status {ACTIVATED, INVALID, VERIFIED,DE_ACTIVATED}
-    public enum Type {VENMO_ACCOUNT}
     private String token;
     private Type type;
     private Status status;
@@ -27,7 +25,6 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
     private String accountId;
     private String userToken;
     private List<HyperwalletLink> links;
-
 
     public String getToken() {
         return token;
@@ -127,7 +124,6 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
         this.transferMethodCountry = transferMethodCountry;
         return this;
     }
-
 
     public HyperwalletVenmoAccount clearTransferMethodCountry() {
         clearField("transferMethodCountry");
@@ -239,5 +235,9 @@ public class HyperwalletVenmoAccount extends HyperwalletBaseMonitor {
         this.links = null;
         return this;
     }
+
+    public enum Status {ACTIVATED, INVALID, VERIFIED, DE_ACTIVATED}
+
+    public enum Type {VENMO_ACCOUNT}
 
 }

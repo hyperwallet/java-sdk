@@ -3,7 +3,7 @@ package com.hyperwallet.clientsdk.model;
 import com.hyperwallet.clientsdk.model.HyperwalletVenmoAccount.Status;
 import com.hyperwallet.clientsdk.model.HyperwalletVenmoAccount.Type;
 
-public class HyperwalletVenmoAccountListPaginationOptions extends HyperwalletPaginationOptions{
+public class HyperwalletVenmoAccountListPaginationOptions extends HyperwalletPaginationOptions {
 
     private HyperwalletVenmoAccount.Status status;
     private HyperwalletVenmoAccount.Type type;
@@ -16,7 +16,7 @@ public class HyperwalletVenmoAccountListPaginationOptions extends HyperwalletPag
         this.status = status;
     }
 
-    public HyperwalletVenmoAccountListPaginationOptions status(HyperwalletVenmoAccount.Status status){
+    public HyperwalletVenmoAccountListPaginationOptions status(HyperwalletVenmoAccount.Status status) {
         this.status = status;
         return this;
     }
@@ -28,7 +28,8 @@ public class HyperwalletVenmoAccountListPaginationOptions extends HyperwalletPag
     public void setType(Type type) {
         this.type = type;
     }
-    public HyperwalletVenmoAccountListPaginationOptions type(HyperwalletVenmoAccount.Type type){
+
+    public HyperwalletVenmoAccountListPaginationOptions type(HyperwalletVenmoAccount.Type type) {
         this.type = type;
         return this;
     }

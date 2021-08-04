@@ -1,6 +1,8 @@
 package com.hyperwallet.clientsdk.model;
 
 public class HyperwalletVenmoAccountListPaginationOptionsTest extends BaseModelTest<HyperwalletVenmoAccountListPaginationOptions> {
+
+    @Override
     protected HyperwalletVenmoAccountListPaginationOptions createBaseModel() {
         HyperwalletVenmoAccountListPaginationOptions options = new HyperwalletVenmoAccountListPaginationOptions();
         options
@@ -10,6 +12,7 @@ public class HyperwalletVenmoAccountListPaginationOptionsTest extends BaseModelT
         return options;
     }
 
+    @Override
     protected Class<HyperwalletVenmoAccountListPaginationOptions> createModelClass() {
         return HyperwalletVenmoAccountListPaginationOptions.class;
     }

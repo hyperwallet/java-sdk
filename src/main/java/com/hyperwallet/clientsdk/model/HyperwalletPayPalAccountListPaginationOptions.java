@@ -1,7 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
-public class HyperwalletPayPalAccountListPaginationOptions extends HyperwalletPaginationOptions
-{
+public class HyperwalletPayPalAccountListPaginationOptions extends HyperwalletPaginationOptions {
+
     private HyperwalletPayPalAccount.Status status;
 
     public HyperwalletPayPalAccount.Status getStatus() {
