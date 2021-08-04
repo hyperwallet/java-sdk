@@ -14,6 +14,10 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletPayPalAccount extends HyperwalletBaseMonitor {
 
+
+    public enum Status {ACTIVATED, INVALID, VERIFIED, DE_ACTIVATED}
+
+    public enum Type {PAYPAL_ACCOUNT}
     private String token;
     private Type type;
     private Status status;
@@ -235,7 +239,6 @@ public class HyperwalletPayPalAccount extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public enum Status {ACTIVATED, INVALID, VERIFIED, DE_ACTIVATED}
 
-    public enum Type {PAYPAL_ACCOUNT}
+
 }

@@ -1,12 +1,12 @@
 package com.hyperwallet.clientsdk.model;
 
-import com.hyperwallet.clientsdk.model.HyperwalletPayPalAccount.Type;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class HyperwalletPayPalAccountTest extends BaseModelTest<HyperwalletPayPalAccount> {
+
+    @Override
     protected HyperwalletPayPalAccount createBaseModel() {
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
@@ -26,6 +26,7 @@ public class HyperwalletPayPalAccountTest extends BaseModelTest<HyperwalletPayPa
         return payPalAccount;
     }
 
+    @Override
     protected Class<HyperwalletPayPalAccount> createModelClass() {
         return HyperwalletPayPalAccount.class;
     }
