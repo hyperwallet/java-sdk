@@ -787,7 +787,6 @@ public class Hyperwallet {
         }
         if (bankCard.getType() == null) {
 
-            bankCard.setType(Type.BANK_CARD);
             bankCard.setType(HyperwalletBankCard.Type.BANK_CARD);
         }
         bankCard = copy(bankCard);
