@@ -15,6 +15,14 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
 
+    public enum Type {BANK_ACCOUNT, WIRE_ACCOUNT, PREPAID_CARD, BANK_CARD, PAPER_CHECK, PAYPAL_ACCOUNT, VENMO_ACCOUNT}
+
+    public enum Status {ACTIVATED, INVALID, DE_ACTIVATED}
+
+    public enum CardType {PERSONALIZED, INSTANT_ISSUE, VIRTUAL}
+
+    public enum VerificationStatus {EXPIRED, FAILED, UNDER_REVIEW, VERIFIED, REQUIRED, NOT_REQUIRED, READY_FOR_REVIEW, REQUESTED}
+
     private String token;
     private Type type;
     private Status status;
@@ -1403,11 +1411,5 @@ public class HyperwalletTransferMethod extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public enum Type {BANK_ACCOUNT, WIRE_ACCOUNT, PREPAID_CARD, BANK_CARD, PAPER_CHECK, PAYPAL_ACCOUNT, VENMO_ACCOUNT}
 
-    public enum Status {ACTIVATED, INVALID, DE_ACTIVATED}
-
-    public enum CardType {PERSONALIZED, INSTANT_ISSUE, VIRTUAL}
-
-    public enum VerificationStatus {EXPIRED, FAILED, UNDER_REVIEW, VERIFIED, REQUIRED, NOT_REQUIRED, READY_FOR_REVIEW, REQUESTED}
 }

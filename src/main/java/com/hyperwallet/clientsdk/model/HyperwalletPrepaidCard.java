@@ -15,6 +15,17 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
 
+
+    public enum Brand {VISA, MASTERCARD}
+
+    public enum CardType {PERSONALIZED, INSTANT_ISSUE, VIRTUAL}
+
+    public enum EReplacePrepaidCardReason {LOST_STOLEN, DAMAGED, COMPROMISED, EXPIRED, VIRTUAL_TO_PHYSICAL}
+
+    public enum Status {PRE_ACTIVATED, ACTIVATED, SUSPENDED, LOST_OR_STOLEN, DE_ACTIVATED}
+
+    public enum Type {PREPAID_CARD}
+
     private Type type;
     private String token;
     private Status status;
@@ -347,13 +358,5 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public enum Brand {VISA, MASTERCARD}
 
-    public enum CardType {PERSONALIZED, INSTANT_ISSUE, VIRTUAL}
-
-    public enum EReplacePrepaidCardReason {LOST_STOLEN, DAMAGED, COMPROMISED, EXPIRED, VIRTUAL_TO_PHYSICAL}
-
-    public enum Status {PRE_ACTIVATED, ACTIVATED, SUSPENDED, LOST_OR_STOLEN, DE_ACTIVATED}
-
-    public enum Type {PREPAID_CARD}
 }
