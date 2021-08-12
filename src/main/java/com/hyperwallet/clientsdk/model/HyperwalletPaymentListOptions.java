@@ -1,7 +1,5 @@
 package com.hyperwallet.clientsdk.model;
 
-import java.util.Date;
-
 public class HyperwalletPaymentListOptions extends HyperwalletPaginationOptions {
 
     private String clientPaymentId;
