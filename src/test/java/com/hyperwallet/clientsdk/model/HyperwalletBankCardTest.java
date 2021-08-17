@@ -1,5 +1,8 @@
 package com.hyperwallet.clientsdk.model;
 
+import com.hyperwallet.clientsdk.model.HyperwalletBankCard.Status;
+import com.hyperwallet.clientsdk.model.HyperwalletBankCard.Type;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,17 +15,14 @@ public class HyperwalletBankCardTest extends BaseModelTest<HyperwalletBankCard> 
         HyperwalletBankCard bankCard = new HyperwalletBankCard();
         bankCard
                 .token("test-token")
-                .type(HyperwalletTransferMethod.Type.PREPAID_CARD)
-
-                .status(HyperwalletTransferMethod.Status.ACTIVATED)
+                .type(Type.BANK_CARD)
+                .status(Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")
-
                 .cardType(HyperwalletBankCard.CardType.DEBIT)
                 .cardNumber("test-card-number")
                 .cardBrand(HyperwalletBankCard.Brand.VISA)
-
                 .dateOfExpiry(new Date())
                 .cvv("cvv")
                 .processingTime("processing-time")

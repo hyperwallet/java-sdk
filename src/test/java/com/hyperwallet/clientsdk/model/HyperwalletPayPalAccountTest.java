@@ -13,8 +13,8 @@ public class HyperwalletPayPalAccountTest extends BaseModelTest<HyperwalletPayPa
         HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
         payPalAccount
                 .token("test-token")
-                .type(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)
-                .status(HyperwalletTransferMethod.Status.ACTIVATED)
+                .status(HyperwalletPayPalAccount.Status.ACTIVATED)
+                .type(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")
@@ -25,6 +25,7 @@ public class HyperwalletPayPalAccountTest extends BaseModelTest<HyperwalletPayPa
         return payPalAccount;
     }
 
+    @Override
     protected Class<HyperwalletPayPalAccount> createModelClass() {
         return HyperwalletPayPalAccount.class;
     }

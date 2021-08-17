@@ -3,6 +3,7 @@ package com.hyperwallet.clientsdk.model;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hyperwallet.clientsdk.util.HyperwalletJsonConfiguration;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,11 +19,14 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
 
     public enum CardType {DEBIT}
 
-    private HyperwalletTransferMethod.Type type;
-    private String token;
-    private HyperwalletTransferMethod.Status status;
-    private Date createdOn;
+    public enum Type {BANK_CARD}
 
+    public enum Status {ACTIVATED, INVALID, VERIFIED, DE_ACTIVATED}
+
+    private Type type;
+    private String token;
+    private Status status;
+    private Date createdOn;
     private String transferMethodCountry;
     private String transferMethodCurrency;
     private Brand cardBrand;
@@ -31,21 +35,20 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     @JsonFormat(pattern = "yyyy-MM", timezone = "UTC")
     private Date dateOfExpiry;
     private String cvv;
-
     private String userToken;
     private String processingTime;
     private List<HyperwalletLink> links;
 
-    public HyperwalletTransferMethod.Type getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(HyperwalletTransferMethod.Type type) {
+    public void setType(Type type) {
         addField("type", type);
         this.type = type;
     }
 
-    public HyperwalletBankCard type(HyperwalletTransferMethod.Type type) {
+    public HyperwalletBankCard type(Type type) {
         addField("type", type);
         this.type = type;
         return this;
@@ -78,16 +81,16 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public HyperwalletTransferMethod.Status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(HyperwalletTransferMethod.Status status) {
+    public void setStatus(Status status) {
         addField("status", status);
         this.status = status;
     }
 
-    public HyperwalletBankCard status(HyperwalletTransferMethod.Status status) {
+    public HyperwalletBankCard status(Status status) {
         addField("status", status);
         this.status = status;
         return this;
@@ -182,7 +185,6 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
         this.cardType = null;
         return this;
     }
-
 
     public Date getDateOfExpiry() {
         return dateOfExpiry;
@@ -330,4 +332,6 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
         this.links = null;
         return this;
     }
+
+
 }

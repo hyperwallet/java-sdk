@@ -1,5 +1,7 @@
 package com.hyperwallet.clientsdk.model;
 
+import java.util.Date;
+
 /**
  * @author fkrauthan
  */
@@ -9,8 +11,8 @@ public class HyperwalletPaymentListOptionsTest extends BaseModelTest<Hyperwallet
     protected HyperwalletPaymentListOptions createBaseModel() {
         HyperwalletPaymentListOptions options = new HyperwalletPaymentListOptions();
         options
-                .clientPaymentId("test-clientPaymentId");
-
+                .clientPaymentId("test-clientPaymentId")
+                .releaseDate(new Date());
         return options;
     }
 

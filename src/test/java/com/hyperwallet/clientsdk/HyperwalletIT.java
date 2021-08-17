@@ -473,8 +473,8 @@ public class HyperwalletIT {
         hyperwalletLinks.add(hyperwalletLink);
 
         assertThat(returnValue.getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletBankCard.Type.BANK_CARD)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletBankCard.Status.ACTIVATED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-09T22:50:14 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -520,8 +520,8 @@ public class HyperwalletIT {
         hyperwalletLinks.add(hyperwalletLink);
 
         assertThat(returnValue.getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletBankCard.Type.BANK_CARD)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletBankCard.Status.ACTIVATED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-09T22:50:14 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -562,8 +562,8 @@ public class HyperwalletIT {
         hyperwalletLinks.add(hyperwalletLink);
 
         assertThat(returnValue.getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletBankCard.Type.BANK_CARD)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletBankCard.Status.ACTIVATED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-09T22:50:14 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -587,8 +587,8 @@ public class HyperwalletIT {
 
         HyperwalletList<HyperwalletBankCard> returnValue;
 
-        HyperwalletListPaginationOptions options = new HyperwalletListPaginationOptions();
-        options.status(HyperwalletTransferMethod.Status.ACTIVATED)
+        HyperwalletBankCardListPaginationOptions options = new HyperwalletBankCardListPaginationOptions();
+        options.status(HyperwalletBankCard.Status.ACTIVATED)
                 .sortBy("test-sort-by")
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
@@ -612,8 +612,8 @@ public class HyperwalletIT {
         assertThat(returnValue.hasNextPage(), is(equalTo(true)));
         assertThat(returnValue.hasPreviousPage(), is(equalTo(true)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-7e915660-8c97-47bf-8a4f-0c1bc890d46f")));
-        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.BANK_CARD)));
-        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletBankCard.Type.BANK_CARD)));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletBankCard.Status.ACTIVATED)));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-11-09T22:50:14 UTC"))));
         assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
@@ -1717,7 +1717,7 @@ public class HyperwalletIT {
                 .userToken("usr-e7b61829-a73a-45dc-930e-afa8a56b923b")
                 .transferMethodCountry("US")
                 .transferMethodCurrency("USD")
-                .type(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)
+                .type(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT)
                 .email("user@domain.com");
 
         HyperwalletPayPalAccount returnValue;
@@ -1738,8 +1738,8 @@ public class HyperwalletIT {
         hyperwalletLinks.add(hyperwalletLink);
 
         assertThat(returnValue.getToken(), is(equalTo("trm-54b0db9c-5565-47f7-aee6-685e713595f3")));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletPayPalAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2018-05-01T00:00:00 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -1775,8 +1775,8 @@ public class HyperwalletIT {
         hyperwalletLinks.add(hyperwalletLink);
 
         assertThat(returnValue.getToken(), is(equalTo("trm-54b0db9c-5565-47f7-aee6-685e713595f3")));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletPayPalAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2018-05-01T00:00:00 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -1814,8 +1814,8 @@ public class HyperwalletIT {
         assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getLimit(), is(equalTo(10)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-54b0db9c-5565-47f7-aee6-685e713595f3")));
-        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
-        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletPayPalAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT)));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2018-05-01T00:00:00 UTC"))));
         assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
@@ -1955,8 +1955,8 @@ public class HyperwalletIT {
         hyperwalletLinks.add(hyperwalletLink);
 
         assertThat(returnValue.getToken(), is(equalTo("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b")));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.PAYPAL_ACCOUNT)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletPayPalAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2019-01-09T22:50:14 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -1982,7 +1982,7 @@ public class HyperwalletIT {
                 .userToken("usr-c4292f1a-866f-4310-a289-b916853939de")
                 .transferMethodCountry("US")
                 .transferMethodCurrency("USD")
-                .type(HyperwalletTransferMethod.Type.VENMO_ACCOUNT)
+                .type(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT)
                 .accountId("9876543210");
 
         HyperwalletVenmoAccount returnValue;
@@ -2002,8 +2002,8 @@ public class HyperwalletIT {
         hyperwalletLink.setParams(mapParams);
         hyperwalletLinks.add(hyperwalletLink);
         assertThat(returnValue.getToken(), is(equalTo("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b")));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.VENMO_ACCOUNT)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletVenmoAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2019-01-09T22:50:14 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -2039,8 +2039,8 @@ public class HyperwalletIT {
         hyperwalletLink.setParams(mapParams);
         hyperwalletLinks.add(hyperwalletLink);
         assertThat(returnValue.getToken(), is(equalTo("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b")));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.VENMO_ACCOUNT)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletVenmoAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2019-01-09T22:50:14 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
@@ -2077,8 +2077,8 @@ public class HyperwalletIT {
         assertThat(returnValue.hasPreviousPage(), is(equalTo(false)));
         assertThat(returnValue.getLimit(), is(equalTo(10)));
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b")));
-        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
-        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletTransferMethod.Type.VENMO_ACCOUNT)));
+        assertThat(returnValue.getData().get(0).getStatus(), is(equalTo(HyperwalletVenmoAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getData().get(0).getType(), is(equalTo(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT)));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2019-01-09T22:50:14 UTC"))));
         assertThat(returnValue.getData().get(0).getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getData().get(0).getTransferMethodCurrency(), is(equalTo("USD")));
@@ -2117,8 +2117,8 @@ public class HyperwalletIT {
         hyperwalletLink.setParams(mapParams);
         hyperwalletLinks.add(hyperwalletLink);
         assertThat(returnValue.getToken(), is(equalTo("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b48b")));
-        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
-        assertThat(returnValue.getType(), is(equalTo(HyperwalletTransferMethod.Type.VENMO_ACCOUNT)));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletVenmoAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2019-01-09T22:50:14 UTC"))));
         assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
         assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
