@@ -26,6 +26,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.testng.Assert.fail;
 
@@ -86,7 +87,7 @@ public class HyperwalletEncryptionTest {
             hyperwalletEncryption.decrypt(encryptedPayload);
             fail("Expected JOSEException");
         } catch (JOSEException e) {
-            assertThat(e.getMessage(), is(containsString("Decryption error")));
+            assertThat(e.getMessage(), anyOf(containsString("Decryption error"),containsString("Message is larger than modulus")));
         }
     }
 
