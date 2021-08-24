@@ -6,7 +6,6 @@ import java.util.List;
 
 public class HyperwalletPayPalAccountTest extends BaseModelTest<HyperwalletPayPalAccount> {
 
-    @Override
     protected HyperwalletPayPalAccount createBaseModel() {
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();

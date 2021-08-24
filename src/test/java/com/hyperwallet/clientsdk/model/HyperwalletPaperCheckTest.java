@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperCheck> {
+
+    @Override
     protected HyperwalletPaperCheck createBaseModel() {
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
@@ -12,8 +14,8 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
         HyperwalletPaperCheck paperCheck = new HyperwalletPaperCheck();
         paperCheck
                 .token("test-token")
-                .type(HyperwalletTransferMethod.Type.PREPAID_CARD)
-                .status(HyperwalletTransferMethod.Status.ACTIVATED)
+                .type(HyperwalletPaperCheck.Type.PAPER_CHECK)
+                .status(HyperwalletPaperCheck.Status.ACTIVATED)
                 .createdOn(new Date())
                 .transferMethodCountry("test-transfer-method-country")
                 .transferMethodCurrency("test-transfer-method-currency")
@@ -54,6 +56,7 @@ public class HyperwalletPaperCheckTest extends BaseModelTest<HyperwalletPaperChe
         return paperCheck;
     }
 
+    @Override
     protected Class<HyperwalletPaperCheck> createModelClass() {
         return HyperwalletPaperCheck.class;
     }

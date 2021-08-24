@@ -1,6 +1,6 @@
 package com.hyperwallet.clientsdk.model;
 
-public class HyperwalletBankAccountsListPaginationOptions extends HyperwalletPaginationOptions{
+public class HyperwalletBankAccountsListPaginationOptions extends HyperwalletPaginationOptions {
 
     private HyperwalletBankAccount.Type type;
     private HyperwalletBankAccount.Status status;

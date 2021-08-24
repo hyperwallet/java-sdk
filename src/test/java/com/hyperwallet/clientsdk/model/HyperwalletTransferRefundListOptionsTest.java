@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class HyperwalletTransferRefundListOptionsTest extends BaseModelTest<HyperwalletTransferRefundListOptions> {
 
+    @Override
     protected HyperwalletTransferRefundListOptions createBaseModel() {
         HyperwalletTransferRefundListOptions options = new HyperwalletTransferRefundListOptions();
         options
@@ -17,6 +18,7 @@ public class HyperwalletTransferRefundListOptionsTest extends BaseModelTest<Hype
         return options;
     }
 
+    @Override
     protected Class<HyperwalletTransferRefundListOptions> createModelClass() {
         return HyperwalletTransferRefundListOptions.class;
     }
