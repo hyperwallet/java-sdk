@@ -1,5 +1,9 @@
 Changelog
 =========
+2.2.6
+-----------------
+- Query parameters added for the methods 'List Bank Account', 'List Bank Card', 'List Paypal Account', 'List Venmo Account', 'List Prepaid Card', 'List Paper Check', 'List Payment', 'List Transfer Method' 
+
 2.2.5
 -----------------
 - Fix for multipart Upload
