@@ -10,6 +10,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.VerificationSta
 import com.hyperwallet.clientsdk.model.HyperwalletUser.Gender;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.ProfileType;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.TaxVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocumentReason.RejectReason;
 import com.hyperwallet.clientsdk.util.Multipart;
 import org.apache.commons.io.IOUtils;
@@ -202,6 +203,47 @@ public class HyperwalletIT {
 
         assertThat(returnValue.getToken(), is(equalTo("usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca")));
         assertThat(returnValue.getStatus(), is(equalTo(HyperwalletUser.Status.PRE_ACTIVATED)));
+        assertThat(returnValue.getVerificationStatus(), is(equalTo(HyperwalletUser.VerificationStatus.REQUIRED)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2020-10-01T22:22:01 UTC"))));
+        assertThat(returnValue.getClientUserId(), is(equalTo("sf1601571120")));
+        assertThat(returnValue.getProfileType(), is(equalTo(ProfileType.BUSINESS)));
+        assertThat(returnValue.getBusinessName(), is(equalTo("Big Baller Payments")));
+        assertThat(returnValue.getBusinessRegistrationId(), is(equalTo("12341212")));
+        assertThat(returnValue.getBusinessRegistrationStateProvince(), is(equalTo("test")));
+        assertThat(returnValue.getBusinessRegistrationCountry(), is(equalTo("CN")));
+        assertThat(returnValue.getBusinessRegistrationCountry(), is(equalTo("CN")));
+        assertThat(returnValue.getBusinessContactRole(), is(equalTo(HyperwalletUser.BusinessContactRole.OWNER)));
+        assertThat(returnValue.getBusinessOperatingName(), is(equalTo("Big Baller Payments Operating")));
+        assertThat(returnValue.getDateOfBirth(), is(equalTo(dateFormat.parse("1980-01-01T00:00:00 UTC"))));
+        assertThat(returnValue.getGender(), is(equalTo(Gender.MALE)));
+        assertThat(returnValue.getPhoneNumber(), is(equalTo("647-90531")));
+        assertThat(returnValue.getMobileNumber(), is(equalTo("605-555-1323")));
+        assertThat(returnValue.getEmail(), is(equalTo("sf1601571120@sink.sendgrid.net")));
+        assertThat(returnValue.getGovernmentId(), is(equalTo("333333333")));
+        assertThat(returnValue.getEmployerId(), is(equalTo("222222222")));
+        assertThat(returnValue.getProgramToken(), is(equalTo("prg-eedaf875-01f1-4524-8b94-d4936255af78")));
+    }
+
+
+    @Test
+    public void testUpdateUsertaxVerificationStatus() throws Exception {
+        String functionality = "updateUsertaxVerificationStatus";
+        initMockServer(functionality);
+        HyperwalletUser hyperwalletUser = new HyperwalletUser();
+        hyperwalletUser.token("usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca");
+        hyperwalletUser.taxVerificationStatus(TaxVerificationStatus.REQUIRED);
+
+        HyperwalletUser returnValue;
+        try {
+            returnValue = client.updateUser(hyperwalletUser);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        assertThat(returnValue.getToken(), is(equalTo("usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca")));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletUser.Status.PRE_ACTIVATED)));
+        assertThat(returnValue.getTaxVerificationStatus(), is(equalTo(TaxVerificationStatus.VERIFIED)));
         assertThat(returnValue.getVerificationStatus(), is(equalTo(HyperwalletUser.VerificationStatus.REQUIRED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2020-10-01T22:22:01 UTC"))));
         assertThat(returnValue.getClientUserId(), is(equalTo("sf1601571120")));
