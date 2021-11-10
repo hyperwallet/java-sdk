@@ -14,28 +14,6 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletUser extends HyperwalletBaseMonitor {
 
-    private TaxVerificationStatus taxVerificationStatus;
-
-    public TaxVerificationStatus getTaxVerificationStatus() {
-        return taxVerificationStatus;
-    }
-
-    public void setTaxVerificationStatus(TaxVerificationStatus taxVerificationStatus) {
-        addField("taxVerificationStatus", taxVerificationStatus);
-        this.taxVerificationStatus = taxVerificationStatus;
-    }
-
-    public HyperwalletUser taxVerificationStatus(TaxVerificationStatus taxVerificationStatus) {
-        addField("taxVerificationStatus", taxVerificationStatus);
-        this.taxVerificationStatus = taxVerificationStatus;
-        return this;
-    }
-
-    public HyperwalletUser clearTaxVerificationStatus() {
-        clearField("verificationStatus");
-        taxVerificationStatus = null;
-        return this;
-    }
 
     public enum Gender {MALE, FEMALE}
 
@@ -55,6 +33,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     public enum TaxVerificationStatus {NOT_REQUIRED, REQUIRED, UNDER_REVIEW, VERIFIED}
 
+    private TaxVerificationStatus taxVerificationStatus;
     private VerificationStatus verificationStatus;
     private BusinessStakeholderVerificationStatus businessStakeholderVerificationStatus;
     private LetterOfAuthorizationStatus letterOfAuthorizationStatus;
@@ -158,6 +137,27 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     public HyperwalletUser clearVerificationStatus() {
         clearField("verificationStatus");
         verificationStatus = null;
+        return this;
+    }
+
+    public TaxVerificationStatus getTaxVerificationStatus() {
+        return taxVerificationStatus;
+    }
+
+    public void setTaxVerificationStatus(TaxVerificationStatus taxVerificationStatus) {
+        addField("taxVerificationStatus", taxVerificationStatus);
+        this.taxVerificationStatus = taxVerificationStatus;
+    }
+
+    public HyperwalletUser taxVerificationStatus(TaxVerificationStatus taxVerificationStatus) {
+        addField("taxVerificationStatus", taxVerificationStatus);
+        this.taxVerificationStatus = taxVerificationStatus;
+        return this;
+    }
+
+    public HyperwalletUser clearTaxVerificationStatus() {
+        clearField("verificationStatus");
+        taxVerificationStatus = null;
         return this;
     }
 
