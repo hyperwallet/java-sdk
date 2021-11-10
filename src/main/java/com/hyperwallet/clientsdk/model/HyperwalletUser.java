@@ -14,27 +14,47 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletUser extends HyperwalletBaseMonitor {
 
-    public static enum Gender {MALE, FEMALE}
+    private TaxVerificationStatus taxVerificationStatus;
 
-    public static enum ProfileType {INDIVIDUAL, BUSINESS, UNKNOWN}
+    public TaxVerificationStatus getTaxVerificationStatus() {
+        return taxVerificationStatus;
+    }
 
-    public static enum BusinessType {CORPORATION, PARTNERSHIP, CANADIAN_REGISTERED_CHARITY, PUBLIC_COMPANY, PRIVATE_COMPANY,
-        NOT_FOR_PROFIT_ORGANIZATION, GOVERNMENT_ENTITY}
+    public void setTaxVerificationStatus(TaxVerificationStatus taxVerificationStatus) {
+        addField("taxVerificationStatus", taxVerificationStatus);
+        this.taxVerificationStatus = taxVerificationStatus;
+    }
 
-    public static enum BusinessContactRole {DIRECTOR, OWNER, OTHER}
+    public HyperwalletUser taxVerificationStatus(TaxVerificationStatus taxVerificationStatus) {
+        addField("taxVerificationStatus", taxVerificationStatus);
+        this.taxVerificationStatus = taxVerificationStatus;
+        return this;
+    }
 
-    public static enum Status {PRE_ACTIVATED, ACTIVATED, LOCKED, FROZEN, DE_ACTIVATED}
+    public HyperwalletUser clearTaxVerificationStatus() {
+        clearField("verificationStatus");
+        taxVerificationStatus = null;
+        return this;
+    }
 
-    public static enum VerificationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, REQUESTED}
+    public enum Gender {MALE, FEMALE}
 
-    public static enum BusinessStakeholderVerificationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, READY_FOR_REVIEW}
+    public enum ProfileType {INDIVIDUAL, BUSINESS, UNKNOWN}
 
-    public static enum LetterOfAuthorizationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, READY_FOR_REVIEW}
+    public enum BusinessType {
+        CORPORATION, PARTNERSHIP, CANADIAN_REGISTERED_CHARITY, PUBLIC_COMPANY, PRIVATE_COMPANY,
+        NOT_FOR_PROFIT_ORGANIZATION, GOVERNMENT_ENTITY
+    }
 
-    public static enum GovernmentIdType {PASSPORT, NATIONAL_ID_CARD}
+    public enum BusinessContactRole {DIRECTOR, OWNER, OTHER}
+
+    public enum Status {PRE_ACTIVATED, ACTIVATED, LOCKED, FROZEN, DE_ACTIVATED}
 
     private String token;
     private Status status;
+
+    public enum TaxVerificationStatus {NOT_REQUIRED, REQUIRED, UNDER_REVIEW, VERIFIED}
+
     private VerificationStatus verificationStatus;
     private BusinessStakeholderVerificationStatus businessStakeholderVerificationStatus;
     private LetterOfAuthorizationStatus letterOfAuthorizationStatus;
@@ -141,6 +161,13 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public enum VerificationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, REQUESTED}
+
+    public enum BusinessStakeholderVerificationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, READY_FOR_REVIEW}
+
+    public enum LetterOfAuthorizationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, READY_FOR_REVIEW}
+
+    public enum GovernmentIdType {PASSPORT, NATIONAL_ID_CARD}
 
     public BusinessStakeholderVerificationStatus getBusinessStakeholderVerificationStatus() {
         return businessStakeholderVerificationStatus;

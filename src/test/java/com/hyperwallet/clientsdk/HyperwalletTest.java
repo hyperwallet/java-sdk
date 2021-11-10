@@ -5,10 +5,7 @@ import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status;
 import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
-import com.hyperwallet.clientsdk.model.HyperwalletUser.BusinessStakeholderVerificationStatus;
-import com.hyperwallet.clientsdk.model.HyperwalletUser.GovernmentIdType;
-import com.hyperwallet.clientsdk.model.HyperwalletUser.LetterOfAuthorizationStatus;
-import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.*;
 import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocumentReason.RejectReason;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import net.minidev.json.JSONObject;
@@ -118,6 +115,7 @@ public class HyperwalletTest {
     public void testCreateUser_withoutProgramToken() throws Exception {
         HyperwalletUser user = new HyperwalletUser();
         user.setStatus(HyperwalletUser.Status.ACTIVATED);
+        user.setTaxVerificationStatus(TaxVerificationStatus.REQUIRED);
         user.setVerificationStatus(VerificationStatus.VERIFIED);
         user.setBusinessStakeholderVerificationStatus(BusinessStakeholderVerificationStatus.VERIFIED);
         user.setLetterOfAuthorizationStatus(LetterOfAuthorizationStatus.VERIFIED);
@@ -136,6 +134,7 @@ public class HyperwalletTest {
 
         HyperwalletUser resp = client.createUser(user);
         assertThat(resp, is(equalTo(user)));
+        assertThat(resp.getTaxVerificationStatus(), is(equalTo(TaxVerificationStatus.REQUIRED)));
         assertThat(resp.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
         assertThat(resp.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
         assertThat(resp.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
@@ -152,6 +151,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
+        assertThat(apiClientUser.getTaxVerificationStatus(), is(equalTo(TaxVerificationStatus.REQUIRED)));
         assertThat(apiClientUser.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
         assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
         assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(equalTo(BusinessStakeholderVerificationStatus.VERIFIED)));
@@ -231,6 +231,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
+        assertThat(apiClientUser.getTaxVerificationStatus(), is(equalTo(TaxVerificationStatus.REQUIRED)));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getBusinessStakeholderVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getLetterOfAuthorizationStatus(), is(equalTo(LetterOfAuthorizationStatus.VERIFIED)));
@@ -427,6 +428,7 @@ public class HyperwalletTest {
                 .programToken("prg-83836cdf-2ce2-4696-8bc5-f1b86077238c")
                 .status(HyperwalletUser.Status.ACTIVATED)
                 .verificationStatus(HyperwalletUser.VerificationStatus.NOT_REQUIRED)
+                .taxVerificationStatus(TaxVerificationStatus.REQUIRED)
                 .sortBy("test-sort-by")
                 .limit(10)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
@@ -439,7 +441,8 @@ public class HyperwalletTest {
         Mockito.verify(mockApiClient).get(ArgumentMatchers
                         .eq("https://api.sandbox.hyperwallet.com/rest/v4/users?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z"
                                 + "&sortBy=test-sort-by&limit=10&clientUserId=CSLAJQt7bD&email=john@company"
-                                + ".com&programToken=prg-83836cdf-2ce2-4696-8bc5-f1b86077238c&status=ACTIVATED&verificationStatus=NOT_REQUIRED"),
+                                + ".com&programToken=prg-83836cdf-2ce2-4696-8bc5-f1b86077238c&status=ACTIVATED&verificationStatus=NOT_REQUIRED"
+                                + "&taxVerificationStatus=REQUIRED"),
                 ArgumentMatchers.any(TypeReference.class));
 
     }
