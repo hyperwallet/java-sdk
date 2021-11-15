@@ -14,26 +14,26 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HyperwalletUser extends HyperwalletBaseMonitor {
 
-    public enum Gender {MALE, FEMALE}
+    public static enum Gender {MALE, FEMALE}
 
-    public enum ProfileType {INDIVIDUAL, BUSINESS, UNKNOWN}
+    public static enum ProfileType {INDIVIDUAL, BUSINESS, UNKNOWN}
 
-    public enum BusinessType {
+    public static enum BusinessType {
         CORPORATION, PARTNERSHIP, CANADIAN_REGISTERED_CHARITY, PUBLIC_COMPANY, PRIVATE_COMPANY,
         NOT_FOR_PROFIT_ORGANIZATION, GOVERNMENT_ENTITY
     }
 
-    public enum BusinessContactRole {DIRECTOR, OWNER, OTHER}
+    public static enum BusinessContactRole {DIRECTOR, OWNER, OTHER}
 
-    public enum Status {PRE_ACTIVATED, ACTIVATED, LOCKED, FROZEN, DE_ACTIVATED}
+    public static enum Status {PRE_ACTIVATED, ACTIVATED, LOCKED, FROZEN, DE_ACTIVATED}
 
-    public enum VerificationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, REQUESTED}
+    public static enum VerificationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, REQUESTED}
 
-    public enum BusinessStakeholderVerificationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, READY_FOR_REVIEW}
+    public static enum BusinessStakeholderVerificationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, READY_FOR_REVIEW}
 
-    public enum LetterOfAuthorizationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, READY_FOR_REVIEW}
+    public static enum LetterOfAuthorizationStatus {NOT_REQUIRED, REQUIRED, FAILED, UNDER_REVIEW, VERIFIED, READY_FOR_REVIEW}
 
-    public enum GovernmentIdType {PASSPORT, NATIONAL_ID_CARD}
+    public static enum GovernmentIdType {PASSPORT, NATIONAL_ID_CARD}
 
     public enum TaxVerificationStatus {NOT_REQUIRED, REQUIRED, UNDER_REVIEW, VERIFIED}
 
