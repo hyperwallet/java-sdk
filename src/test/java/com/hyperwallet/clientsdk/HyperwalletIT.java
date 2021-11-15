@@ -227,7 +227,7 @@ public class HyperwalletIT {
 
     @Test
     public void testUpdateUsertaxVerificationStatus() throws Exception {
-        String functionality = "updateUsertaxVerificationStatus";
+        String functionality = "updateUserTaxVerificationStatus";
         initMockServer(functionality);
         HyperwalletUser hyperwalletUser = new HyperwalletUser();
         hyperwalletUser.token("usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca");
