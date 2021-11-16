@@ -1,15 +1,18 @@
 package com.hyperwallet.clientsdk.model;
 
+import com.hyperwallet.clientsdk.model.HyperwalletUser.TaxVerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author fkrauthan
  */
 public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
 
+    @Override
     protected HyperwalletUser createBaseModel() {
         HyperwalletUser user = new HyperwalletUser();
         HyperwalletVerificationDocument hyperwalletDocument = new HyperwalletVerificationDocument();
@@ -23,6 +26,7 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
         user
                 .token("test-token")
                 .status(HyperwalletUser.Status.ACTIVATED)
+                .taxVerificationStatus(TaxVerificationStatus.REQUIRED)
                 .verificationStatus(VerificationStatus.VERIFIED)
                 .businessStakeholderVerificationStatus(HyperwalletUser.BusinessStakeholderVerificationStatus.VERIFIED)
                 .letterOfAuthorizationStatus(HyperwalletUser.LetterOfAuthorizationStatus.VERIFIED)

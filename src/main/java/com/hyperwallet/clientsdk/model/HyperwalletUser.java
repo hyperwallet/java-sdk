@@ -18,7 +18,8 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     public static enum ProfileType {INDIVIDUAL, BUSINESS, UNKNOWN}
 
-    public static enum BusinessType {CORPORATION, PARTNERSHIP, CANADIAN_REGISTERED_CHARITY, PUBLIC_COMPANY, PRIVATE_COMPANY,
+    public static enum BusinessType {
+        CORPORATION, PARTNERSHIP, CANADIAN_REGISTERED_CHARITY, PUBLIC_COMPANY, PRIVATE_COMPANY,
         NOT_FOR_PROFIT_ORGANIZATION, GOVERNMENT_ENTITY}
 
     public static enum BusinessContactRole {DIRECTOR, OWNER, OTHER}
@@ -33,8 +34,11 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     public static enum GovernmentIdType {PASSPORT, NATIONAL_ID_CARD}
 
+    public enum TaxVerificationStatus {NOT_REQUIRED, REQUIRED, UNDER_REVIEW, VERIFIED}
+
     private String token;
     private Status status;
+    private TaxVerificationStatus taxVerificationStatus;
     private VerificationStatus verificationStatus;
     private BusinessStakeholderVerificationStatus businessStakeholderVerificationStatus;
     private LetterOfAuthorizationStatus letterOfAuthorizationStatus;
@@ -141,6 +145,26 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public TaxVerificationStatus getTaxVerificationStatus() {
+        return taxVerificationStatus;
+    }
+
+    public void setTaxVerificationStatus(TaxVerificationStatus taxVerificationStatus) {
+        addField("taxVerificationStatus", taxVerificationStatus);
+        this.taxVerificationStatus = taxVerificationStatus;
+    }
+
+    public HyperwalletUser taxVerificationStatus(TaxVerificationStatus taxVerificationStatus) {
+        addField("taxVerificationStatus", taxVerificationStatus);
+        this.taxVerificationStatus = taxVerificationStatus;
+        return this;
+    }
+
+    public HyperwalletUser clearTaxVerificationStatus() {
+        clearField("verificationStatus");
+        taxVerificationStatus = null;
+        return this;
+    }
 
     public BusinessStakeholderVerificationStatus getBusinessStakeholderVerificationStatus() {
         return businessStakeholderVerificationStatus;
