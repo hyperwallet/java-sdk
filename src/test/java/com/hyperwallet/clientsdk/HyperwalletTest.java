@@ -6503,7 +6503,10 @@ public class HyperwalletTest {
                 {"USERS.BANK_ACCOUNTS.CREATED", HyperwalletWebhookNotification.Type.BANK_ACCOUNT_CREATED}, {"USERS.BANK_ACCOUNTS.UPDATED", HyperwalletWebhookNotification.Type.BANK_ACCOUNT_UPDATED},
                 {"USERS.PREPAID_CARDS.CREATED", HyperwalletWebhookNotification.Type.PREPAID_CARD_CREATED}, {"USERS.PAPER_CHECKS.CREATED", HyperwalletWebhookNotification.Type.PAPER_CHECK_CREATED},
                 {"USERS.PAYPAL_ACCOUNTS.CREATED", HyperwalletWebhookNotification.Type.PAYPAL_ACCOUNT_CREATED}, {"USERS.VENMO_ACCOUNTS.CREATED", HyperwalletWebhookNotification.Type.VENMO_ACCOUNT_CREATED},
-                {"USERS.BUSINESS_STAKEHOLDERS.UPDATED.VERIFICATION_STATUS.REQUIRED", HyperwalletWebhookNotification.Type.USER_BUSINESS_STAKEHOLDER_UPDATED_VERIFICATION_STATUS_REQUIRED}};
+                {"USERS.BUSINESS_STAKEHOLDERS.UPDATED.VERIFICATION_STATUS.REQUIRED", HyperwalletWebhookNotification.Type.USER_BUSINESS_STAKEHOLDER_UPDATED_VERIFICATION_STATUS_REQUIRED},
+                {"USERS.BANK_CARDS.CREATED", HyperwalletWebhookNotification.Type.BANK_CARD_CREATED}, {"USERS.BANK_ACCOUNTS.DIRECT_DEBIT_AUTHORIZATIONS.CREATED", HyperwalletWebhookNotification.Type.BANK_ACCOUNT_DDA_CREATED},
+                {"PAYMENTS.CREATED", HyperwalletWebhookNotification.Type.PAYMENTS_CREATED}, {"TRANSFERS.UPDATED.STATUS.SCHEDULED", HyperwalletWebhookNotification.Type.TRANSFERS_UPDATED_STATUS_SCHEDULED},
+                {"TRANSFERS.REFUND.CREATED", HyperwalletWebhookNotification.Type.TRANSFERS_REFUND_CREATED}, {"PAYMENT_ROUTING_ACCOUNTS.CREATED", HyperwalletWebhookNotification.Type.PAYMENT_ROUTING_ACCOUNTS_CREATED}};
     }
 
     @Test(dataProvider = "webhook")
