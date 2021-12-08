@@ -9,6 +9,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletUser.*;
 import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocumentReason.RejectReason;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import net.minidev.json.JSONObject;
+import org.hamcrest.Matchers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -6495,57 +6496,11 @@ public class HyperwalletTest {
     }
 
     @Test
-    public void testListWebhookEvents_withPaypalParameter() throws Exception {
-        HyperwalletList<HyperwalletWebhookNotification> response = new HyperwalletList<HyperwalletWebhookNotification>();
-
-        Hyperwallet client = new Hyperwallet("test-username", "test-password");
-        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
-
-        HyperwalletWebhookNotificationPaginationOptions options = new HyperwalletWebhookNotificationPaginationOptions();
-        options
-                .programToken("program-token")
-                .type(HyperwalletWebhookNotification.Type.PAYPAL_ACCOUNT_CREATED.toString())
-                .sortBy("test-sort-by")
-                .limit(10)
-                .createdAfter(convertStringToDate("2016-08-24T13:56:26Z"))
-                .createdBefore(convertStringToDate("2016-08-24T13:56:26Z"));
-
-        Mockito.when(mockApiClient.get(ArgumentMatchers.anyString(), ArgumentMatchers.any(TypeReference.class))).thenReturn(response);
-
-        HyperwalletList<HyperwalletWebhookNotification> resp = client.listWebhookEvents(options);
-        assertThat(resp, is(equalTo(response)));
-
-        Mockito.verify(mockApiClient).get(ArgumentMatchers
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/webhook-notifications?createdAfter=2016-08-24T13:56:26Z&createdBefore=2016"
-                                + "-08-24T13:56:26Z&sortBy=test-sort-by&limit=10&type=USERS.PAYPAL_ACCOUNTS.CREATED&programToken=program-token"),
-                ArgumentMatchers.any(TypeReference.class));
-    }
-
-    @Test
-    public void testListWebhookEvents_withVenmoParameter() throws Exception {
-        HyperwalletList<HyperwalletWebhookNotification> response = new HyperwalletList<HyperwalletWebhookNotification>();
-
-        Hyperwallet client = new Hyperwallet("test-username", "test-password");
-        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
-
-        HyperwalletWebhookNotificationPaginationOptions options = new HyperwalletWebhookNotificationPaginationOptions();
-        options
-                .programToken("program-token")
-                .type(HyperwalletWebhookNotification.Type.VENMO_ACCOUNT_CREATED.toString())
-                .sortBy("test-sort-by")
-                .limit(10)
-                .createdAfter(convertStringToDate("2016-08-24T13:56:26Z"))
-                .createdBefore(convertStringToDate("2016-08-24T13:56:26Z"));
-
-        Mockito.when(mockApiClient.get(ArgumentMatchers.anyString(), ArgumentMatchers.any(TypeReference.class))).thenReturn(response);
-
-        HyperwalletList<HyperwalletWebhookNotification> resp = client.listWebhookEvents(options);
-        assertThat(resp, is(equalTo(response)));
-
-        Mockito.verify(mockApiClient).get(ArgumentMatchers
-                        .eq("https://api.sandbox.hyperwallet.com/rest/v4/webhook-notifications?createdAfter=2016-08-24T13:56:26Z&createdBefore=2016"
-                                + "-08-24T13:56:26Z&sortBy=test-sort-by&limit=10&type=USERS.VENMO_ACCOUNTS.CREATED&programToken=program-token"),
-                ArgumentMatchers.any(TypeReference.class));
+    public void testCreateUser_webhook() {
+        assertThat(HyperwalletWebhookNotification.Type.PAYPAL_ACCOUNT_CREATED, Matchers.is((notNullValue())));
+        assertThat(HyperwalletWebhookNotification.Type.PAYPAL_ACCOUNT_CREATED, Matchers.is(equalTo(HyperwalletWebhookNotification.Type.getType("USERS.PAYPAL_ACCOUNTS.CREATED"))));
+        assertThat(HyperwalletWebhookNotification.Type.VENMO_ACCOUNT_CREATED, Matchers.is((notNullValue())));
+        assertThat(HyperwalletWebhookNotification.Type.VENMO_ACCOUNT_CREATED, Matchers.is(equalTo(HyperwalletWebhookNotification.Type.getType("USERS.VENMO_ACCOUNTS.CREATED"))));
     }
 
     @Test
