@@ -6512,8 +6512,9 @@ public class HyperwalletTest {
     @Test(dataProvider = "webhook")
     public void parameterTest(String myName, Object abc) {
         System.out.println("Parameterized value is : " + myName + " " + abc.toString());
-        Assert.assertNotNull(abc.toString());
-        Assert.assertEquals(myName, abc.toString());
+        HyperwalletWebhookNotification.Type type = HyperwalletWebhookNotification.Type.getType(myName);
+        Assert.assertNotNull(type);
+        Assert.assertEquals(type.toString(), abc.toString());
     }
 
     @Test
