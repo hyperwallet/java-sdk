@@ -161,7 +161,7 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     }
 
     public HyperwalletUser clearTaxVerificationStatus() {
-        clearField("verificationStatus");
+        clearField("taxVerificationStatus");
         taxVerificationStatus = null;
         return this;
     }

@@ -210,6 +210,7 @@ public class HyperwalletTest {
         user.setProgramToken("test-program-token2");
         user.setProfileType(HyperwalletUser.ProfileType.BUSINESS);
         user.setLetterOfAuthorizationStatus(LetterOfAuthorizationStatus.VERIFIED);
+        user.setTaxVerificationStatus(TaxVerificationStatus.REQUIRED);
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
