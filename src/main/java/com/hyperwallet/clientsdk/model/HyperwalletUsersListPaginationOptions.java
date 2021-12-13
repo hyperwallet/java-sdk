@@ -1,4 +1,5 @@
 package com.hyperwallet.clientsdk.model;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.TaxVerificationStatus;
 
 public class HyperwalletUsersListPaginationOptions extends HyperwalletPaginationOptions{
 
@@ -7,6 +8,8 @@ public class HyperwalletUsersListPaginationOptions extends HyperwalletPagination
     private String programToken;
     private HyperwalletUser.Status status;
     private HyperwalletUser.Status transition;
+    private HyperwalletUser.TaxVerificationStatus taxVerificationStatus;
+
 
     private HyperwalletUser.VerificationStatus verificationStatus;
 
@@ -89,6 +92,18 @@ public class HyperwalletUsersListPaginationOptions extends HyperwalletPagination
         return this;
     }
 
+    public TaxVerificationStatus getTaxVerificationStatus() {
+        return taxVerificationStatus;
+    }
+
+    public void setTaxVerificationStatus(TaxVerificationStatus taxVerificationStatus) {
+        this.taxVerificationStatus = taxVerificationStatus;
+    }
+
+    public HyperwalletUsersListPaginationOptions taxVerificationStatus(HyperwalletUser.TaxVerificationStatus taxVerificationStatus) {
+        this.taxVerificationStatus = taxVerificationStatus;
+        return this;
+    }
 
 
 }

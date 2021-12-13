@@ -27,8 +27,11 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
 
     public static enum VerificationStatus {UNDER_REVIEW, VERIFIED, REQUIRED, NOT_REQUIRED, REQUESTED, EXPIRED, READY_FOR_REVIEW, FAILED}
 
+    public enum TaxVerificationStatus {NOT_REQUIRED, REQUIRED, UNDER_REVIEW, VERIFIED}
+
     private String token;
     private Status status;
+    private TaxVerificationStatus taxVerificationStatus;
     private Status transition;
     private VerificationStatus verificationStatus;
     private Date createdOn;
@@ -148,6 +151,27 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     public HyperwalletUser clearVerificationStatus() {
         clearField("verificationStatus");
         verificationStatus = null;
+        return this;
+    }
+
+    public TaxVerificationStatus getTaxVerificationStatus() {
+        return taxVerificationStatus;
+    }
+
+    public void setTaxVerificationStatus(TaxVerificationStatus taxVerificationStatus) {
+        addField("taxVerificationStatus", taxVerificationStatus);
+        this.taxVerificationStatus = taxVerificationStatus;
+    }
+
+    public HyperwalletUser taxVerificationStatus(TaxVerificationStatus taxVerificationStatus) {
+        addField("taxVerificationStatus", taxVerificationStatus);
+        this.taxVerificationStatus = taxVerificationStatus;
+        return this;
+    }
+
+    public HyperwalletUser clearTaxVerificationStatus() {
+        clearField("taxVerificationStatus");
+        taxVerificationStatus = null;
         return this;
     }
 
