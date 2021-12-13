@@ -5,7 +5,7 @@ import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status;
 import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
-import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.*;
 import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocumentReason.RejectReason;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import com.hyperwallet.clientsdk.util.Multipart;
@@ -113,6 +113,7 @@ public class HyperwalletTest {
         HyperwalletUser user = new HyperwalletUser();
         user.setStatus(HyperwalletUser.Status.ACTIVATED);
         user.setVerificationStatus(VerificationStatus.VERIFIED);
+        user.setTaxVerificationStatus(TaxVerificationStatus.REQUIRED);
         user.setCreatedOn(new Date());
         user.setFirstName("test-first-name");
         user.setBusinessOperatingName("test-business-operating-name");
@@ -125,6 +126,7 @@ public class HyperwalletTest {
         Mockito.when(mockApiClient.post(Mockito.anyString(), Mockito.anyObject(), Mockito.any(Class.class))).thenReturn(user);
 
         HyperwalletUser resp = client.createUser(user);
+        assertThat(resp.getTaxVerificationStatus(), is(equalTo(TaxVerificationStatus.REQUIRED)));
         assertThat(resp, is(equalTo(user)));
         assertThat(resp.getVerificationStatus(), is(equalTo(VerificationStatus.VERIFIED)));
 
@@ -136,6 +138,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
+        assertThat(apiClientUser.getTaxVerificationStatus(), is(equalTo(TaxVerificationStatus.REQUIRED)));
         assertThat(apiClientUser.getVerificationStatus(), is(VerificationStatus.VERIFIED));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(nullValue()));
@@ -180,6 +183,7 @@ public class HyperwalletTest {
         user.setFirstName("test-first-name");
         user.setBusinessOperatingName("test-business-operating-name");
         user.setProgramToken("test-program-token2");
+        user.setTaxVerificationStatus(TaxVerificationStatus.REQUIRED);
 
         HyperwalletUser userResponse = new HyperwalletUser();
 
@@ -199,6 +203,7 @@ public class HyperwalletTest {
         assertThat(apiClientUser.getFirstName(), is(equalTo("test-first-name")));
         assertThat(apiClientUser.getBusinessOperatingName(), is(equalTo("test-business-operating-name")));
         assertThat(apiClientUser.getStatus(), is(nullValue()));
+        assertThat(apiClientUser.getTaxVerificationStatus(), is(equalTo(TaxVerificationStatus.REQUIRED)));
         assertThat(apiClientUser.getVerificationStatus(), is(nullValue()));
         assertThat(apiClientUser.getCreatedOn(), is(nullValue()));
         assertThat(apiClientUser.getProgramToken(), is(equalTo("test-program-token2")));
@@ -316,6 +321,7 @@ public class HyperwalletTest {
                 .programToken("test-program-token")
                 .status(HyperwalletUser.Status.ACTIVATED)
                 .verificationStatus(VerificationStatus.REQUESTED)
+                .taxVerificationStatus(TaxVerificationStatus.REQUIRED)
                 .createdAfter(convertStringToDate("2016-06-29T17:58:26Z"))
                 .createdBefore(convertStringToDate("2016-06-29T17:58:26Z"))
                 .sortBy("test-sort-by")
@@ -327,7 +333,7 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.
-                eq("https://api.sandbox.hyperwallet.com/rest/v3/users?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&clientUserId=test-cleint-user-id&email=test-email&programToken=test-program-token&status=ACTIVATED&verificationStatus=REQUESTED"), Mockito.any(TypeReference.class));
+                eq("https://api.sandbox.hyperwallet.com/rest/v3/users?createdAfter=2016-06-29T17:58:26Z&createdBefore=2016-06-29T17:58:26Z&sortBy=test-sort-by&offset=5&limit=10&clientUserId=test-cleint-user-id&email=test-email&programToken=test-program-token&status=ACTIVATED&verificationStatus=REQUESTED&taxVerificationStatus=REQUIRED"), Mockito.any(TypeReference.class));
 
 
     }
