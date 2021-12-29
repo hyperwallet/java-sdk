@@ -1,5 +1,11 @@
 Changelog
 =========
+2.3.0
+-----------------
+- Added new variable to HyperwalletUser class
+- Added new variable to HyperwalletUserListPagination class
+- Added missing webhooks
+
 2.2.6
 -----------------
 - Query parameters added for the methods 'List Bank Account', 'List Bank Card', 'List Paypal Account', 'List Venmo Account', 'List Prepaid Card', 'List Paper Check', 'List Payment', 'List Transfer Method' 
