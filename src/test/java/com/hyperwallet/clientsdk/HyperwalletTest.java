@@ -5,12 +5,14 @@ import com.hyperwallet.clientsdk.model.*;
 import com.hyperwallet.clientsdk.model.HyperwalletStatusTransition.Status;
 import com.hyperwallet.clientsdk.model.HyperwalletTransfer.ForeignExchange;
 import com.hyperwallet.clientsdk.model.HyperwalletTransferMethod.Type;
-import com.hyperwallet.clientsdk.model.HyperwalletUser.*;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.TaxVerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocumentReason.RejectReason;
 import com.hyperwallet.clientsdk.util.HyperwalletApiClient;
 import com.hyperwallet.clientsdk.util.Multipart;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -6925,6 +6927,38 @@ public class HyperwalletTest {
         assertThat(resp, is(equalTo(response)));
 
         Mockito.verify(mockApiClient).get(Mockito.eq("https://api.sandbox.hyperwallet.com/rest/v3/webhook-notifications?createdAfter=2016-08-24T13:56:26Z&createdBefore=2016-08-24T13:56:26Z&sortBy=test-sort-by&offset=5&limit=10&type=USERS.PREPAID_CARDS.CREATED&programToken=test-program-token"), Mockito.any(TypeReference.class));
+    }
+
+    @DataProvider(name = "webhook")
+    public static Object[][] streamData() {
+        return new Object[][]{{"USERS.CREATED", HyperwalletWebhookNotification.Type.USER_CREATED},
+                {"USERS.UPDATED", HyperwalletWebhookNotification.Type.USER_UPDATED},
+                {"USERS.UPDATED.STATUS.ACTIVATED", HyperwalletWebhookNotification.Type.USER_UPDATED_STATUS_ACTIVATED},
+                {"USERS.UPDATED.STATUS.LOCKED", HyperwalletWebhookNotification.Type.USER_UPDATED_STATUS_LOCKED},
+                {"USERS.UPDATED.STATUS.FROZEN", HyperwalletWebhookNotification.Type.USER_UPDATED_STATUS_FROZEN},
+                {"USERS.UPDATED.STATUS.DE_ACTIVATED", HyperwalletWebhookNotification.Type.USER_UPDATED_STATUS_DE_ACTIVATED},
+                {"USERS.BANK_ACCOUNTS.CREATED", HyperwalletWebhookNotification.Type.BANK_ACCOUNT_CREATED},
+                {"USERS.BANK_ACCOUNTS.UPDATED", HyperwalletWebhookNotification.Type.BANK_ACCOUNT_UPDATED},
+                {"USERS.PREPAID_CARDS.CREATED", HyperwalletWebhookNotification.Type.PREPAID_CARD_CREATED},
+                {"USERS.PAPER_CHECKS.CREATED", HyperwalletWebhookNotification.Type.PAPER_CHECK_CREATED},
+                {"USERS.PAYPAL_ACCOUNTS.CREATED", HyperwalletWebhookNotification.Type.PAYPAL_ACCOUNT_CREATED},
+                {"USERS.VENMO_ACCOUNTS.CREATED", HyperwalletWebhookNotification.Type.VENMO_ACCOUNT_CREATED},
+                {"USERS.BUSINESS_STAKEHOLDERS.UPDATED.VERIFICATION_STATUS.REQUIRED",
+                        HyperwalletWebhookNotification.Type.USER_BUSINESS_STAKEHOLDER_UPDATED_VERIFICATION_STATUS_REQUIRED},
+                {"USERS.BANK_CARDS.CREATED", HyperwalletWebhookNotification.Type.BANK_CARD_CREATED},
+                {"USERS.BANK_ACCOUNTS.DIRECT_DEBIT_AUTHORIZATIONS.CREATED", HyperwalletWebhookNotification.Type.BANK_ACCOUNT_DDA_CREATED},
+                {"PAYMENTS.CREATED", HyperwalletWebhookNotification.Type.PAYMENTS_CREATED},
+                {"TRANSFERS.UPDATED.STATUS.SCHEDULED", HyperwalletWebhookNotification.Type.TRANSFERS_UPDATED_STATUS_SCHEDULED},
+                {"TRANSFERS.REFUND.CREATED", HyperwalletWebhookNotification.Type.TRANSFERS_REFUND_CREATED},
+                {"PAYMENT_ROUTING_ACCOUNTS.CREATED", HyperwalletWebhookNotification.Type.PAYMENT_ROUTING_ACCOUNTS_CREATED}};
+    }
+
+    @Test(dataProvider = "webhook")
+    public void parameterTest(String myName, Object abc) {
+        System.out.println("Parameterized value is : " + myName + " " + abc.toString());
+        HyperwalletWebhookNotification.Type type = HyperwalletWebhookNotification.Type.getType(myName);
+        Assert.assertNotNull(type);
+        Assert.assertEquals(type.toString(), abc.toString());
     }
 
     @Test
