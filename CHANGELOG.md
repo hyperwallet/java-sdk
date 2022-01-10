@@ -1,5 +1,12 @@
 Changelog
 =========
+1.8.0
+-----------------
+- Added new variable to HyperwalletUser class
+- Added new variable to HyperwalletUserListPagination class
+- Added enumerations for 'Phone' and 'Date' data fields in the class HyperwalletTransferMethodConfiguration
+- Added missing webhook events
+
 1.7.5 
 -----------------
 - Bugfix for Phone and Date fields in HyperwalletTransferMethodConfiguration 
