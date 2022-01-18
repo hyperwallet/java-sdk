@@ -263,7 +263,7 @@ public class HyperwalletIT {
 
 
     @Test
-    public void testUpdateUsertaxVerificationStatus() throws Exception {
+    public void testUpdateUserTaxVerificationStatus() throws Exception {
         String functionality = "updateUserTaxVerificationStatus";
         initMockServer(functionality);
         HyperwalletUser hyperwalletUser = new HyperwalletUser();
@@ -280,7 +280,7 @@ public class HyperwalletIT {
 
         assertThat(returnValue.getToken(), is(equalTo("usr-b8e7ff1d-a3c6-45a0-ae0a-62b74580caca")));
         assertThat(returnValue.getStatus(), is(equalTo(HyperwalletUser.Status.PRE_ACTIVATED)));
-        assertThat(returnValue.getTaxVerificationStatus(), is(equalTo(TaxVerificationStatus.REQUIRED)));
+        assertThat(returnValue.getTaxVerificationStatus(), is(equalTo(TaxVerificationStatus.VERIFIED)));
         assertThat(returnValue.getVerificationStatus(), is(equalTo(HyperwalletUser.VerificationStatus.REQUIRED)));
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2020-10-01T22:22:01 UTC"))));
         assertThat(returnValue.getClientUserId(), is(equalTo("sf1601571120")));
