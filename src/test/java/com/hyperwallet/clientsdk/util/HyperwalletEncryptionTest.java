@@ -5,7 +5,6 @@ import com.nimbusds.jose.EncryptionMethod;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWEAlgorithm;
 import com.nimbusds.jose.JWSAlgorithm;
-
 import org.apache.commons.io.IOUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -23,11 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.anyOf;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.testng.Assert.fail;
 
 public class HyperwalletEncryptionTest {
@@ -57,7 +52,7 @@ public class HyperwalletEncryptionTest {
     }
 
     @Test
-    public void shouldCorrectlyEncryptAndDecryptInputText() throws IOException, ParseException, JOSEException, URISyntaxException {
+    public void shouldCorrectlyEncryptAndDecryptInputTextRSA() throws IOException, ParseException, JOSEException, URISyntaxException {
         ClassLoader classLoader = getClass().getClassLoader();
         String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
         String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
@@ -65,6 +60,25 @@ public class HyperwalletEncryptionTest {
 
         HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
                 .clientPrivateKeySetLocation(clientPrivateKeysPath).hyperwalletKeySetLocation(hyperwalletKeysPath).build();
+        String encryptedPayload = hyperwalletEncryption.encrypt(testPayload);
+        String payloadAfterDescription = hyperwalletEncryption.decrypt(encryptedPayload);
+
+        assertThat("Payload text is the same after decryption" + testPayload,
+                payloadAfterDescription, is(testPayload));
+    }
+
+    @Test
+    public void shouldCorrectlyEncryptAndDecryptInputTextEC() throws IOException, ParseException, JOSEException, URISyntaxException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset-ec").toURI()).getAbsolutePath();
+        String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset-ec").toURI()).getAbsolutePath();
+        String testPayload = IOUtils.toString(classLoader.getResourceAsStream("encryption/test-payload.json"));
+
+        HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                .signAlgorithm(JWSAlgorithm.ES256)
+                .encryptionAlgorithm(JWEAlgorithm.ECDH_ES)
+                .clientPrivateKeySetLocation(clientPrivateKeysPath)
+                .hyperwalletKeySetLocation(hyperwalletKeysPath).build();
         String encryptedPayload = hyperwalletEncryption.encrypt(testPayload);
         String payloadAfterDescription = hyperwalletEncryption.decrypt(encryptedPayload);
 
@@ -101,13 +115,13 @@ public class HyperwalletEncryptionTest {
 
         HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
                 .clientPrivateKeySetLocation(clientPrivateKeysPath).hyperwalletKeySetLocation(hyperwalletKeysPath)
-                .encryptionAlgorithm(JWEAlgorithm.A256GCMKW).build();
+                .encryptionAlgorithm(JWEAlgorithm.ECDH_ES).build();
 
         try {
             hyperwalletEncryption.encrypt(testPayload);
             fail("Expected IllegalStateException");
         } catch (IllegalStateException e) {
-            assertThat(e.getMessage(), is(containsString("Algorithm = A256GCMKW is not found in client or Hyperwallet key set")));
+            assertThat(e.getMessage(), is(containsString("Algorithm = ECDH-ES is not found in client or Hyperwallet key set")));
         }
     }
 
@@ -180,6 +194,115 @@ public class HyperwalletEncryptionTest {
             assertThat(e.getMessage(), is(containsString("Response message signature(JWS) has expired")));
         }
     }
+
+    @Test
+    public void shouldThrowExceptionWhenUnsupportedJWSAlgorithmIsProvided() throws URISyntaxException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
+        String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
+
+        try {
+            HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                    .signAlgorithm(JWSAlgorithm.ES256K)
+                    .clientPrivateKeySetLocation(clientPrivateKeysPath)
+                    .hyperwalletKeySetLocation(hyperwalletKeysPath).build();
+            fail("Expected HyperwalletException");
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is(containsString("Unsupported signing algorithm ES256K")));
+        }
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenUnsupportedJWEAlgorithmIsProvided() throws URISyntaxException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
+        String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
+
+        try {
+            HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                    .encryptionAlgorithm(JWEAlgorithm.A256GCMKW)
+                    .clientPrivateKeySetLocation(clientPrivateKeysPath)
+                    .hyperwalletKeySetLocation(hyperwalletKeysPath).build();
+            fail("Expected HyperwalletException");
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is(containsString("Unsupported encryption algorithm A256GCMKW")));
+        }
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenUnsupportedEncryptionMethodIsProvided() throws URISyntaxException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
+        String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
+
+        try {
+            HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                    .encryptionMethod(EncryptionMethod.A128CBC_HS256_DEPRECATED)
+                    .clientPrivateKeySetLocation(clientPrivateKeysPath)
+                    .hyperwalletKeySetLocation(hyperwalletKeysPath).build();
+            fail("Expected HyperwalletException");
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is(containsString("Unsupported encryption method A128CBC+HS256")));
+        }
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenUnsupportedKeyTypeIsProvided() throws URISyntaxException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
+        String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
+
+        try {
+            HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                    .encryptionMethod(EncryptionMethod.A128CBC_HS256_DEPRECATED)
+                    .clientPrivateKeySetLocation(clientPrivateKeysPath)
+                    .hyperwalletKeySetLocation(hyperwalletKeysPath).build();
+            fail("Expected HyperwalletException");
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is(containsString("Unsupported encryption method A128CBC+HS256")));
+        }
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenUnsupportedKeyTypeIsReturned() throws IOException, ParseException, JOSEException, URISyntaxException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset-unsupported-key").toURI()).getAbsolutePath();
+        String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset-unsupported-key").toURI()).getAbsolutePath();
+        String testPayload = IOUtils.toString(classLoader.getResourceAsStream("encryption/test-payload.json"));
+
+        try {
+            HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                    .signAlgorithm(JWSAlgorithm.ES256)
+                    .encryptionAlgorithm(JWEAlgorithm.ECDH_ES)
+                    .clientPrivateKeySetLocation(clientPrivateKeysPath)
+                    .hyperwalletKeySetLocation(hyperwalletKeysPath).build();
+            String encryptedPayload = hyperwalletEncryption.encrypt(testPayload);
+            fail("Expected HyperwalletException");
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is(containsString("'kty' not supported = OKP")));
+        }
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenEncryptionAlgorithmIsNotFoundInKeySet1()
+            throws URISyntaxException, IOException, ParseException, JOSEException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
+        String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
+        String testPayload = IOUtils.toString(classLoader.getResourceAsStream("encryption/test-payload.json"));
+
+        HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                .clientPrivateKeySetLocation(clientPrivateKeysPath).hyperwalletKeySetLocation(hyperwalletKeysPath)
+                .encryptionAlgorithm(JWEAlgorithm.ECDH_ES).build();
+
+        try {
+            hyperwalletEncryption.encrypt(testPayload);
+            fail("Expected IllegalStateException");
+        } catch (IllegalStateException e) {
+            assertThat(e.getMessage(), is(containsString("Algorithm = ECDH-ES is not found in client or Hyperwallet key set")));
+        }
+    }
+
 
     private Method findGetter(String fieldName) throws Exception {
         String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
