@@ -283,27 +283,6 @@ public class HyperwalletEncryptionTest {
         }
     }
 
-    @Test
-    public void shouldThrowExceptionWhenEncryptionAlgorithmIsNotFoundInKeySet1()
-            throws URISyntaxException, IOException, ParseException, JOSEException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        String hyperwalletKeysPath = new File(classLoader.getResource("encryption/public-jwkset").toURI()).getAbsolutePath();
-        String clientPrivateKeysPath = new File(classLoader.getResource("encryption/private-jwkset").toURI()).getAbsolutePath();
-        String testPayload = IOUtils.toString(classLoader.getResourceAsStream("encryption/test-payload.json"));
-
-        HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
-                .clientPrivateKeySetLocation(clientPrivateKeysPath).hyperwalletKeySetLocation(hyperwalletKeysPath)
-                .encryptionAlgorithm(JWEAlgorithm.ECDH_ES).build();
-
-        try {
-            hyperwalletEncryption.encrypt(testPayload);
-            fail("Expected IllegalStateException");
-        } catch (IllegalStateException e) {
-            assertThat(e.getMessage(), is(containsString("Algorithm = ECDH-ES is not found in client or Hyperwallet key set")));
-        }
-    }
-
-
     private Method findGetter(String fieldName) throws Exception {
         String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
         return HyperwalletEncryption.class.getMethod(getterName);
