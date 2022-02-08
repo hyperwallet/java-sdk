@@ -76,8 +76,8 @@ public class HyperwalletEncryption {
 
         JWK clientPrivateKey = getKeyByAlgorithm(loadKeySet(clientPrivateKeySetLocation), signAlgorithm);
         JWK hyperwalletPublicKey = getKeyByAlgorithm(loadKeySet(hyperwalletKeySetLocation), encryptionAlgorithm);
-        JWSSigner signer = getJWSSigner(clientPrivateKey);
-        JWEEncrypter jwsEncrypter = getJWEEncrypter(hyperwalletPublicKey);
+        JWSSigner jwsSigner = getJWSSigner(clientPrivateKey);
+        JWEEncrypter jweEncrypter = getJWEEncrypter(hyperwalletPublicKey);
 
         JWSObject jwsObject = new JWSObject(
                 new JWSHeader.Builder(signAlgorithm)
@@ -86,14 +86,14 @@ public class HyperwalletEncryption {
                         .customParam(EXPIRATION, getJWSExpirationMillis()).build(),
                 new Payload(body));
 
-        jwsObject.sign(signer);
+        jwsObject.sign(jwsSigner);
 
         JWEObject jweObject = new JWEObject(
                 new JWEHeader.Builder(encryptionAlgorithm, encryptionMethod)
                         .keyID(hyperwalletPublicKey.getKeyID()).build(),
                 new Payload(jwsObject));
 
-        jweObject.encrypt(jwsEncrypter);
+        jweObject.encrypt(jweEncrypter);
 
         return jweObject.serialize();
     }
@@ -103,13 +103,13 @@ public class HyperwalletEncryption {
         JWK privateKeyToDecrypt = getKeyByAlgorithm(loadKeySet(clientPrivateKeySetLocation), encryptionAlgorithm);
         JWK publicKeyToSign = getKeyByAlgorithm(loadKeySet(hyperwalletKeySetLocation), signAlgorithm);
         JWEDecrypter jweDecrypter = getJWEDecrypter(privateKeyToDecrypt);
-        JWSVerifier verifier = getJWSVerifier(publicKeyToSign);
+        JWSVerifier jwsVerifier = getJWSVerifier(publicKeyToSign);
 
         JWEObject jweObject = JWEObject.parse(body);
         jweObject.decrypt(jweDecrypter);
         JWSObject jwsObject = jweObject.getPayload().toJWSObject();
         verifySignatureExpirationDate(jwsObject.getHeader().getCustomParam(EXPIRATION));
-        boolean verifyStatus = jwsObject.verify(verifier);
+        boolean verifyStatus = jwsObject.verify(jwsVerifier);
         if (!verifyStatus) {
             throw new HyperwalletException("JWS signature is incorrect");
         }
