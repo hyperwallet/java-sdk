@@ -30,6 +30,11 @@ public class HyperwalletBankAccountTest extends BaseModelTest<HyperwalletBankAcc
                 .branchCountry("test-branch-country")
                 .branchPostalCode("test-branch-postal-code")
 
+                .buildingSocietyAccount("test-building-society-account")
+                .residence("test-residence")
+                .taxId("test-tax-id")
+                .taxReasonId("test-tax-reason-id")
+
                 .wireInstructions("test-wire-instructions")
                 .intermediaryBankId("test-intermediary-bank-id")
                 .intermediaryBankName("test-intermediary-bank-name")
@@ -65,6 +70,7 @@ public class HyperwalletBankAccountTest extends BaseModelTest<HyperwalletBankAcc
                 .email("test-email")
 
                 .governmentId("test-government-id")
+                .governmentIdType("test-government-id-type")
                 .passportId("test-passport-id")
                 .driversLicenseId("test-drivers-license-id")
 
