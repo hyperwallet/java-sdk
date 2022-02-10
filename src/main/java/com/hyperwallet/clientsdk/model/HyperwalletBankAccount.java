@@ -40,6 +40,11 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     private String branchCountry;
     private String branchPostalCode;
 
+    private String buildingSocietyAccount;
+    private String residence;
+    private String taxId;
+    private String taxReasonId;
+
     private String wireInstructions;
     private String intermediaryBankId;
     private String intermediaryBankName;
@@ -72,6 +77,7 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     private String mobileNumber;
     private String email;
     private String governmentId;
+    private String governmentIdType;
     private String passportId;
     private String driversLicenseId;
     private String addressLine1;
@@ -457,6 +463,90 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     public HyperwalletBankAccount clearBranchPostalCode() {
         clearField("branchPostalCode");
         branchPostalCode = null;
+        return this;
+    }
+
+    public String getBuildingSocietyAccount() {
+        return buildingSocietyAccount;
+    }
+
+    public void setBuildingSocietyAccount(String buildingSocietyAccount) {
+        addField("buildingSocietyAccount", buildingSocietyAccount);
+        this.buildingSocietyAccount = buildingSocietyAccount;
+    }
+
+    public HyperwalletBankAccount buildingSocietyAccount(String buildingSocietyAccount) {
+        addField("buildingSocietyAccount", buildingSocietyAccount);
+        this.buildingSocietyAccount = buildingSocietyAccount;
+        return this;
+    }
+
+    public HyperwalletBankAccount clearBuildingSocietyAccount() {
+        clearField("buildingSocietyAccount");
+        buildingSocietyAccount = null;
+        return this;
+    }
+
+    public String getResidence() {
+        return residence;
+    }
+
+    public void setResidence(String residence) {
+        addField("residence", residence);
+        this.residence = residence;
+    }
+
+    public HyperwalletBankAccount residence(String residence) {
+        addField("residence", residence);
+        this.residence = residence;
+        return this;
+    }
+
+    public HyperwalletBankAccount clearResidence() {
+        clearField("residence");
+        residence = null;
+        return this;
+    }
+
+    public String getTaxId() {
+        return taxId;
+    }
+
+    public void setTaxId(String taxId) {
+        addField("taxId", taxId);
+        this.taxId = taxId;
+    }
+
+    public HyperwalletBankAccount taxId(String taxId) {
+        addField("taxId", taxId);
+        this.taxId = taxId;
+        return this;
+    }
+
+    public HyperwalletBankAccount clearTaxId() {
+        clearField("taxId");
+        taxId = null;
+        return this;
+    }
+
+    public String getTaxReasonId() {
+        return taxReasonId;
+    }
+
+    public void setTaxReasonId(String taxReasonId) {
+        addField("taxReasonId", taxReasonId);
+        this.taxReasonId = taxReasonId;
+    }
+
+    public HyperwalletBankAccount taxReasonId(String taxReasonId) {
+        addField("taxReasonId", taxReasonId);
+        this.taxReasonId = taxReasonId;
+        return this;
+    }
+
+    public HyperwalletBankAccount clearTaxReasonId() {
+        clearField("taxReasonId");
+        taxReasonId = null;
         return this;
     }
 
@@ -1066,6 +1156,27 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     public HyperwalletBankAccount clearGovernmentId() {
         clearField("governmentId");
         governmentId = null;
+        return this;
+    }
+
+    public String getGovernmentIdType() {
+        return governmentIdType;
+    }
+
+    public void setGovernmentIdType(String governmentIdType) {
+        addField("governmentIdType", governmentIdType);
+        this.governmentIdType = governmentIdType;
+    }
+
+    public HyperwalletBankAccount governmentIdType(String governmentIdType) {
+        addField("governmentIdType", governmentIdType);
+        this.governmentIdType = governmentIdType;
+        return this;
+    }
+
+    public HyperwalletBankAccount clearGovernmentIdType() {
+        clearField("governmentIdType");
+        governmentIdType = null;
         return this;
     }
 
