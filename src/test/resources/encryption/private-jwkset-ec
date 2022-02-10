@@ -1,0 +1,24 @@
+{
+  "keys": [
+    {
+        "kty": "EC",
+        "d": "CQ7fBVWs-xn97g7NEAWBbvMHNj1G5_PnKZ2EizNtKFM",
+        "use": "sig",
+        "crv": "P-256",
+        "kid": "2022_sig_rsa_ES256_2048",
+        "x": "CV1UHUfozG_2SC0RHiUNji6H_gnVF983yHpqA5rLJmE",
+        "y": "-hnV_jQwmwi5Gwcj9eCUNe9r3NlLaZaHwbmBngn3S7s",
+        "alg": "ES256"
+    },
+    {
+        "kty": "EC",
+        "d": "rYUtmp4JFWk07jz5wMIAXET9YpDYxggiqFbwfgluem8",
+        "use": "enc",
+        "crv": "P-256",
+        "kid": "2022_enc_ec_P-256_ECDH-ES",
+        "x": "LbR5tW4Sn4b60jHfzXHiJF8j-C1dBB4PQueJo2gkWM0",
+        "y": "1w_8_VdKEpmNnzQl2uqPUS2JlrJnCa-4_KJuvyBm31k",
+        "alg": "ECDH-ES"
+    }
+  ]
+}
