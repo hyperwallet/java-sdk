@@ -292,7 +292,7 @@ public class HyperwalletEncryptionTest {
 
         List<String> fieldNames = new ArrayList<String>();
         for (Field field : HyperwalletEncryption.class.getDeclaredFields()) {
-            if (!Modifier.isPrivate(field.getModifiers()) || Modifier.isFinal(field.getModifiers())) {
+            if (!Modifier.isPrivate(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
                 continue;
             }
             fieldNames.add(field.getName());
