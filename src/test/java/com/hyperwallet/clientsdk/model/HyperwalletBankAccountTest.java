@@ -35,7 +35,7 @@ public class HyperwalletBankAccountTest extends BaseModelTest<HyperwalletBankAcc
                 .buildingSocietyAccount("test-building-society-account")
                 .residence("test-residence")
                 .taxId("test-tax-id")
-                .taxReasonId("test-tax-id-reason")
+                .taxReasonId("test-tax-reason-id")
                 .wireInstructions("test-wire-instructions")
                 .intermediaryBankId("test-intermediary-bank-id")
                 .intermediaryBankName("test-intermediary-bank-name")
