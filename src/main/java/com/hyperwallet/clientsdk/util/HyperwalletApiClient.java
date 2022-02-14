@@ -172,11 +172,7 @@ public class HyperwalletApiClient {
     private Request getService(final String url, boolean isHttpGet) {
         String contentType = "application/" + ((isEncrypted) ? "jose+json" : "json");
         Request request;
-        if (usesProxy()) {
-            request = new Request(url, proxy);
-        } else {
-            request = new Request(url);
-        }
+        request = usesProxy() ? new Request(url, proxy) : new Request(url);
         request.addHeader("Authorization", getAuthorizationHeader())
                 .addHeader("Accept", contentType)
                 .addHeader("User-Agent", "Hyperwallet Java SDK v" + this.version)

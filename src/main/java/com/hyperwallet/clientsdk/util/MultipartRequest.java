@@ -48,11 +48,7 @@ public class MultipartRequest {
         URL url = new URL(requestURL);
         final String pair = username + ":" + password;
         final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
-        if (usesProxy) {
-            connection = (HttpURLConnection) url.openConnection(proxy);
-        } else {
-            connection = (HttpURLConnection) url.openConnection();
-        }
+        connection = usesProxy ? (HttpURLConnection) url.openConnection(proxy) : (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
         connection.setRequestMethod("PUT");
         connection.setRequestProperty("authorization", "Basic " + base64);

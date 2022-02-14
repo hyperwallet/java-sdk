@@ -1400,7 +1400,7 @@ public class HyperwalletApiClientTest {
             hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getMessage(), is(containsString("java.io.IOException: Stream closed")));
+            assertThat(e.getMessage(), is(containsString("java.net.ConnectException: Connection refused (Connection refused)")));
         }
     }
 
@@ -1415,7 +1415,7 @@ public class HyperwalletApiClientTest {
             hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getMessage(), is(containsString("java.io.IOException: Stream closed")));
+            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhostFail")));
         }
     }
 
@@ -1430,7 +1430,7 @@ public class HyperwalletApiClientTest {
             hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getMessage(), is(containsString("java.io.IOException: Stream closed")));
+            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhost:"g)));
         }
     }
 
