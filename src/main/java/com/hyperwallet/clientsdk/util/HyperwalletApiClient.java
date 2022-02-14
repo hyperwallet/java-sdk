@@ -18,7 +18,6 @@ public class HyperwalletApiClient {
 
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String VALID_JSON_CONTENT_TYPE = "application/json";
-    private static final String VALID_HTML_CONTENT_TYPE = "text/html; charset=UTF-8";
     private static final String VALID_JSON_JOSE_CONTENT_TYPE = "application/jose+json";
     private static final String SDK_TYPE = "java";
     private Proxy proxy;
@@ -157,9 +156,6 @@ public class HyperwalletApiClient {
     private void checkResponseHeader(Response response) {
         String contentTypeHeader = response.getHeader(CONTENT_TYPE_HEADER);
         String expectedContentType = isEncrypted ? VALID_JSON_JOSE_CONTENT_TYPE : VALID_JSON_CONTENT_TYPE;
-//        if (response.getResponseCode() == 302) {
-//            expectedContentType = VALID_HTML_CONTENT_TYPE;
-//        }
         boolean invalidContentType = response.getResponseCode() != 204 && contentTypeHeader != null
                 && !contentTypeHeader.contains(expectedContentType);
         if (invalidContentType) {

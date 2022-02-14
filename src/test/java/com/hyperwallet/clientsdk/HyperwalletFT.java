@@ -1,6 +1,7 @@
 package com.hyperwallet.clientsdk;
 
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.util.Multipart;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -124,6 +125,58 @@ public class HyperwalletFT {
                 returnValue = client.createUser(hyperwalletUser);
             } catch (Exception e) {
                 assertThat(e.getMessage(), is(containsString("You must provide a valid program token")));
+            }
+        }
+    }
+
+    @Test
+    public void testUploadStakeholderDocumentsWithInvalidData() throws Exception {
+        if (!username.isEmpty()) {
+            HyperwalletBusinessStakeholder returnValue;
+            HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
+            try {
+                String userToken = "usr-490848fb-8e1f-4f7c-9a18-a5b7a372e602";
+                String stkToken = "stk-e08f13b8-0e54-43d2-a587-67d513633275";
+                Multipart multipart = new Multipart();
+                List<HyperwalletVerificationDocument> documentList = new ArrayList<>();
+                hyperwalletVerificationDocument.setType("DRIVERS_LICENSE");
+                hyperwalletVerificationDocument.setCategory("IDENTIFICATION");
+                hyperwalletVerificationDocument.setCountry("US");
+                Map<String, String> fileList = new HashMap<>();
+                fileList.put("drivers_license_front", "src/test/resources/integration/test.png");
+                fileList.put("drivers_license_back", "src/test/resources/integration/test.png");
+                hyperwalletVerificationDocument.setUploadFiles(fileList);
+                documentList.add(hyperwalletVerificationDocument);
+                returnValue = client.uploadStakeholderDocuments(userToken, stkToken, documentList);
+            } catch (Exception e) {
+                assertThat(e.getMessage(), is(containsString("hyperwallet.clientsdk.HyperwalletException")));
+            }
+        }
+    }
+
+    @Test
+    public void testProxyUploadStakeholderDocumentsWithInvalidData() throws Exception {
+        if (!username.isEmpty()) {
+            HyperwalletBusinessStakeholder returnValue;
+            HyperwalletVerificationDocument hyperwalletVerificationDocument = new HyperwalletVerificationDocument();
+            try {
+                String userToken = "usr-490848fb-8e1f-4f7c-9a18-a5b7a372e602";
+                String stkToken = "stk-e08f13b8-0e54-43d2-a587-67d513633275";
+                Multipart multipart = new Multipart();
+                List<HyperwalletVerificationDocument> documentList = new ArrayList<>();
+                hyperwalletVerificationDocument.setType("DRIVERS_LICENSE");
+                hyperwalletVerificationDocument.setCategory("IDENTIFICATION");
+                hyperwalletVerificationDocument.setCountry("US");
+                Map<String, String> fileList = new HashMap<>();
+                fileList.put("drivers_license_front", "src/test/resources/integration/test.png");
+                fileList.put("drivers_license_back", "src/test/resources/integration/test.png");
+                hyperwalletVerificationDocument.setUploadFiles(fileList);
+                documentList.add(hyperwalletVerificationDocument);
+
+                client.setHyperwalletProxy("localhost", 9090);
+                returnValue = client.uploadStakeholderDocuments(userToken, stkToken, documentList);
+            } catch (Exception e) {
+                assertThat(e.getMessage(), is(containsString("hyperwallet.clientsdk.HyperwalletException")));
             }
         }
     }

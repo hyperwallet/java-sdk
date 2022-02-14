@@ -53,7 +53,6 @@ public class MultipartRequest {
         } else {
             connection = (HttpURLConnection) url.openConnection();
         }
-        connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
         connection.setRequestMethod("PUT");
         connection.setRequestProperty("authorization", "Basic " + base64);
