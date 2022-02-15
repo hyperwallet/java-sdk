@@ -73,6 +73,30 @@ To write an app using the SDK
   }
   ```
 
+**Payload Encryption**
+
+Hyperwallet’s Payload Encryption is an implementation of Javascript Object Signing and Encryption (JOSE) and JSON Web Tokens (JWT), and provides an alternative to IP allowlisting as the second factor of authentication. Please see https://docs.hyperwallet.com/content/api/v3/overview/payload-encryption for more details.
+
+To enable payload encryption, we need the following two keysets available:
+* Hyperwallet's public keyset - https://api.paylution.com/jwkset (PRODUCTION) and https://uat-api.paylution.com/jwkset (UAT)
+* Client private keyset
+
+Create a HyperwalletEncryption object providing the two keyset locations, the JWS/JWE algorithms you want to use, and the encryption method.
+  ```java
+  HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryptionBuilder()
+      .encryptionAlgorithm(JWEAlgorithm.ECDH_ES)
+      .encryptionMethod(EncryptionMethod.A256CBC_HS512)
+      .signAlgorithm(JWSAlgorithm.ES256)
+      .hyperwalletKeySetLocation("src/main/resources/hw-uat.json")
+      .clientPrivateKeySetLocation("src/main/resources/client-private-keyset.json")
+      .build();
+  ```
+Initialize the Hyperwallet Client with the created HyperwalletEncryption object
+  ```java
+  Hyperwallet client = new Hyperwallet("restapiuser@4917301618", "mySecurePassword!", "prg-645fc30d-83ed-476c-a412-32c82738a20e", hyperwalletEncryption);  
+  ```
+API requests will now be signed using the private key matching the selected JWS algorithm, and encrypted using Hyperwallet's public key matching the selected JWE algorithm.
+
 
 Development
 -----------
