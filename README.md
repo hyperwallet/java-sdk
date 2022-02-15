@@ -99,6 +99,7 @@ API requests will now be signed using the private key matching the selected JWS 
 
 
 **Proxy Support**
+
 Hyperwallet's API client provide's support for proxy configuration.
 
 To enable proxy support, an appropriate proxy configuration must be provided. It can either be provided as a Proxy object or as a String and Integer representing the URL and Port of the proxy.
