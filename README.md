@@ -75,7 +75,7 @@ To write an app using the SDK
 
 **Payload Encryption**
 
-Hyperwallet’s Payload Encryption is an implementation of Javascript Object Signing and Encryption (JOSE) and JSON Web Tokens (JWT), and provides an alternative to IP allowlisting as the second factor of authentication. Please see https://docs.hyperwallet.com/content/api/v4/overview/payload-encryption for more details.
+Hyperwallet’s Payload Encryption is an implementation of Javascript Object Signing and Encryption (JOSE) and JSON Web Tokens (JWT), and provides an alternative to IP allowlisting as the second factor of authentication. Please see https://docs.hyperwallet.com/content/api/v3/overview/payload-encryption for more details.
 
 To enable payload encryption, we need the following two keysets available:
 * Hyperwallet's public keyset - https://api.paylution.com/jwkset (PRODUCTION) and https://uat-api.paylution.com/jwkset (UAT)
