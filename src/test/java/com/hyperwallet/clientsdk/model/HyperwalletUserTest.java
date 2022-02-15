@@ -1,11 +1,10 @@
 package com.hyperwallet.clientsdk.model;
 
-import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 import com.hyperwallet.clientsdk.model.HyperwalletUser.TaxVerificationStatus;
+import com.hyperwallet.clientsdk.model.HyperwalletUser.VerificationStatus;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -33,6 +32,12 @@ public class HyperwalletUserTest extends BaseModelTest<HyperwalletUser> {
                 .businessRegistrationStateProvince("test-business-registration-state-province")
                 .businessRegistrationCountry("test-business-registration-country")
                 .businessContactRole(HyperwalletUser.BusinessContactRole.DIRECTOR)
+                .businessContactAddressLine1("test-business-contact-address-line-1")
+                .businessContactAddressLine2("test-business-contact-address-line-2")
+                .businessContactCity("test-business-contact-city")
+                .businessContactStateProvince("test-business-contact-state-province")
+                .businessContactCountry("test-business-contact-country")
+                .businessContactPostalCode("test-business-contact-postal-code")
 
                 .firstName("test-first-name")
                 .middleName("test-middle-name")

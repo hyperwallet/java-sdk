@@ -46,6 +46,13 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     private String businessRegistrationCountry;
     private BusinessContactRole businessContactRole;
 
+    private String businessContactAddressLine1;
+    private String businessContactAddressLine2;
+    private String businessContactCity;
+    private String businessContactStateProvince;
+    private String businessContactCountry;
+    private String businessContactPostalCode;
+
     private String firstName;
     private String middleName;
     private String lastName;
@@ -382,6 +389,132 @@ public class HyperwalletUser extends HyperwalletBaseMonitor {
     public HyperwalletUser clearBusinessContactRole() {
         clearField("businessContactRole");
         businessContactRole = null;
+        return this;
+    }
+
+    public String getBusinessContactAddressLine1() {
+        return businessContactAddressLine1;
+    }
+
+    public void setBusinessContactAddressLine1(String businessContactAddressLine1) {
+        addField("businessContactAddressLine1", businessContactAddressLine1);
+        this.businessContactAddressLine1 = businessContactAddressLine1;
+    }
+
+    public HyperwalletUser businessContactAddressLine1(String businessContactAddressLine1) {
+        addField("businessContactAddressLine1", businessContactAddressLine1);
+        this.businessContactAddressLine1 = businessContactAddressLine1;
+        return this;
+    }
+
+    public HyperwalletUser clearBusinessContactAddressLine1() {
+        clearField("businessContactAddressLine1");
+        businessContactAddressLine1 = null;
+        return this;
+    }
+
+    public String getBusinessContactAddressLine2() {
+        return businessContactAddressLine2;
+    }
+
+    public void setBusinessContactAddressLine2(String businessContactAddressLine2) {
+        addField("businessContactAddressLine2", businessContactAddressLine2);
+        this.businessContactAddressLine2 = businessContactAddressLine2;
+    }
+
+    public HyperwalletUser businessContactAddressLine2(String businessContactAddressLine2) {
+        addField("businessContactAddressLine2", businessContactAddressLine2);
+        this.businessContactAddressLine2 = businessContactAddressLine2;
+        return this;
+    }
+
+    public HyperwalletUser clearBusinessContactAddressLine2() {
+        clearField("businessContactAddressLine2");
+        businessContactAddressLine2 = null;
+        return this;
+    }
+
+    public String getBusinessContactCity() {
+        return businessContactCity;
+    }
+
+    public void setBusinessContactCity(String businessContactCity) {
+        addField("businessContactCity", businessContactCity);
+        this.businessContactCity = businessContactCity;
+    }
+
+    public HyperwalletUser businessContactCity(String businessContactCity) {
+        addField("businessContactCity", businessContactCity);
+        this.businessContactCity = businessContactCity;
+        return this;
+    }
+
+    public HyperwalletUser clearBusinessContactCity() {
+        clearField("businessContactCity");
+        businessContactCity = null;
+        return this;
+    }
+
+    public String getBusinessContactStateProvince() {
+        return businessContactStateProvince;
+    }
+
+    public void setBusinessContactStateProvince(String businessContactStateProvince) {
+        addField("businessContactStateProvince", businessContactStateProvince);
+        this.businessContactStateProvince = businessContactStateProvince;
+    }
+
+    public HyperwalletUser businessContactStateProvince(String businessContactStateProvince) {
+        addField("businessContactStateProvince", businessContactStateProvince);
+        this.businessContactStateProvince = businessContactStateProvince;
+        return this;
+    }
+
+    public HyperwalletUser clearBusinessContactStateProvince() {
+        clearField("businessContactStateProvince");
+        businessContactStateProvince = null;
+        return this;
+    }
+
+    public String getBusinessContactCountry() {
+        return businessContactCountry;
+    }
+
+    public void setBusinessContactCountry(String businessContactCountry) {
+        addField("businessContactCountry", businessContactCountry);
+        this.businessContactCountry = businessContactCountry;
+    }
+
+    public HyperwalletUser businessContactCountry(String businessContactCountry) {
+        addField("businessContactCountry", businessContactCountry);
+        this.businessContactCountry = businessContactCountry;
+        return this;
+    }
+
+    public HyperwalletUser clearBusinessContactCountry() {
+        clearField("businessContactCountry");
+        businessContactCountry = null;
+        return this;
+    }
+
+    public String getBusinessContactPostalCode() {
+        return businessContactPostalCode;
+    }
+
+    public void setBusinessContactPostalCode(String businessContactPostalCode) {
+        addField("businessContactPostalCode", businessContactPostalCode);
+        this.businessContactPostalCode = businessContactPostalCode;
+    }
+
+    public HyperwalletUser businessContactPostalCode(String businessContactPostalCode) {
+        addField("businessContactPostalCode", businessContactPostalCode);
+        this.businessContactPostalCode = businessContactPostalCode;
+        return this;
+    }
+
+    public HyperwalletUser clearBusinessContactPostalCode() {
+        clearField("businessContactPostalCode");
+        businessContactPostalCode = null;
         return this;
     }
 
