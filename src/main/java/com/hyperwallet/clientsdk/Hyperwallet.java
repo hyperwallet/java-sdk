@@ -6,6 +6,8 @@ import com.hyperwallet.clientsdk.util.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -80,6 +82,43 @@ public class Hyperwallet {
      */
     public Hyperwallet(final String username, final String password) {
         this(username, password, null);
+    }
+
+    /**
+     * Create Proxy setting for Hyperwallet API Client instance
+     *
+     * @param url url of Proxy
+     * @param port port of Proxy
+     */
+    public void setHyperwalletProxy(final String url, final Integer port) {
+        apiClient.setProxy(url, port);
+    }
+
+    /**
+     * Create Proxy setting for Hyperwallet API Client instance
+     *
+     * @param proxy value of Proxy
+     */
+    public void setHyperwalletProxy(final Proxy proxy) {
+        apiClient.setProxy(proxy);
+    }
+
+    /**
+     * Create Proxy setting for Hyperwallet API Client instance
+     *
+     * @return Proxy current Proxy config of client
+     */
+    public Proxy getHyperwalletProxy() {
+        return apiClient.getProxy();
+    }
+
+    /**
+     * Create Proxy setting for Hyperwallet API Client instance
+     *
+     * @return Boolean if client has a proxy config
+     */
+    public Boolean usesHyperwalletProxy() {
+        return apiClient.usesProxy();
     }
 
     //--------------------------------------
