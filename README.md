@@ -98,6 +98,16 @@ Initialize the Hyperwallet Client with the created HyperwalletEncryption object
 API requests will now be signed using the private key matching the selected JWS algorithm, and encrypted using Hyperwallet's public key matching the selected JWE algorithm.
 
 
+**Proxy Support**
+Hyperwallet's API client provide's support for proxy configuration. Please see https://docs.hyperwallet.com/content/api/v4/overview/payload-encryption for more details.
+
+To enable proxy support, an appropriate proxy configuration must be provided. It can either be provided as a Proxy object or as a String and Integer representing the URL and Port of the proxy.
+
+After creating an instance of the Hyperwallet Client, run a command similar to the one below
+  ```java
+  client.setHyperwalletProxy("proxyURL", 9090);
+  ```
+
 Development
 -----------
 
