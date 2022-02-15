@@ -1251,4 +1251,167 @@ public class HyperwalletApiClientTest {
         assertThat(body.test1, is(equalTo("value1")));
         assertThat(body.test2, is(nullValue()));
     }
+
+    @Test
+    public void testGetProxy_withIncorrectPort() {
+        try {
+            hyperwalletApiClient.setProxy("localhost", 1000);
+            hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.ConnectException: Connection refused")));
+        }
+    }
+
+    @Test
+    public void testGetProxy_withIncorrectHost() {
+        try {
+            hyperwalletApiClient.setProxy("localhostFail", 9090);
+            hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhost")));
+        }
+    }
+
+    @Test
+    public void testGetProxy_withIncorrectURL() {
+        try {
+            hyperwalletApiClient.setProxy("localhost:", 9090);
+            hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhost")));
+        }
+    }
+
+    @Test
+    public void testPutProxy_withIncorrectPort() {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+        try {
+            hyperwalletApiClient.setProxy("localhost", 1000);
+            hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.ConnectException: Connection refused")));
+        }
+    }
+
+    @Test
+    public void testPutProxy_withIncorrectHost() {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+        try {
+            hyperwalletApiClient.setProxy("localhostFail", 9090);
+            hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhost")));
+        }
+    }
+
+    @Test
+    public void testPutProxy_withIncorrectURL() {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+        try {
+            hyperwalletApiClient.setProxy("localhost:", 9090);
+            hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhost")));
+        }
+    }
+
+    @Test
+    public void testPutMultipartProxy_withIncorrectPort() {
+        Multipart requestBody = new Multipart();
+        List<Multipart.MultipartData> multipartList = new ArrayList<Multipart.MultipartData>();
+        requestBody.setMultipartList(multipartList);
+
+        try {
+            hyperwalletApiClient.setProxy("localhost", 1000);
+            hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.ConnectException: Connection refused (Connection refused)")));
+        }
+    }
+
+    @Test
+    public void testPutMultipartProxy_withIncorrectHost() {
+        Multipart requestBody = new Multipart();
+        List<Multipart.MultipartData> multipartList = new ArrayList<Multipart.MultipartData>();
+        requestBody.setMultipartList(multipartList);
+
+        try {
+            hyperwalletApiClient.setProxy("localhostFail", 9090);
+            hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhostFail")));
+        }
+    }
+
+    @Test
+    public void testPutMultipartProxy_withIncorrectURL() {
+        Multipart requestBody = new Multipart();
+        List<Multipart.MultipartData> multipartList = new ArrayList<Multipart.MultipartData>();
+        requestBody.setMultipartList(multipartList);
+
+        try {
+            hyperwalletApiClient.setProxy("localhost:", 9090);
+            hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhost:")));
+        }
+    }
+
+    @Test
+    public void testPostProxy_withIncorrectPort() {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+        try {
+            hyperwalletApiClient.setProxy("localhost", 1000);
+            hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.ConnectException: Connection refused")));
+        }
+    }
+
+    @Test
+    public void testPostProxy_withIncorrectHost() {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+        try {
+            hyperwalletApiClient.setProxy("localhostFail", 9090);
+            hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhost")));
+        }
+    }
+
+    @Test
+    public void testPostProxy_withIncorrectURL() {
+        TestBody requestBody = new TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+        try {
+            hyperwalletApiClient.setProxy("localhost:", 9090);
+            hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expect HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhost")));
+        }
+    }
+
 }
