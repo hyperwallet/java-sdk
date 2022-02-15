@@ -1430,7 +1430,7 @@ public class HyperwalletApiClientTest {
             hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
-            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhost:"g)));
+            assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhost:")));
         }
     }
 
