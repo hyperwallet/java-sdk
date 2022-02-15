@@ -1,6 +1,5 @@
 package com.hyperwallet.clientsdk.util;
 
-import cc.protea.util.http.Request;
 import cc.protea.util.http.Response;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.hyperwallet.clientsdk.HyperwalletException;
@@ -9,6 +8,8 @@ import com.nimbusds.jose.JOSEException;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.UUID;
@@ -20,6 +21,7 @@ public class HyperwalletApiClient {
     private static final String VALID_JSON_JOSE_CONTENT_TYPE = "application/jose+json";
     private static final String SDK_TYPE = "java";
 
+    private Proxy proxy;
     private final String username;
     private final String password;
     private final String version;
@@ -70,7 +72,7 @@ public class HyperwalletApiClient {
     public <T> T put(final String url, Multipart uploadData, final Class<T> type) {
         Response response = null;
         try {
-            response = getMultipartService(url, uploadData).putResource();
+            response = getMultipartService(url, uploadData).putResource(usesProxy(), getProxy());
             return processResponse(response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
@@ -171,8 +173,9 @@ public class HyperwalletApiClient {
 
     private Request getService(final String url, boolean isHttpGet) {
         String contentType = "application/" + ((isEncrypted) ? "jose+json" : "json");
-        Request request = new Request(url)
-                .addHeader("Authorization", getAuthorizationHeader())
+        Request request;
+        request = usesProxy() ? new Request(url, proxy) : new Request(url);
+        request.addHeader("Authorization", getAuthorizationHeader())
                 .addHeader("Accept", contentType)
                 .addHeader("User-Agent", "Hyperwallet Java SDK v" + this.version)
                 .addHeader("x-sdk-version", this.version)
@@ -213,5 +216,21 @@ public class HyperwalletApiClient {
     private MultipartRequest getMultipartService(String requestURL, Multipart multipartData)
             throws IOException {
         return new MultipartRequest(requestURL, multipartData,  username,  password);
+    }
+
+    public Boolean usesProxy() {
+        return proxy != null;
+    }
+
+    public void setProxy(String url, Integer port) {
+        this.proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(url, port));
+    }
+
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    public Proxy getProxy() {
+        return proxy;
     }
 }

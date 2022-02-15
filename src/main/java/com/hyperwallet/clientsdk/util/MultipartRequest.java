@@ -6,6 +6,7 @@ import com.hyperwallet.clientsdk.HyperwalletException;
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -42,12 +43,12 @@ public class MultipartRequest {
         this.multipartList = multipartList;
     }
 
-    public Response putResource() throws IOException {
+    public Response putResource(boolean usesProxy, Proxy proxy) throws IOException {
         Response response = new Response() ;
         URL url = new URL(requestURL);
         final String pair = username + ":" + password;
         final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
-        connection = (HttpURLConnection) url.openConnection();
+        connection = usesProxy ? (HttpURLConnection) url.openConnection(proxy) : (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
         connection.setRequestMethod("PUT");
         connection.setRequestProperty("authorization", "Basic " + base64);
