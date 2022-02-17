@@ -1,13 +1,9 @@
 package com.hyperwallet.clientsdk.util;
 
 import cc.protea.util.http.Response;
-import com.hyperwallet.clientsdk.HyperwalletException;
-
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
@@ -43,11 +39,23 @@ public class MultipartRequest {
         this.multipartList = multipartList;
     }
 
-    public Response putResource(boolean usesProxy, Proxy proxy) throws IOException {
+    public Response putResource(boolean usesProxy, Proxy proxy, final String proxyUsername, final String proxyPassword) throws IOException {
         Response response = new Response() ;
         URL url = new URL(requestURL);
         final String pair = username + ":" + password;
         final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
+        // If there is proxy authentication provided, it will be set here
+        if (proxyUsername != null && proxyPassword != null) {
+        // NOTE: Removing Basic Auth from tunneling disabledSchemas is required in order
+        // for Proxy Authorization to work. To prevent overriding client System Settings,
+        // the client should set this System property themselves inside their JVM Options (1)
+        // or their own code (2). Approaches listed below:
+        // 1. jdk.http.auth.tunneling.disabledSchemes=
+        // 2. System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "false");
+            Authenticator authenticator = new DefaultPasswordAuthenticator(
+                    proxyUsername, proxyPassword);
+            Authenticator.setDefault(authenticator);
+        }
         connection = usesProxy ? (HttpURLConnection) url.openConnection(proxy) : (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
         connection.setRequestMethod("PUT");
@@ -101,5 +109,27 @@ public class MultipartRequest {
         outStream.writeBytes(this.CRLF);
         outStream.writeBytes(this.SEPARATOR + this.BOUNDARY + this.SEPARATOR + this.CRLF);
 
+    }
+
+    private static class DefaultPasswordAuthenticator extends Authenticator {
+
+        /**
+         * Username
+         */
+        private String userName;
+
+        /**
+         * Password
+         */
+        private String password;
+
+        public DefaultPasswordAuthenticator(String userName, String password) {
+            this.userName = userName;
+            this.password = password;
+        }
+
+        public PasswordAuthentication getPasswordAuthentication() {
+            return (new PasswordAuthentication(userName, password.toCharArray()));
+        }
     }
 }
