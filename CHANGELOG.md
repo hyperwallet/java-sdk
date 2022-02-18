@@ -1,5 +1,10 @@
 Changelog
 =========
+1.9.0
+-----------------
+- Added proxy and proxy auth support
+- Updated Payload Encryption to support EC keys
+
 1.8.0
 -----------------
 - Added new variable to HyperwalletUser class
