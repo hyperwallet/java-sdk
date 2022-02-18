@@ -124,6 +124,7 @@ To enable Proxy Authorization, proper credentials and System configurations must
 An example of a fully configured Proxy is provided below:
 
   ```java
+  System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
   Hyperwallet client = new Hyperwallet("restapiuser@4917301618", "mySecurePassword!", "prg-645fc30d-83ed-476c-a412-32c82738a20e");
   client.setHyperwalletProxy("proxyURL", 3128);
   client.setHyperwalletProxyUsername("proxyUsername");
