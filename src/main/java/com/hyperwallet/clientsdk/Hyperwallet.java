@@ -104,7 +104,7 @@ public class Hyperwallet {
     }
 
     /**
-     * Create Proxy setting for Hyperwallet API Client instance
+     * Returns Proxy setting for Hyperwallet API Client instance
      *
      * @return Proxy current Proxy config of client
      */
@@ -113,12 +113,48 @@ public class Hyperwallet {
     }
 
     /**
-     * Create Proxy setting for Hyperwallet API Client instance
+     * Checks if current Hyperwallet API Client instance uses a proxy
      *
      * @return Boolean if client has a proxy config
      */
     public Boolean usesHyperwalletProxy() {
         return apiClient.usesProxy();
+    }
+
+    /**
+     * Create Proxy Username setting for Authentication
+     *
+     * @param proxyUsername username of Proxy
+     */
+    public void setHyperwalletProxyUsername(final String proxyUsername) {
+        apiClient.setProxyUsername(proxyUsername);
+    }
+
+    /**
+     * Returns Proxy Username for Hyperwallet API Client instance
+     *
+     * @return current ProxyUsername
+     */
+    public String getHyperwalletProxyUsername() {
+        return apiClient.getProxyUsername();
+    }
+
+    /**
+     * Create Proxy Password setting for Authentication
+     *
+     * @param proxyPassword username of Proxy
+     */
+    public void setHyperwalletProxyPassword(final String proxyPassword) {
+        apiClient.setProxyPassword(proxyPassword);
+    }
+
+    /**
+     * Returns Proxy Password for Hyperwallet API Client instance
+     *
+     * @return current ProxyUsername
+     */
+    public String getHyperwalletProxyPassword() {
+        return apiClient.getProxyPassword();
     }
 
     //--------------------------------------
