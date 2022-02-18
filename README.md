@@ -98,6 +98,41 @@ Initialize the Hyperwallet Client with the created HyperwalletEncryption object
   ```
 API requests will now be signed using the private key matching the selected JWS algorithm, and encrypted using Hyperwallet's public key matching the selected JWE algorithm.
 
+
+**Proxy Support**
+
+Hyperwallet's API client supports a connection through a proxy. To enable, an appropriate proxy configuration must be provided. It can either be provided as a Proxy object or as a String and Integer representing the URL and Port of the proxy.
+
+A proxy can be configured after creating an instance of the Hyperwallet Client.
+  ```java
+  client.setHyperwalletProxy("proxyURL", 9090);
+  ```
+
+
+To enable Proxy Authorization, proper credentials and System configurations must be provided. In order to connect using Basic Auth, Basic must be an allowed tunneling method within your Java System Properties. By default, it is listed as a disabled tunneling scheme for Java 8. To enable it, follow any of the options provided below:
+
+* Manually remove Basic from the `jdk.http.auth.tunneling.disabledSchemes` property inside of JAVA_HOME/jre/lib/net.properties
+* Override System properties with JVM options by providing the below option
+  ```bash
+  -Djdk.http.auth.tunneling.disabledSchemes=""
+  ```
+* Set the System property within your code before initializing the Hyperwallet API client
+
+  ```java
+  System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
+  Hyperwallet client = new Hyperwallet("restapiuser@4917301618", "mySecurePassword!", "prg-645fc30d-83ed-476c-a412-32c82738a20e");
+  ```
+
+An example of a fully configured Proxy is provided below:
+
+  ```java
+  System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
+  Hyperwallet client = new Hyperwallet("restapiuser@4917301618", "mySecurePassword!", "prg-645fc30d-83ed-476c-a412-32c82738a20e");
+  client.setHyperwalletProxy("proxyURL", 3128);
+  client.setHyperwalletProxyUsername("proxyUsername");
+  client.setHyperwalletProxyPassword("proxyPassword");
+  ```
+
 Development
 -----------
 
