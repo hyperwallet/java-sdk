@@ -10,10 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.Proxy;
-import java.net.URL;
+import java.net.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -70,7 +67,7 @@ public class Request extends Message<Request> {
     }
 
     /**
-     * The Constructor takes the url as a String and a proxy as a Proxy.
+     * The Constructor takes the url as a String, a proxy as a Proxy, and proxy credentials as a String.
      *
      * @param url
      *            The url parameter does not need the query string parameters if they are going to be supplied via calls to
@@ -78,10 +75,28 @@ public class Request extends Message<Request> {
      * @param proxy
      *			  The Connection's Proxy value
      *
+     * @param proxyUsername
+     *            The Proxy username
+     *
+     *@param proxyPassword
+     *			  The Proxy password
+     *
      */
-    public Request(final String url, final Proxy proxy) {
+    public Request(final String url, final Proxy proxy, final String proxyUsername, final String proxyPassword) {
         try {
             this.url = new URL(url);
+            if (proxyUsername != null && proxyPassword != null) {
+                // NOTE: Removing Basic Auth from tunneling disabledSchemas is required in order
+                // for Proxy Authorization to work. To prevent overriding client System Settings,
+                // the client should set this System property themselves inside their JVM Options (1)
+                // or their own code (2). Approaches listed below:
+                // 1. jdk.http.auth.tunneling.disabledSchemes=
+                // 2. System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "false");
+
+                Authenticator authenticator = new DefaultPasswordAuthenticator(
+                        proxyUsername, proxyPassword);
+                Authenticator.setDefault(authenticator);
+            }
             this.connection = (HttpURLConnection) this.url.openConnection(proxy);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -430,6 +445,28 @@ public class Request extends Message<Request> {
             throw new IllegalStateException(e);
         } catch (IllegalAccessException e) {
             throw new IllegalStateException(e);
+        }
+    }
+
+    private static class DefaultPasswordAuthenticator extends Authenticator {
+
+        /**
+         * Username
+         */
+        private String userName;
+
+        /**
+         * Password
+         */
+        private String password;
+
+        public DefaultPasswordAuthenticator(String userName, String password) {
+            this.userName = userName;
+            this.password = password;
+        }
+
+        public PasswordAuthentication getPasswordAuthentication() {
+            return (new PasswordAuthentication(userName, password.toCharArray()));
         }
     }
 

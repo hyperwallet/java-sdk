@@ -21,6 +21,9 @@ public class HyperwalletApiClient {
     private static final String VALID_JSON_JOSE_CONTENT_TYPE = "application/jose+json";
     private static final String SDK_TYPE = "java";
     private Proxy proxy;
+    private String proxyUsername;
+    private String proxyPassword;
+
     private final String username;
     private final String password;
     private final String version;
@@ -70,7 +73,7 @@ public class HyperwalletApiClient {
     public <T> T put(final String url, Multipart uploadData, final Class<T> type) {
         Response response = null;
         try {
-            response = getMultipartService(url, uploadData).putResource(usesProxy(), getProxy());
+            response = getMultipartService(url, uploadData).putResource(usesProxy(), getProxy(), getProxyUsername(), getProxyPassword());
             return processResponse(response, type);
         } catch (IOException | JOSEException | ParseException e) {
             throw new HyperwalletException(e);
@@ -172,7 +175,7 @@ public class HyperwalletApiClient {
     private Request getService(final String url, boolean isHttpGet) {
         String contentType = "application/" + ((isEncrypted) ? "jose+json" : "json");
         Request request;
-        request = usesProxy() ? new Request(url, proxy) : new Request(url);
+        request = usesProxy() ? new Request(url, proxy, proxyUsername, proxyPassword) : new Request(url);
         request.addHeader("Authorization", getAuthorizationHeader())
                 .addHeader("Accept", contentType)
                 .addHeader("User-Agent", "Hyperwallet Java SDK v" + this.version)
@@ -230,5 +233,21 @@ public class HyperwalletApiClient {
 
     public Proxy getProxy() {
         return proxy;
+    }
+
+    public String getProxyUsername() {
+        return proxyUsername;
+    }
+
+    public void setProxyUsername(String proxyUsername) {
+        this.proxyUsername = proxyUsername;
+    }
+
+    public String getProxyPassword() {
+        return proxyPassword;
+    }
+
+    public void setProxyPassword(String proxyPassword) {
+        this.proxyPassword = proxyPassword;
     }
 }
