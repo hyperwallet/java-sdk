@@ -6,10 +6,10 @@ import com.hyperwallet.clientsdk.HyperwalletException;
 import com.hyperwallet.clientsdk.model.HyperwalletErrorList;
 import com.nimbusds.jose.JOSEException;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.UUID;
@@ -20,16 +20,15 @@ public class HyperwalletApiClient {
     private static final String VALID_JSON_CONTENT_TYPE = "application/json";
     private static final String VALID_JSON_JOSE_CONTENT_TYPE = "application/jose+json";
     private static final String SDK_TYPE = "java";
-    private Proxy proxy;
-    private String proxyUsername;
-    private String proxyPassword;
-
     private final String username;
     private final String password;
     private final String version;
     private final HyperwalletEncryption hyperwalletEncryption;
     private final boolean isEncrypted;
     private final String contextId;
+    private Proxy proxy;
+    private String proxyUsername;
+    private String proxyPassword;
 
     public HyperwalletApiClient(final String username, final String password, final String version) {
         this(username, password, version, null);
@@ -104,7 +103,7 @@ public class HyperwalletApiClient {
         }
     }
 
-    public <T> T post(final String url, final Object bodyObject, final Class<T> type, HashMap<String,String> header) {
+    public <T> T post(final String url, final Object bodyObject, final Class<T> type, HashMap<String, String> header) {
         Response response = null;
         try {
             String body = convert(bodyObject);
@@ -147,8 +146,14 @@ public class HyperwalletApiClient {
     protected void checkErrorResponse(final Response response) throws ParseException, JOSEException, IOException {
         HyperwalletErrorList errorList = null;
         if (response.getResponseCode() >= 400) {
-            errorList = convert(decryptResponse(response.getBody()), HyperwalletErrorList.class);
-            if (errorList != null) {
+            try {
+                errorList = convert(decryptErrorResponse(response), HyperwalletErrorList.class);
+            } catch (Exception e) {
+                //Failed to convert the response
+                throw new HyperwalletException(response, response.getResponseCode(), response.getResponseMessage(), e);
+            }
+
+            if (errorList != null && !errorList.getErrors().isEmpty()) {
                 throw new HyperwalletException(response, errorList);
             } else {//unmapped errors
                 throw new HyperwalletException(response, response.getResponseCode(), response.getResponseMessage());
@@ -167,13 +172,13 @@ public class HyperwalletApiClient {
     }
 
     private String getAuthorizationHeader() {
-         final String pair = this.username + ":" + this.password;
-         final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
-         return "Basic " + base64;
+        final String pair = this.username + ":" + this.password;
+        final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
+        return "Basic " + base64;
     }
 
     private Request getService(final String url, boolean isHttpGet) {
-        String contentType = "application/" + ((isEncrypted) ? "jose+json" : "json");
+        String contentType = "application/" + (isEncrypted ? "jose+json" : "json");
         Request request;
         request = usesProxy() ? new Request(url, proxy, proxyUsername, proxyPassword) : new Request(url);
         request.addHeader("Authorization", getAuthorizationHeader())
@@ -208,15 +213,39 @@ public class HyperwalletApiClient {
     }
 
     private String decryptResponse(String responseBody) throws ParseException, IOException, JOSEException {
-        if (responseBody == null) {
+        if (responseBody == null || responseBody.length() == 0) {
             return null;
         }
         return isEncrypted ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
     }
 
+    /**
+     * Method to handle error responses based on the content type header.  Although the HyperWallet encryption object is set, it is still possible to
+     * receive an error response with content type=application/json.  Please see the following
+     * <a href="https://docs.hyperwallet.com/content/api/v4/overview/payload-encryption">documentation</a>.
+     *
+     * @param response The response received from the server
+     * @return The decrypted error response
+     * @throws ParseException
+     * @throws IOException
+     * @throws JOSEException
+     */
+    private String decryptErrorResponse(Response response) throws ParseException, IOException, JOSEException {
+        String responseBody = response.getBody();
+        if (responseBody == null || responseBody.length() == 0) {
+            return null;
+        }
+        return isEncrypted && isJoseContentType(response) ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
+    }
+
+    private Boolean isJoseContentType(Response response) {
+        String contentTypeHeader = response.getHeader(CONTENT_TYPE_HEADER);
+        return VALID_JSON_JOSE_CONTENT_TYPE.equals(contentTypeHeader);
+    }
+
     private MultipartRequest getMultipartService(String requestURL, Multipart multipartData)
             throws IOException {
-        return new MultipartRequest(requestURL, multipartData,  username,  password);
+        return new MultipartRequest(requestURL, multipartData, username, password);
     }
 
     public Boolean usesProxy() {
@@ -227,12 +256,12 @@ public class HyperwalletApiClient {
         this.proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(url, port));
     }
 
-    public void setProxy(Proxy proxy) {
-        this.proxy = proxy;
-    }
-
     public Proxy getProxy() {
         return proxy;
+    }
+
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
     }
 
     public String getProxyUsername() {
