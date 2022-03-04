@@ -225,7 +225,7 @@ public class HyperwalletApiClient {
     /**
      * Method to handle error responses based on the content type header.  Although the HyperWallet encryption object is set, it is still possible to
      * receive an error response with content type=application/json.  Please see the following
-     * <a href="https://docs.hyperwallet.com/content/api/v4/overview/payload-encryption">documentation</a>.
+     * <a href="https://docs.hyperwallet.com/content/api/v3/overview/payload-encryption">documentation</a>.
      *
      * @param response The response received from the server
      * @return The decrypted error response
