@@ -146,11 +146,17 @@ public class HyperwalletApiClient {
         }
     }
 
-    protected void checkErrorResponse(final Response response) throws ParseException, JOSEException, IOException {
+    protected void checkErrorResponse(final Response response) {
         HyperwalletErrorList errorList = null;
         if (response.getResponseCode() >= 400) {
-            errorList = convert(decryptResponse(response.getBody()), HyperwalletErrorList.class);
-            if (errorList != null) {
+            try {
+                errorList = convert(decryptErrorResponse(response), HyperwalletErrorList.class);
+            } catch (Exception e) {
+                //Failed to convert the response
+                throw new HyperwalletException(response, response.getResponseCode(), response.getResponseMessage(), e);
+            }
+
+            if (errorList != null && !errorList.getErrors().isEmpty()) {
                 throw new HyperwalletException(response, errorList);
             } else {//unmapped errors
                 throw new HyperwalletException(response, response.getResponseCode(), response.getResponseMessage());
@@ -210,15 +216,39 @@ public class HyperwalletApiClient {
     }
 
     private String decryptResponse(String responseBody) throws ParseException, IOException, JOSEException {
-        if (responseBody == null) {
+        if (responseBody == null || responseBody.length() == 0) {
             return null;
         }
         return isEncrypted ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
     }
 
+    /**
+     * Method to handle error responses based on the content type header.  Although the HyperWallet encryption object is set, it is still possible to
+     * receive an error response with content type=application/json.  Please see the following
+     * <a href="https://docs.hyperwallet.com/content/api/v4/overview/payload-encryption">documentation</a>.
+     *
+     * @param response The response received from the server
+     * @return The decrypted error response
+     * @throws ParseException
+     * @throws IOException
+     * @throws JOSEException
+     */
+    private String decryptErrorResponse(Response response) throws ParseException, IOException, JOSEException {
+        String responseBody = response.getBody();
+        if (responseBody == null || responseBody.length() == 0) {
+            return null;
+        }
+        return isEncrypted && isJoseContentType(response) ? hyperwalletEncryption.decrypt(responseBody) : responseBody;
+    }
+
+    private Boolean isJoseContentType(Response response) {
+        String contentTypeHeader = response.getHeader(CONTENT_TYPE_HEADER);
+        return contentTypeHeader != null && contentTypeHeader.contains(VALID_JSON_JOSE_CONTENT_TYPE);
+    }
+
     private MultipartRequest getMultipartService(String requestURL, Multipart multipartData)
             throws IOException {
-        return new MultipartRequest(requestURL, multipartData,  username,  password);
+        return new MultipartRequest(requestURL, multipartData, username, password);
     }
 
     public Boolean usesProxy() {
