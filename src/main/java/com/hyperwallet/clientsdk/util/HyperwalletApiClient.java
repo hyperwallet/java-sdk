@@ -240,7 +240,7 @@ public class HyperwalletApiClient {
 
     private Boolean isJoseContentType(Response response) {
         String contentTypeHeader = response.getHeader(CONTENT_TYPE_HEADER);
-        return VALID_JSON_JOSE_CONTENT_TYPE.equals(contentTypeHeader);
+        return contentTypeHeader != null && contentTypeHeader.contains(VALID_JSON_JOSE_CONTENT_TYPE);
     }
 
     private MultipartRequest getMultipartService(String requestURL, Multipart multipartData)

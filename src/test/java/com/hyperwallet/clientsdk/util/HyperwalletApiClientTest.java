@@ -1706,6 +1706,52 @@ public class HyperwalletApiClientTest {
     }
 
     @Test
+    public void testPost_withEncryptionWithCharsetContentHeader_400Response() throws Exception {
+        HyperwalletApiClientTest.TestBody requestBody = new HyperwalletApiClientTest.TestBody();
+        requestBody.test1 = "value1";
+        requestBody.getInclusions().add("test1");
+
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("POST")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/jose+json")
+                        .withHeader("Content-Type", "application/jose+json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(400)
+                        .withHeader("Content-Type", "application/jose+json;charset=utf-8")
+                        .withBody(encryptResponse(
+                                "{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", "
+                                        + "\"message\": \"test5\" }] }"))
+        );
+
+        try {
+            hyperwalletEncryptedApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, HyperwalletApiClientTest.TestBody.class);
+            fail("Expected HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(equalTo("test1")));
+            assertThat(e.getErrorMessage(), is(equalTo("test3")));
+            assertThat(e.getResponse(), is(notNullValue()));
+
+            assertThat(e.getHyperwalletErrors(), hasSize(2));
+            HyperwalletError error1 = e.getHyperwalletErrors().get(0);
+            HyperwalletError error2 = e.getHyperwalletErrors().get(1);
+
+            assertThat(error1.getCode(), is(equalTo("test1")));
+            assertThat(error1.getFieldName(), is(equalTo("test2")));
+            assertThat(error1.getMessage(), is(equalTo("test3")));
+
+            assertThat(error2.getCode(), is(equalTo("test4")));
+            assertThat(error2.getMessage(), is(equalTo("test5")));
+        }
+    }
+
+    @Test
     public void testPost_withEncryption_500Response() {
         HyperwalletApiClientTest.TestBody requestBody = new HyperwalletApiClientTest.TestBody();
         requestBody.test1 = "value1";
