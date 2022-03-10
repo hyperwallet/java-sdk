@@ -39,6 +39,14 @@ public class HyperwalletException extends RuntimeException {
         relatedResources = error.getRelatedResources();
     }
 
+    public HyperwalletException(final Response response, final int code, final String message, final Exception e) {
+        super(e);
+
+        this.response = response;
+        errorCode = Integer.toString(code);
+        errorMessage = message;
+    }
+
     public HyperwalletException(final String errorMessage) {
         super(errorMessage);
 
