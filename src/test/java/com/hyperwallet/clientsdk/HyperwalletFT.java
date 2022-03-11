@@ -1,9 +1,15 @@
 package com.hyperwallet.clientsdk;
 
 import com.hyperwallet.clientsdk.model.*;
+import com.hyperwallet.clientsdk.util.HyperwalletEncryption;
+import com.nimbusds.jose.EncryptionMethod;
+import com.nimbusds.jose.JWEAlgorithm;
+import com.nimbusds.jose.JWSAlgorithm;
+//import com.nimbusds.jose.jwk.JWKSet;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.net.Proxy;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -23,11 +29,104 @@ public class HyperwalletFT {
     private final String baseURL = "";
     private final String prgmToken = "";
 
-
     @BeforeMethod
     public void setUp() {
         if (!username.isEmpty())
             client = new Hyperwallet(username, password, prgmToken, baseURL);
+    }
+
+// NOTE: To run these JWK tests, make loadKeySet from a private func to public
+    @Test
+    public void testJWKLoad() throws Exception {
+        if (!username.isEmpty()) {
+
+            HyperwalletEncryption hwEnc;
+
+            hwEnc = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                    .encryptionAlgorithm(JWEAlgorithm.RSA_OAEP_256)
+                    .encryptionMethod(EncryptionMethod.A256CBC_HS512)
+                    .signAlgorithm(JWSAlgorithm.RS256)
+                    .hyperwalletKeySetLocation("")
+                    .clientPrivateKeySetLocation("").build();
+            client = new Hyperwallet(username, password, prgmToken, baseURL, hwEnc);
+            Proxy testval = hwEnc.getProxy();
+//            JWKSet keys = hwEnc.loadKeySet("http://localhost:8081/mockserver/static/jwks/client-rsa-public.json");
+//
+//            assertThat(keys.getKeys().size(), is(equalTo(2)));
+        }
+    }
+
+    @Test
+    public void testJWKLoadProxyFail() throws Exception {
+        if (!username.isEmpty()) {
+
+            HyperwalletEncryption hwEnc;
+
+            hwEnc = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                    .encryptionAlgorithm(JWEAlgorithm.RSA_OAEP_256)
+                    .encryptionMethod(EncryptionMethod.A256CBC_HS512)
+                    .signAlgorithm(JWSAlgorithm.RS256)
+                    .hyperwalletKeySetLocation("")
+                    .clientPrivateKeySetLocation("").build();
+            client = new Hyperwallet(username, password, prgmToken, baseURL, hwEnc);
+            client.setHyperwalletProxy("localhost", 3128);
+            Proxy testval = hwEnc.getProxy();
+
+            try {
+//                JWKSet keys = hwEnc.loadKeySet("http://localhost:8081/mockserver/static/jwks/client-rsa-public.json");
+            } catch (Exception e) {
+                assertThat(e.getMessage(), is(containsString("Server returned HTTP response code: 407 for URL:")));
+            }
+        }
+    }
+
+    @Test
+    public void testJWKLoadProxyAuthFail() throws Exception {
+        if (!username.isEmpty()) {
+
+            HyperwalletEncryption hwEnc;
+
+            hwEnc = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                    .encryptionAlgorithm(JWEAlgorithm.RSA_OAEP_256)
+                    .encryptionMethod(EncryptionMethod.A256CBC_HS512)
+                    .signAlgorithm(JWSAlgorithm.RS256)
+                    .hyperwalletKeySetLocation("")
+                    .clientPrivateKeySetLocation("").build();
+            client = new Hyperwallet(username, password, prgmToken, baseURL, hwEnc);
+            client.setHyperwalletProxy("localhost", 3128);
+            client.setHyperwalletProxyUsername("test1");
+            client.setHyperwalletProxyPassword("test1");
+            Proxy testval = hwEnc.getProxy();
+
+            try {
+//                JWKSet keys = hwEnc.loadKeySet("http://localhost:8081/mockserver/static/jwks/client-rsa-public.json");
+            } catch (Exception e) {
+                assertThat(e.getMessage(), is(containsString("Server redirected too many  times (20)")));
+            }
+        }
+    }
+
+    @Test
+    public void testJWKLoadProxyAuth() throws Exception {
+        if (!username.isEmpty()) {
+
+            HyperwalletEncryption hwEnc;
+
+            hwEnc = new HyperwalletEncryption.HyperwalletEncryptionBuilder()
+                    .encryptionAlgorithm(JWEAlgorithm.RSA_OAEP_256)
+                    .encryptionMethod(EncryptionMethod.A256CBC_HS512)
+                    .signAlgorithm(JWSAlgorithm.RS256)
+                    .hyperwalletKeySetLocation("")
+                    .clientPrivateKeySetLocation("").build();
+            client = new Hyperwallet(username, password, prgmToken, baseURL, hwEnc);
+            client.setHyperwalletProxy("localhost", 3128);
+            client.setHyperwalletProxyUsername("test");
+            client.setHyperwalletProxyPassword("test");
+            Proxy testval = hwEnc.getProxy();
+//            JWKSet keys = hwEnc.loadKeySet("http://localhost:8081/mockserver/static/jwks/client-rsa-public.json");
+//
+//            assertThat(keys.getKeys().size(), is(equalTo(2)));
+        }
     }
 
     @Test

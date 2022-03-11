@@ -31,8 +31,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -79,6 +78,10 @@ public class HyperwalletEncryption {
     private final String clientPrivateKeySetLocation;
     private final String hyperwalletKeySetLocation;
     private final Integer jwsExpirationMinutes;
+
+    private Proxy proxy;
+    private String proxyUsername;
+    private String proxyPassword;
 
     public HyperwalletEncryption(JWEAlgorithm encryptionAlgorithm, JWSAlgorithm signAlgorithm, EncryptionMethod encryptionMethod,
             String clientPrivateKeySetLocation, String hyperwalletKeySetLocation, Integer jwsExpirationMinutes) {
@@ -189,6 +192,15 @@ public class HyperwalletEncryption {
             checkKeySetLocationIsFile(keySetLocation);
             return JWKSet.load(new File(keySetLocation));
         }
+
+        if (usesProxy()) {
+            if (proxyUsername != null && proxyPassword != null) {
+                Authenticator authenticator = new MultipartRequest.DefaultPasswordAuthenticator(
+                        proxyUsername, proxyPassword);
+                Authenticator.setDefault(authenticator);
+            }
+            return JWKSet.load(url, 0, 0, 0, getProxy());
+        }
         return JWKSet.load(url);
     }
 
@@ -271,6 +283,38 @@ public class HyperwalletEncryption {
         }
     }
 
+    public Boolean usesProxy() {
+        return proxy != null;
+    }
+
+    public void setProxy(String url, Integer port) {
+        this.proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(url, port));
+    }
+
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    public Proxy getProxy() {
+        return proxy;
+    }
+
+    public String getProxyUsername() {
+        return proxyUsername;
+    }
+
+    public void setProxyUsername(String proxyUsername) {
+        this.proxyUsername = proxyUsername;
+    }
+
+    public String getProxyPassword() {
+        return proxyPassword;
+    }
+
+    public void setProxyPassword(String proxyPassword) {
+        this.proxyPassword = proxyPassword;
+    }
+
     public static class HyperwalletEncryptionBuilder {
 
         private JWEAlgorithm encryptionAlgorithm;
@@ -279,6 +323,10 @@ public class HyperwalletEncryption {
         private String clientPrivateKeySetLocation;
         private String hyperwalletKeySetLocation;
         private Integer jwsExpirationMinutes;
+
+        private Proxy proxy;
+        private String proxyUsername;
+        private String proxyPassword;
 
         public HyperwalletEncryptionBuilder encryptionAlgorithm(JWEAlgorithm encryptionAlgorithm) {
             this.encryptionAlgorithm = encryptionAlgorithm;
@@ -310,9 +358,31 @@ public class HyperwalletEncryption {
             return this;
         }
 
+        public HyperwalletEncryptionBuilder proxy(Proxy proxy) {
+            this.proxy = proxy;
+            return this;
+        }
+
+        public HyperwalletEncryptionBuilder proxyUsername(String proxyUsername) {
+            this.proxyUsername = proxyUsername;
+            return this;
+        }
+
+        public HyperwalletEncryptionBuilder proxyPassword(String proxyPassword) {
+            this.proxyPassword = proxyPassword;
+            return this;
+        }
+
         public HyperwalletEncryption build() {
-            return new HyperwalletEncryption(encryptionAlgorithm, signAlgorithm, encryptionMethod,
+            HyperwalletEncryption hwE = new HyperwalletEncryption(encryptionAlgorithm, signAlgorithm, encryptionMethod,
                     clientPrivateKeySetLocation, hyperwalletKeySetLocation, jwsExpirationMinutes);
+            if (proxy != null)
+                hwE.setProxy(proxy);
+            if (proxyUsername != null)
+                hwE.setProxyUsername(proxyUsername);
+            if (proxyPassword != null)
+                hwE.setProxyPassword(proxyPassword);
+            return hwE;
         }
     }
 }

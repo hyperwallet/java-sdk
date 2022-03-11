@@ -111,7 +111,7 @@ public class MultipartRequest {
 
     }
 
-    private static class DefaultPasswordAuthenticator extends Authenticator {
+    public static class DefaultPasswordAuthenticator extends Authenticator {
 
         /**
          * Username
