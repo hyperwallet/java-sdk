@@ -185,7 +185,7 @@ public class HyperwalletEncryption {
         return jwsExpirationMinutes;
     }
 
-    public JWKSet loadKeySet(String keySetLocation) throws IOException, ParseException {
+    private JWKSet loadKeySet(String keySetLocation) throws IOException, ParseException {
         URL url;
         try {
             url = new URL(keySetLocation);
