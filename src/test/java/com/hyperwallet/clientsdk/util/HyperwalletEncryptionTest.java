@@ -38,6 +38,10 @@ public class HyperwalletEncryptionTest {
 
     @Test(dataProvider = "fieldNames")
     public void testBuilderMethod(String fieldName) throws Exception {
+        this.hyperwalletEncryption.setProxy("", 0000);
+        this.hyperwalletEncryption.setProxyUsername("");
+        this.hyperwalletEncryption.setProxyPassword("");
+
         Method getter = findGetter(fieldName);
         Method builderMethod = HyperwalletEncryption.HyperwalletEncryptionBuilder.class.getMethod(fieldName, getter.getReturnType());
 
