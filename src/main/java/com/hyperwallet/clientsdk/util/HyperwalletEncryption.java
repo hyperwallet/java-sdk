@@ -195,7 +195,7 @@ public class HyperwalletEncryption {
 
         if (usesProxy()) {
             if (proxyUsername != null && proxyPassword != null) {
-                Authenticator authenticator = new MultipartRequest.DefaultPasswordAuthenticator(
+                Authenticator authenticator = new Request.DefaultPasswordAuthenticator(
                         proxyUsername, proxyPassword);
                 Authenticator.setDefault(authenticator);
             }
@@ -376,12 +376,15 @@ public class HyperwalletEncryption {
         public HyperwalletEncryption build() {
             HyperwalletEncryption hwE = new HyperwalletEncryption(encryptionAlgorithm, signAlgorithm, encryptionMethod,
                     clientPrivateKeySetLocation, hyperwalletKeySetLocation, jwsExpirationMinutes);
-            if (proxy != null)
+            if (proxy != null) {
                 hwE.setProxy(proxy);
-            if (proxyUsername != null)
+            }
+            if (proxyUsername != null) {
                 hwE.setProxyUsername(proxyUsername);
-            if (proxyPassword != null)
+            }
+            if (proxyPassword != null) {
                 hwE.setProxyPassword(proxyPassword);
+            }
             return hwE;
         }
     }

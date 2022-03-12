@@ -52,7 +52,7 @@ public class MultipartRequest {
         // or their own code (2). Approaches listed below:
         // 1. jdk.http.auth.tunneling.disabledSchemes=
         // 2. System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "false");
-            Authenticator authenticator = new DefaultPasswordAuthenticator(
+            Authenticator authenticator = new Request.DefaultPasswordAuthenticator(
                     proxyUsername, proxyPassword);
             Authenticator.setDefault(authenticator);
         }
@@ -109,27 +109,5 @@ public class MultipartRequest {
         outStream.writeBytes(this.CRLF);
         outStream.writeBytes(this.SEPARATOR + this.BOUNDARY + this.SEPARATOR + this.CRLF);
 
-    }
-
-    public static class DefaultPasswordAuthenticator extends Authenticator {
-
-        /**
-         * Username
-         */
-        private String userName;
-
-        /**
-         * Password
-         */
-        private String password;
-
-        public DefaultPasswordAuthenticator(String userName, String password) {
-            this.userName = userName;
-            this.password = password;
-        }
-
-        public PasswordAuthentication getPasswordAuthentication() {
-            return (new PasswordAuthentication(userName, password.toCharArray()));
-        }
     }
 }
