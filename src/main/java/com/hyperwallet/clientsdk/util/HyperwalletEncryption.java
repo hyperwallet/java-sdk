@@ -374,18 +374,18 @@ public class HyperwalletEncryption {
         }
 
         public HyperwalletEncryption build() {
-            HyperwalletEncryption hwE = new HyperwalletEncryption(encryptionAlgorithm, signAlgorithm, encryptionMethod,
+            HyperwalletEncryption hyperwalletEncryption = new HyperwalletEncryption(encryptionAlgorithm, signAlgorithm, encryptionMethod,
                     clientPrivateKeySetLocation, hyperwalletKeySetLocation, jwsExpirationMinutes);
             if (proxy != null) {
-                hwE.setProxy(proxy);
+                hyperwalletEncryption.setProxy(proxy);
             }
             if (proxyUsername != null) {
-                hwE.setProxyUsername(proxyUsername);
+                hyperwalletEncryption.setProxyUsername(proxyUsername);
             }
             if (proxyPassword != null) {
-                hwE.setProxyPassword(proxyPassword);
+                hyperwalletEncryption.setProxyPassword(proxyPassword);
             }
-            return hwE;
+            return hyperwalletEncryption;
         }
     }
 }
