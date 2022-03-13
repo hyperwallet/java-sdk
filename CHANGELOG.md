@@ -1,5 +1,11 @@
 Changelog
 =========
+1.9.1
+-----------------
+- Added proxy and proxy auth support for loading JWS keys
+- Hardened error response handler
+- Added content-type validation for decryption
+
 1.9.0
 -----------------
 - Added proxy and proxy auth support
