@@ -34,7 +34,7 @@ public class HyperwalletFT {
     @BeforeMethod
     public void setUp() {
         if (!username.isEmpty()) {
-            System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "false");
+//            System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "false");
             client = new Hyperwallet(username, password, prgmToken, baseURL);
         }
     }
@@ -71,9 +71,10 @@ public class HyperwalletFT {
                     .encryptionMethod(EncryptionMethod.A256CBC_HS512)
                     .signAlgorithm(JWSAlgorithm.RS256)
                     .hyperwalletKeySetLocation("")
-                    .clientPrivateKeySetLocation("").build();
+                    .clientPrivateKeySetLocation("")
+                    .build();
+            hwEnc.setProxy("localhost", 3128);
             client = new Hyperwallet(username, password, prgmToken, baseURL, hwEnc);
-            client.setHyperwalletProxy("localhost", 3128);
             Proxy testval = hwEnc.getProxy();
 
 //            try {
@@ -96,10 +97,11 @@ public class HyperwalletFT {
                     .signAlgorithm(JWSAlgorithm.RS256)
                     .hyperwalletKeySetLocation("")
                     .clientPrivateKeySetLocation("").build();
+            hwEnc.setProxy("localhost", 3128);
+            hwEnc.setProxyUsername("test1");
+            hwEnc.setProxyPassword("test1");
             client = new Hyperwallet(username, password, prgmToken, baseURL, hwEnc);
-            client.setHyperwalletProxy("localhost", 3128);
-            client.setHyperwalletProxyUsername("test1");
-            client.setHyperwalletProxyPassword("test1");
+
             Proxy testval = hwEnc.getProxy();
 
 //            try {
@@ -122,10 +124,10 @@ public class HyperwalletFT {
                     .signAlgorithm(JWSAlgorithm.RS256)
                     .hyperwalletKeySetLocation("")
                     .clientPrivateKeySetLocation("").build();
+            hwEnc.setProxy("localhost", 3128);
+            hwEnc.setProxyUsername("test");
+            hwEnc.setProxyPassword("test");
             client = new Hyperwallet(username, password, prgmToken, baseURL, hwEnc);
-            client.setHyperwalletProxy("localhost", 3128);
-            client.setHyperwalletProxyUsername("test");
-            client.setHyperwalletProxyPassword("test");
             Proxy testval = hwEnc.getProxy();
 //            JWKSet keys = hwEnc.loadKeySet("http://localhost:8081/mockserver/static/jwks/client-rsa-public.json");
 //

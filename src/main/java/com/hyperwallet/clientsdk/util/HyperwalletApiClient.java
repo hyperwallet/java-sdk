@@ -255,9 +255,6 @@ public class HyperwalletApiClient {
     public void setProxy(String url, Integer port) {
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(url, port));
         this.proxy = proxy;
-        if (hyperwalletEncryption != null) {
-            hyperwalletEncryption.setProxy(proxy);
-        }
     }
 
     public Proxy getProxy() {
@@ -266,9 +263,6 @@ public class HyperwalletApiClient {
 
     public void setProxy(Proxy proxy) {
         this.proxy = proxy;
-        if (hyperwalletEncryption != null) {
-            hyperwalletEncryption.setProxy(proxy);
-        }
     }
 
     public String getProxyUsername() {
@@ -277,9 +271,6 @@ public class HyperwalletApiClient {
 
     public void setProxyUsername(String proxyUsername) {
         this.proxyUsername = proxyUsername;
-        if (hyperwalletEncryption != null) {
-            hyperwalletEncryption.setProxyUsername(proxyUsername);
-        }
     }
 
     public String getProxyPassword() {
@@ -288,8 +279,5 @@ public class HyperwalletApiClient {
 
     public void setProxyPassword(String proxyPassword) {
         this.proxyPassword = proxyPassword;
-        if (hyperwalletEncryption != null) {
-            hyperwalletEncryption.setProxyPassword(proxyPassword);
-        }
     }
 }
