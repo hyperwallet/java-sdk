@@ -1,9 +1,16 @@
 Changelog
 =========
+2.4.1
+-----------------
+- Added proxy and proxy auth support for loading JWS keys
+- Hardened error response handler
+- Added content-type validation for decryption
+
 2.4.0
 -----------------
 - Added proxy and proxy auth support
 - Updated Payload Encryption to support EC keys
+- Added missing fields to HyperwalletBankAccount class
 
 2.3.0
 -----------------
