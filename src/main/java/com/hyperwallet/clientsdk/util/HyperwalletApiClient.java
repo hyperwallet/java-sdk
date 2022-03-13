@@ -253,8 +253,7 @@ public class HyperwalletApiClient {
     }
 
     public void setProxy(String url, Integer port) {
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(url, port));
-        this.proxy = proxy;
+        this.proxy= new Proxy(Proxy.Type.HTTP, new InetSocketAddress(url, port));
     }
 
     public Proxy getProxy() {
