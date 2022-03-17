@@ -29,6 +29,7 @@ public class HyperwalletFT {
     private final String baseURL = "";
     private final String prgmToken = "";
 
+
     @BeforeMethod
     public void setUp() {
         if (!username.isEmpty())

@@ -8,15 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.net.*;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /*
  Modified with modifications copyright Richard Stanford
@@ -226,22 +221,6 @@ public class Request extends Message<Request> {
     }
 
     /**
-     * Issues a PURGE to the server.
-     *
-     * @return The {@link Response} from the server
-     * @throws IOException
-     */
-    public Response purgeResource() throws IOException {
-        buildQueryString();
-        buildHeaders();
-
-        connection.setDoOutput(true);
-        connection.setRequestMethod("PURGE");
-
-        return readResponse();
-    }
-
-    /**
      * A private method that handles issuing POST and PUT requests
      *
      * @param method
@@ -417,32 +396,6 @@ public class Request extends Message<Request> {
         return this;
     }
 
-    static {
-        allowMethods("PURGE");
-    }
-
-    private static void allowMethods(String... methods) {
-        try {
-            Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
-
-            Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
-
-            methodsField.setAccessible(true);
-
-            String[] oldMethods = (String[]) methodsField.get(null);
-            Set<String> methodsSet = new LinkedHashSet<String>(Arrays.asList(oldMethods));
-            methodsSet.addAll(Arrays.asList(methods));
-            String[] newMethods = methodsSet.toArray(new String[0]);
-
-            methodsField.set(null/*static field*/, newMethods);
-        } catch (NoSuchFieldException e) {
-            throw new IllegalStateException(e);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        }
-    }
 
     public static class DefaultPasswordAuthenticator extends Authenticator {
 
