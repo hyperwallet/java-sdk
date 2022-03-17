@@ -25,16 +25,15 @@ public class HyperwalletFT {
 
     private Hyperwallet client;
     // Fill in with appropriate data to perform functional tests
-    private final String username = "selrestuser@1861681";
-    private final String password = "Password1!";
-    private final String baseURL = "https://qamaster-hyperwallet.aws.paylution.net";
-    private final String prgmToken = "prg-eedaf875-01f1-4524-8b94-d4936255af78";
+    private final String username = "";
+    private final String password = "";
+    private final String baseURL = "";
+    private final String prgmToken = "";
 
 
     @BeforeMethod
     public void setUp() {
         if (!username.isEmpty()) {
-            System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
             client = new Hyperwallet(username, password, prgmToken, baseURL);
         }
     }
