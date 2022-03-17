@@ -1,5 +1,11 @@
 Changelog
 =========
+2.4.2
+-----------------
+- Removed PURGE method from request method
+- Removed purgeResource() function from request method
+- Added dependencies to ensure compatability with other Java versions.
+
 2.4.1
 -----------------
 - Added proxy and proxy auth support for loading JWS keys

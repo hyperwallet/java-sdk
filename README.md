@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/hyperwallet/java-sdk/badge.svg?branch=master)](https://coveralls.io/github/hyperwallet/java-sdk?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/com.hyperwallet/sdk.svg)]()
 
-Hyperwallet REST SDK v2.4.1
+Hyperwallet REST SDK v2.4.2
 ===========================
 
 A library to manage users, transfer methods and payments through the Hyperwallet v4 API.
@@ -23,13 +23,13 @@ Installation
 <dependency>
     <groupId>com.hyperwallet</groupId>
     <artifactId>sdk</artifactId>
-    <version>2.4.1</version>
+    <version>2.4.2</version>
 </dependency>
 ```
 
 **Gradle**
 ```
-compile 'com.hyperwallet:sdk:2.4.1'
+compile 'com.hyperwallet:sdk:2.4.2'
 ```
 
 Documentation
@@ -45,7 +45,7 @@ To write an app using the SDK
 
 * Register for a sandbox account and get your username, password and program token at the [Hyperwallet Program Portal](https://portal.hyperwallet.com).
 
-* Add dependency `com.hyperwallet:sdk:2.4.1` to your `pom.xml` (or `build.gradle`).
+* Add dependency `com.hyperwallet:sdk:2.4.2` to your `pom.xml` (or `build.gradle`).
 
 
 * Create a instance of the Hyperwallet Client (with username, password and program token)
