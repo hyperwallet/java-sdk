@@ -212,7 +212,6 @@ public class Request extends Message<Request> {
     }
 
 
-
     /**
      * Issues a DELETE to the server.
      *
@@ -229,21 +228,6 @@ public class Request extends Message<Request> {
         return readResponse();
     }
 
-    /**
-     * Issues a PURGE to the server.
-     *
-     * @return The {@link Response} from the server
-     * @throws IOException
-     */
-    public Response purgeResource() throws IOException {
-        buildQueryString();
-        buildHeaders();
-
-        connection.setDoOutput(true);
-        connection.setRequestMethod("PURGE");
-
-        return readResponse();
-    }
 
     /**
      * A private method that handles issuing POST and PUT requests
@@ -419,33 +403,6 @@ public class Request extends Message<Request> {
         addHeader("Content-length", "" + (body.length()));
 
         return this;
-    }
-
-    static {
-        allowMethods("PURGE");
-    }
-
-    private static void allowMethods(String... methods) {
-        try {
-            Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
-
-            Field modifiersField = Field.class.getDeclaredField("modifiers");
-            modifiersField.setAccessible(true);
-            modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
-
-            methodsField.setAccessible(true);
-
-            String[] oldMethods = (String[]) methodsField.get(null);
-            Set<String> methodsSet = new LinkedHashSet<String>(Arrays.asList(oldMethods));
-            methodsSet.addAll(Arrays.asList(methods));
-            String[] newMethods = methodsSet.toArray(new String[0]);
-
-            methodsField.set(null/*static field*/, newMethods);
-        } catch (NoSuchFieldException e) {
-            throw new IllegalStateException(e);
-        } catch (IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        }
     }
 
     public static class DefaultPasswordAuthenticator extends Authenticator {

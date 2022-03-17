@@ -34,7 +34,6 @@ public class HyperwalletFT {
     @BeforeMethod
     public void setUp() {
         if (!username.isEmpty()) {
-//            System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "false");
             client = new Hyperwallet(username, password, prgmToken, baseURL);
         }
     }
