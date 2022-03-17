@@ -24,16 +24,15 @@ public class HyperwalletFT {
 
     private Hyperwallet client;
     // Fill in with appropriate data to perform functional tests
-    private final String username = "restapiuser@14406221615";
-    private final String password = "portalPassword1!";
-    private final String baseURL = "https://api.sandbox.hyperwallet.com";
-    private final String prgmToken = "prg-677c216e-52fe-441b-b1b2-c8f3342f7315";
+    private final String username = "";
+    private final String password = "";
+    private final String baseURL = "";
+    private final String prgmToken = "";
 
 
     @BeforeMethod
     public void setUp() {
         if (!username.isEmpty())
-//            System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
             client = new Hyperwallet(username, password, prgmToken, baseURL);
     }
 
