@@ -4,7 +4,8 @@ Changelog
 -----------------
 - Removed PURGE method from request method
 - Removed purgeResource() function from request method
-- Added dependencies to ensure compatability with other Java versions.
+- Added dependencies to ensure compatibility with other Java versions.
+- Hardened error response handling for content decryption and conversion
 
 1.9.1
 -----------------
