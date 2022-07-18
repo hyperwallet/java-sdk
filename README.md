@@ -139,7 +139,7 @@ To enable Proxy Support when loading JWS keys for encryption, similar proxy conf
   ```java
 HyperwalletEncryption hyperwalletEncryption;
         ...
-        hyperwalletEncryption.setProxy("proxyURL",9090);
+        hyperwalletEncryption.setProxy("proxyURL", 9090);
         hyperwalletEncryption.setProxyUsername("proxyUsername");
         hyperwalletEncryption.setProxyPassword("proxyPassword");
   ```
@@ -152,10 +152,10 @@ Hyperwallet's API client supports timeout value, in milliseconds, for reading an
 
   ```java
      //300 milliseconds
-     int connectionTimeout=300;
-             // 2 seconds  
-             int readTimout=2000;
-             Hyperwallet client=new Hyperwallet("restapiuser@4917301618","mySecurePassword!","prg-645fc30d-83ed-476c-a412-32c82738a20e",connectionTimeout,readTimout);
+     int connectionTimeout = 300;
+     // 2 seconds  
+     int readTimout = 2000;
+     Hyperwallet client=new Hyperwallet("restapiuser@4917301618","mySecurePassword!","prg-645fc30d-83ed-476c-a412-32c82738a20e",connectionTimeout,readTimout);
   ```
 
 Development
