@@ -37,7 +37,7 @@ public class Hyperwallet {
      *                              the Hyperwallet API (in milliseconds).
      */
     public Hyperwallet(final String username, final String password, final String programToken, final String server,
-            final HyperwalletEncryption hyperwalletEncryption, int connectionTimeout, int readTimeout) {
+            final HyperwalletEncryption hyperwalletEncryption, final int connectionTimeout, final int readTimeout) {
         apiClient = new HyperwalletApiClient(username, password, VERSION, hyperwalletEncryption, connectionTimeout, readTimeout);
         this.programToken = programToken;
         this.url = StringUtils.isEmpty(server) ? SANDBOX_API_BASE : server + "/rest/v4";
@@ -68,8 +68,8 @@ public class Hyperwallet {
      * @param readTimeout       the timeout value that will be used when reading data from an established connection to
      *                          the Hyperwallet API (in milliseconds).
      */
-    public Hyperwallet(final String username, final String password, final String programToken, final String server, int connectionTimeout,
-            int readTimeout) {
+    public Hyperwallet(final String username, final String password, final String programToken, final String server, final int connectionTimeout,
+            final int readTimeout) {
         this(username, password, programToken, server, null, connectionTimeout, readTimeout);
     }
 
@@ -95,7 +95,7 @@ public class Hyperwallet {
      * @param readTimeout       the timeout value that will be used when reading data from an established connection to
      *                          the Hyperwallet API (in milliseconds).
      */
-    public Hyperwallet(final String username, final String password, final String programToken, int connectionTimeout, int readTimeout) {
+    public Hyperwallet(final String username, final String password, final String programToken, final int connectionTimeout, final int readTimeout) {
         this(username, password, programToken, null, null, connectionTimeout, readTimeout);
     }
 
