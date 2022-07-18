@@ -19,28 +19,22 @@ import java.util.UUID;
  */
 public class HyperwalletApiClient {
 
-    private static final String SDK_TYPE = "java";
     private static final String ACCEPT = "Accept";
-    private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_JOSE_JSON = "application/jose+json";
     private static final String APPLICATION_JSON = "application/json";
+    private static final String CONTENT_TYPE = "Content-Type";
     private static final String MULTIPART_FORM_DATA_BOUNDARY = "multipart/form-data; boundary=";
-    private final String username;
-    private final String password;
-    private final String version;
+    private static final String SDK_TYPE = "java";
     private final HyperwalletEncryption hyperwalletEncryption;
-    private final boolean isEncrypted;
-    private final String contextId;
     private Proxy proxy;
-    private String proxyUsername;
     private String proxyPassword;
-    /**
-     * A specified timeout value, in milliseconds, to establish communications link to Hyperwallet API resource.
-     */
+    private String proxyUsername;
+    private final String contextId;
+    private final String password;
+    private final String username;
+    private final String version;
+    private final boolean isEncrypted;
     private final int connectionTimeout;
-    /**
-     * A specified timeout, in milliseconds, for reading data from an established connection to Hyperwallet API resource.
-     */
     private final int readTimeout;
 
     /**
@@ -55,7 +49,7 @@ public class HyperwalletApiClient {
      *                              the Hyperwallet API (in milliseconds).
      */
     public HyperwalletApiClient(final String username, final String password, final String version,
-            HyperwalletEncryption hyperwalletEncryption, int connectionTimeout, int readTimeout) {
+            final HyperwalletEncryption hyperwalletEncryption, final int connectionTimeout, final int readTimeout) {
         this.username = username;
         this.password = password;
         this.version = version;
