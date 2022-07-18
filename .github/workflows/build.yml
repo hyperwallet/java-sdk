@@ -17,4 +17,4 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
       - name: Build and Test
-        run: source ./src/ci/before_install.sh && ./src/ci/build.sh
+        run: mvn verify -B
