@@ -8,7 +8,7 @@ Changelog
 - Added documentation over Hyperwallet Api client
 - Merged the implation from MultipartRequest to Request
 
-2.4.3
+2.4.2
 -----------------
 
 - Removed PURGE method from request method
