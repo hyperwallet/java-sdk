@@ -37,16 +37,14 @@ import java.util.Map;
  * This class represents an HTTP Request message.
  */
 public class Request extends Message<Request> {
-
     public static final String BOUNDARY = "--0011010110123111";
-    private static final String SEPARATOR = "--";
-    public static final String CRLF = "\r\n";
     public static final String CONTENT_TYPE = "Content-Type";
-    HttpURLConnection connection;
-    OutputStreamWriter writer;
-
-    URL url;
-    Map<String, String> query = new HashMap<String, String>();
+    public static final String CRLF = "\r\n";
+    private static final String SEPARATOR = "--";
+    private final HttpURLConnection connection;
+    private final Map<String, String> query = new HashMap<String, String>();
+    private OutputStreamWriter writer;
+    private URL url;
 
     /**
      * The Constructor takes the url as a String, a proxy as a Proxy, and proxy credentials as a String.
@@ -65,7 +63,6 @@ public class Request extends Message<Request> {
             final String proxyPassword) {
         try {
             this.url = new URL(url);
-            HttpURLConnection conn = null;
             if (proxyUsername != null && proxyPassword != null) {
                 // NOTE: Removing Basic Auth from tunneling disabledSchemas is required in order
                 // for Proxy Authorization to work. To prevent overriding client System Settings,
@@ -78,6 +75,8 @@ public class Request extends Message<Request> {
                         proxyUsername, proxyPassword);
                 Authenticator.setDefault(authenticator);
             }
+
+            HttpURLConnection conn = null;
             if (proxy != null) {
                 conn = (HttpURLConnection) this.url.openConnection(proxy);
             } else {
@@ -229,7 +228,7 @@ public class Request extends Message<Request> {
      * @param body
      *            The body of the Message
      * @return the {@link Response} from the server
-     * @throws IOException
+     * @throws IOException  a {@link IOException}
      */
     private Response writeResource(final String method, final String body) throws IOException {
         buildQueryString();
