@@ -14,6 +14,9 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.UUID;
 
+/**
+ * The Hyperwallet API Client
+ */
 public class HyperwalletApiClient {
 
     private static final String SDK_TYPE = "java";
@@ -40,6 +43,17 @@ public class HyperwalletApiClient {
      */
     private final int readTimeout;
 
+    /**
+     * Create a instance of the API client
+     *
+     * @param username              the API username
+     * @param password              the API password
+     * @param version               the SDK version
+     * @param hyperwalletEncryption the {@link HyperwalletEncryption}
+     * @param connectionTimeout     the timeout value that will be used for making new connections to the Hyperwallet API (in milliseconds).
+     * @param readTimeout           the timeout value that will be used when reading data from an established connection to
+     *                              the Hyperwallet API (in milliseconds).
+     */
     public HyperwalletApiClient(final String username, final String password, final String version,
             HyperwalletEncryption hyperwalletEncryption, int connectionTimeout, int readTimeout) {
         this.username = username;
@@ -58,6 +72,13 @@ public class HyperwalletApiClient {
         }
     }
 
+    /**
+     * Perform a GET call to the Hyperwallet API server
+     *
+     * @param url  The api endpoint to call
+     * @param type The response class type
+     * @return an instance of <T>
+     */
     public <T> T get(final String url, final Class<T> type) {
         Response response = null;
         try {
@@ -69,6 +90,13 @@ public class HyperwalletApiClient {
         }
     }
 
+    /**
+     * Perform a GET call to the Hyperwallet API server
+     *
+     * @param url  The api endpoint to call
+     * @param type The response {@link TypeReference} type
+     * @return an instance of {@link TypeReference}
+     */
     public <T> T get(final String url, final TypeReference<T> type) {
         Response response = null;
         try {
@@ -80,10 +108,17 @@ public class HyperwalletApiClient {
         }
     }
 
-    public <T> T put(final String url, Multipart uploadData, final Class<T> type) {
-        Response response = null;
+    /**
+     * Perform a PUT call to the Hyperwallet API server to upload {@link Multipart}
+     *
+     * @param url        The api endpoint to call
+     * @param uploadData The {@link Multipart}
+     * @param type       The response class type
+     * @return an instance of <T>
+     */
+    public <T> T put(final String url, final Multipart uploadData, final Class<T> type) {
         try {
-            response = buildMultipartRequest(url)
+            Response response = buildMultipartRequest(url)
                     .putMultipartResource(uploadData);
             return processResponse(response, type);
         } catch (IOException | JOSEException | ParseException e) {
@@ -91,6 +126,14 @@ public class HyperwalletApiClient {
         }
     }
 
+    /**
+     * Perform a PUT call to the Hyperwallet API server to upload {@link Object}
+     *
+     * @param url        The api endpoint to call
+     * @param bodyObject The {@link Object} body
+     * @param type       The response class type
+     * @return an instance of <T>
+     */
     public <T> T put(final String url, final Object bodyObject, final Class<T> type) {
         Response response = null;
         try {
@@ -104,6 +147,14 @@ public class HyperwalletApiClient {
         }
     }
 
+    /**
+     * Perform a POST call to the Hyperwallet API server to upload {@link Object}
+     *
+     * @param url        The api endpoint to call
+     * @param bodyObject The {@link Object} body
+     * @param type       The response class type
+     * @return an instance of <T>
+     */
     public <T> T post(final String url, final Object bodyObject, final Class<T> type) {
         Response response = null;
         try {
@@ -117,6 +168,15 @@ public class HyperwalletApiClient {
         }
     }
 
+    /**
+     * Perform a POST call to the Hyperwallet API server to upload {@link Object}
+     *
+     * @param url        The api endpoint to call
+     * @param bodyObject The {@link Object} body
+     * @param type       The response class type
+     * @param header     HTTP header properties
+     * @return an instance of <T>
+     */
     public <T> T post(final String url, final Object bodyObject, final Class<T> type, HashMap<String, String> header) {
         Response response = null;
         try {
@@ -136,7 +196,87 @@ public class HyperwalletApiClient {
         }
     }
 
-    protected <T> T processResponse(final Response response, final Class<T> type)
+    /**
+     * Checks if current API Client instance uses a proxy
+     *
+     * @return Boolean if client has a proxy config
+     */
+    public Boolean usesProxy() {
+        return proxy != null;
+    }
+
+    /**
+     * Create Proxy setting for API Client instance
+     *
+     * @param url  url of Proxy
+     * @param port port of Proxy
+     */
+    public void setProxy(String url, Integer port) {
+        this.proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(url, port));
+    }
+
+    /**
+     * Returns Proxy setting for Authentication
+     *
+     * @return Proxy current Proxy config of client
+     */
+    public Proxy getProxy() {
+        return proxy;
+    }
+
+    /**
+     * Create Proxy setting for API Client instance
+     *
+     * @param proxy value of Proxy
+     */
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    /**
+     * Returns Proxy Username for Authentication
+     *
+     * @return current ProxyUsername
+     */
+    public String getProxyUsername() {
+        return proxyUsername;
+    }
+
+    /**
+     * Create Proxy Username for Authentication
+     *
+     * @param proxyUsername username of Proxy
+     */
+    public void setProxyUsername(String proxyUsername) {
+        this.proxyUsername = proxyUsername;
+    }
+
+    /**
+     * Returns Proxy Password for Authentication
+     *
+     * @return current ProxyUsername
+     */
+    public String getProxyPassword() {
+        return proxyPassword;
+    }
+
+    /**
+     * Create Proxy Password setting for Authentication
+     *
+     * @param proxyPassword username of Proxy
+     */
+    public void setProxyPassword(String proxyPassword) {
+        this.proxyPassword = proxyPassword;
+    }
+
+    /**
+     * Process the {@link  Response} to return success <T> class
+     *
+     * @param response the {@link  Response}
+     * @param type     The response class type
+     * @return an instance of <T>
+     */
+    private <T> T processResponse(final Response response, final Class<T> type)
             throws ParseException, JOSEException, IOException {
         checkErrorResponse(response);
         checkResponseHeader(response);
@@ -147,7 +287,14 @@ public class HyperwalletApiClient {
         }
     }
 
-    protected <T> T processResponse(final Response response, final TypeReference<T> type)
+    /**
+     * Process the {@link  Response} to return success {@link TypeReference<T>} class
+     *
+     * @param response the {@link  Response}
+     * @param type     The response {@link TypeReference<T>} type
+     * @return an instance of {@link TypeReference<T>}
+     */
+    private <T> T processResponse(final Response response, final TypeReference<T> type)
             throws ParseException, JOSEException, IOException {
         checkErrorResponse(response);
         checkResponseHeader(response);
@@ -158,6 +305,11 @@ public class HyperwalletApiClient {
         }
     }
 
+    /**
+     * Evaluates the {@link Response} contains Api Server error when HTTP status from 4.x.x and raise {@link HyperwalletException}
+     *
+     * @param response the {@link  Response}
+     */
     protected void checkErrorResponse(final Response response) throws ParseException, JOSEException, IOException {
         HyperwalletErrorList errorList = null;
         if (response.getResponseCode() >= 400) {
@@ -281,37 +433,5 @@ public class HyperwalletApiClient {
     private Boolean isJoseContentType(Response response) {
         String contentTypeHeader = response.getHeader(CONTENT_TYPE);
         return contentTypeHeader != null && contentTypeHeader.contains(APPLICATION_JOSE_JSON);
-    }
-
-    public Boolean usesProxy() {
-        return proxy != null;
-    }
-
-    public void setProxy(String url, Integer port) {
-        this.proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(url, port));
-    }
-
-    public Proxy getProxy() {
-        return proxy;
-    }
-
-    public void setProxy(Proxy proxy) {
-        this.proxy = proxy;
-    }
-
-    public String getProxyUsername() {
-        return proxyUsername;
-    }
-
-    public void setProxyUsername(String proxyUsername) {
-        this.proxyUsername = proxyUsername;
-    }
-
-    public String getProxyPassword() {
-        return proxyPassword;
-    }
-
-    public void setProxyPassword(String proxyPassword) {
-        this.proxyPassword = proxyPassword;
     }
 }

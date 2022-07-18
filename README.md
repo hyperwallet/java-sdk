@@ -2,12 +2,12 @@
 [![Coverage Status](https://coveralls.io/repos/github/hyperwallet/java-sdk/badge.svg?branch=master)](https://coveralls.io/github/hyperwallet/java-sdk?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/com.hyperwallet/sdk.svg)]()
 
-Hyperwallet REST SDK v2.4.2
+Hyperwallet REST SDK v2.4.3
 ===========================
 
 A library to manage users, transfer methods and payments through the Hyperwallet v4 API.
 
-For Hyperwallet v3 API calls, please use the latest SDK version 1.x.x. See [here](https://docs.hyperwallet.com/content/updates/v1/rest-api-v4) to learn 
+For Hyperwallet v3 API calls, please use the latest SDK version 1.x.x. See [here](https://docs.hyperwallet.com/content/updates/v1/rest-api-v4) to learn
 about the differences between versions and the update process required to use REST API v4.
 
 Prerequisites
@@ -23,13 +23,13 @@ Installation
 <dependency>
     <groupId>com.hyperwallet</groupId>
     <artifactId>sdk</artifactId>
-    <version>2.4.2</version>
+    <version>2.4.3</version>
 </dependency>
 ```
 
 **Gradle**
 ```
-compile 'com.hyperwallet:sdk:2.4.2'
+compile 'com.hyperwallet:sdk:2.4.3'
 ```
 
 Documentation
@@ -45,7 +45,7 @@ To write an app using the SDK
 
 * Register for a sandbox account and get your username, password and program token at the [Hyperwallet Program Portal](https://portal.hyperwallet.com).
 
-* Add dependency `com.hyperwallet:sdk:2.4.2` to your `pom.xml` (or `build.gradle`).
+* Add dependency `com.hyperwallet:sdk:2.4.3` to your `pom.xml` (or `build.gradle`).
 
 
 * Create a instance of the Hyperwallet Client (with username, password and program token)
@@ -74,7 +74,7 @@ To write an app using the SDK
       // Add error handling here
   }
   ```
-  
+
 **Payload Encryption**
 
 Hyperwallet’s Payload Encryption is an implementation of Javascript Object Signing and Encryption (JOSE) and JSON Web Tokens (JWT), and provides an alternative to IP allowlisting as the second factor of authentication. Please see https://docs.hyperwallet.com/content/api/v4/overview/payload-encryption for more details.
@@ -135,14 +135,28 @@ An example of a fully configured Proxy is provided below:
   ```
 
 To enable Proxy Support when loading JWS keys for encryption, similar proxy configurations need to be set for the HyperwalletEncryption object.
+
   ```java
 HyperwalletEncryption hyperwalletEncryption;
         ...
-        hyperwalletEncryption.setProxy("proxyURL", 9090);
+        hyperwalletEncryption.setProxy("proxyURL",9090);
         hyperwalletEncryption.setProxyUsername("proxyUsername");
         hyperwalletEncryption.setProxyPassword("proxyPassword");
   ```
+
 Once this object has been properly configured, it can then be utilized within the Hyperwallet's API client constructor.
+
+**Timeout Support**
+
+Hyperwallet's API client supports timeout value, in milliseconds, for reading and establishing communications link to Hyperwallet API resources.
+
+  ```java
+     //300 milliseconds
+     int connectionTimeout=300;
+             // 2 seconds  
+             int readTimout=2000;
+             Hyperwallet client=new Hyperwallet("restapiuser@4917301618","mySecurePassword!","prg-645fc30d-83ed-476c-a412-32c82738a20e",connectionTimeout,readTimout);
+  ```
 
 Development
 -----------
@@ -152,7 +166,6 @@ Run the tests using [`maven`](https://maven.apache.org/):
 ```bash
 $ mvn test
 ```
-
 
 Reference
 ---------

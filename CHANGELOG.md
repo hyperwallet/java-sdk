@@ -1,7 +1,14 @@
 Changelog
 =========
+
+2.4.3
+-----------------
+
+- Addded connection and read timeout support
+
 2.4.2
 -----------------
+
 - Removed PURGE method from request method
 - Removed purgeResource() function from request method
 - Added dependencies to ensure compatibility with other Java versions.
@@ -27,7 +34,7 @@ Changelog
 
 2.2.6
 -----------------
-- Query parameters added for the methods 'List Bank Account', 'List Bank Card', 'List Paypal Account', 'List Venmo Account', 'List Prepaid Card', 'List Paper Check', 'List Payment', 'List Transfer Method' 
+- Query parameters added for the methods 'List Bank Account', 'List Bank Card', 'List Paypal Account', 'List Venmo Account', 'List Prepaid Card', 'List Paper Check', 'List Payment', 'List Transfer Method'
 
 2.2.5
 -----------------
@@ -43,7 +50,7 @@ Changelog
 
 2.2.1
 -----------------
-- Modified Multipart upload 
+- Modified Multipart upload
 
 2.2.0
 -----------------
@@ -62,7 +69,7 @@ Changelog
 -----------------
 - Updated endpoints to V4 Rest services.
 - Added links to objects for pagination
-- Added Business Stakeholders 
+- Added Business Stakeholders
 - Added filters to endpoints
 - Added Venmo accounts to the SDK
 - Added Multipart document upload functionality to Users and Stakeholders
@@ -73,7 +80,7 @@ Changelog
 
 1.4.1
 -------------------
-- Added support for new businessType field values. 
+- Added support for new businessType field values.
 
 1.4.0
 -------------------
