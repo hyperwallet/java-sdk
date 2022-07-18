@@ -4,9 +4,11 @@ Changelog
 2.4.3
 -----------------
 
-- Addded connection and read timeout support
+- Added connection and read timeout support
+- Added documentation over Hyperwallet Api client
+- Merged the implation from MultipartRequest to Request
 
-2.4.2
+2.4.3
 -----------------
 
 - Removed PURGE method from request method
