@@ -69,9 +69,10 @@ public class HyperwalletApiClient {
     /**
      * Perform a GET call to the Hyperwallet API server
      *
+     * @param <T>  Response class type
      * @param url  The api endpoint to call
      * @param type The response class type
-     * @return an instance of <T>
+     * @return an instance of response class type
      */
     public <T> T get(final String url, final Class<T> type) {
         Response response = null;
@@ -87,6 +88,7 @@ public class HyperwalletApiClient {
     /**
      * Perform a GET call to the Hyperwallet API server
      *
+     * @param <T>  Response class type
      * @param url  The api endpoint to call
      * @param type The response {@link TypeReference} type
      * @return an instance of {@link TypeReference}
@@ -105,10 +107,11 @@ public class HyperwalletApiClient {
     /**
      * Perform a PUT call to the Hyperwallet API server to upload {@link Multipart}
      *
+     * @param <T>        Response class type
      * @param url        The api endpoint to call
      * @param uploadData The {@link Multipart}
      * @param type       The response class type
-     * @return an instance of <T>
+     * @return an instance of response class type
      */
     public <T> T put(final String url, final Multipart uploadData, final Class<T> type) {
         try {
@@ -123,10 +126,11 @@ public class HyperwalletApiClient {
     /**
      * Perform a PUT call to the Hyperwallet API server to upload {@link Object}
      *
+     * @param <T>        Response class type
      * @param url        The api endpoint to call
      * @param bodyObject The {@link Object} body
      * @param type       The response class type
-     * @return an instance of <T>
+     * @return an instance of response class type
      */
     public <T> T put(final String url, final Object bodyObject, final Class<T> type) {
         Response response = null;
@@ -144,10 +148,11 @@ public class HyperwalletApiClient {
     /**
      * Perform a POST call to the Hyperwallet API server to upload {@link Object}
      *
+     * @param <T>        Response class type
      * @param url        The api endpoint to call
      * @param bodyObject The {@link Object} body
      * @param type       The response class type
-     * @return an instance of <T>
+     * @return an instance of response class type
      */
     public <T> T post(final String url, final Object bodyObject, final Class<T> type) {
         Response response = null;
@@ -165,11 +170,12 @@ public class HyperwalletApiClient {
     /**
      * Perform a POST call to the Hyperwallet API server to upload {@link Object}
      *
+     * @param <T>        Response class type
      * @param url        The api endpoint to call
      * @param bodyObject The {@link Object} body
      * @param type       The response class type
      * @param header     HTTP header properties
-     * @return an instance of <T>
+     * @return an instance of response class type
      */
     public <T> T post(final String url, final Object bodyObject, final Class<T> type, HashMap<String, String> header) {
         Response response = null;
@@ -303,8 +309,9 @@ public class HyperwalletApiClient {
      * Evaluates the {@link Response} contains Api Server error when HTTP status from 4.x.x and raise {@link HyperwalletException}
      *
      * @param response the {@link  Response}
+     * @throws HyperwalletException a {@link HyperwalletException}
      */
-    protected void checkErrorResponse(final Response response) throws ParseException, JOSEException, IOException {
+    protected void checkErrorResponse(final Response response) {
         HyperwalletErrorList errorList = null;
         if (response.getResponseCode() >= 400) {
             try {
@@ -412,9 +419,6 @@ public class HyperwalletApiClient {
      *
      * @param response The response received from the server
      * @return The decrypted error response
-     * @throws ParseException
-     * @throws IOException
-     * @throws JOSEException
      */
     private String decryptErrorResponse(Response response) throws ParseException, IOException, JOSEException {
         String responseBody = response.getBody();
