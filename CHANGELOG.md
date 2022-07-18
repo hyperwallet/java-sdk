@@ -3,14 +3,12 @@ Changelog
 
 2.4.3
 -----------------
-
 - Added connection and read timeout support
 - Added documentation over Hyperwallet Api client
 - Merged the implation from MultipartRequest to Request
 
 2.4.2
 -----------------
-
 - Removed PURGE method from request method
 - Removed purgeResource() function from request method
 - Added dependencies to ensure compatibility with other Java versions.
