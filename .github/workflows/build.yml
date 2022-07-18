@@ -1,6 +1,9 @@
 name: Java SDK CI
 
-on: [push, fork]
+on:
+  push:
+    branches:
+      - "feature/github-actions"
 
 jobs:
   build:
