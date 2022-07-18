@@ -1,9 +1,6 @@
 name: Java SDK CI
 
-on:
-  push:
-    branches:
-      - "grmeyer-hw-dev:feature/github-actions"
+on: [push, pull_request]
 
 jobs:
   build:
