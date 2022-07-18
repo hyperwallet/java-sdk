@@ -6,7 +6,6 @@ import com.hyperwallet.clientsdk.util.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,7 +16,12 @@ import java.util.*;
  */
 public class Hyperwallet {
 
-    public static final String VERSION = "2.4.2";
+    public static final String VERSION = "2.4.3";
+    private static final int DEFAULT_CONNECT_TIMEOUT = 10 * 1000;
+    private static final int DEFAULT_READ_TIMEOUT = 30 * 1000;
+
+    private static final String SANDBOX_API_BASE = "https://api.sandbox.hyperwallet.com/rest/v4";
+
     private final HyperwalletApiClient apiClient;
     private final String programToken;
     private final String url;
@@ -30,12 +34,45 @@ public class Hyperwallet {
      * @param programToken          API program token
      * @param server                API server url
      * @param hyperwalletEncryption API encryption data
+     * @param connectionTimeout     the timeout value that will be used for making new connections to the Hyperwallet API (in milliseconds).
+     * @param readTimeout           the timeout value that will be used when reading data from an established connection to
+     *                              the Hyperwallet API (in milliseconds).
+     */
+    public Hyperwallet(final String username, final String password, final String programToken, final String server,
+            final HyperwalletEncryption hyperwalletEncryption, int connectionTimeout, int readTimeout) {
+        apiClient = new HyperwalletApiClient(username, password, VERSION, hyperwalletEncryption, connectionTimeout, readTimeout);
+        this.programToken = programToken;
+        this.url = StringUtils.isEmpty(server) ? SANDBOX_API_BASE : server + "/rest/v4";
+    }
+
+    /**
+     * Create Hyperwallet SDK instance
+     *
+     * @param username              API key assigned
+     * @param password              API Password assigned
+     * @param programToken          API program token
+     * @param server                API server url
+     * @param hyperwalletEncryption API encryption data
      */
     public Hyperwallet(final String username, final String password, final String programToken, final String server,
             final HyperwalletEncryption hyperwalletEncryption) {
-        apiClient = new HyperwalletApiClient(username, password, VERSION, hyperwalletEncryption);
-        this.programToken = programToken;
-        this.url = StringUtils.isEmpty(server) ? "https://api.sandbox.hyperwallet.com/rest/v4" : server + "/rest/v4";
+        this(username, password, programToken, server, hyperwalletEncryption, DEFAULT_CONNECT_TIMEOUT, DEFAULT_READ_TIMEOUT);
+    }
+
+    /**
+     * Create Hyperwallet SDK instance
+     *
+     * @param username          API key assigned
+     * @param password          API Password assigned
+     * @param programToken      API program token
+     * @param server            API server url
+     * @param connectionTimeout the timeout value that will be used for making new connections to the Hyperwallet API (in milliseconds).
+     * @param readTimeout       the timeout value that will be used when reading data from an established connection to
+     *                          the Hyperwallet API (in milliseconds).
+     */
+    public Hyperwallet(final String username, final String password, final String programToken, final String server, int connectionTimeout,
+            int readTimeout) {
+        this(username, password, programToken, server, null, connectionTimeout, readTimeout);
     }
 
     /**
@@ -48,6 +85,20 @@ public class Hyperwallet {
      */
     public Hyperwallet(final String username, final String password, final String programToken, final String server) {
         this(username, password, programToken, server, null);
+    }
+
+    /**
+     * Create Hyperwallet SDK instance
+     *
+     * @param username          API key assigned
+     * @param password          API Password assigned
+     * @param programToken      API program token
+     * @param connectionTimeout the timeout value that will be used for making new connections to the Hyperwallet API (in milliseconds).
+     * @param readTimeout       the timeout value that will be used when reading data from an established connection to
+     *                          the Hyperwallet API (in milliseconds).
+     */
+    public Hyperwallet(final String username, final String password, final String programToken, int connectionTimeout, int readTimeout) {
+        this(username, password, programToken, null, null, connectionTimeout, readTimeout);
     }
 
     /**
@@ -87,7 +138,7 @@ public class Hyperwallet {
     /**
      * Create Proxy setting for Hyperwallet API Client instance
      *
-     * @param url url of Proxy
+     * @param url  url of Proxy
      * @param port port of Proxy
      */
     public void setHyperwalletProxy(final String url, final Integer port) {
@@ -399,6 +450,7 @@ public class Hyperwallet {
      *
      * @param userToken        String
      * @param stakeholderToken Hyperwallet Stakeholder token
+     * @param options          a {@link  HyperwalletPaginationOptions}
      * @return HyperwalletList of  HyperwalletStatusTransition
      */
     public HyperwalletList<HyperwalletStatusTransition> listBusinessStakeholderStatusTransition(String userToken, String stakeholderToken,

@@ -40,11 +40,11 @@ public class HyperwalletMultipartUtils {
                 }
                 Map<String, String> entity = new HashMap<>();
                 entity.put(entry.getKey(), entry.getValue());
-                Multipart.MultipartData multipart1 = new Multipart.MultipartData("Content-Type: image/" + extension + MultipartRequest.CRLF,
-                    "Content-Disposition: form-data; name=\"" +
-                        entry.getKey() + "\"; filename=\"" +
-                        fileName + "\" " + MultipartRequest.CRLF,
-                    entity );
+                Multipart.MultipartData multipart1 = new Multipart.MultipartData("Content-Type: image/" + extension + Request.CRLF,
+                        "Content-Disposition: form-data; name=\"" +
+                                entry.getKey() + "\"; filename=\"" +
+                                fileName + "\" " + Request.CRLF,
+                        entity );
                 multipartList.add(multipart1);
             }
         }
@@ -53,8 +53,8 @@ public class HyperwalletMultipartUtils {
         Map<String, String> multiPartUploadData = new HashMap<>();
         multiPartUploadData.put("data", data.toString());
 
-        Multipart.MultipartData multipart = new Multipart.MultipartData("Content-Type: application/json" + MultipartRequest.CRLF,
-                "Content-Disposition: form-data; name=\"" + "data" + "\"" + MultipartRequest.CRLF,
+        Multipart.MultipartData multipart = new Multipart.MultipartData("Content-Type: application/json" + Request.CRLF,
+                "Content-Disposition: form-data; name=\"" + "data" + "\"" + Request.CRLF,
                 multiPartUploadData);
         multipartList.add(multipart);
 

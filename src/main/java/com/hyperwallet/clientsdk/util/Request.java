@@ -1,22 +1,16 @@
 package com.hyperwallet.clientsdk.util;
 
-import cc.protea.util.http.Response;
 import cc.protea.util.http.BinaryResponse;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import cc.protea.util.http.Response;
+import com.hyperwallet.clientsdk.util.Multipart.MultipartData;
+
+import javax.xml.bind.DatatypeConverter;
+import java.io.*;
 import java.net.*;
-import java.util.Arrays;
+import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /*
 
@@ -44,6 +38,10 @@ import java.util.Set;
  */
 public class Request extends Message<Request> {
 
+    public static final String BOUNDARY = "--0011010110123111";
+    private static final String SEPARATOR = "--";
+    public static final String CRLF = "\r\n";
+    public static final String CONTENT_TYPE = "Content-Type";
     HttpURLConnection connection;
     OutputStreamWriter writer;
 
@@ -51,40 +49,23 @@ public class Request extends Message<Request> {
     Map<String, String> query = new HashMap<String, String>();
 
     /**
-     * The Constructor takes the url as a String.
-     *
-     * @param url
-     *            The url parameter does not need the query string parameters if they are going to be supplied via calls to
-     *            {@link #addQueryParameter(String, String)}. You can, however, supply the query parameters in the URL if you wish.
-     */
-    public Request(final String url) {
-        try {
-            this.url = new URL(url);
-            this.connection = (HttpURLConnection) this.url.openConnection();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
      * The Constructor takes the url as a String, a proxy as a Proxy, and proxy credentials as a String.
      *
-     * @param url
-     *            The url parameter does not need the query string parameters if they are going to be supplied via calls to
-     *            {@link #addQueryParameter(String, String)}. You can, however, supply the query parameters in the URL if you wish.
-     * @param proxy
-     *			  The Connection's Proxy value
-     *
-     * @param proxyUsername
-     *            The Proxy username
-     *
-     *@param proxyPassword
-     *			  The Proxy password
-     *
+     * @param url               The url parameter does not need the query string parameters if they are going to be supplied via calls to
+     *                          {@link #addQueryParameter(String, String)}. You can, however, supply the query parameters in the URL if you wish.
+     * @param connectionTimeout A specified timeout value, in milliseconds, to establish communications link to the resource by
+     *                          {@link  URLConnection}.
+     * @param readTimeout       A specified timeout, in milliseconds, for reading data from an established connection to the resource
+     *                          by {@link  URLConnection}.
+     * @param proxy             The Connection's Proxy value
+     * @param proxyUsername     The Proxy username
+     * @param proxyPassword     The Proxy password
      */
-    public Request(final String url, final Proxy proxy, final String proxyUsername, final String proxyPassword) {
+    public Request(final String url, int connectionTimeout, int readTimeout, final Proxy proxy, final String proxyUsername,
+            final String proxyPassword) {
         try {
             this.url = new URL(url);
+            HttpURLConnection conn = null;
             if (proxyUsername != null && proxyPassword != null) {
                 // NOTE: Removing Basic Auth from tunneling disabledSchemas is required in order
                 // for Proxy Authorization to work. To prevent overriding client System Settings,
@@ -97,7 +78,15 @@ public class Request extends Message<Request> {
                         proxyUsername, proxyPassword);
                 Authenticator.setDefault(authenticator);
             }
-            this.connection = (HttpURLConnection) this.url.openConnection(proxy);
+            if (proxy != null) {
+                conn = (HttpURLConnection) this.url.openConnection(proxy);
+            } else {
+                conn = (HttpURLConnection) this.url.openConnection();
+            }
+
+            this.connection = conn;
+            this.connection.setConnectTimeout(connectionTimeout);
+            this.connection.setReadTimeout(readTimeout);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -133,7 +122,7 @@ public class Request extends Message<Request> {
      * Issues a GET to the server.
      *
      * @return The {@link Response} from the server
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     public Response getResource() throws IOException {
         buildQueryString();
@@ -149,7 +138,7 @@ public class Request extends Message<Request> {
      * Issues a GET to the server.
      *
      * @return The {@link Response} from the server
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     public BinaryResponse getBinaryResource() throws IOException {
         buildQueryString();
@@ -165,10 +154,14 @@ public class Request extends Message<Request> {
      * Issues a PUT to the server.
      *
      * @return The {@link Response} from the server
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     public Response putResource() throws IOException {
         return writeResource("PUT", this.body);
+    }
+
+    public Response putMultipartResource(Multipart multipart) throws IOException {
+        return writeMuiltipartResource("PUT", multipart);
     }
 
     public Response headResource() throws IOException {
@@ -205,7 +198,7 @@ public class Request extends Message<Request> {
      * Issues a POST to the server.
      *
      * @return The {@link Response} from the server
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     public Response postResource() throws IOException {
         return writeResource("POST", this.body);
@@ -216,7 +209,7 @@ public class Request extends Message<Request> {
      * Issues a DELETE to the server.
      *
      * @return The {@link Response} from the server
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     public Response deleteResource() throws IOException {
         buildQueryString();
@@ -227,7 +220,6 @@ public class Request extends Message<Request> {
 
         return readResponse();
     }
-
 
     /**
      * A private method that handles issuing POST and PUT requests
@@ -252,12 +244,50 @@ public class Request extends Message<Request> {
 
         return readResponse();
     }
+    private Response writeMuiltipartResource(final String method, final Multipart multipartList) throws IOException {
+        buildQueryString();
+        buildHeaders();
+
+        connection.setDoOutput(true);
+        connection.setRequestMethod(method);
+
+        DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
+        writeMultipartBody(dataOutputStream, multipartList.getMultipartList());
+        dataOutputStream.flush();
+        dataOutputStream.close();
+
+        Response response = readResponse();
+        connection.disconnect();
+        return response;
+    }
+
+    private void writeMultipartBody(DataOutputStream dataOutputStream, List<MultipartData> multipartList) throws IOException {
+        for (MultipartData multipartData : multipartList) {
+            for (Map.Entry<String, String> entry : multipartData.getEntity().entrySet()) {
+                dataOutputStream.writeBytes(SEPARATOR + BOUNDARY + CRLF);
+                dataOutputStream.writeBytes(multipartData.getContentDisposition());
+                dataOutputStream.writeBytes(multipartData.getContentType());
+                dataOutputStream.writeBytes(CRLF);
+
+                if (multipartData.getContentType().contains("image")) {
+                    byte[] bytes = Files.readAllBytes(new File(entry.getValue().toString()).toPath());
+                    dataOutputStream.write(bytes);
+                } else {
+                    dataOutputStream.writeBytes(entry.getValue());
+                }
+                dataOutputStream.writeBytes(CRLF);
+                dataOutputStream.flush();
+            }
+        }
+        dataOutputStream.writeBytes(CRLF);
+        dataOutputStream.writeBytes(SEPARATOR + BOUNDARY + SEPARATOR + CRLF);
+    }
 
     /**
      * A private method that handles reading the Responses from the server.
      *
      * @return a {@link Response} from the server.
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     private Response readResponse() throws IOException {
         Response response = new Response();

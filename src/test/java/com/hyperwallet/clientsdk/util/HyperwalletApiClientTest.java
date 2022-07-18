@@ -11,16 +11,7 @@ import com.hyperwallet.clientsdk.model.HyperwalletError;
 import com.hyperwallet.clientsdk.model.HyperwalletPayment;
 import com.hyperwallet.clientsdk.model.HyperwalletUser;
 import com.hyperwallet.clientsdk.util.HyperwalletEncryption.HyperwalletEncryptionBuilder;
-import com.nimbusds.jose.EncryptionMethod;
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWEAlgorithm;
-import com.nimbusds.jose.JWEHeader;
-import com.nimbusds.jose.JWEObject;
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.JWSHeader;
-import com.nimbusds.jose.JWSObject;
-import com.nimbusds.jose.JWSSigner;
-import com.nimbusds.jose.Payload;
+import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.RSAEncrypter;
 import com.nimbusds.jose.crypto.RSASSASigner;
 import com.nimbusds.jose.jwk.JWK;
@@ -51,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -101,7 +93,7 @@ public class HyperwalletApiClientTest {
 
         baseUrl = "http://localhost:" + mockServer.getPort();
 
-        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0", null);
+        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0", null, 200, 300);
 
         hyperwalletEncryption = new HyperwalletEncryptionBuilder()
                 .encryptionAlgorithm(JWEAlgorithm.RSA_OAEP_256)
@@ -110,7 +102,7 @@ public class HyperwalletApiClientTest {
                 .clientPrivateKeySetLocation("src/test/resources/encryption/private-jwkset")
                 .hyperwalletKeySetLocation("src/test/resources/encryption/server-public-jwkset")
                 .build();
-        hyperwalletEncryptedApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0", hyperwalletEncryption);
+        hyperwalletEncryptedApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0", hyperwalletEncryption, 200, 300);
     }
 
     @Test
@@ -132,18 +124,18 @@ public class HyperwalletApiClientTest {
     public void testGet_withType_200Response() throws Exception {
         mockServer.when(
                 HttpRequest.request()
-                    .withMethod("GET")
-                    .withPath("/test")
-                    .withQueryStringParameter("test-query", "test-value")
-                    .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
-                    .withHeader("Accept", "application/json")
-                    .withHeader("User-Agent", "Hyperwallet Java SDK v1.0"),
+                        .withMethod("GET")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0"),
                 Times.exactly(1)
         ).respond(
                 HttpResponse.response()
-                    .withStatusCode(200)
-                    .withHeader("Content-Type", "application/json")
-                .withBody("{ \"test1\": \"value1\" }")
+                        .withStatusCode(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("{ \"test1\": \"value1\" }")
         );
 
         TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", TestBody.class);
@@ -210,7 +202,9 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(400)
-                        .withBody("{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", \"message\": \"test5\" }] }")
+                        .withBody(
+                                "{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", "
+                                        + "\"message\": \"test5\" }] }")
         );
 
         try {
@@ -269,7 +263,8 @@ public class HyperwalletApiClientTest {
         }
 
         try {
-            hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {});
+            hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {
+            });
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getMessage(), is(containsString("java.net.ConnectException: Connection refused")));
@@ -294,7 +289,8 @@ public class HyperwalletApiClientTest {
                         .withBody("{ \"test1\": \"value1\" }")
         );
 
-        TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {});
+        TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {
+        });
         assertThat(body, is(notNullValue()));
         assertThat(body.test1, is(equalTo("value1")));
         assertThat(body.test2, is(nullValue()));
@@ -317,7 +313,8 @@ public class HyperwalletApiClientTest {
                         .withHeader("Content-Type", "application/json")
         );
 
-        TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {});
+        TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {
+        });
     }
 
     @Test
@@ -337,7 +334,8 @@ public class HyperwalletApiClientTest {
                         .withHeader("Content-Type", "application/json")
         );
 
-        TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {});
+        TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {
+        });
         assertThat(body, is(notNullValue()));
         assertThat(body.test1, is(nullValue()));
         assertThat(body.test2, is(nullValue()));
@@ -357,11 +355,14 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(400)
-                        .withBody("{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", \"message\": \"test5\" }] }")
+                        .withBody(
+                                "{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", "
+                                        + "\"message\": \"test5\" }] }")
         );
 
         try {
-            hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {});
+            hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", new TypeReference<TestBody>() {
+            });
             fail("Expected HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(equalTo("test1")));
@@ -726,7 +727,9 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(400)
-                        .withBody("{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", \"message\": \"test5\" }] }")
+                        .withBody(
+                                "{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", "
+                                        + "\"message\": \"test5\" }] }")
         );
 
         try {
@@ -1193,7 +1196,9 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(400)
-                        .withBody("{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", \"message\": \"test5\" }] }")
+                        .withBody(
+                                "{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", "
+                                        + "\"message\": \"test5\" }] }")
         );
 
         try {
@@ -1322,7 +1327,6 @@ public class HyperwalletApiClientTest {
     }
 
 
-
     @Test
     public void testPost_OverwriteHeaders() throws Exception {
         TestBody requestBody = new TestBody();
@@ -1343,7 +1347,9 @@ public class HyperwalletApiClientTest {
         ).respond(
                 HttpResponse.response()
                         .withStatusCode(400)
-                        .withBody("{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", \"message\": \"test5\" }] }")
+                        .withBody(
+                                "{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", "
+                                        + "\"message\": \"test5\" }] }")
         );
 
         HashMap<String, String> headers = new HashMap<String, String>();
@@ -1405,7 +1411,7 @@ public class HyperwalletApiClientTest {
         headers.put("Authorization", "Basic wrong_password");
 
         try {
-            hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class,headers);
+            hyperwalletApiClient.post(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class, headers);
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getMessage(), is(containsString("java.net.ConnectException: Connection refused")));
@@ -2196,6 +2202,67 @@ public class HyperwalletApiClientTest {
             fail("Expect HyperwalletException");
         } catch (HyperwalletException e) {
             assertThat(e.getMessage(), is(containsString("java.net.UnknownHostException: localhost")));
+        }
+    }
+
+    @Test
+    public void testGet_exceedReadTimeout() throws InterruptedException {
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("GET")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withBody("{}")
+                        .withDelay(TimeUnit.SECONDS, 2)
+        );
+
+        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0",
+                null, 10, 10);
+
+        try {
+            hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", TestBody.class);
+            fail("Expected HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(equalTo("java.net.SocketTimeoutException: Read timed out")));
+        }
+    }
+
+    @Test
+    public void testPutMultipart_exceedReadTimeout() throws InterruptedException {
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("PUT")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withBody("{}")
+                        .withDelay(TimeUnit.SECONDS, 2)
+        );
+
+        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0",
+                null, 10, 10);
+
+        try {
+            Multipart requestBody = new Multipart();
+            List<Multipart.MultipartData> multipartList = new ArrayList<Multipart.MultipartData>();
+            requestBody.setMultipartList(multipartList);
+            hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expected HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(equalTo("java.net.SocketTimeoutException: Read timed out")));
         }
     }
 
