@@ -22,7 +22,7 @@ jobs:
         run: mvn verify -B
 
       - name: Code
-        run: mvn clean cobertura:cobertura coveralls:report;
+        run: mvn clean cobertura:cobertura coveralls:report --define repoToken=${{ secrets.COVERALL_REPO_TOKEN }}
 
 #      - name: Build docs with Maven
 #          run: mvn javadoc:javadoc
