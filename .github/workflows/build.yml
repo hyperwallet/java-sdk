@@ -23,7 +23,7 @@ jobs:
         run: mvn verify -B
 
       - name: Code
-          run: mvn clean cobertura:cobertura coveralls:report;
+        run: mvn clean cobertura:cobertura coveralls:report;
 
 #      - name: Build docs with Maven
 #          run: mvn javadoc:javadoc
