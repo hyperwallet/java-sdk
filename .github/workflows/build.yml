@@ -24,30 +24,30 @@ jobs:
       - name: Coveralls report
         run: mvn clean cobertura:cobertura coveralls:report --define repoToken=${{ secrets.COVERALL_REPO_TOKEN }}
 
-#      - name: Build docs with Maven
-#          run: mvn javadoc:javadoc
+      - name: Build docs with Maven
+          run: mvn javadoc:javadoc
 
-#      - name: Copy to Documentation Website Location
-#          run: |
-#            mkdir ../gh-pages
-#            cp -r target/site/apidocs/* ../gh-pages/
-#
-#      - name: Commit documentation changes
-#          run: |
-#            if [[ `git status --porcelain` ]]; then
-#              # Set identity
-#              git config --global user.email "dev-git-action@paypal.com"
-#              git config --global user.name "Git Action Doc"
-#
-#              # Add branch
-#              git checkout -B gh-pages
-#
-#              # Push generated files
-#              git add .
-#              git commit -m "Documentation updated"
-#
-#              git add -A
-#              git commit -m "Documentation updated"
-#              git push origin gh-pages -fq > /dev/null
-#            fi
+      - name: Copy to Documentation Website Location
+          run: |
+            mkdir ../gh-pages
+            cp -r target/site/apidocs/* ../gh-pages/
+
+      - name: Commit documentation changes
+          run: |
+            if [[ `git status --porcelain` ]]; then
+              # Set identity
+              git config --global user.email "dev-git-action@paypal.com"
+              git config --global user.name "Git Action Doc"
+
+              # Add branch
+              git checkout -B gh-pages
+
+              # Push generated files
+              git add .
+              git commit -m "Documentation updated"
+
+              git add -A
+              git commit -m "Documentation updated"
+              git push origin gh-pages -fq > /dev/null
+            fi
 
