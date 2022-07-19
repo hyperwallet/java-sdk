@@ -21,7 +21,7 @@ jobs:
       - name: Build and Test JDK ${{ matrix.java }}
         run: mvn verify -B
 
-      - name: Code
+      - name: Coveralls report
         run: mvn clean cobertura:cobertura coveralls:report --define repoToken=${{ secrets.COVERALL_REPO_TOKEN }}
 
 #      - name: Build docs with Maven
