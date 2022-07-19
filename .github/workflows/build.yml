@@ -17,6 +17,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: ${{ matrix.java }}
+          cache: maven
 
       - name: Build and Test JDK ${{ matrix.java }}
         run: mvn verify -B
