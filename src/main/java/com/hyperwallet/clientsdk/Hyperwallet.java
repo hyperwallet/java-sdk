@@ -17,7 +17,7 @@ import java.util.*;
 public class Hyperwallet {
 
     private static final String SANDBOX_API_BASE = "https://api.sandbox.hyperwallet.com/rest/v4";
-    private static final int DEFAULT_CONNECT_TIMEOUT = 10 * 1000;
+    private static final int DEFAULT_CONNECT_TIMEOUT = 30 * 1000;
     private static final int DEFAULT_READ_TIMEOUT = 30 * 1000;
     public static final String VERSION = "2.4.3";
     private final HyperwalletApiClient apiClient;
