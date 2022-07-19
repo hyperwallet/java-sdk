@@ -1,12 +1,8 @@
 package com.hyperwallet.clientsdk.util;
 
-import com.hyperwallet.clientsdk.model.HyperwalletVerificationDocument;
-import net.minidev.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 public class Multipart {
 

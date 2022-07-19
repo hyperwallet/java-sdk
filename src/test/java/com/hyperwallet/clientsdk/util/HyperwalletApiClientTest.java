@@ -2206,7 +2206,7 @@ public class HyperwalletApiClientTest {
     }
 
     @Test
-    public void testGet_exceedReadTimeout() throws InterruptedException {
+    public void testGet_exceedReadTimeoutIn10Milliseconds() throws InterruptedException {
         mockServer.when(
                 HttpRequest.request()
                         .withMethod("GET")
@@ -2220,7 +2220,7 @@ public class HyperwalletApiClientTest {
                 HttpResponse.response()
                         .withStatusCode(200)
                         .withBody("{}")
-                        .withDelay(TimeUnit.SECONDS, 2)
+                        .withDelay(TimeUnit.MILLISECONDS, 200)
         );
 
         hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0",
@@ -2234,8 +2234,43 @@ public class HyperwalletApiClientTest {
         }
     }
 
+
     @Test
-    public void testPutMultipart_exceedReadTimeout() throws InterruptedException {
+    public void testGet_ignoreTimeoutWhenSetZeroValue() throws InterruptedException {
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("GET")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-notimeout")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withBody("{ \"test1\": \"notimeout\" }")
+                        .withDelay(TimeUnit.MILLISECONDS, 50)
+        );
+
+        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0",
+                null, 0, 0);
+
+
+        try {
+            TestBody body = hyperwalletApiClient.get(baseUrl + "/test?test-query=test-notimeout", TestBody.class);
+            assertThat(body, is(notNullValue()));
+            assertThat(body.test1, is(equalTo("notimeout")));
+            assertThat(body.test2, is(nullValue()));
+
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(equalTo("java.net.SocketTimeoutException: Read timed out")));
+            fail("Not Expected HyperwalletException");
+        }
+    }
+
+    @Test
+    public void testPutMultipart_exceedReadTimeoutIn10Milliseconds() throws InterruptedException {
         mockServer.when(
                 HttpRequest.request()
                         .withMethod("PUT")
@@ -2249,7 +2284,7 @@ public class HyperwalletApiClientTest {
                 HttpResponse.response()
                         .withStatusCode(200)
                         .withBody("{}")
-                        .withDelay(TimeUnit.SECONDS, 2)
+                        .withDelay(TimeUnit.MILLISECONDS, 50)
         );
 
         hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0",

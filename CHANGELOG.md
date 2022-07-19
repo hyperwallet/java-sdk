@@ -5,7 +5,6 @@ Changelog
 -----------------
 - Added connection and read timeout support
 - Added documentation over Hyperwallet Api client
-- Merged the implementation from Multipart Request to Request
 
 2.4.2
 -----------------

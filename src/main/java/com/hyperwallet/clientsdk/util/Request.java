@@ -37,11 +37,8 @@ import java.util.Map;
  * This class represents an HTTP Request message.
  */
 public class Request extends Message<Request> {
-    public static final String BOUNDARY = "--0011010110123111";
-    public static final String CONTENT_TYPE = "Content-Type";
-    public static final String CRLF = "\r\n";
-    private static final String SEPARATOR = "--";
-    private final HttpURLConnection connection;
+
+    protected final HttpURLConnection connection;
     private final Map<String, String> query = new HashMap<String, String>();
     private OutputStreamWriter writer;
     private URL url;
@@ -94,10 +91,8 @@ public class Request extends Message<Request> {
     /**
      * Adds a Query Parameter to a list. The list is converted to a String and appended to the URL when the Request is submitted.
      *
-     * @param name
-     *            The Query Parameter's name
-     * @param value
-     *            The Query Parameter's value
+     * @param name  The Query Parameter's name
+     * @param value The Query Parameter's value
      * @return this Request, to support chained method calls
      */
     public Request addQueryParameter(final String name, final String value) {
@@ -108,8 +103,7 @@ public class Request extends Message<Request> {
     /**
      * Removes the specified Query Parameter.
      *
-     * @param name
-     *            The name of the Query Parameter to remove
+     * @param name The name of the Query Parameter to remove
      * @return this Request, to support chained method calls
      */
     public Request removeQueryParameter(final String name) {
@@ -157,10 +151,6 @@ public class Request extends Message<Request> {
      */
     public Response putResource() throws IOException {
         return writeResource("PUT", this.body);
-    }
-
-    public Response putMultipartResource(Multipart multipart) throws IOException {
-        return writeMuiltipartResource("PUT", multipart);
     }
 
     public Response headResource() throws IOException {
@@ -223,12 +213,10 @@ public class Request extends Message<Request> {
     /**
      * A private method that handles issuing POST and PUT requests
      *
-     * @param method
-     *            POST or PUT
-     * @param body
-     *            The body of the Message
+     * @param method POST or PUT
+     * @param body   The body of the Message
      * @return the {@link Response} from the server
-     * @throws IOException  a {@link IOException}
+     * @throws IOException a {@link IOException}
      */
     private Response writeResource(final String method, final String body) throws IOException {
         buildQueryString();
@@ -243,44 +231,6 @@ public class Request extends Message<Request> {
 
         return readResponse();
     }
-    private Response writeMuiltipartResource(final String method, final Multipart multipartList) throws IOException {
-        buildQueryString();
-        buildHeaders();
-
-        connection.setDoOutput(true);
-        connection.setRequestMethod(method);
-
-        DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
-        writeMultipartBody(dataOutputStream, multipartList.getMultipartList());
-        dataOutputStream.flush();
-        dataOutputStream.close();
-
-        Response response = readResponse();
-        connection.disconnect();
-        return response;
-    }
-
-    private void writeMultipartBody(DataOutputStream dataOutputStream, List<MultipartData> multipartList) throws IOException {
-        for (MultipartData multipartData : multipartList) {
-            for (Map.Entry<String, String> entry : multipartData.getEntity().entrySet()) {
-                dataOutputStream.writeBytes(SEPARATOR + BOUNDARY + CRLF);
-                dataOutputStream.writeBytes(multipartData.getContentDisposition());
-                dataOutputStream.writeBytes(multipartData.getContentType());
-                dataOutputStream.writeBytes(CRLF);
-
-                if (multipartData.getContentType().contains("image")) {
-                    byte[] bytes = Files.readAllBytes(new File(entry.getValue().toString()).toPath());
-                    dataOutputStream.write(bytes);
-                } else {
-                    dataOutputStream.writeBytes(entry.getValue());
-                }
-                dataOutputStream.writeBytes(CRLF);
-                dataOutputStream.flush();
-            }
-        }
-        dataOutputStream.writeBytes(CRLF);
-        dataOutputStream.writeBytes(SEPARATOR + BOUNDARY + SEPARATOR + CRLF);
-    }
 
     /**
      * A private method that handles reading the Responses from the server.
@@ -288,7 +238,7 @@ public class Request extends Message<Request> {
      * @return a {@link Response} from the server.
      * @throws IOException a {@link IOException}
      */
-    private Response readResponse() throws IOException {
+    protected Response readResponse() throws IOException {
         Response response = new Response();
         response.setResponseCode(connection.getResponseCode());
         response.setResponseMessage(connection.getResponseMessage());
@@ -305,7 +255,7 @@ public class Request extends Message<Request> {
      * A private method that handles reading the Responses from the server.
      *
      * @return a {@link Response} from the server.
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     private BinaryResponse readBinaryResponse() throws IOException {
         BinaryResponse response = new BinaryResponse();
@@ -373,9 +323,9 @@ public class Request extends Message<Request> {
     /**
      * A private method that loops through the query parameter Map, building a String to be appended to the URL.
      *
-     * @throws MalformedURLException
+     * @throws MalformedURLException a {@link MalformedURLException}
      */
-    private void buildQueryString() throws MalformedURLException {
+    protected void buildQueryString() throws MalformedURLException {
         StringBuilder builder = new StringBuilder();
 
         // Put the query parameters on the URL before issuing the request
@@ -400,7 +350,7 @@ public class Request extends Message<Request> {
     /**
      * A private method that loops through the headers Map, putting them on the Request or Response object.
      */
-    private void buildHeaders() {
+    protected void buildHeaders() {
         if (!headers.isEmpty()) {
             for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
                 List<String> values = entry.getValue();

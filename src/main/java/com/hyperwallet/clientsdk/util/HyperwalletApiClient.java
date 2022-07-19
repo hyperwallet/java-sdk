@@ -345,37 +345,33 @@ public class HyperwalletApiClient {
         return "Basic " + base64;
     }
 
-    private Request buidBaseRequest(final String url) {
-        Request request = new Request(url, connectionTimeout, readTimeout, proxy, proxyUsername, proxyPassword);
-        request.addHeader("Authorization", getAuthorizationHeader())
+    private Request populateCommonHTTPHeader(final Request request) {
+        return request.addHeader("Authorization", getAuthorizationHeader())
                 .addHeader("User-Agent", "Hyperwallet Java SDK v" + version)
                 .addHeader("x-sdk-version", version)
                 .addHeader("x-sdk-type", SDK_TYPE)
                 .addHeader("x-sdk-contextId", contextId);
-        return request;
     }
 
     private Request buildGetRequest(final String url) {
-        Request request = buidBaseRequest(url);
-        request.addHeader(ACCEPT, getContentType());
-        return request;
+        Request request = new Request(url, connectionTimeout, readTimeout, proxy, proxyUsername, proxyPassword);
+        return populateCommonHTTPHeader(request)
+                .addHeader(ACCEPT, getContentType());
     }
 
     private Request buildRequest(final String url) {
-        Request request = buildGetRequest(url);
         String contentType = getContentType();
-
-        request.addHeader(ACCEPT, contentType)
+        return buildGetRequest(url)
+                .addHeader(ACCEPT, contentType)
                 .addHeader(CONTENT_TYPE, contentType);
-        return request;
     }
 
-    private Request buildMultipartRequest(final String url) {
-        Request request = buildGetRequest(url);
+    private MultipartRequest buildMultipartRequest(final String url) {
         String contentType = buildMultipartContentType();
-        request.addHeader(ACCEPT, APPLICATION_JSON)
+        MultipartRequest request = new MultipartRequest(url, connectionTimeout, readTimeout, proxy, proxyUsername, proxyPassword);
+        return (MultipartRequest) populateCommonHTTPHeader(request)
+                .addHeader(ACCEPT, APPLICATION_JSON)
                 .addHeader(CONTENT_TYPE, contentType);
-        return request;
     }
 
     private String getContentType() {
@@ -383,7 +379,7 @@ public class HyperwalletApiClient {
     }
 
     private String buildMultipartContentType() {
-        return MULTIPART_FORM_DATA_BOUNDARY + Request.BOUNDARY;
+        return MULTIPART_FORM_DATA_BOUNDARY + MultipartRequest.BOUNDARY;
     }
 
     private <T> T convert(final String responseBody, final Class<T> type) {
