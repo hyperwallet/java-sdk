@@ -5,16 +5,50 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      secure: qd20UmZR2wd9gZqIJieEsxrMD212I8+dJQ9k0B7YMTf1PtyM1LHxZog2sv1/h0GF7FFp0xhanDNXBxfAbPqFI3TebpxVL/8tQOomsKJl+VL/5ZWSNugTNHTMdEwTWuKFm08u2tZ8Zwl7vK7mhKV+B/NJxl7ySWvtn9+rfsWaPDPcj7TC4QdbUet51Hxf85Lca03UHeqGHYUgv1iYxvRznnOUmzPHS+pYVrBzh3MITLnq0LrRfN+Bh1cHQ8kd65Ze1pVICrDkS1w8fUqkyceWEwg9pjEmemJoSzFnYUqcFAqj4eCaqL5toDyo4x7kPFJ9OhEFCHiqioj8nEclFKCmwqgH/d/V36q3Wa0ibgz+HNMflH6Cx4g3WPx7gqalNrpAqys/FfsdXpmmtK3TiYArJvhuX77fo71tZn34XkhTzimelDYZi9v4FJLKmTh+b6UqjOKbwI8qcFqdoo6W0ACwQklEBpTMwzpOQK/cnFR885j85EJuYxOOxwckqFKE9i0rUKRHrMPrhN86p7XF54VZmy3W0NcN4TRIxWb1323gXpB/E0pvjv3k9F0L5pgQiB0cSyw7GVLfBLbjpb9RteevStwlYHmbswK0184KO02oYGDKVjh/NEHslUHLMk1Awr+gwflCnNAXM2OlqaVFFngsSfQ+OiyQq+7xjC9sLay2AuM=
     name: Java ${{ matrix.java }}
     strategy:
       matrix:
         java: [8]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
           java-version: ${{ matrix.java }}
-      - name: Build and Test
+
+      - name: Build and Test JDK ${{ matrix.java }}
         run: mvn verify -B
+
+      - name: Code
+          run: mvn clean cobertura:cobertura coveralls:report;
+
+#      - name: Build docs with Maven
+#          run: mvn javadoc:javadoc
+
+#      - name: Copy to Documentation Website Location
+#          run: |
+#            mkdir ../gh-pages
+#            cp -r target/site/apidocs/* ../gh-pages/
+#
+#      - name: Commit documentation changes
+#          run: |
+#            if [[ `git status --porcelain` ]]; then
+#              # Set identity
+#              git config --global user.email "dev-git-action@paypal.com"
+#              git config --global user.name "Git Action Doc"
+#
+#              # Add branch
+#              git checkout -B gh-pages
+#
+#              # Push generated files
+#              git add .
+#              git commit -m "Documentation updated"
+#
+#              git add -A
+#              git commit -m "Documentation updated"
+#              git push origin gh-pages -fq > /dev/null
+#            fi
+
