@@ -1,22 +1,16 @@
 package com.hyperwallet.clientsdk.util;
 
-import cc.protea.util.http.Response;
 import cc.protea.util.http.BinaryResponse;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import cc.protea.util.http.Response;
+import com.hyperwallet.clientsdk.util.Multipart.MultipartData;
+
+import javax.xml.bind.DatatypeConverter;
+import java.io.*;
 import java.net.*;
-import java.util.Arrays;
+import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /*
 
@@ -44,45 +38,26 @@ import java.util.Set;
  */
 public class Request extends Message<Request> {
 
-    HttpURLConnection connection;
-    OutputStreamWriter writer;
-
-    URL url;
-    Map<String, String> query = new HashMap<String, String>();
-
-    /**
-     * The Constructor takes the url as a String.
-     *
-     * @param url
-     *            The url parameter does not need the query string parameters if they are going to be supplied via calls to
-     *            {@link #addQueryParameter(String, String)}. You can, however, supply the query parameters in the URL if you wish.
-     */
-    public Request(final String url) {
-        try {
-            this.url = new URL(url);
-            this.connection = (HttpURLConnection) this.url.openConnection();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    protected final HttpURLConnection connection;
+    private final Map<String, String> query = new HashMap<String, String>();
+    private OutputStreamWriter writer;
+    private URL url;
 
     /**
      * The Constructor takes the url as a String, a proxy as a Proxy, and proxy credentials as a String.
      *
-     * @param url
-     *            The url parameter does not need the query string parameters if they are going to be supplied via calls to
-     *            {@link #addQueryParameter(String, String)}. You can, however, supply the query parameters in the URL if you wish.
-     * @param proxy
-     *			  The Connection's Proxy value
-     *
-     * @param proxyUsername
-     *            The Proxy username
-     *
-     *@param proxyPassword
-     *			  The Proxy password
-     *
+     * @param url               The url parameter does not need the query string parameters if they are going to be supplied via calls to
+     *                          {@link #addQueryParameter(String, String)}. You can, however, supply the query parameters in the URL if you wish.
+     * @param connectionTimeout A specified timeout value, in milliseconds, to establish communications link to the resource by
+     *                          {@link  URLConnection}.
+     * @param readTimeout       A specified timeout, in milliseconds, for reading data from an established connection to the resource
+     *                          by {@link  URLConnection}.
+     * @param proxy             The Connection's Proxy value
+     * @param proxyUsername     The Proxy username
+     * @param proxyPassword     The Proxy password
      */
-    public Request(final String url, final Proxy proxy, final String proxyUsername, final String proxyPassword) {
+    public Request(final String url, int connectionTimeout, int readTimeout, final Proxy proxy, final String proxyUsername,
+            final String proxyPassword) {
         try {
             this.url = new URL(url);
             if (proxyUsername != null && proxyPassword != null) {
@@ -97,7 +72,17 @@ public class Request extends Message<Request> {
                         proxyUsername, proxyPassword);
                 Authenticator.setDefault(authenticator);
             }
-            this.connection = (HttpURLConnection) this.url.openConnection(proxy);
+
+            HttpURLConnection conn = null;
+            if (proxy != null) {
+                conn = (HttpURLConnection) this.url.openConnection(proxy);
+            } else {
+                conn = (HttpURLConnection) this.url.openConnection();
+            }
+
+            this.connection = conn;
+            this.connection.setConnectTimeout(connectionTimeout);
+            this.connection.setReadTimeout(readTimeout);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -106,10 +91,8 @@ public class Request extends Message<Request> {
     /**
      * Adds a Query Parameter to a list. The list is converted to a String and appended to the URL when the Request is submitted.
      *
-     * @param name
-     *            The Query Parameter's name
-     * @param value
-     *            The Query Parameter's value
+     * @param name  The Query Parameter's name
+     * @param value The Query Parameter's value
      * @return this Request, to support chained method calls
      */
     public Request addQueryParameter(final String name, final String value) {
@@ -120,8 +103,7 @@ public class Request extends Message<Request> {
     /**
      * Removes the specified Query Parameter.
      *
-     * @param name
-     *            The name of the Query Parameter to remove
+     * @param name The name of the Query Parameter to remove
      * @return this Request, to support chained method calls
      */
     public Request removeQueryParameter(final String name) {
@@ -133,7 +115,7 @@ public class Request extends Message<Request> {
      * Issues a GET to the server.
      *
      * @return The {@link Response} from the server
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     public Response getResource() throws IOException {
         buildQueryString();
@@ -149,7 +131,7 @@ public class Request extends Message<Request> {
      * Issues a GET to the server.
      *
      * @return The {@link Response} from the server
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     public BinaryResponse getBinaryResource() throws IOException {
         buildQueryString();
@@ -165,7 +147,7 @@ public class Request extends Message<Request> {
      * Issues a PUT to the server.
      *
      * @return The {@link Response} from the server
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     public Response putResource() throws IOException {
         return writeResource("PUT", this.body);
@@ -205,7 +187,7 @@ public class Request extends Message<Request> {
      * Issues a POST to the server.
      *
      * @return The {@link Response} from the server
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     public Response postResource() throws IOException {
         return writeResource("POST", this.body);
@@ -216,7 +198,7 @@ public class Request extends Message<Request> {
      * Issues a DELETE to the server.
      *
      * @return The {@link Response} from the server
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     public Response deleteResource() throws IOException {
         buildQueryString();
@@ -228,16 +210,13 @@ public class Request extends Message<Request> {
         return readResponse();
     }
 
-
     /**
      * A private method that handles issuing POST and PUT requests
      *
-     * @param method
-     *            POST or PUT
-     * @param body
-     *            The body of the Message
+     * @param method POST or PUT
+     * @param body   The body of the Message
      * @return the {@link Response} from the server
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     private Response writeResource(final String method, final String body) throws IOException {
         buildQueryString();
@@ -257,9 +236,9 @@ public class Request extends Message<Request> {
      * A private method that handles reading the Responses from the server.
      *
      * @return a {@link Response} from the server.
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
-    private Response readResponse() throws IOException {
+    protected Response readResponse() throws IOException {
         Response response = new Response();
         response.setResponseCode(connection.getResponseCode());
         response.setResponseMessage(connection.getResponseMessage());
@@ -276,7 +255,7 @@ public class Request extends Message<Request> {
      * A private method that handles reading the Responses from the server.
      *
      * @return a {@link Response} from the server.
-     * @throws IOException
+     * @throws IOException a {@link IOException}
      */
     private BinaryResponse readBinaryResponse() throws IOException {
         BinaryResponse response = new BinaryResponse();
@@ -344,9 +323,9 @@ public class Request extends Message<Request> {
     /**
      * A private method that loops through the query parameter Map, building a String to be appended to the URL.
      *
-     * @throws MalformedURLException
+     * @throws MalformedURLException a {@link MalformedURLException}
      */
-    private void buildQueryString() throws MalformedURLException {
+    protected void buildQueryString() throws MalformedURLException {
         StringBuilder builder = new StringBuilder();
 
         // Put the query parameters on the URL before issuing the request
@@ -371,7 +350,7 @@ public class Request extends Message<Request> {
     /**
      * A private method that loops through the headers Map, putting them on the Request or Response object.
      */
-    private void buildHeaders() {
+    protected void buildHeaders() {
         if (!headers.isEmpty()) {
             for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
                 List<String> values = entry.getValue();

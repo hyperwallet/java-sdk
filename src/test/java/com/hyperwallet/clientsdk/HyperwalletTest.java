@@ -6714,7 +6714,7 @@ public class HyperwalletTest {
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
         Mockito.when(mockApiClient.post(ArgumentMatchers.anyString(), ArgumentMatchers.anyObject(), ArgumentMatchers.any(Class.class),
-                ArgumentMatchers.any(HashMap.class)))
+                        ArgumentMatchers.any(HashMap.class)))
                 .thenReturn(transferMethodResponse);
 
         String jsonCacheToken = "token123-123-123";
@@ -6801,7 +6801,7 @@ public class HyperwalletTest {
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
 
         Mockito.when(mockApiClient.post(ArgumentMatchers.anyString(), ArgumentMatchers.anyObject(), ArgumentMatchers.any(Class.class),
-                ArgumentMatchers.any(HashMap.class)))
+                        ArgumentMatchers.any(HashMap.class)))
                 .thenReturn(transferMethodResponse);
 
         String jsonCacheToken = "token123-123-123";
@@ -8634,7 +8634,7 @@ public class HyperwalletTest {
 
         HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
         Mockito.when(mockApiClient
-                .put(ArgumentMatchers.anyString(), ArgumentMatchers.any(HyperwalletBusinessStakeholder.class), ArgumentMatchers.any(Class.class)))
+                        .put(ArgumentMatchers.anyString(), ArgumentMatchers.any(HyperwalletBusinessStakeholder.class), ArgumentMatchers.any(Class.class)))
                 .thenReturn(hyperwalletBusinessStakeholder);
         HashMap<String, String> multipartUploadData = new HashMap<String, String>();
         HyperwalletBusinessStakeholder hyperwalletBusinessStakeholderResponse =

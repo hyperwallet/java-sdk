@@ -41,10 +41,10 @@ public class HyperwalletMultipartUtils {
                 Map<String, String> entity = new HashMap<>();
                 entity.put(entry.getKey(), entry.getValue());
                 Multipart.MultipartData multipart1 = new Multipart.MultipartData("Content-Type: image/" + extension + MultipartRequest.CRLF,
-                    "Content-Disposition: form-data; name=\"" +
-                        entry.getKey() + "\"; filename=\"" +
-                        fileName + "\" " + MultipartRequest.CRLF,
-                    entity );
+                        "Content-Disposition: form-data; name=\"" +
+                                entry.getKey() + "\"; filename=\"" +
+                                fileName + "\" " + MultipartRequest.CRLF,
+                        entity );
                 multipartList.add(multipart1);
             }
         }
