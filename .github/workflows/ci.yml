@@ -14,148 +14,148 @@ on:
         - feature/**
         - bugfix/**
 
-  jobs:
-    build:
-      # Compile the project using the predefined JDK versions in the strategy section
-      runs-on: ubuntu-latest
-      name: Build
+jobs:
+  build:
+    # Compile the project using the predefined JDK versions in the strategy section
+    runs-on: ubuntu-latest
+    name: Build
 
-      strategy:
-        fail-fast: false
-        matrix:
-          java: [ 8 ]
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [ 8 ]
 
-      steps:
-        - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-        - name: Setup JDK ${{ matrix.java }}
-          uses: actions/setup-java@v3
-          with:
-            distribution: 'zulu'
-            java-version: ${{ matrix.java }}
+      - name: Setup JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java }}
 
-        - name: Build and Test JDK ${{ matrix.java }}
-          #  --batch-mode  Run in non-interactive (batch) mode (disables output color)
-          #  --update-snapshots  Forces a check for missing releases and updated snapshots on remote repositories
-          run: mvn --batch-mode --update-snapshots compile
+      - name: Build and Test JDK ${{ matrix.java }}
+        #  --batch-mode  Run in non-interactive (batch) mode (disables output color)
+        #  --update-snapshots  Forces a check for missing releases and updated snapshots on remote repositories
+        run: mvn --batch-mode --update-snapshots compile
 
-    test:
-      # Perform the unit and integration tests using the predefined JDK versions in the strategy section
-      needs: [build]
-      runs-on: ubuntu-latest
-      name: Test on JDK ${{ matrix.java }}
+  test:
+    # Perform the unit and integration tests using the predefined JDK versions in the strategy section
+    needs: [build]
+    runs-on: ubuntu-latest
+    name: Test on JDK ${{ matrix.java }}
 
-      strategy:
-        fail-fast: false
-        matrix:
-          java: [ 8, 11, 14, 18 ]
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [ 8, 11, 14, 18 ]
 
-      steps:
-        - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-        - name: Setup JDK ${{ matrix.java }}
-          uses: actions/setup-java@v3
-          with:
-            distribution: 'zulu'
-            java-version: ${{ matrix.java }}
+      - name: Setup JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java }}
 
-        - name: Run the Maven test phase JDK ${{ matrix.java }}
-          #  --batch-mode  Run in non-interactive (batch) mode (disables output color)
-          #  --update-snapshots  Forces a check for missing releases and updated snapshots on remote repositories
-          run: mvn --batch-mode --update-snapshots test
+      - name: Run the Maven test phase JDK ${{ matrix.java }}
+        #  --batch-mode  Run in non-interactive (batch) mode (disables output color)
+        #  --update-snapshots  Forces a check for missing releases and updated snapshots on remote repositories
+        run: mvn --batch-mode --update-snapshots test
 
-    code-coverage:
-      # Send the code coverage to coveralls using the predefined JDK versions in the strategy section
-      needs: [build, test]
-      runs-on: ubuntu-latest
-      name: Report Code Coverage
+  code-coverage:
+    # Send the code coverage to coveralls using the predefined JDK versions in the strategy section
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    name: Report Code Coverage
 
-      strategy:
-        fail-fast: false
-        matrix:
-          java: [ 8 ]
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [ 8 ]
 
-      steps:
-        - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-        - name: Set up JDK ${{ matrix.java }}
-          uses: actions/setup-java@v3
-          with:
-            distribution: 'zulu'
-            java-version: ${{ matrix.java }}
-            cache: maven
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java }}
+          cache: maven
 
-        - name: Report code coverage
-          run: mvn clean cobertura:cobertura coveralls:report --define repoToken=${{ secrets.COVERALL_REPO_TOKEN }}
+      - name: Report code coverage
+        run: mvn clean cobertura:cobertura coveralls:report --define repoToken=${{ secrets.COVERALL_REPO_TOKEN }}
 
-    documentation:
-      # Generate documentation and push to gh-pages branch using the predefined JDK versions in the strategy section
-      needs: [build, test]
-      name: Documentation
-      runs-on: ubuntu-latest
-      strategy:
-        matrix:
-          java: [ 8 ]
-      steps:
-        - uses: actions/checkout@v3
+  documentation:
+    # Generate documentation and push to gh-pages branch using the predefined JDK versions in the strategy section
+    needs: [build, test]
+    name: Documentation
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 8 ]
+    steps:
+      - uses: actions/checkout@v3
 
-        - name: Set up JDK ${{ matrix.java }}
-          uses: actions/setup-java@v3
-          with:
-            distribution: 'zulu'
-            java-version: ${{ matrix.java }}
-            cache: maven
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java }}
+          cache: maven
 
-        - name: Build documentation
-          run: mvn javadoc:javadoc
+      - name: Build documentation
+        run: mvn javadoc:javadoc
 
-        - name: Copy to documentation Website Location
-          run: |
-            mkdir ../gh-pages
-            cp -r target/site/apidocs/* ../gh-pages/
+      - name: Copy to documentation Website Location
+        run: |
+          mkdir ../gh-pages
+          cp -r target/site/apidocs/* ../gh-pages/
 
-        - name: Commit documentation changes
-          run: |
-            if [[ `git status --porcelain` ]]; then
-              echo "Commit documentation"
-              # Set identity
-              git config --global user.email "dev-git-action@paypal.com"
-              git config --global user.name "Git Action Doc"
-            
-              # Add branch
-              git checkout -B gh-pages
-            
-              # Push generated files
-              git add -A
-              git commit -m "Documentation updated"
-              git push origin gh-pages -fq > /dev/null
-            fi
+      - name: Commit documentation changes
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            echo "Commit documentation"
+            # Set identity
+            git config --global user.email "dev-git-action@paypal.com"
+            git config --global user.name "Git Action Doc"
+          
+            # Add branch
+            git checkout -B gh-pages
+          
+            # Push generated files
+            git add -A
+            git commit -m "Documentation updated"
+            git push origin gh-pages -fq > /dev/null
+          fi
 
-    publish:
-      # Deploy new JAR Version on ossrh when a new tag is pushed
-      if: >-
-        ((github.event_name == 'workflow_dispatch') || (github.event_name == 'push')) && 
-        startsWith(github.ref, 'refs/tags/')
-      needs: [build, test, documentation]
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
+  publish:
+    # Deploy new JAR Version on ossrh when a new tag is pushed
+    if: >-
+      ((github.event_name == 'workflow_dispatch') || (github.event_name == 'push')) && 
+      startsWith(github.ref, 'refs/tags/')
+    needs: [build, test, documentation]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-        - name: Set up Apache Maven Central
-          uses: actions/setup-java@v3
-          with:  # running setup-java again overwrites the settings.xml
-            distribution: 'zulu'
-            java-version: 8
-            cache: maven
-            server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml
-            server-username: OSSRH_USERNAME # env variable for username in deploy
-            server-password: OSSRH_TOKEN # env variable for token in deploy
-            gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
-            gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
+      - name: Set up Apache Maven Central
+        uses: actions/setup-java@v3
+        with:  # running setup-java again overwrites the settings.xml
+          distribution: 'zulu'
+          java-version: 8
+          cache: maven
+          server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml
+          server-username: OSSRH_USERNAME # env variable for username in deploy
+          server-password: OSSRH_TOKEN # env variable for token in deploy
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
 
-        - name: Publish to Apache Maven Central
-          run: mvn deploy
-          env:
-            OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-            OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
-            MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Publish to Apache Maven Central
+        run: mvn deploy
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
