@@ -1,113 +1,91 @@
 package com.hyperwallet.clientsdk.util;
 
+
 import cc.protea.util.http.Response;
-import javax.xml.bind.DatatypeConverter;
-import java.io.*;
-import java.net.*;
+import com.hyperwallet.clientsdk.util.Multipart.MultipartData;
+
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.Proxy;
 import java.nio.file.Files;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents the HTTP Multipart Request message.
+ */
+public class MultipartRequest extends Request{
 
-public class MultipartRequest {
-    private final String BOUNDARY = "--0011010110123111";
-    private final String SEPARATOR = "--";
-
-    private HttpURLConnection connection;
-    private Multipart multipartList = new Multipart();
-    private DataOutputStream outStream;
-    private Map<String, List<String>> headers = new HashMap<String, List<String>>();
-    private String requestURL;
-
-    private final String username;
-    private final String password;
+    public static final String BOUNDARY = "--0011010110123111";
     public static final String CRLF = "\r\n";
+    private static final String SEPARATOR = "--";
 
-    public Multipart getMultipartList() {
-        return multipartList;
+    /**
+     * The Constructor takes the url as a String, a proxy as a Proxy, and proxy credentials as a String.
+     *
+     * @param url               The url parameter does not need the query string parameters if they are going to be supplied via calls to
+     *                          {@link #addQueryParameter(String, String)}. You can, however, supply the query parameters in the URL if you wish.
+     * @param connectionTimeout A specified timeout value, in milliseconds, to establish communications link to the resource by
+     *                          {@link  java.net.URLConnection}.
+     * @param readTimeout       A specified timeout, in milliseconds, for reading data from an established connection to the resource
+     *                          by {@link  java.net.URLConnection}.
+     * @param proxy             The Connection's Proxy value
+     * @param proxyUsername     The Proxy username
+     * @param proxyPassword     The Proxy password
+     */
+    public MultipartRequest(String url, int connectionTimeout, int readTimeout, Proxy proxy, String proxyUsername,
+            String proxyPassword) {
+        super(url, connectionTimeout, readTimeout, proxy, proxyUsername, proxyPassword);
     }
 
-    public void setMultipartList(Multipart multipartList) {
-        this.multipartList = multipartList;
+    /**
+     * Issues a PUT to the server.
+     *
+     * @param multipart The {@link Multipart}
+     * @return The {@link Response} from the server
+     * @throws IOException a {@link IOException}
+     */
+    public Response putMultipartResource(final Multipart multipart) throws IOException {
+        return writeMuiltipartResource("PUT", multipart);
     }
 
-    MultipartRequest(String url, Multipart multipartList, String username, String password) throws IOException {
-        requestURL = url;
-        this.username  = username;
-        this.password = password;
-        this.multipartList = multipartList;
-    }
+    private Response writeMuiltipartResource(final String method, final Multipart multipartList) throws IOException {
+        buildQueryString();
+        buildHeaders();
 
-    public Response putResource(boolean usesProxy, Proxy proxy, final String proxyUsername, final String proxyPassword) throws IOException {
-        Response response = new Response() ;
-        URL url = new URL(requestURL);
-        final String pair = username + ":" + password;
-        final String base64 = DatatypeConverter.printBase64Binary(pair.getBytes());
-        // If there is proxy authentication provided, it will be set here
-        if (proxyUsername != null && proxyPassword != null) {
-        // NOTE: Removing Basic Auth from tunneling disabledSchemas is required in order
-        // for Proxy Authorization to work. To prevent overriding client System Settings,
-        // the client should set this System property themselves inside their JVM Options (1)
-        // or their own code (2). Approaches listed below:
-        // 1. jdk.http.auth.tunneling.disabledSchemes=
-        // 2. System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "false");
-            Authenticator authenticator = new Request.DefaultPasswordAuthenticator(
-                    proxyUsername, proxyPassword);
-            Authenticator.setDefault(authenticator);
-        }
-        connection = usesProxy ? (HttpURLConnection) url.openConnection(proxy) : (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
-        connection.setRequestMethod("PUT");
-        connection.setRequestProperty("authorization", "Basic " + base64);
-        connection.setRequestProperty("accept", "application/json");
-        connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
-        outStream = new DataOutputStream(this.connection.getOutputStream());
-        writeMultipartBody();
-        outStream.flush();
-        outStream.close();
-        // checks server's status code first
-        int status = this.connection.getResponseCode();
-        InputStream responseStream;
-        if (status == HttpURLConnection.HTTP_OK || status == HttpURLConnection.HTTP_CREATED) {
-            responseStream = new BufferedInputStream(connection.getInputStream());
-        } else {
-            responseStream = new BufferedInputStream(connection.getErrorStream());
-        }
-        BufferedReader responseStreamReader = new BufferedReader(new InputStreamReader(responseStream));
-        String line = "";
-        StringBuilder stringBuilder = new StringBuilder();
-        while ((line = responseStreamReader.readLine()) != null) {
-            stringBuilder.append(line).append("\n");
-        }
-        responseStreamReader.close();
-        response.setResponseCode(status);
-        response.setBody(stringBuilder.toString());
-        response.setHeaders(this.connection.getHeaderFields());
-        this.connection.disconnect();
+        connection.setRequestMethod(method);
+
+        DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
+        writeMultipartBody(dataOutputStream, multipartList.getMultipartList());
+        dataOutputStream.flush();
+        dataOutputStream.close();
+
+        Response response = readResponse();
+        connection.disconnect();
         return response;
     }
 
-    private void writeMultipartBody() throws IOException {
-        for (Multipart.MultipartData multipartData : multipartList.getMultipartList()) {
+    private void writeMultipartBody(DataOutputStream dataOutputStream, List<MultipartData> multipartList) throws IOException {
+        for (MultipartData multipartData : multipartList) {
             for (Map.Entry<String, String> entry : multipartData.getEntity().entrySet()) {
-                outStream.writeBytes(this.SEPARATOR + this.BOUNDARY + this.CRLF);
-                outStream.writeBytes(multipartData.getContentDisposition());
-                outStream.writeBytes(multipartData.getContentType());
-                outStream.writeBytes(this.CRLF);
+                dataOutputStream.writeBytes(SEPARATOR + BOUNDARY + CRLF);
+                dataOutputStream.writeBytes(multipartData.getContentDisposition());
+                dataOutputStream.writeBytes(multipartData.getContentType());
+                dataOutputStream.writeBytes(CRLF);
 
                 if (multipartData.getContentType().contains("image")) {
                     byte[] bytes = Files.readAllBytes(new File(entry.getValue().toString()).toPath());
-                    outStream.write(bytes);
-                    outStream.writeBytes(this.CRLF);
+                    dataOutputStream.write(bytes);
                 } else {
-                    outStream.writeBytes(entry.getValue() + this.CRLF);
+                    dataOutputStream.writeBytes(entry.getValue());
                 }
-                outStream.flush();
+                dataOutputStream.writeBytes(CRLF);
+                dataOutputStream.flush();
             }
         }
-        outStream.writeBytes(this.CRLF);
-        outStream.writeBytes(this.SEPARATOR + this.BOUNDARY + this.SEPARATOR + this.CRLF);
-
+        dataOutputStream.writeBytes(CRLF);
+        dataOutputStream.writeBytes(SEPARATOR + BOUNDARY + SEPARATOR + CRLF);
     }
 }

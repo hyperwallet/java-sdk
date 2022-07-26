@@ -23,13 +23,13 @@ Installation
 <dependency>
     <groupId>com.hyperwallet</groupId>
     <artifactId>sdk</artifactId>
-    <version>1.9.2</version>
+    <version>1.9.3</version>
 </dependency>
 ```
 
 **Gradle**
 ```
-compile 'com.hyperwallet:sdk:1.9.2'
+compile 'com.hyperwallet:sdk:1.9.3'
 ```
 
 Documentation
@@ -44,7 +44,7 @@ API Overview
 To write an app using the SDK
 
 * Register for a sandbox account and get your username, password and program token at the [Hyperwallet Program Portal](https://portal.hyperwallet.com).
-* Add dependency `com.hyperwallet:sdk:1.9.2` to your `pom.xml` (or `build.gradle`).
+* Add dependency `com.hyperwallet:sdk:1.9.3` to your `pom.xml` (or `build.gradle`).
 
 * Create a instance of the Hyperwallet Client (with username, password and program token)
   ```java
@@ -140,6 +140,18 @@ HyperwalletEncryption hyperwalletEncryption;
         hyperwalletEncryption.setProxyPassword("proxyPassword");
   ```
 Once this object has been properly configured, it can then be utilized within the Hyperwallet's API client constructor.
+
+**Timeout Support**
+
+Hyperwallet's API client supports timeout value, in milliseconds, for reading and establishing communications link to Hyperwallet API resources.
+
+   ```java
+      //300 milliseconds
+      int connectionTimeout = 300;
+      // 2 seconds  
+      int readTimout = 2000;
+      Hyperwallet client=new Hyperwallet("restapiuser@4917301618","mySecurePassword!","prg-645fc30d-83ed-476c-a412-32c82738a20e",connectionTimeout,readTimout);
+   ```
 
 Development
 -----------
