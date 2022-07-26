@@ -1,5 +1,9 @@
 Changelog
 =========
+1.9.3
+-----------------
+- Added connection and read timeout support
+
 1.9.2
 -----------------
 - Removed PURGE method from request method

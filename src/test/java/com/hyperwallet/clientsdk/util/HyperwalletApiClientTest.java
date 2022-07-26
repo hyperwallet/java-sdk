@@ -45,6 +45,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -94,7 +95,7 @@ public class HyperwalletApiClientTest {
         }
 
         baseUrl = "http://localhost:" + mockServer.getPort();
-        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0", null);
+        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0", null, 200, 300);
         hyperwalletEncryption = new HyperwalletEncryptionBuilder()
                 .encryptionAlgorithm(JWEAlgorithm.RSA_OAEP_256)
                 .encryptionMethod(EncryptionMethod.A256CBC_HS512)
@@ -102,7 +103,7 @@ public class HyperwalletApiClientTest {
                 .clientPrivateKeySetLocation("src/test/resources/encryption/private-jwkset")
                 .hyperwalletKeySetLocation("src/test/resources/encryption/server-public-jwkset")
                 .build();
-        hyperwalletEncryptedApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0", hyperwalletEncryption);
+        hyperwalletEncryptedApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0", hyperwalletEncryption, 200, 300);
     }
 
     @Test
@@ -2162,6 +2163,67 @@ public class HyperwalletApiClientTest {
         jwt.encrypt(rsaEncrypter);
 
         return jwt.serialize();
+    }
+
+    @Test
+    public void testGet_exceedReadTimeoutIn10Milliseconds() throws InterruptedException {
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("GET")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withBody("{}")
+                        .withDelay(TimeUnit.MILLISECONDS, 200)
+        );
+
+        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0",
+                null, 10, 10);
+
+        try {
+            hyperwalletApiClient.get(baseUrl + "/test?test-query=test-value", TestBody.class);
+            fail("Expected HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(equalTo("java.net.SocketTimeoutException: Read timed out")));
+        }
+    }
+
+    @Test
+    public void testPutMultipart_exceedReadTimeoutIn10Milliseconds() throws InterruptedException {
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("PUT")
+                        .withPath("/test")
+                        .withQueryStringParameter("test-query", "test-value")
+                        .withHeader("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk")
+                        .withHeader("Accept", "application/json")
+                        .withHeader("User-Agent", "Hyperwallet Java SDK v1.0"),
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withBody("{}")
+                        .withDelay(TimeUnit.MILLISECONDS, 50)
+        );
+
+        hyperwalletApiClient = new HyperwalletApiClient("test-username", "test-password", "1.0",
+                null, 10, 10);
+
+        try {
+            Multipart requestBody = new Multipart();
+            List<Multipart.MultipartData> multipartList = new ArrayList<Multipart.MultipartData>();
+            requestBody.setMultipartList(multipartList);
+            hyperwalletApiClient.put(baseUrl + "/test?test-query=test-value", requestBody, TestBody.class);
+            fail("Expected HyperwalletException");
+        } catch (HyperwalletException e) {
+            assertThat(e.getMessage(), is(equalTo("java.net.SocketTimeoutException: Read timed out")));
+        }
     }
 
 }
