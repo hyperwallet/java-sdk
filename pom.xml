@@ -4,7 +4,7 @@
 
     <groupId>com.hyperwallet</groupId>
     <artifactId>sdk</artifactId>
-    <version>1.9.3-SNAPSHOT</version>
+    <version>1.9.3</version>
     <packaging>jar</packaging>
 
     <name>hyperwallet-java-sdk</name>
@@ -29,7 +29,7 @@
         <url>https://github.com/hyperwallet/java-sdk</url>
         <connection>scm:git:git://github.com/hyperwallet/java-sdk.git</connection>
         <developerConnection>scm:git:git@github.com:hyperwallet/java-sdk.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>1.9.3</tag>
   </scm>
 
     <developers>
