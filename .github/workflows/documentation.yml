@@ -1,0 +1,73 @@
+name: Update Documentation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  documentation:
+    # Generate documentation and push to gh-pages branch using the predefined JDK versions in the strategy section
+    name: Documentation
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 8 ]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java }}
+          cache: maven
+
+      - name: Build documentation
+        run: mvn javadoc:javadoc
+
+      - name: Copy to documentation Website Location
+        run: |
+          mkdir ../gh-pages
+          cp -r target/site/apidocs/* ../gh-pages/
+
+      - name: Commit documentation changes
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            echo "Commit documentation"
+            # Set identity
+            git config --global user.email "dev-git-action@paypal.com"
+            git config --global user.name "Git Action Doc"
+          
+            # Add branch
+            git checkout -B gh-pages
+          
+            # Push generated files
+            git add -A
+            git commit -m "Documentation updated"
+            git push origin gh-pages -fq > /dev/null
+          fi
+  code-coverage:
+    # Send the code coverage to coveralls using the predefined JDK versions in the strategy section
+    runs-on: ubuntu-latest
+    name: Report Code Coverage
+
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [ 8 ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java }}
+          cache: maven
+
+      - name: Report code coverage
+        run: mvn clean cobertura:cobertura coveralls:report --define repoToken=${{ secrets.COVERALL_REPO_TOKEN }}
+
