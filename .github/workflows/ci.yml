@@ -49,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [ 8, 11, 14, 18 ]
+        java: [ 8, 9, 10, 11, 12, 13, 14, 15, 16 ,17, 18 ]
 
     steps:
       - uses: actions/checkout@v3
@@ -58,6 +58,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
+          architecture: x64
           java-version: ${{ matrix.java }}
 
       - name: Run the Maven test phase JDK ${{ matrix.java }}
