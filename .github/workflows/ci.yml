@@ -85,7 +85,8 @@ jobs:
 
       - name: "Report: Coverage via coveralls.io"
         run: | 
-          mvn coveralls:report \
+          mvn cobertura:cobertura \
+          coveralls:report \
           --settings $SETTINGS_FILE \
           --no-transfer-progress \
           -DrepoToken=$COVERALLS_SECRET
