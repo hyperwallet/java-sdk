@@ -85,10 +85,8 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: "Report: Coverage via coveralls.io"
-        run: | 
-          mvn cobertura:cobertura \
-          coveralls:report \
-          --no-transfer-progress \
-          -DrepoToken=$COVERALLS_SECRET
-        env:
-           COVERALLS_SECRET: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mvn clean \
+            cobertura:cobertura \
+            coveralls:report \
+            --define repoToken=${{ secrets.GITHUB_TOKEN }}
