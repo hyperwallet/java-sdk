@@ -84,7 +84,7 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Run the Maven test phase JDK ${{ matrix.java }}
-        run: mvn verify
+        run:  mvn -B verify -P coverage --no-transfer-progress
 
       - name: Coveralls
         uses: coverallsapp/github-action@master
