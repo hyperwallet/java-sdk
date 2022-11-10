@@ -89,4 +89,4 @@ jobs:
           mvn clean \
             cobertura:cobertura \
             coveralls:report \
-            --define repoToken=${{ github.token }}
+            --define repoToken=${{ secrets.GITHUB_TOKEN }}
