@@ -86,9 +86,12 @@ jobs:
           java-version: ${{ matrix.java-version }}
 
       - name: "Report: Coverage via coveralls.io"
+        if: env.COVERALL_REPO_TOKEN
         run: |
           mvn clean \
             cobertura:cobertura \
             coveralls:report \
             --no-transfer-progress
             --define repoToken=${{ secrets.COVERALL_REPO_TOKEN }}
+        env:
+          COVERALL_REPO_TOKEN: ${{ secrets.COVERALL_REPO_TOKEN }}

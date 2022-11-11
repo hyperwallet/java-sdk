@@ -5,6 +5,12 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches:
+      - master
+      - support/SDK-V3
+      - feature/**
+      - bugfix/**
 
 jobs:
   documentation:
