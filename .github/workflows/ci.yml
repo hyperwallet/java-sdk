@@ -67,11 +67,9 @@ jobs:
         run: mvn --batch-mode --update-snapshots test
 
   code-coverage:
-    if: ${{ env.COVERALL_REPO_TOKEN }}
     needs: [ test ]
     runs-on: ubuntu-latest
-    env:
-      COVERALL_REPO_TOKEN: ${{ secrets.COVERALL_REPO_TOKEN }}
+
     name: Report code coverage - JDK ${{ matrix.java-version }}
 
     strategy:
