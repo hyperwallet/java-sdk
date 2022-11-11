@@ -91,4 +91,4 @@ jobs:
             cobertura:cobertura \
             coveralls:report \
             --no-transfer-progress
-            --define repoToken=${{ secrets.COVERALLS_REPO_TOKEN }}
+            --define repoToken=${{ secrets.GITHUB_TOKEN }}
