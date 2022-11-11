@@ -67,9 +67,11 @@ jobs:
         run: mvn --batch-mode --update-snapshots test
 
   code-coverage:
-    if: secrets.COVERALL_REPO_TOKEN
+    if: env.COVERALL_REPO_TOKEN
     needs: [ test ]
     runs-on: ubuntu-latest
+    env:
+      COVERALL_REPO_TOKEN: ${{ secrets.COVERALL_REPO_TOKEN }}
     name: Report code coverage - JDK ${{ matrix.java-version }}
 
     strategy:
@@ -86,12 +88,10 @@ jobs:
           java-version: ${{ matrix.java-version }}
 
       - name: "Report: Coverage via coveralls.io"
-        if: env.COVERALL_REPO_TOKEN
         run: |
           mvn clean \
             cobertura:cobertura \
             coveralls:report \
             --no-transfer-progress
             --define repoToken=${{ secrets.COVERALL_REPO_TOKEN }}
-        env:
-          COVERALL_REPO_TOKEN: ${{ secrets.COVERALL_REPO_TOKEN }}
+        
