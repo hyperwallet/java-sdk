@@ -87,5 +87,4 @@ jobs:
             cobertura:cobertura \
             coveralls:report \
             --no-transfer-progress \
-            --debug  \
             -D repoToken=$COVERALLS_REPO_TOKEN
