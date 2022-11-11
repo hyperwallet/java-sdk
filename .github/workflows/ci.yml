@@ -94,4 +94,6 @@ jobs:
             cobertura:cobertura \
             coveralls:report \
             --no-transfer-progress \
-            --debug
+            --debug  \
+            -D repoToken=$COVERALLS_REPO_TOKEN \
+            -D serviceName=$CI_NAME
