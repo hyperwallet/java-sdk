@@ -87,7 +87,6 @@ jobs:
 
       - name: "Report: Coverage via coveralls.io"
         env:
-          CI_NAME: github-actions
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
         run: |
           mvn clean \
@@ -95,5 +94,4 @@ jobs:
             coveralls:report \
             --no-transfer-progress \
             --debug  \
-            -D repoToken=$COVERALLS_REPO_TOKEN \
-            -D serviceName=$CI_NAME
+            -D repoToken=$COVERALLS_REPO_TOKEN
