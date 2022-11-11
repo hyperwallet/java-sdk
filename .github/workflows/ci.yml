@@ -93,4 +93,5 @@ jobs:
           mvn clean \
             cobertura:cobertura \
             coveralls:report \
-            --no-transfer-progress
+            --no-transfer-progress \
+            --debug
