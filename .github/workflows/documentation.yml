@@ -1,0 +1,44 @@
+name: Update Documentation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      - support/SDK-V3
+      - feature/**
+      - bugfix/**
+
+jobs:
+  documentation:
+    runs-on: ubuntu-latest
+    name: Documentation
+
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: [ 8 ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java-version }}
+
+      - name: Generate Java Docs JDK ${{ matrix.java-version }}
+        run: mvn javadoc:javadoc
+
+      - name: Push
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: gh-pages
+          FOLDER: target/site/apidocs
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MESSAGE: "Documentation updated"
