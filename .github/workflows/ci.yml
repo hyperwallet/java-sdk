@@ -90,5 +90,8 @@ jobs:
           mvn clean \
             cobertura:cobertura \
             coveralls:report \
-            --no-transfer-progress
-            --define repoToken=${{ secrets.GITHUB_TOKEN }}
+            --no-transfer-progress \
+            -D repoToken=${{ env.COVERALLS_REPO_TOKEN }} \
+            -D serviceName=Github \
+            -D serviceBuildUrl=https://github.com/${{ github.repository }}/commit/${{ github.sha }}/checks \
+            -D branch=${{ github.head_ref || github.ref }}
