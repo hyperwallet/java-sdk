@@ -1,0 +1,90 @@
+name: Java SDK CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - support/SDK-V3
+      - feature/**
+      - bugfix/**
+
+jobs:
+  build:
+    # Compile the project using the predefined JDK versions in the strategy section
+    runs-on: ubuntu-latest
+    name: Build - JDK ${{ matrix.java-version }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: [ 8 ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java-version }}
+
+      - name: Build and Test JDK ${{ matrix.java-version }}
+        #  --batch-mode  Run in non-interactive (batch) mode (disables output color)
+        #  --update-snapshots  Forces a check for missing releases and updated snapshots on remote repositories
+        run: mvn --batch-mode --update-snapshots compile
+
+  test:
+    # Perform the unit and integration tests using the predefined JDK versions in the strategy section
+    needs: [build]
+    runs-on: ubuntu-latest
+    name: Test - JDK ${{ matrix.java-version }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: [ 8, 9, 10, 11, 12, 13, 14, 15, 16 ,17, 18 ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          architecture: x64
+          java-version: ${{ matrix.java-version }}
+
+      - name: Run the Maven test phase JDK ${{ matrix.java-version }}
+        #  --batch-mode  Run in non-interactive (batch) mode (disables output color)
+        #  --update-snapshots  Forces a check for missing releases and updated snapshots on remote repositories
+        run: mvn --batch-mode --update-snapshots test
+
+  code-coverage:
+    needs: [ test ]
+    runs-on: ubuntu-latest
+
+    name: Report code coverage - JDK ${{ matrix.java-version }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+          java-version: [ 8 ]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.java-version }}
+
+      - name: "Report: Coverage via coveralls.io"
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+        run: |
+          mvn clean \
+            cobertura:cobertura \
+            coveralls:report \
+            --no-transfer-progress \
+            -D repoToken=$COVERALLS_REPO_TOKEN
