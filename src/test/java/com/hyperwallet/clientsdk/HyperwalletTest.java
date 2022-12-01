@@ -3656,8 +3656,8 @@ public class HyperwalletTest {
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
             assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("Email/AccountId is required")));
-            assertThat(e.getMessage(), is(equalTo("Email/AccountId is required")));
+            assertThat(e.getErrorMessage(), is(equalTo("Email or AccountId is required")));
+            assertThat(e.getMessage(), is(equalTo("Email or AccountId is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
