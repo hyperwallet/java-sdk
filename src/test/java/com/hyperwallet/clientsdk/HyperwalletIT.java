@@ -3323,6 +3323,93 @@ public class HyperwalletIT {
                         ".eyJzdWIiOiJ1c3ItMmQyZGNlYWMtNDlmNi00YWQwLTk0N2YtMTIwOTIzNzhhMmQyIiwiaWF0IjoxNTQ0ODI5ODA2LCJleHAiOjE1NDQ4MzA0MDYsImF1ZCI6InBndS03YTEyMzJlOC0xNDc5LTQzNzAtOWY1NC03ODc1ZjdiMTg2NmMiLCJpc3MiOiJwcmctY2NhODAyNWUtODVhMy0xMWU2LTg2MGEtNThhZDVlY2NlNjFkIiwicmVzdC11cmkiOiJodHRwczovL3FhbWFzdGVyLWh5cGVyd2FsbGV0LmF3cy5wYXlsdXRpb24ubmV0L3Jlc3QvdjMvIiwiZ3JhcGhxbC11cmkiOiJodHRwczovL3FhbWFzdGVyLWh5cGVyd2FsbGV0LmF3cy5wYXlsdXRpb24ubmV0L2dyYXBocWwifQ.pGOdbYermGhiON5IFKSnXZd6Zj hktMd3WEDOMplYyAeiqVeZGck04eVpsBaXEqYp78NJIs7J5kMX-rPgFYxHpw")));
     }
 
+    @Test
+    public void createPayPalAccountWithAccountId() throws Exception {
+        String functionality = "createPayPalAccountWithAccountId";
+        initMockServer(functionality);
+
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount()
+                .userToken("usr-e7b61829-a73a-45dc-930e-afa8a56b924c")
+                .transferMethodCountry("US")
+                .transferMethodCurrency("USD")
+                .type(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT)
+                .accountId("K8QRQHMYWETL9");
+
+        HyperwalletPayPalAccount returnValue;
+        try {
+            returnValue = client.createPayPalAccount(payPalAccount);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-e7b61829-a73a-45dc-930e-afa8a56b924c/paypal-accounts/trm-54b0db9c-5565-47f7"
+                        + "-aee6-685e713595f4");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        assertThat(returnValue.getToken(), is(equalTo("trm-54b0db9c-5565-47f7-aee6-afa8a56b924c")));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletPayPalAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2022-11-11T00:00:00 UTC"))));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getAccountId(), is(equalTo("K8QRQHMYWETL9")));
+        if (returnValue.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+        }
+    }
+
+    @Test
+    public void createVenmoAccountWithEmail() throws Exception {
+        String functionality = "createVenmoAccountWithEmail";
+        initMockServer(functionality);
+
+        HyperwalletVenmoAccount venmoAccount = new HyperwalletVenmoAccount()
+                .userToken("usr-c4292f1a-866f-4310-a289-b916853939ef")
+                .transferMethodCountry("US")
+                .transferMethodCurrency("USD")
+                .type(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT)
+                .accountId("user@domain.com");
+
+        HyperwalletVenmoAccount returnValue;
+        try {
+            returnValue = client.createVenmoAccount(venmoAccount);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939ef/venmo-accounts/trm-ac5727ac-8fe7-42fb"
+                        + "-b69d-977ebdd7b49c");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+        assertThat(returnValue.getToken(), is(equalTo("trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b49c")));
+        assertThat(returnValue.getStatus(), is(equalTo(HyperwalletVenmoAccount.Status.ACTIVATED)));
+        assertThat(returnValue.getType(), is(equalTo(HyperwalletVenmoAccount.Type.VENMO_ACCOUNT)));
+        assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2022-11-11T22:50:14 UTC"))));
+        assertThat(returnValue.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(returnValue.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(returnValue.getAccountId(), is(equalTo("user@domain.com")));
+        if (returnValue.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+        }
+    }
+
 
     private void initMockServerWithErrorResponse(String functionality) throws IOException {
         mockServer.reset();

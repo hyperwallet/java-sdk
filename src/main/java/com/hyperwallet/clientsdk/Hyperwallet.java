@@ -1527,8 +1527,8 @@ public class Hyperwallet {
         if (StringUtils.isEmpty(payPalAccount.getTransferMethodCurrency())) {
             throw new HyperwalletException("Transfer Method Currency is required");
         }
-        if (StringUtils.isEmpty(payPalAccount.getEmail())) {
-            throw new HyperwalletException("Email is required");
+        if (StringUtils.isEmpty(payPalAccount.getEmail()) && StringUtils.isEmpty(payPalAccount.getAccountId())) {
+            throw new HyperwalletException("Email/AccountId is required");
         }
         if (!StringUtils.isEmpty(payPalAccount.getToken())) {
             throw new HyperwalletException("PayPal Account token may not be present");

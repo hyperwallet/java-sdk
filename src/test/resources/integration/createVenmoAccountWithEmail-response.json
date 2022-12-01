@@ -1,0 +1,17 @@
+{
+  "token": "trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b49c",
+  "type": "VENMO_ACCOUNT",
+  "status": "ACTIVATED",
+  "createdOn": "2022-11-11T22:50:14",
+  "transferMethodCountry": "US",
+  "transferMethodCurrency": "USD",
+  "accountId": "user@domain.com",
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939ef/venmo-accounts/trm-ac5727ac-8fe7-42fb-b69d-977ebdd7b49c"
+    }
+  ]
+}

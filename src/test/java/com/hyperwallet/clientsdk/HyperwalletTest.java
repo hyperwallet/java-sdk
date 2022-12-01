@@ -3656,8 +3656,8 @@ public class HyperwalletTest {
         } catch (HyperwalletException e) {
             assertThat(e.getErrorCode(), is(nullValue()));
             assertThat(e.getResponse(), is(nullValue()));
-            assertThat(e.getErrorMessage(), is(equalTo("Email is required")));
-            assertThat(e.getMessage(), is(equalTo("Email is required")));
+            assertThat(e.getErrorMessage(), is(equalTo("Email/AccountId is required")));
+            assertThat(e.getMessage(), is(equalTo("Email/AccountId is required")));
             assertThat(e.getHyperwalletErrors(), is(nullValue()));
             assertThat(e.getRelatedResources(), is(nullValue()));
         }
@@ -8865,5 +8865,43 @@ public class HyperwalletTest {
             checkHyperwalletException(e, expectedException);
         }
     }
+
+    @Test
+    public void createPayPalAccountWithAccountId() throws Exception {
+        HyperwalletPayPalAccount payPalAccount = new HyperwalletPayPalAccount();
+        payPalAccount.setUserToken("test-user-token");
+        payPalAccount.setTransferMethodCountry("test-transfer-method-country");
+        payPalAccount.setTransferMethodCurrency("test-transfer-method-currency");
+        payPalAccount.setAccountId("test-accountId");
+        payPalAccount.setStatus(HyperwalletPayPalAccount.Status.ACTIVATED);
+        payPalAccount.setCreatedOn(new Date());
+
+        HyperwalletPayPalAccount payPalAccountResponse = new HyperwalletPayPalAccount();
+
+        Hyperwallet client = new Hyperwallet("test-username", "test-password");
+        HyperwalletApiClient mockApiClient = createAndInjectHyperwalletApiClientMock(client);
+
+        Mockito.when(mockApiClient.post(ArgumentMatchers.anyString(), ArgumentMatchers.anyObject(), ArgumentMatchers.any(Class.class)))
+                .thenReturn(payPalAccountResponse);
+
+        HyperwalletPayPalAccount resp = client.createPayPalAccount(payPalAccount);
+        assertThat(resp, is(equalTo(payPalAccountResponse)));
+
+        ArgumentCaptor<HyperwalletPayPalAccount> argument = ArgumentCaptor.forClass(HyperwalletPayPalAccount.class);
+        Mockito.verify(mockApiClient)
+                .post(ArgumentMatchers.eq("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token/paypal-accounts"), argument.capture(),
+                        ArgumentMatchers.eq(payPalAccount.getClass()));
+
+        HyperwalletPayPalAccount apiPayPalAccount = argument.getValue();
+        assertThat(apiPayPalAccount, is(notNullValue()));
+        assertThat(apiPayPalAccount.getUserToken(), is(equalTo("test-user-token")));
+        assertThat(apiPayPalAccount.getTransferMethodCountry(), is(equalTo("test-transfer-method-country")));
+        assertThat(apiPayPalAccount.getTransferMethodCurrency(), is(equalTo("test-transfer-method-currency")));
+        assertThat(apiPayPalAccount.getAccountId(), is(equalTo("test-accountId")));
+        assertThat(apiPayPalAccount.getStatus(), is(nullValue()));
+        assertThat(apiPayPalAccount.getCreatedOn(), is(nullValue()));
+        assertThat(apiPayPalAccount.getType(), is(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT));
+    }
+
 
 }
