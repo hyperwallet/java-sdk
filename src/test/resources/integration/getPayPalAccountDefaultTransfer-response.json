@@ -1,0 +1,18 @@
+{
+  "token": "trm-54b0db9c-5565-47f7-aee6-685e713595f4",
+  "type": "PAYPAL_ACCOUNT",
+  "status": "ACTIVATED",
+  "createdOn": "2022-05-01T00:00:00",
+  "transferMethodCountry": "US",
+  "transferMethodCurrency": "USD",
+  "email": "user@domain.com",
+  "isDefaultTransferMethod": true,
+  "links": [
+    {
+      "params": {
+        "rel": "self"
+      },
+      "href": "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-e7b61829-a73a-45dc-930e-afa8a56b923c/paypal-accounts/trm-54b0db9c-5565-47f7-aee6-685e713595f4"
+    }
+  ]
+}

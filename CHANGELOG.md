@@ -1,5 +1,8 @@
 Changelog
 =========
+2.4.4
+-------------------
+- Added attribute 'isDefaultTransferMethod' to identify default accounts.
 
 2.4.3
 -----------------

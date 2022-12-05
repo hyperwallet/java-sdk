@@ -90,6 +90,7 @@ public class HyperwalletTransferMethodTest extends BaseModelTest<HyperwalletTran
                 .postalCode("test-postal-code")
                 .country("test-country")
                 .verificationStatus(VerificationStatus.NOT_REQUIRED)
+                .isDefaultTransferMethod(Boolean.TRUE)
                 .links(hyperwalletLinkList);
 
         return transferMethod;
