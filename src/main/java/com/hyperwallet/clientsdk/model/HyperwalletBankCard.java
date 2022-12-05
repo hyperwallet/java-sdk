@@ -18,7 +18,6 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     public enum CardType {DEBIT}
     public static enum Type {BANK_CARD}
     public static enum Status {ACTIVATED, VERIFIED, INVALID, DE_ACTIVATED}
-
     private Type type;
     private Status status;
     private Status transition;
