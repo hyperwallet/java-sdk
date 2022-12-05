@@ -20,6 +20,7 @@ public class HyperwalletPrepaidCardTest extends BaseModelTest<HyperwalletPrepaid
                 .cardPackage("test-card-package")
                 .cardNumber("test-card-number")
                 .cardBrand(HyperwalletPrepaidCard.Brand.VISA)
+                .isDefaultTransferMethod(Boolean.TRUE)
                 .dateOfExpiry(new Date())
                 .userToken("test-user-token");
         return prepaidCard;
