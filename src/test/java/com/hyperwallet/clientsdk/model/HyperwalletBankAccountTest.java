@@ -79,7 +79,8 @@ public class HyperwalletBankAccountTest extends BaseModelTest<HyperwalletBankAcc
                 .city("test-city")
                 .stateProvince("test-state-province")
                 .postalCode("test-postal-code")
-                .country("test-country");
+                .country("test-country")
+                .isDefaultTransferMethod(Boolean.TRUE);
 
         return bankAccount;
     }

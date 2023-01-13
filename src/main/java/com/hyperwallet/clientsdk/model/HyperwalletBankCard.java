@@ -18,7 +18,6 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     public enum CardType {DEBIT}
     public static enum Type {BANK_CARD}
     public static enum Status {ACTIVATED, VERIFIED, INVALID, DE_ACTIVATED}
-    
     private Type type;
     private Status status;
     private Status transition;
@@ -35,6 +34,7 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
 
     private String userToken;
     private String processingTime;
+    private Boolean isDefaultTransferMethod;
 
     public Type getType() {
         return type;
@@ -328,6 +328,27 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     public HyperwalletBankCard clearProcessingTime() {
         clearField("processingTime");
         this.processingTime = null;
+        return this;
+    }
+
+    public Boolean getIsDefaultTransferMethod() {
+        return isDefaultTransferMethod;
+    }
+
+    public void setIsDefaultTransferMethod(Boolean isDefaultTransferMethod) {
+        addField("isDefaultTransferMethod", isDefaultTransferMethod);
+        this.isDefaultTransferMethod = isDefaultTransferMethod;
+    }
+
+    public HyperwalletBankCard isDefaultTransferMethod(Boolean isDefaultTransferMethod) {
+        addField("isDefaultTransferMethod", isDefaultTransferMethod);
+        this.isDefaultTransferMethod = isDefaultTransferMethod;
+        return this;
+    }
+
+    public HyperwalletBankCard clearIsDefaultTransferMethod() {
+        clearField("isDefaultTransferMethod");
+        this.isDefaultTransferMethod = null;
         return this;
     }
 }

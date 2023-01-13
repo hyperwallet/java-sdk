@@ -19,7 +19,8 @@ public class HyperwalletBankCardTest extends BaseModelTest<HyperwalletBankCard> 
                 .processingTime("30 mins")
                 .dateOfExpiry(new Date())
                 .cvv("cvv")
-                .userToken("test-user-token");
+                .userToken("test-user-token")
+                .isDefaultTransferMethod(Boolean.TRUE);
         return bankCard;
     }
 

@@ -81,7 +81,8 @@ public class HyperwalletTransferMethodTest extends BaseModelTest<HyperwalletTran
                 .city("test-city")
                 .stateProvince("test-state-province")
                 .postalCode("test-postal-code")
-                .country("test-country");
+                .country("test-country")
+                .isDefaultTransferMethod(Boolean.TRUE);
 
         return transferMethod;
     }

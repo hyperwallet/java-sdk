@@ -35,6 +35,8 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     private Date dateOfExpiry;
 
     private String userToken;
+    private Boolean isDefaultTransferMethod;
+
 
     public Type getType() {
         return type;
@@ -307,6 +309,27 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     public HyperwalletPrepaidCard clearUserToken() {
         clearField("userToken");
         this.userToken = null;
+        return this;
+    }
+
+    public Boolean getIsDefaultTransferMethod() {
+        return isDefaultTransferMethod;
+    }
+
+    public void setIsDefaultTransferMethod(Boolean isDefaultTransferMethod) {
+        addField("isDefaultTransferMethod", isDefaultTransferMethod);
+        this.isDefaultTransferMethod = isDefaultTransferMethod;
+    }
+
+    public HyperwalletPrepaidCard isDefaultTransferMethod(Boolean isDefaultTransferMethod) {
+        addField("isDefaultTransferMethod", isDefaultTransferMethod);
+        this.isDefaultTransferMethod = isDefaultTransferMethod;
+        return this;
+    }
+
+    public HyperwalletPrepaidCard clearIsDefaultTransferMethod() {
+        clearField("isDefaultTransferMethod");
+        this.isDefaultTransferMethod = null;
         return this;
     }
 }

@@ -1,5 +1,9 @@
 Changelog
 =========
+1.9.4
+-------------------
+- Added attribute 'isDefaultTransferMethod' to identify default accounts.
+
 1.9.3
 -----------------
 - Added connection and read timeout support
