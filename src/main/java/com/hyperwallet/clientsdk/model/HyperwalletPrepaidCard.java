@@ -41,6 +41,8 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
     private String userToken;
     private List<HyperwalletLink> links;
     private String replacementOf;
+    private Boolean isDefaultTransferMethod;
+
     private EReplacePrepaidCardReason replacementReason;
 
     public Type getType() {
@@ -358,5 +360,25 @@ public class HyperwalletPrepaidCard extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public Boolean getIsDefaultTransferMethod() {
+        return isDefaultTransferMethod;
+    }
+
+    public void setIsDefaultTransferMethod(Boolean isDefaultTransferMethod) {
+        addField("isDefaultTransferMethod", isDefaultTransferMethod);
+        this.isDefaultTransferMethod = isDefaultTransferMethod;
+    }
+
+    public HyperwalletPrepaidCard isDefaultTransferMethod(Boolean isDefaultTransferMethod) {
+        addField("isDefaultTransferMethod", isDefaultTransferMethod);
+        this.isDefaultTransferMethod = isDefaultTransferMethod;
+        return this;
+    }
+
+    public HyperwalletPrepaidCard clearIsDefaultTransferMethod() {
+        clearField("isDefaultTransferMethod");
+        this.isDefaultTransferMethod = null;
+        return this;
+    }
 
 }

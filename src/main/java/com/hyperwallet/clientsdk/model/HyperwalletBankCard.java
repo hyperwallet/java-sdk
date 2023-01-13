@@ -37,6 +37,8 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
     private String cvv;
     private String userToken;
     private String processingTime;
+    private Boolean isDefaultTransferMethod;
+
     private List<HyperwalletLink> links;
 
     public Type getType() {
@@ -333,5 +335,25 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
         return this;
     }
 
+    public Boolean getIsDefaultTransferMethod() {
+        return isDefaultTransferMethod;
+    }
+
+    public void setIsDefaultTransferMethod(Boolean isDefaultTransferMethod) {
+        addField("isDefaultTransferMethod", isDefaultTransferMethod);
+        this.isDefaultTransferMethod = isDefaultTransferMethod;
+    }
+
+    public HyperwalletBankCard isDefaultTransferMethod(Boolean isDefaultTransferMethod) {
+        addField("isDefaultTransferMethod", isDefaultTransferMethod);
+        this.isDefaultTransferMethod = isDefaultTransferMethod;
+        return this;
+    }
+
+    public HyperwalletBankCard clearIsDefaultTransferMethod() {
+        clearField("isDefaultTransferMethod");
+        this.isDefaultTransferMethod = null;
+        return this;
+    }
 
 }

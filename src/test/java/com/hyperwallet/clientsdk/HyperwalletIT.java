@@ -3322,7 +3322,93 @@ public class HyperwalletIT {
                         +
                         ".eyJzdWIiOiJ1c3ItMmQyZGNlYWMtNDlmNi00YWQwLTk0N2YtMTIwOTIzNzhhMmQyIiwiaWF0IjoxNTQ0ODI5ODA2LCJleHAiOjE1NDQ4MzA0MDYsImF1ZCI6InBndS03YTEyMzJlOC0xNDc5LTQzNzAtOWY1NC03ODc1ZjdiMTg2NmMiLCJpc3MiOiJwcmctY2NhODAyNWUtODVhMy0xMWU2LTg2MGEtNThhZDVlY2NlNjFkIiwicmVzdC11cmkiOiJodHRwczovL3FhbWFzdGVyLWh5cGVyd2FsbGV0LmF3cy5wYXlsdXRpb24ubmV0L3Jlc3QvdjMvIiwiZ3JhcGhxbC11cmkiOiJodHRwczovL3FhbWFzdGVyLWh5cGVyd2FsbGV0LmF3cy5wYXlsdXRpb24ubmV0L2dyYXBocWwifQ.pGOdbYermGhiON5IFKSnXZd6Zj hktMd3WEDOMplYyAeiqVeZGck04eVpsBaXEqYp78NJIs7J5kMX-rPgFYxHpw")));
     }
+    @Test
+    public void testListTransferMethodsDefaultTransfer() throws Exception {
+        String functionality = "listTransferMethodsDefaultTransfer";
+        initMockServer(functionality);
 
+        HyperwalletList<HyperwalletTransferMethod> returnValue;
+        try {
+            String userToken = "usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ae";
+            returnValue = client.listTransferMethods(userToken, null);
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://localhost-hyperwallet.aws.paylution.net:8181/rest/v4/users/usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ae/transfer-methods?limit"
+                        + "=100");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        assertFalse(returnValue.hasNextPage());
+        assertFalse(returnValue.hasPreviousPage());
+
+        HyperwalletTransferMethod cardTransferMethod = returnValue.getData().get(1);
+
+        assertThat(cardTransferMethod.getToken(), is(equalTo("trm-c8e4c164-7d5b-4b5b-8b6a-9c4d68c2a9ff")));
+        assertThat(cardTransferMethod.getType(), is(equalTo(HyperwalletTransferMethod.Type.PREPAID_CARD)));
+        assertThat(cardTransferMethod.getStatus(), is(equalTo(HyperwalletTransferMethod.Status.ACTIVATED)));
+        assertThat(cardTransferMethod.getVerificationStatus(), is(equalTo(VerificationStatus.NOT_REQUIRED)));
+        assertThat(cardTransferMethod.getCreatedOn(), is(equalTo(dateFormat.parse("2022-09-09T18:43:34 UTC"))));
+        assertThat(cardTransferMethod.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(cardTransferMethod.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(cardTransferMethod.getCardType(), is(equalTo(CardType.PERSONALIZED)));
+        assertThat(cardTransferMethod.getCardPackage(), is(equalTo("L1")));
+        assertThat(cardTransferMethod.getCardNumber(), is(equalTo("************4194")));
+        assertThat(cardTransferMethod.getCardBrand(), is(equalTo(Brand.VISA)));
+        assertThat(cardTransferMethod.getDateOfExpiry(), is(equalTo(dateFormat.parse("2025-09-01T00:00:00 UTC"))));
+        assertThat(cardTransferMethod.getIsDefaultTransferMethod(), is(equalTo(Boolean.TRUE)));
+        assertThat(cardTransferMethod.getUserToken(), is(equalTo("usr-321ad2c1-df3f-4a7a-bce4-3e88416b54ae")));
+
+        HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
+        HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+        assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+        assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+    }
+
+    @Test
+    public void testGetPayPalAccountDefaultTransfer() throws Exception {
+        String functionality = "getPayPalAccountDefaultTransfer";
+        initMockServer(functionality);
+
+        HyperwalletPayPalAccount paypalAccount;
+        try {
+            paypalAccount = client.getPayPalAccount("usr-e7b61829-a73a-45dc-930e-afa8a56b923c", "trm-54b0db9c-5565-47f7-aee6-685e713595f4");
+        } catch (Exception e) {
+            mockServer.verify(parseRequest(functionality));
+            throw e;
+        }
+        List<HyperwalletLink> hyperwalletLinks = new ArrayList<>();
+        HyperwalletLink hyperwalletLink = new HyperwalletLink();
+        hyperwalletLink.setHref(
+                "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-e7b61829-a73a-45dc-930e-afa8a56b923c/paypal-accounts/trm-54b0db9c-5565-47f7"
+                        + "-aee6-685e713595f4");
+        Map<String, String> mapParams = new HashMap<>();
+        mapParams.put("rel", "self");
+        hyperwalletLink.setParams(mapParams);
+        hyperwalletLinks.add(hyperwalletLink);
+
+        assertThat(paypalAccount.getToken(), is(equalTo("trm-54b0db9c-5565-47f7-aee6-685e713595f4")));
+        assertThat(paypalAccount.getStatus(), is(equalTo(HyperwalletPayPalAccount.Status.ACTIVATED)));
+        assertThat(paypalAccount.getType(), is(equalTo(HyperwalletPayPalAccount.Type.PAYPAL_ACCOUNT)));
+        assertThat(paypalAccount.getCreatedOn(), is(equalTo(dateFormat.parse("2022-05-01T00:00:00 UTC"))));
+        assertThat(paypalAccount.getTransferMethodCountry(), is(equalTo("US")));
+        assertThat(paypalAccount.getTransferMethodCurrency(), is(equalTo("USD")));
+        assertThat(paypalAccount.getEmail(), is(equalTo("user@domain.com")));
+        assertThat(paypalAccount.getIsDefaultTransferMethod(), is(equalTo(Boolean.TRUE)));
+        if (paypalAccount.getLinks() != null) {
+            HyperwalletLink actualHyperwalletLink = paypalAccount.getLinks().get(0);
+            HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
+            assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
+            assertEquals(actualHyperwalletLink.getParams(), expectedHyperwalletLink.getParams());
+        }
+    }
 
     private void initMockServerWithErrorResponse(String functionality) throws IOException {
         mockServer.reset();
