@@ -1,5 +1,9 @@
 Changelog
 =========
+2.4.5
+-------------------
+- Fix for TestNG is vulnerable to Path Traversal
+
 2.4.4
 -------------------
 - Added attribute 'isDefaultTransferMethod' to identify default accounts.
