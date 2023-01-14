@@ -47,6 +47,7 @@ import java.util.concurrent.TimeUnit;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
+import static org.mockserver.model.Header.header;
 import static org.testng.Assert.fail;
 
 /**
@@ -845,7 +846,31 @@ public class HyperwalletApiClientTest {
     }
 
     @Test
-    public void testPutMultipart_WithError() {
+    public void testPutMultipart_withError_invalidContent() {
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("PUT")
+                        .withPath("/test-user-token")
+                        .withHeaders(
+                                header("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk"),
+                                header("Accept", "application/json"),
+                                header("Content-Type", "multipart/form-data; boundary=--0011010110123111"),
+                                header("User-Agent", "Hyperwallet Java SDK v1.0")
+                        )
+                        .withBody(StringBody.exact("----0011010110123111\r\n"
+                                + "Content-Disposition: form-dataContent-type: json"
+                                + "\r\n{\"documents\":[{\"country\":\"US\",\"type\":\"DRIVERS_LICENSE\",\"category\":\"IDENTIFICATION\"}]}\r\n\r\n"
+                                + "----0011010110123111--\r\n"))
+                ,
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(400)
+                        .withHeader("Content-Type", "application/jose+json")
+                        .withBody("{ \"errors\": [{ \"code\": \"test1\", \"fieldName\": \"test2\", \"message\": \"test3\" }, { \"code\": \"test4\", "
+                                        + "\"message\": \"test5\" }] }")
+        );
+
         try {
             Multipart multipart = new Multipart();
             JSONObject jsonObject = new JSONObject();
@@ -860,23 +885,58 @@ public class HyperwalletApiClientTest {
             fields.put("data", data.toString());
             Multipart.MultipartData formFields = new Multipart.MultipartData("Content-type: json", "Content-Disposition: form-data", fields);
             multipart.add(formFields);
-            hyperwalletApiClient.put("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token", multipart, HyperwalletUser.class);
-        } catch (Exception exception) {
-            assertThat(exception.getMessage(), startsWith("Invalid Content-Type specified in Response Header"));
+
+            hyperwalletApiClient.put(baseUrl +"/test-user-token", multipart, HyperwalletUser.class);
+        } catch (HyperwalletException e) {
+            assertThat(e.getErrorCode(), is(equalTo("test1")));
+            assertThat(e.getErrorMessage(), is(equalTo("test3")));
+            assertThat(e.getResponse(), is(notNullValue()));
         }
     }
 
     @Test
     public void testPutMultipart_WithSucess() {
-        try {
+        mockServer.when(
+                HttpRequest.request()
+                        .withMethod("PUT")
+                        .withPath("/test-user-token")
+                        .withHeaders(
+                                header("Authorization", "Basic dGVzdC11c2VybmFtZTp0ZXN0LXBhc3N3b3Jk"),
+                                header("Accept", "application/json"),
+                                header("Content-Type", "multipart/form-data; boundary=--0011010110123111"),
+                                header("User-Agent", "Hyperwallet Java SDK v1.0")
+                        )
+                        .withBody(StringBody.exact("----0011010110123111\r\n"
+                                + "Content-Disposition: form-dataContent-type: json"
+                                + "\r\n{\"documents\":[{\"country\":\"US\",\"type\":\"DRIVERS_LICENSE\",\"category\":\"IDENTIFICATION\"}]}\r\n\r\n"
+                                + "----0011010110123111--\r\n"))
+                ,
+                Times.exactly(1)
+        ).respond(
+                HttpResponse.response()
+                        .withStatusCode(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("{ \"test1\": \"value1\" }")
+        );
 
-            HyperwalletUser response = hyperwalletApiClient
-                    .put("https://api.sandbox.hyperwallet.com/rest/v4/users/test-user-token", new Multipart(), HyperwalletUser.class);
-            assertThat(response, is(notNullValue()));
-            assertThat(response.getToken(), is(equalTo("test-user-token")));
-            assertThat(response.getDocuments(), is(notNullValue()));
-        } catch (Exception exception) {
-        }
+        Multipart multipart = new Multipart();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("type", "DRIVERS_LICENSE");
+        jsonObject.put("country", "US");
+        jsonObject.put("category", "IDENTIFICATION");
+        List<JSONObject> documents = new ArrayList<>();
+        documents.add(jsonObject);
+        JSONObject data = new JSONObject();
+        data.put("documents", documents);
+        Map<String, String> fields = new HashMap<String, String>();
+        fields.put("data", data.toString());
+        Multipart.MultipartData formFields = new Multipart.MultipartData("Content-type: json", "Content-Disposition: form-data", fields);
+        multipart.add(formFields);
+
+        TestBody body = hyperwalletApiClient.put(baseUrl + "/test-user-token", multipart, TestBody.class);
+        assertThat(body, is(notNullValue()));
+        assertThat(body.test1, is(equalTo("value1")));
+        assertThat(body.test2, is(nullValue()));
     }
 
     @Test
