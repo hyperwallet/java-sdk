@@ -31,6 +31,7 @@ public class HyperwalletPrepaidCardTest extends BaseModelTest<HyperwalletPrepaid
                 .userToken("test-user-token")
                 .replacementOf("replacementOf")
                 .replacementReason(EReplacePrepaidCardReason.DAMAGED)
+                .isDefaultTransferMethod(Boolean.TRUE)
                 .links(hyperwalletLinkList);
         return prepaidCard;
     }

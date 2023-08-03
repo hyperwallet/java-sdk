@@ -86,6 +86,8 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     private String stateProvince;
     private String postalCode;
     private String country;
+    private Boolean isDefaultTransferMethod;
+
     private List<HyperwalletLink> links;
 
     public String getToken() {
@@ -1366,6 +1368,27 @@ public class HyperwalletBankAccount extends HyperwalletBaseMonitor {
     public HyperwalletBankAccount clearLinks() {
         clearField("links");
         this.links = null;
+        return this;
+    }
+
+    public Boolean getIsDefaultTransferMethod() {
+        return isDefaultTransferMethod;
+    }
+
+    public void setIsDefaultTransferMethod(Boolean isDefaultTransferMethod) {
+        addField("isDefaultTransferMethod", isDefaultTransferMethod);
+        this.isDefaultTransferMethod = isDefaultTransferMethod;
+    }
+
+    public HyperwalletBankAccount isDefaultTransferMethod(Boolean isDefaultTransferMethod) {
+        addField("isDefaultTransferMethod", isDefaultTransferMethod);
+        this.isDefaultTransferMethod = isDefaultTransferMethod;
+        return this;
+    }
+
+    public HyperwalletBankAccount clearIsDefaultTransferMethod() {
+        clearField("isDefaultTransferMethod");
+        this.isDefaultTransferMethod = null;
         return this;
     }
 }

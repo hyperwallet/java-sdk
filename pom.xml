@@ -4,7 +4,7 @@
 
     <groupId>com.hyperwallet</groupId>
     <artifactId>sdk</artifactId>
-    <version>2.4.4-SNAPSHOT</version>
+    <version>2.4.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>hyperwallet-java-sdk</name>
@@ -151,7 +151,7 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <scope>test</scope>
-            <version>20200518</version>
+            <version>20230227</version>
         </dependency>
     </dependencies>
 

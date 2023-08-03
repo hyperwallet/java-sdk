@@ -27,7 +27,8 @@ public class HyperwalletBankCardTest extends BaseModelTest<HyperwalletBankCard> 
                 .cvv("cvv")
                 .processingTime("processing-time")
                 .links(hyperwalletLinkList)
-                .userToken("test-user-token");
+                .userToken("test-user-token")
+                .isDefaultTransferMethod(Boolean.TRUE);
         return bankCard;
     }
 
