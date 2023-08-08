@@ -1,0 +1,10 @@
+curl -X "POST" "https://api.sandbox.hyperwallet.com/rest/v4/users/usr-c4292f1a-866f-4310-a289-b916853939ef/venmo-accounts" \
+-u testuser@12345678:myAccPassw0rd \
+-H "Content-Type: application/json" \
+-H "Accept: application/json"  \
+-d "{
+  "type": "VENMO_ACCOUNT",
+  "transferMethodCountry": "US",
+  "transferMethodCurrency": "USD",
+  "accountId": "user@domain.com"
+}"

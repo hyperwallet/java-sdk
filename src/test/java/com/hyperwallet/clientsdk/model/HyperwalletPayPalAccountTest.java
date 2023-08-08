@@ -20,6 +20,7 @@ public class HyperwalletPayPalAccountTest extends BaseModelTest<HyperwalletPayPa
                 .transferMethodCurrency("test-transfer-method-currency")
                 .isDefaultTransferMethod(Boolean.FALSE)
                 .email("test-user-email")
+                .accountId("test-user-accountId")
                 .links(hyperwalletLinkList)
                 .userToken("test-user-token");
         return payPalAccount;

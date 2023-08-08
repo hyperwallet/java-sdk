@@ -27,6 +27,7 @@ public class HyperwalletPayPalAccount extends HyperwalletBaseMonitor {
     private Boolean isDefaultTransferMethod;
     private String email;
     private String userToken;
+    private String accountId;
     private List<HyperwalletLink> links;
 
     public String getToken() {
@@ -194,6 +195,27 @@ public class HyperwalletPayPalAccount extends HyperwalletBaseMonitor {
     public HyperwalletPayPalAccount clearEmail() {
         clearField("email");
         this.email = null;
+        return this;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        addField("accountId", accountId);
+        this.accountId = accountId;
+    }
+
+    public HyperwalletPayPalAccount accountId(String accountId) {
+        addField("accountId", accountId);
+        this.accountId = accountId;
+        return this;
+    }
+
+    public HyperwalletPayPalAccount clearAccountId() {
+        clearField("accountId");
+        this.accountId = null;
         return this;
     }
 
