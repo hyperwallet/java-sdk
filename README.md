@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/hyperwallet/java-sdk/badge.svg?branch=master)](https://coveralls.io/github/hyperwallet/java-sdk?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/com.hyperwallet/sdk.svg)]()
 
-Hyperwallet REST SDK v2.4.3
+Hyperwallet REST SDK v2.4.5
 ===========================
 
 A library to manage users, transfer methods and payments through the Hyperwallet v4 API.
@@ -29,7 +29,7 @@ Installation
 
 **Gradle**
 ```
-compile 'com.hyperwallet:sdk:2.4.3'
+compile 'com.hyperwallet:sdk:2.4.5'
 ```
 
 Documentation
