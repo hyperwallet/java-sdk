@@ -45,7 +45,7 @@ import java.util.List;
 public class HyperwalletEncryption {
 
     private static final String EXPIRATION = "exp";
-    private static final Integer MILLISECONDS_IN_ONE_MINUTE = 60000;
+    private static final Long MILLISECONDS_IN_ONE_MINUTE = 60000;
     private static final Long MILLISECONDS_IN_SECOND = 1000L;
     private static final Integer EXPIRATION_MINUTES = 5;
     private static final JWEAlgorithm ENCRYPTION_ALGORITHM = JWEAlgorithm.RSA_OAEP_256;
