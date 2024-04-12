@@ -1,5 +1,9 @@
 Changelog
 =========
+2.4.6
+-------------------
+- Added support to unclaimed status transition.
+
 2.4.5
 -------------------
 - Added field 'accountId' to PayPal.
