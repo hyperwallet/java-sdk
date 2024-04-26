@@ -151,7 +151,7 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <scope>test</scope>
-            <version>20230227</version>
+            <version>20240205</version>
         </dependency>
     </dependencies>
 
