@@ -16,7 +16,7 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
 
     private String token;
     private String status;
-
+    private String reasonCode;
     private Date createdOn;
     private Double amount;
     private String currency;
@@ -70,6 +70,27 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     public HyperwalletPayment clearStatus() {
         clearField("status");
         status = null;
+        return this;
+    }
+
+     public String getReasonCode() {
+        return this.reasonCode;
+    }
+
+    public void setReasonCode(String reasonCode) {
+        addField("reasonCode", reasonCode);
+        this.reasonCode = reasonCode;
+    }
+
+    public HyperwalletPayment reasonCode(String reasonCode) {
+        addField("reasonCode", reasonCode);
+        this.reasonCode = reasonCode;
+        return this;
+    }
+
+    public HyperwalletPayment clearReasonCode() {
+        clearField("reasonCode");
+        reasonCode = null;
         return this;
     }
 
