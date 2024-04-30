@@ -23,13 +23,13 @@ Installation
 <dependency>
     <groupId>com.hyperwallet</groupId>
     <artifactId>sdk</artifactId>
-    <version>2.4.3</version>
+    <version>2.4.6</version>
 </dependency>
 ```
 
 **Gradle**
 ```
-compile 'com.hyperwallet:sdk:2.4.5'
+compile 'com.hyperwallet:sdk:2.4.6'
 ```
 
 Documentation
@@ -45,7 +45,7 @@ To write an app using the SDK
 
 * Register for a sandbox account and get your username, password and program token at the [Hyperwallet Program Portal](https://portal.hyperwallet.com).
 
-* Add dependency `com.hyperwallet:sdk:2.4.3` to your `pom.xml` (or `build.gradle`).
+* Add dependency `com.hyperwallet:sdk:2.4.6` to your `pom.xml` (or `build.gradle`).
 
 
 * Create a instance of the Hyperwallet Client (with username, password and program token)
