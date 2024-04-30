@@ -267,7 +267,11 @@ public class Request extends Message<Request> {
         } catch (IOException e) {
             response.setBinaryBody(getBinaryFromStream(connection.getErrorStream()));
         }
-        return response;
+        finally {
+            connection.getInputStream().close();
+            return response;
+        }
+
     }
 
     private byte[] getBinaryFromStream(final InputStream is) {
