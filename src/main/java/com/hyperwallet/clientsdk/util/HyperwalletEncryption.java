@@ -106,8 +106,8 @@ public class HyperwalletEncryption {
 
     public String encrypt(String body) throws JOSEException, IOException, ParseException {
 
-        JWK clientPrivateKey = getKeyByAlgorithm(loadKeySet(clientPrivateKeySetLocation), signAlgorithm);
-        JWK hyperwalletPublicKey = getKeyByAlgorithm(loadKeySet(hyperwalletKeySetLocation), encryptionAlgorithm);
+        JWK clientPrivateKey = getKeyByAlgorithm(loadClientPrivateKeySet(), signAlgorithm);
+        JWK hyperwalletPublicKey = getKeyByAlgorithm(loadHyperwalletKeySet(), encryptionAlgorithm);
         JWSSigner jwsSigner = getJWSSigner(clientPrivateKey);
         JWEEncrypter jweEncrypter = getJWEEncrypter(hyperwalletPublicKey);
 
@@ -132,8 +132,8 @@ public class HyperwalletEncryption {
 
     public String decrypt(String body) throws ParseException, IOException, JOSEException {
 
-        JWK privateKeyToDecrypt = getKeyByAlgorithm(loadKeySet(clientPrivateKeySetLocation), encryptionAlgorithm);
-        JWK publicKeyToSign = getKeyByAlgorithm(loadKeySet(hyperwalletKeySetLocation), signAlgorithm);
+        JWK privateKeyToDecrypt = getKeyByAlgorithm(loadClientPrivateKeySet(), encryptionAlgorithm);
+        JWK publicKeyToSign = getKeyByAlgorithm(loadHyperwalletKeySet(), signAlgorithm);
         JWEDecrypter jweDecrypter = getJWEDecrypter(privateKeyToDecrypt);
         JWSVerifier jwsVerifier = getJWSVerifier(publicKeyToSign);
 
@@ -146,6 +146,14 @@ public class HyperwalletEncryption {
             throw new HyperwalletException("JWS signature is incorrect");
         }
         return jwsObject.getPayload().toString();
+    }
+
+    protected JWKSet loadClientPrivateKeySet() throws IOException, ParseException {
+        return loadKeySet(clientPrivateKeySetLocation);
+    }
+
+    protected JWKSet loadHyperwalletKeySet() throws IOException, ParseException {
+        return loadKeySet(hyperwalletKeySetLocation);
     }
 
     public void verifySignatureExpirationDate(Object signatureExpirationDate) {
