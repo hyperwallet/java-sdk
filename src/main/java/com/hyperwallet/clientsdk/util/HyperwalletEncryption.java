@@ -148,10 +148,16 @@ public class HyperwalletEncryption {
         return jwsObject.getPayload().toString();
     }
 
+    /**
+     * Allows clients to implement a custom loading of their private JWK set.
+     */
     protected JWKSet loadClientPrivateKeySet() throws IOException, ParseException {
         return loadKeySet(clientPrivateKeySetLocation);
     }
 
+    /**
+     * Allows clients to implement a custom loading of Hyperwallet public JWK set.
+     */
     protected JWKSet loadHyperwalletKeySet() throws IOException, ParseException {
         return loadKeySet(hyperwalletKeySetLocation);
     }
