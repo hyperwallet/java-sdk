@@ -1,5 +1,11 @@
 Changelog
 =========
+2.4.8
+-------------------
+- Added support to CREDIT, PREPAID, FIS, UNKNOWN bank card types.
+2.4.7
+-------------------
+- Java_jason dependency library bump up
 2.4.6
 -------------------
 - Added support to unclaimed status transition.

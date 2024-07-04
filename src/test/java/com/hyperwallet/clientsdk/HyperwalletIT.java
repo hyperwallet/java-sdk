@@ -664,6 +664,13 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getCardBrand(), is(equalTo(HyperwalletBankCard.Brand.VISA)));
         assertThat(returnValue.getData().get(0).getDateOfExpiry(), is(equalTo(dateFormat.parse("2018-11-01T00:00:00 UTC"))));
         assertThat(returnValue.getData().get(0).getCvv(), is(nullValue()));
+
+        assertThat(returnValue.getData().get(1).getCardType(), is(equalTo(HyperwalletBankCard.CardType.CREDIT)));
+        assertThat(returnValue.getData().get(2).getCardType(), is(equalTo(HyperwalletBankCard.CardType.PREPAID)));
+        assertThat(returnValue.getData().get(3).getCardType(), is(equalTo(HyperwalletBankCard.CardType.FIS)));
+        assertThat(returnValue.getData().get(4).getCardType(), is(equalTo(HyperwalletBankCard.CardType.UNKNOWN)));
+
+
         HyperwalletLink actualHyperwalletLink = returnValue.getLinks().get(0);
         HyperwalletLink expectedHyperwalletLink = hyperwalletLinks.get(0);
         assertThat(actualHyperwalletLink.getHref(), is(equalTo(expectedHyperwalletLink.getHref())));
