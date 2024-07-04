@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class HyperwalletBankCard extends HyperwalletBaseMonitor {
 
     public enum Brand {VISA, MASTERCARD}
-    public enum CardType {DEBIT}
+    public enum CardType {DEBIT, CREDIT, PREPAID, FIS, UNKNOWN}
     public static enum Type {BANK_CARD}
     public static enum Status {ACTIVATED, VERIFIED, INVALID, DE_ACTIVATED}
     private Type type;

@@ -1,5 +1,11 @@
 Changelog
 =========
+1.9.6
+-------------------
+- Added support to CREDIT, PREPAID, FIS, UNKNOWN bank card types.
+1.9.5
+-------------------
+- Added support to unclaimed status transition.
 1.9.4
 -------------------
 - Added attribute 'isDefaultTransferMethod' to identify default accounts.
