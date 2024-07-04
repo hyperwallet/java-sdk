@@ -2,6 +2,13 @@ name: Java SDK CI
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - master
+      - support/SDK-V3
+      - feature/**
+      - bugfix/**
+      - dependabot/**
 
 jobs:
   build:
