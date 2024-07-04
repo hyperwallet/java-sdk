@@ -17,7 +17,7 @@ public class HyperwalletBankCard extends HyperwalletBaseMonitor {
 
     public enum Brand {VISA, MASTERCARD}
 
-    public enum CardType {DEBIT}
+    public enum CardType {DEBIT, CREDIT, PREPAID, FIS, UNKNOWN}
 
     public enum Type {BANK_CARD}
 
