@@ -42,6 +42,86 @@
           "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-cards/trm-7742f31d-452c-4bf7-8645-c003fa1511d5"
         }
       ]
+    },
+    {
+      "token": "trm-7742f31d-452c-4bf7-8645-c003fa151144",
+      "type": "BANK_CARD",
+      "status": "ACTIVATED",
+      "createdOn": "2017-11-09T23:18:34",
+      "transferMethodCountry": "US",
+      "transferMethodCurrency": "USD",
+      "cardType": "CREDIT",
+      "cardNumber": "************0113",
+      "cardBrand": "VISA",
+      "dateOfExpiry": "2018-12",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-cards/trm-7742f31d-452c-4bf7-8645-c003fa151144"
+        }
+      ]
+    },
+    {
+      "token": "trm-7742f31d-452c-4bf7-8645-c003fa151155",
+      "type": "BANK_CARD",
+      "status": "ACTIVATED",
+      "createdOn": "2017-11-09T23:18:34",
+      "transferMethodCountry": "US",
+      "transferMethodCurrency": "USD",
+      "cardType": "PREPAID",
+      "cardNumber": "************0114",
+      "cardBrand": "VISA",
+      "dateOfExpiry": "2018-12",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-cards/trm-7742f31d-452c-4bf7-8645-c003fa151155"
+        }
+      ]
+    },
+    {
+      "token": "trm-7742f31d-452c-4bf7-8645-c003fa151156",
+      "type": "BANK_CARD",
+      "status": "ACTIVATED",
+      "createdOn": "2017-11-09T23:18:34",
+      "transferMethodCountry": "US",
+      "transferMethodCurrency": "USD",
+      "cardType": "FIS",
+      "cardNumber": "************0115",
+      "cardBrand": "VISA",
+      "dateOfExpiry": "2018-12",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-cards/trm-7742f31d-452c-4bf7-8645-c003fa151156"
+        }
+      ]
+    },
+    {
+      "token": "trm-7742f31d-452c-4bf7-8645-c003fa151177",
+      "type": "BANK_CARD",
+      "status": "INVALID",
+      "createdOn": "2017-11-09T23:18:34",
+      "transferMethodCountry": "US",
+      "transferMethodCurrency": "USD",
+      "cardType": "UNKNOWN",
+      "cardNumber": "************0144",
+      "cardBrand": "VISA",
+      "dateOfExpiry": "2018-12",
+      "links": [
+        {
+          "params": {
+            "rel": "self"
+          },
+          "href": "https://api.sandbox.hyperwallet.com/rest/v3/users/usr-c4292f1a-866f-4310-a289-b916853939de/bank-cards/trm-7742f31d-452c-4bf7-8645-c003fa151177"
+        }
+      ]
     }
   ],
   "links": [

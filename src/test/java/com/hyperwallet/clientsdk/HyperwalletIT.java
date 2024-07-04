@@ -463,6 +463,11 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getProcessingTime(), is(nullValue()));
         assertThat(returnValue.getData().get(0).getDateOfExpiry(), is(equalTo(dateFormat.parse("2018-11-01T00:00:00 UTC"))));
         assertThat(returnValue.getData().get(0).getCvv(), is(nullValue()));
+
+        assertThat(returnValue.getData().get(2).getCardType(), is(equalTo(HyperwalletBankCard.CardType.CREDIT)));
+        assertThat(returnValue.getData().get(3).getCardType(), is(equalTo(HyperwalletBankCard.CardType.PREPAID)));
+        assertThat(returnValue.getData().get(4).getCardType(), is(equalTo(HyperwalletBankCard.CardType.FIS)));
+        assertThat(returnValue.getData().get(5).getCardType(), is(equalTo(HyperwalletBankCard.CardType.UNKNOWN)));
     }
 
     @Test
