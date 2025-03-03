@@ -1,42 +1,10 @@
-name: 'Dependency Review'
+name: CodeQL Dependency Review - SCA
 
 on:
-  workflow_call:
-    inputs:
-      timeout-minutes:
-        description: 'Optional override for larger builds'
-        default: 20
-        required: false
-        type: number
-
-permissions:
-  contents: write
-  pull-requests: write
+  pull_request:
+  push:
+  workflow_dispatch:
 
 jobs:
   dependency-review:
-    name: Dependency Review
-    if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: ${{ inputs.timeout-minutes }}
-
-    steps:
-      - name: Validate Input (timeout-minutes)
-        if: ${{ inputs.timeout-minutes > 99 }}
-        shell: bash
-        run: |
-          echo "Invalid input (timeout-minutes), maximum value is 99"
-          exit 1
-
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-  
-      - name: Dependency Review       
-        uses: actions/dependency-review-action@v4
-        with:
-          fail-on-severity: critical
-          fail-on-scopes: runtime
-          comment-summary-in-pr: always
-          show-openssf-scorecard: false
-          license-check: false
-          warn-only: true
+    uses: hyperwallet/public-security-workflows/.github/workflows/dependency-review.yml@main
