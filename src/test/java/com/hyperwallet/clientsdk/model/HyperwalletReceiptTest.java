@@ -54,10 +54,10 @@ public class HyperwalletReceiptTest {
         receipt.setEntry(HyperwalletReceipt.Entry.DEBIT);
         receipt.setSourceToken("test-source-token");
         receipt.setDestinationToken("test-destination-token");
-        receipt.setAmount(10.99);
-        receipt.setFee(1.99);
+        receipt.setAmount("10.99");
+        receipt.setFee("1.99");
         receipt.setCurrency("CAD");
-        receipt.setForeignExchangeRate(0.99);
+        receipt.setForeignExchangeRate("0.99");
         receipt.setForeignExchangeCurrency("USD");
         receipt.setDetails(detailsMap);
         receipt.setLinks(links);
@@ -69,10 +69,10 @@ public class HyperwalletReceiptTest {
         assertThat(receipt.getEntry(), is(equalTo(HyperwalletReceipt.Entry.DEBIT)));
         assertThat(receipt.getSourceToken(), is(equalTo("test-source-token")));
         assertThat(receipt.getDestinationToken(), is(equalTo("test-destination-token")));
-        assertThat(receipt.getAmount(), is(equalTo(10.99)));
-        assertThat(receipt.getFee(), is(equalTo(1.99)));
+        assertThat(receipt.getAmount(), is(equalTo("10.99")));
+        assertThat(receipt.getFee(), is(equalTo("1.99")));
         assertThat(receipt.getCurrency(), is(equalTo("CAD")));
-        assertThat(receipt.getForeignExchangeRate(), is(equalTo(0.99)));
+        assertThat(receipt.getForeignExchangeRate(), is(equalTo("0.99")));
         assertThat(receipt.getForeignExchangeCurrency(), is(equalTo("USD")));
         assertThat(receipt.getDetails(), is(equalTo(detailsMap)));
         assertThat(receipt.getLinks().get(0).getHref(), is(equalTo(link.getHref())));

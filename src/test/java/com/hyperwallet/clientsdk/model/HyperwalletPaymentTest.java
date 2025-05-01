@@ -19,7 +19,7 @@ public class HyperwalletPaymentTest extends BaseModelTest<HyperwalletPayment> {
                 .token("test-token")
                 .reasonCode("PAYEE_ACCOUNT_LIMITATION")
                 .createdOn(new Date())
-                .amount(15.99)
+                .amount("15.99")
                 .currency("test-currency")
                 .memo("test-memo")
                 .notes("test-note")

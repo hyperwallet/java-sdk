@@ -7,7 +7,7 @@ public class HyperwalletBalanceTest extends BaseModelTest<HyperwalletBalance> {
     protected HyperwalletBalance createBaseModel() {
         HyperwalletBalance balance = new HyperwalletBalance();
         balance
-                .amount(15.99)
+                .amount("15.99")
                 .currency("test-currency");
         return balance;
     }

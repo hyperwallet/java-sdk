@@ -18,7 +18,7 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     private String status;
     private String reasonCode;
     private Date createdOn;
-    private Double amount;
+    private String amount;
     private String currency;
     private String notes;
     private String memo;
@@ -136,16 +136,16 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public Double getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(String amount) {
         addField("amount", amount);
         this.amount = amount;
     }
 
-    public HyperwalletPayment amount(Double amount) {
+    public HyperwalletPayment amount(String amount) {
         addField("amount", amount);
         this.amount = amount;
         return this;

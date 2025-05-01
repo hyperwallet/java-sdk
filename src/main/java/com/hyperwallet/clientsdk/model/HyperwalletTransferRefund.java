@@ -21,10 +21,10 @@ public class HyperwalletTransferRefund extends HyperwalletBaseMonitor {
     private Status status;
     private String clientRefundId;
     private String sourceToken;
-    private Double sourceAmount;
+    private String sourceAmount;
     private String sourceCurrency;
     private String destinationToken;
-    private Double destinationAmount;
+    private String destinationAmount;
     private String destinationCurrency;
     private List<ForeignExchange> foreignExchanges;
     private Date createdOn;
@@ -116,16 +116,16 @@ public class HyperwalletTransferRefund extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public Double getSourceAmount() {
+    public String getSourceAmount() {
         return sourceAmount;
     }
 
-    public void setSourceAmount(Double sourceAmount) {
+    public void setSourceAmount(String sourceAmount) {
         addField("sourceAmount", sourceAmount);
         this.sourceAmount = sourceAmount;
     }
 
-    public HyperwalletTransferRefund sourceAmount(Double sourceAmount) {
+    public HyperwalletTransferRefund sourceAmount(String sourceAmount) {
         addField("sourceAmount", sourceAmount);
         this.sourceAmount = sourceAmount;
         return this;
@@ -179,16 +179,16 @@ public class HyperwalletTransferRefund extends HyperwalletBaseMonitor {
         return this;
     }
 
-    public Double getDestinationAmount() {
+    public String getDestinationAmount() {
         return destinationAmount;
     }
 
-    public void setDestinationAmount(Double destinationAmount) {
+    public void setDestinationAmount(String destinationAmount) {
         addField("destinationAmount", destinationAmount);
         this.destinationAmount = destinationAmount;
     }
 
-    public HyperwalletTransferRefund destinationAmount(Double destinationAmount) {
+    public HyperwalletTransferRefund destinationAmount(String destinationAmount) {
         addField("destinationAmount", destinationAmount);
         this.destinationAmount = destinationAmount;
         return this;
