@@ -3189,11 +3189,11 @@ public class HyperwalletTest {
     @Test
     public void testCreateTransfer_successful() throws Exception {
         ForeignExchange foreignExchange = new ForeignExchange();
-        foreignExchange.setSourceAmount(200.0);
+        foreignExchange.setSourceAmount("200.00");
         foreignExchange.setSourceCurrency("USD");
-        foreignExchange.setDestinationAmount(100.0);
+        foreignExchange.setDestinationAmount("100.00");
         foreignExchange.setDestinationCurrency("CAD");
-        foreignExchange.setRate(2.3);
+        foreignExchange.setRate("2.3");
 
         HyperwalletTransfer transfer = new HyperwalletTransfer();
         transfer.setSourceToken("test-source-token");
@@ -3229,22 +3229,22 @@ public class HyperwalletTest {
         assertThat(apiTransfer.getCreatedOn(), is(nullValue()));
         assertThat(apiTransfer.getExpiresOn(), is(nullValue()));
         ForeignExchange foreignExchangeResponse = apiTransfer.getForeignExchanges().get(0);
-        assertThat(foreignExchange.getSourceAmount(), is(equalTo(200.0)));
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo("200.00")));
         assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
-        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(100.0)));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo("100.00")));
         assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
-        assertThat(foreignExchange.getRate(), is(equalTo(2.3)));
+        assertThat(foreignExchange.getRate(), is(equalTo("2.3")));
     }
 
 
     @Test
     public void testCreateTransfer_source_destionation_amounts_more_than_1k_successful() throws Exception {
         ForeignExchange foreignExchange = new ForeignExchange();
-        foreignExchange.setSourceAmount(200.0);
+        foreignExchange.setSourceAmount("200.00");
         foreignExchange.setSourceCurrency("USD");
-        foreignExchange.setDestinationAmount(100.0);
+        foreignExchange.setDestinationAmount("100.00");
         foreignExchange.setDestinationCurrency("CAD");
-        foreignExchange.setRate(2.3);
+        foreignExchange.setRate("2.3");
 
         HyperwalletTransfer transfer = new HyperwalletTransfer();
         transfer.setSourceToken("test-source-token");
@@ -3286,11 +3286,11 @@ public class HyperwalletTest {
         assertThat(apiTransfer.getSourceAmount(), is(equalTo("2,100")));
         assertThat(apiTransfer.getDestinationAmount(), is(equalTo("2,100")));
         ForeignExchange foreignExchangeResponse = apiTransfer.getForeignExchanges().get(0);
-        assertThat(foreignExchange.getSourceAmount(), is(equalTo(200.0)));
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo("200.00")));
         assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
-        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(100.0)));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo("100.00")));
         assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
-        assertThat(foreignExchange.getRate(), is(equalTo(2.3)));
+        assertThat(foreignExchange.getRate(), is(equalTo("2.3")));
     }
 
     @Test
@@ -8694,16 +8694,16 @@ public class HyperwalletTest {
     @Test
     public void testCreateTransferRefund_successful() throws Exception {
         String clientRefundId = "clientRefundId";
-        double sourceAmount = 20.0;
+        String sourceAmount = "20.0";
         String notes = "notes";
         String memo = "memo";
 
         ForeignExchange foreignExchange = new ForeignExchange();
-        foreignExchange.setSourceAmount(200.0);
+        foreignExchange.setSourceAmount("200.00");
         foreignExchange.setSourceCurrency("USD");
-        foreignExchange.setDestinationAmount(100.0);
+        foreignExchange.setDestinationAmount("100.00");
         foreignExchange.setDestinationCurrency("CAD");
-        foreignExchange.setRate(2.3);
+        foreignExchange.setRate("2.3");
 
         HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund();
         transferRefund.setClientRefundId(clientRefundId);
@@ -8738,11 +8738,11 @@ public class HyperwalletTest {
         assertThat(apiTransfer.getStatus(), is(nullValue()));
 
         ForeignExchange foreignExchangeResponse = apiTransfer.getForeignExchanges().get(0);
-        assertThat(foreignExchange.getSourceAmount(), is(equalTo(200.0)));
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo("200.00")));
         assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
-        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(100.0)));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo("100.00")));
         assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
-        assertThat(foreignExchange.getRate(), is(equalTo(2.3)));
+        assertThat(foreignExchange.getRate(), is(equalTo("2.3")));
     }
 
     @Test

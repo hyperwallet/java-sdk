@@ -393,17 +393,17 @@ public class HyperwalletTransfer extends HyperwalletBaseMonitor {
 
     public static class ForeignExchange {
 
-        private Double sourceAmount;
+        private String sourceAmount;
         private String sourceCurrency;
-        private Double destinationAmount;
+        private String destinationAmount;
         private String destinationCurrency;
-        private Double rate;
+        private String rate;
 
-        public Double getSourceAmount() {
+        public String getSourceAmount() {
             return sourceAmount;
         }
 
-        public void setSourceAmount(Double sourceAmount) {
+        public void setSourceAmount(String sourceAmount) {
             this.sourceAmount = sourceAmount;
         }
 
@@ -415,11 +415,11 @@ public class HyperwalletTransfer extends HyperwalletBaseMonitor {
             this.sourceCurrency = sourceCurrency;
         }
 
-        public Double getDestinationAmount() {
+        public String getDestinationAmount() {
             return destinationAmount;
         }
 
-        public void setDestinationAmount(Double destinationAmount) {
+        public void setDestinationAmount(String destinationAmount) {
             this.destinationAmount = destinationAmount;
         }
 
@@ -431,11 +431,11 @@ public class HyperwalletTransfer extends HyperwalletBaseMonitor {
             this.destinationCurrency = destinationCurrency;
         }
 
-        public Double getRate() {
+        public String getRate() {
             return rate;
         }
 
-        public void setRate(Double rate) {
+        public void setRate(String rate) {
             this.rate = rate;
         }
     }

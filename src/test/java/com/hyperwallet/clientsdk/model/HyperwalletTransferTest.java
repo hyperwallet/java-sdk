@@ -9,11 +9,11 @@ public class HyperwalletTransferTest extends BaseModelTest<HyperwalletTransfer> 
     protected HyperwalletTransfer createBaseModel() {
         HyperwalletTransfer transfer = new HyperwalletTransfer();
         HyperwalletTransfer.ForeignExchange foreignExchange = new HyperwalletTransfer.ForeignExchange();
-        foreignExchange.setSourceAmount(200.0);
+        foreignExchange.setSourceAmount("200.00");
         foreignExchange.setSourceCurrency("USD");
-        foreignExchange.setDestinationAmount(100.0);
+        foreignExchange.setDestinationAmount("100.00");
         foreignExchange.setDestinationCurrency("USD");
-        foreignExchange.setRate(2.3);
+        foreignExchange.setRate("2.3");
         List<HyperwalletLink> hyperwalletLinkList = new ArrayList<>();
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLinkList.add(hyperwalletLink);

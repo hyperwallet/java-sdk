@@ -16,20 +16,20 @@ public class HyperwalletTransferRefundTest extends BaseModelTest<HyperwalletTran
         HyperwalletLink hyperwalletLink = new HyperwalletLink();
         hyperwalletLinkList.add(hyperwalletLink);
         ForeignExchange foreignExchange = new ForeignExchange();
-        foreignExchange.setSourceAmount(200.0);
+        foreignExchange.setSourceAmount("200.00");
         foreignExchange.setSourceCurrency("USD");
-        foreignExchange.setDestinationAmount(100.0);
+        foreignExchange.setDestinationAmount("100.00");
         foreignExchange.setDestinationCurrency("CAD");
-        foreignExchange.setRate(2.3);
+        foreignExchange.setRate("2.3");
         HyperwalletTransferRefund transferRefund = new HyperwalletTransferRefund()
                 .token("token")
                 .status(Status.COMPLETED)
                 .clientRefundId("clientRefundId")
                 .sourceToken("sourceToken")
-                .sourceAmount(20.00)
+                .sourceAmount("20.00")
                 .sourceCurrency("USD")
                 .destinationToken("destinationToken")
-                .destinationAmount(20.00)
+                .destinationAmount("20.00")
                 .destinationCurrency("USD")
                 .createdOn(new Date())
                 .notes("notes")
