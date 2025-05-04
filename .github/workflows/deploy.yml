@@ -3,7 +3,7 @@ name: Deploy to Maven Central
 on:
   workflow_dispatch:
   release:
-    types: [published]
+    types: [created]
 
 jobs:
   deploy:
@@ -26,8 +26,8 @@ jobs:
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Deploy with Maven
-        run: mvn clean deploy --batch-mode --no-transfer-progress -Psign-artifacts
+        run: mvn deploy -X
         env:
-          OSSRH_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
+          MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
