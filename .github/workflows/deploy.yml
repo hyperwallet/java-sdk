@@ -16,27 +16,15 @@ jobs:
       - name: Import GPG Key
         run: |
           echo "$GPG_PRIVATE_KEY" | gpg --batch --import
-          KEY_ID=$(gpg --list-secret-keys --with-colons | awk -F: '/^sec:/ { print $5 }')
-          echo "Using GPG key: $KEY_ID"
-          echo "GPG_KEY_ID=$KEY_ID" >> $GITHUB_ENV
-          echo "use-agent" >> ~/.gnupg/gpg.conf
-          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
-          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
-          echo RELOADAGENT | gpg-connect-agent
-        shell: bash
+          gpg --list-secret-keys --keyid-format LONG || echo "No secret keys found"
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
-#      - name: Set up GPG
-#        run: |
-#          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
-#          echo "$GPG_OWNERTRUST" | gpg --batch --import-ownertrust
-#        env:
-#          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-#          GPG_OWNERTRUST: ${{ secrets.GPG_OWNERTRUST }}
-
-#      - name: Verify GPG Key
-#        run: gpg --list-secret-keys --keyid-format LONG
+      - name: Extract GPG Key ID
+        run: |
+          KEY_ID=$(gpg --list-secret-keys --with-colons | awk -F: '/^sec:/ { print $5 }')
+          echo "GPG_KEY_ID=$KEY_ID" >> $GITHUB_ENV
+        shell: bash
 
       - name: Debug GPG Key Import
         run: |
@@ -45,12 +33,13 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
-      - name: Set Default GPG Key and Verify
+      - name: Set Default GPG Key
         run: |
-          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
-          gpg --default-key ${{ secrets.GPG_KEY_ID }} --list-secret-keys --keyid-format LONG
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          echo "default-key ${{ env.GPG_KEY_ID }}" >> ~/.gnupg/gpg.conf
+          echo "use-agent" >> ~/.gnupg/gpg.conf
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+          echo RELOADAGENT | gpg-connect-agent
 
       - name: Set GPG_TTY
         run: echo "GPG_TTY=$(tty)" >> $GITHUB_ENV
