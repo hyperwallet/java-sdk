@@ -13,6 +13,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up GPG
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import-ownertrust
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      - name: Verify GPG Key
+        run: gpg --list-secret-keys --keyid-format LONG
+
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
@@ -25,18 +36,11 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Import GPG key
-        run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
-          echo "use-agent" >> ~/.gnupg/gpg.conf
-          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
-          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
-          echo RELOADAGENT | gpg-connect-agent
-        shell: bash
 
-      - name: Deploy with GPG signing
-        run: mvn clean deploy -Psign-artifacts -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}" -Dgpg.keyname=${{ secrets.GPG_KEY_ID }}
+      - name: Build and Deploy
+        run: mvn clean deploy -Psign-artifacts,central
         env:
+          GPG_TTY: $(tty)
           MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
