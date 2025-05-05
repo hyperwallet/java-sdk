@@ -32,9 +32,12 @@ jobs:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
 
-      - name: Set Default GPG Key
-        run: gpg --default-key ${{ secrets.GPG_KEY_ID }}
-
+      - name: Set Default GPG Key and Verify
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          gpg --default-key ${{ secrets.GPG_KEY_ID }} --list-secret-keys --keyid-format LONG
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
