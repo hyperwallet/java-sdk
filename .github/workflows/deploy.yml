@@ -13,13 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up GPG
-        run: |
-          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
-          echo "$GPG_PRIVATE_KEY" | gpg --batch --import-ownertrust
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-
       - name: Verify GPG Key
         run: gpg --list-secret-keys --keyid-format LONG
 
