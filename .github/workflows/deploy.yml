@@ -13,10 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Verify GPG Key
-        run: gpg --list-secret-keys --keyid-format LONG
-
-
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
@@ -29,9 +25,19 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: Set up GPG
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import-ownertrust
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      - name: Verify GPG Key
+        run: gpg --list-secret-keys --keyid-format LONG
+
 
       - name: Build and Deploy
-        run: mvn clean deploy -Psign-artifacts
+        run: mvn clean deploy -Psign-artifacts,central
         env:
           GPG_TTY: $(tty)
           MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
