@@ -94,6 +94,15 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--batch</arg>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                            <keyname>${env.GPG_KEY_ID}</keyname>
+                            <passphrase>${env.GPG_PASSPHRASE}</passphrase>
+                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.sonatype.central</groupId>
