@@ -38,7 +38,7 @@ jobs:
 
 
       - name: Build and Deploy
-        run: mvn clean deploy -Psign-artifacts,central
+        run: mvn clean deploy -Psign-artifacts
         env:
           GPG_TTY: $(tty)
           MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
