@@ -35,7 +35,7 @@ jobs:
         shell: bash
 
       - name: Deploy with GPG signing
-        run: mvn clean deploy -Psign-artifacts -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}"
+        run: mvn clean deploy -Psign-artifacts -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}" -Dgpg.keyname=${{ secrets.GPG_KEY_ID }}
         env:
           MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
