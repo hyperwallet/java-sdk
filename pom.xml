@@ -85,7 +85,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -97,12 +97,12 @@
                         </executions>
                         <configuration>
                             <gpgArguments>
-                                <arg>--batch</arg>
                                 <arg>--pinentry-mode</arg>
                                 <arg>loopback</arg>
                             </gpgArguments>
-                            <keyname>${env.GPG_KEY_ID}</keyname>
-                            <passphrase>${env.GPG_PASSPHRASE}</passphrase>
+                            <useAgent>false</useAgent>
+                            <passphrase>${gpg.passphrase}</passphrase>
+                            <keyname>${gpg.keyname}</keyname>
                         </configuration>
                     </plugin>
                     <plugin>
