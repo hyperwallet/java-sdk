@@ -71,7 +71,5 @@ jobs:
             -Dgpg.keyname="$GPG_KEY_ID"
         env:
           GPG_TTY: $(tty)
-          MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
