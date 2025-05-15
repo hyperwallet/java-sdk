@@ -1765,11 +1765,11 @@ public class HyperwalletApiClientTest {
                                 "    {\n" +
                                         "      \"token\" : \"pmt-81aad61a-03ff-4995-a2fc-6a6e2d8911af\",\n" +
                                         "      \"createdOn\" : \"2016-11-11T21:57:40\",\n" +
-                                        "      \"amount\" : \"1,707.58\",\n" +
+                                        "      \"amount\" : \"1707.58\",\n" +
                                         "      \"currency\" : \"GBP\",\n" +
                                         "      \"clientPaymentId\" : \"8729\",\n" +
                                         "      \"memo\" : \"Advance Payment for Oct 2016\",\n" +
-                                        "      \"purpose\" : \"OTHER\",\n" +
+                                        "      \"purpose\" : \"OTHER\"\n" +
                                         "      \"expiresOn\" : \"2017-05-10\",\n" +
                                         "      \"destinationToken\" : \"usr-332b1efe-3486-407f-b72b-f74f36723e6d\",\n" +
                                         "      \"programToken\" : \"prg-11f244b9-7ce4-4d8f-a367-614617529b11\",\n" +
