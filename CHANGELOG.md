@@ -1,5 +1,9 @@
 Changelog
 =========
+1.9.7
+-------------------
+- Deprecate Double to String
+-------------------
 1.9.6
 -------------------
 - Added support to CREDIT, PREPAID, FIS, UNKNOWN bank card types.
