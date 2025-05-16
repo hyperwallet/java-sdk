@@ -13,7 +13,7 @@ public class HyperwalletPaymentTest extends BaseModelTest<HyperwalletPayment> {
                 .transition("LOCKED")
                 .token("test-token")
                 .createdOn(new Date())
-                .amount(15.99)
+                .amount("15.99")
                 .currency("test-currency")
                 .memo("test-memo")
                 .notes("test-note")

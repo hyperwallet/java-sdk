@@ -212,13 +212,13 @@ public class HyperwalletReceipt {
 
     private String destinationToken;
 
-    private Double amount;
+    private String amount;
 
-    private Double fee;
+    private String fee;
 
     private String currency;
 
-    private Double foreignExchangeRate;
+    private String foreignExchangeRate;
 
     private String foreignExchangeCurrency;
 
@@ -272,19 +272,19 @@ public class HyperwalletReceipt {
         this.destinationToken = destinationToken;
     }
 
-    public Double getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
-    public Double getFee() {
+    public String getFee() {
         return fee;
     }
 
-    public void setFee(Double fee) {
+    public void setFee(String fee) {
         this.fee = fee;
     }
 
@@ -296,11 +296,11 @@ public class HyperwalletReceipt {
         this.currency = currency;
     }
 
-    public Double getForeignExchangeRate() {
+    public String getForeignExchangeRate() {
         return foreignExchangeRate;
     }
 
-    public void setForeignExchangeRate(Double foreignExchangeRate) {
+    public void setForeignExchangeRate(String foreignExchangeRate) {
         this.foreignExchangeRate = foreignExchangeRate;
     }
 

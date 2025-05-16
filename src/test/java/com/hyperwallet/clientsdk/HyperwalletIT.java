@@ -842,21 +842,21 @@ public class HyperwalletIT {
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getClientTransferId(), is(equalTo("clientTransferId")));
         assertThat(returnValue.getSourceToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getSourceAmount(), is(equalTo(200.4)));
-        assertThat(returnValue.getSourceFeeAmount(), is(equalTo(20.3)));
+        assertThat(returnValue.getSourceAmount(), is(equalTo("200.4")));
+        assertThat(returnValue.getSourceFeeAmount(), is(equalTo("20.3")));
         assertThat(returnValue.getSourceCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getDestinationToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getDestinationAmount(), is(equalTo(100.2)));
-        assertThat(returnValue.getDestinationFeeAmount(), is(equalTo(30.5)));
+        assertThat(returnValue.getDestinationAmount(), is(equalTo("100.2")));
+        assertThat(returnValue.getDestinationFeeAmount(), is(equalTo("30.5")));
         assertThat(returnValue.getDestinationCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getNotes(), is(equalTo("notes")));
         assertThat(returnValue.getMemo(), is(equalTo("memo")));
         assertThat(returnValue.getExpiresOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
-        assertThat(returnValue.getForeignExchanges().get(0).getSourceAmount(), is(equalTo(100.00)));
+        assertThat(returnValue.getForeignExchanges().get(0).getSourceAmount(), is(equalTo("100.00")));
         assertThat(returnValue.getForeignExchanges().get(0).getSourceCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getForeignExchanges().get(0).getDestinationAmount(), is(equalTo(63.49)));
+        assertThat(returnValue.getForeignExchanges().get(0).getDestinationAmount(), is(equalTo("63.49")));
         assertThat(returnValue.getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
+        assertThat(returnValue.getForeignExchanges().get(0).getRate(), is(equalTo("0.79")));
     }
 
     @Test
@@ -877,21 +877,21 @@ public class HyperwalletIT {
         assertThat(returnValue.getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getClientTransferId(), is(equalTo("clientTransferId")));
         assertThat(returnValue.getSourceToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getSourceAmount(), is(equalTo(200.4)));
-        assertThat(returnValue.getSourceFeeAmount(), is(equalTo(20.3)));
+        assertThat(returnValue.getSourceAmount(), is(equalTo("200.4")));
+        assertThat(returnValue.getSourceFeeAmount(), is(equalTo("20.3")));
         assertThat(returnValue.getSourceCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getDestinationToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getDestinationAmount(), is(equalTo(100.2)));
-        assertThat(returnValue.getDestinationFeeAmount(), is(equalTo(30.5)));
+        assertThat(returnValue.getDestinationAmount(), is(equalTo("100.2")));
+        assertThat(returnValue.getDestinationFeeAmount(), is(equalTo("30.5")));
         assertThat(returnValue.getDestinationCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getNotes(), is(equalTo("notes")));
         assertThat(returnValue.getMemo(), is(equalTo("memo")));
         assertThat(returnValue.getExpiresOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
-        assertThat(returnValue.getForeignExchanges().get(0).getSourceAmount(), is(equalTo(100.00)));
+        assertThat(returnValue.getForeignExchanges().get(0).getSourceAmount(), is(equalTo("100.00")));
         assertThat(returnValue.getForeignExchanges().get(0).getSourceCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getForeignExchanges().get(0).getDestinationAmount(), is(equalTo(63.49)));
+        assertThat(returnValue.getForeignExchanges().get(0).getDestinationAmount(), is(equalTo("63.49")));
         assertThat(returnValue.getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
+        assertThat(returnValue.getForeignExchanges().get(0).getRate(), is(equalTo("0.79")));
     }
 
     @Test
@@ -913,21 +913,21 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
         assertThat(returnValue.getData().get(0).getClientTransferId(), is(equalTo("clientTransferId")));
         assertThat(returnValue.getData().get(0).getSourceToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getData().get(0).getSourceAmount(), is(equalTo(200.4)));
-        assertThat(returnValue.getData().get(0).getSourceFeeAmount(), is(equalTo(20.3)));
+        assertThat(returnValue.getData().get(0).getSourceAmount(), is(equalTo("200.4")));
+        assertThat(returnValue.getData().get(0).getSourceFeeAmount(), is(equalTo("20.3")));
         assertThat(returnValue.getData().get(0).getSourceCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getData().get(0).getDestinationToken(), is(equalTo("usr-c4292f1a-866f-4310-a289-b916853939de")));
-        assertThat(returnValue.getData().get(0).getDestinationAmount(), is(equalTo(100.2)));
-        assertThat(returnValue.getData().get(0).getDestinationFeeAmount(), is(equalTo(30.5)));
+        assertThat(returnValue.getData().get(0).getDestinationAmount(), is(equalTo("100.2")));
+        assertThat(returnValue.getData().get(0).getDestinationFeeAmount(), is(equalTo("30.5")));
         assertThat(returnValue.getData().get(0).getDestinationCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getData().get(0).getNotes(), is(equalTo("notes")));
         assertThat(returnValue.getData().get(0).getMemo(), is(equalTo("memo")));
         assertThat(returnValue.getData().get(0).getExpiresOn(), is(equalTo(dateFormat.parse("2017-10-31T22:32:57 UTC"))));
-        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getSourceAmount(), is(equalTo(100.00)));
+        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getSourceAmount(), is(equalTo("100.00")));
         assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getSourceCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getDestinationAmount(), is(equalTo(63.49)));
+        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getDestinationAmount(), is(equalTo("63.49")));
         assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getDestinationCurrency(), is(equalTo("USD")));
-        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getRate(), is(equalTo(0.79)));
+        assertThat(returnValue.getData().get(0).getForeignExchanges().get(0).getRate(), is(equalTo("0.79")));
     }
 
     //
@@ -1413,7 +1413,7 @@ public class HyperwalletIT {
         assertThat(returnValue.getData().get(0).getToken(), is(equalTo("pmt-3ffb5fcc-1c98-48ce-9a6c-e4759933a037")));
         assertThat(returnValue.getData().get(0).getStatus(), is(equalTo("SCHEDULED")));
         assertThat(returnValue.getData().get(0).getCreatedOn(), is(equalTo(dateFormat.parse("2017-10-06T15:03:13 UTC"))));
-        assertThat(returnValue.getData().get(0).getAmount(), is(equalTo(50.00)));
+        assertThat(returnValue.getData().get(0).getAmount(), is(equalTo("50.00")));
         assertThat(returnValue.getData().get(0).getCurrency(), is(equalTo("USD")));
         assertThat(returnValue.getData().get(0).getClientPaymentId(), is(equalTo("gv47LDuf")));
         assertThat(returnValue.getData().get(0).getPurpose(), is(equalTo("OTHER")));
@@ -1632,10 +1632,10 @@ public class HyperwalletIT {
                 .status(HyperwalletTransferRefund.Status.COMPLETED)
                 .clientRefundId("clientRefundId")
                 .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
-                .sourceAmount(20.0)
+                .sourceAmount("20.00")
                 .sourceCurrency("USD")
                 .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
-                .destinationAmount(20.0)
+                .destinationAmount("20.00")
                 .destinationCurrency("USD")
                 .notes("Merchant Payment return to Wallet Balance")
                 .memo("TransferReturn123456")
@@ -1662,11 +1662,11 @@ public class HyperwalletIT {
 
     private void checkForeignExchange(HyperwalletTransferRefund actual, HyperwalletTransferRefund expected) {
         ForeignExchange foreignExchange = actual.getForeignExchanges().get(0);
-        assertThat(foreignExchange.getSourceAmount(), is(equalTo(100.00)));
+        assertThat(foreignExchange.getSourceAmount(), is(equalTo("100.00")));
         assertThat(foreignExchange.getSourceCurrency(), is(equalTo("USD")));
-        assertThat(foreignExchange.getDestinationAmount(), is(equalTo(63.49)));
+        assertThat(foreignExchange.getDestinationAmount(), is(equalTo("63.49")));
         assertThat(foreignExchange.getDestinationCurrency(), is(equalTo("CAD")));
-        assertThat(foreignExchange.getRate(), is(equalTo(0.79)));
+        assertThat(foreignExchange.getRate(), is(equalTo("0.79")));
     }
 
     @Test
@@ -1686,10 +1686,10 @@ public class HyperwalletIT {
                 .status(HyperwalletTransferRefund.Status.COMPLETED)
                 .clientRefundId("1573548663")
                 .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
-                .sourceAmount(50.0)
+                .sourceAmount("50.00")
                 .sourceCurrency("USD")
                 .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
-                .destinationAmount(50.0)
+                .destinationAmount("50.00")
                 .destinationCurrency("USD")
                 .notes("Merchant Payment return to Wallet Balance")
                 .memo("TransferReturn123456")
@@ -1717,10 +1717,10 @@ public class HyperwalletIT {
                 .status(HyperwalletTransferRefund.Status.COMPLETED)
                 .clientRefundId("1573566270")
                 .sourceToken("act-ba4e8fdd-614b-11e5-af23-0faa28ca7c0f")
-                .sourceAmount(50.0)
+                .sourceAmount("50.00")
                 .sourceCurrency("USD")
                 .destinationToken("usr-3deb34a0-ffd1-487d-8860-6d69435cea6c")
-                .destinationAmount(50.0)
+                .destinationAmount("50.00")
                 .destinationCurrency("USD")
                 .notes("Merchant Payment return to Wallet Balance")
                 .memo("TransferReturn123456")
