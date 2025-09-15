@@ -7,4 +7,4 @@ on:
 
 jobs:
   dependency-review:
-    uses: hyperwallet/public-security-workflows/.github/workflows/dependency-review.yml@main
+    uses: hyperwallet/public-security-workflows/commit-status@main
