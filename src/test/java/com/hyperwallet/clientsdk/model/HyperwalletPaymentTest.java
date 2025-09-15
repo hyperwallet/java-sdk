@@ -18,6 +18,9 @@ public class HyperwalletPaymentTest extends BaseModelTest<HyperwalletPayment> {
                 .status("COMPLETED")
                 .token("test-token")
                 .reasonCode("PAYEE_ACCOUNT_LIMITATION")
+                .reasonCodeDescription("The recipient's account is currently under limitation. Any payments made to "
+                        + "this account will be on hold until the issue is resolved. Funds will be returned to your "
+                        + "account if the limitation is not resolved within 30 days of the sent payout.")
                 .createdOn(new Date())
                 .amount("15.99")
                 .currency("test-currency")
