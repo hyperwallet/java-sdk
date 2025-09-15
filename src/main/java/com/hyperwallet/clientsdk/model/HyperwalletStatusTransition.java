@@ -33,6 +33,9 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
     private String notes;
     private List<HyperwalletLink> links;
 
+    private String statusCode;
+    private String statusCodeDescription;
+
     public String getToken() {
         return token;
     }
@@ -185,6 +188,48 @@ public class HyperwalletStatusTransition extends HyperwalletBaseMonitor {
     public HyperwalletStatusTransition clearLinks() {
         clearField("links");
         this.links = null;
+        return this;
+    }
+
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        addField("statusCode", statusCode);
+        this.statusCode = statusCode;
+    }
+
+    public HyperwalletStatusTransition statusCode(String statusCode) {
+        addField("statusCode", statusCode);
+        this.statusCode = statusCode;
+        return this;
+    }
+
+    public HyperwalletStatusTransition clearStatusCode() {
+        clearField("statusCode");
+        this.statusCode = null;
+        return this;
+    }
+
+    public String getStatusCodeDescription() {
+        return statusCodeDescription;
+    }
+
+    public void setStatusCodeDescription(String statusCodeDescription) {
+        addField("statusCodeDescription", statusCodeDescription);
+        this.statusCodeDescription = statusCodeDescription;
+    }
+
+    public HyperwalletStatusTransition statusCodeDescription(String statusCodeDescription) {
+        addField("statusCodeDescription", statusCodeDescription);
+        this.statusCodeDescription = statusCodeDescription;
+        return this;
+    }
+
+    public HyperwalletStatusTransition clearStatusCodeDescription() {
+        clearField("statusCodeDescription");
+        this.statusCodeDescription = null;
         return this;
     }
 }
