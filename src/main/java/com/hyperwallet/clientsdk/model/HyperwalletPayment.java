@@ -17,6 +17,7 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     private String token;
     private String status;
     private String reasonCode;
+    private String reasonCodeDescription;
     private Date createdOn;
     private String amount;
     private String currency;
@@ -343,6 +344,27 @@ public class HyperwalletPayment extends HyperwalletBaseMonitor {
     public HyperwalletPayment clearLinks() {
         clearField("links");
         this.links = null;
+        return this;
+    }
+
+    public String getReasonCodeDescription() {
+        return reasonCodeDescription;
+    }
+
+    public void setReasonCodeDescription(String reasonCodeDescription) {
+        addField("reasonCodeDescription", reasonCodeDescription);
+        this.reasonCodeDescription = reasonCodeDescription;
+    }
+
+    public HyperwalletPayment reasonCodeDescription(String reasonCodeDescription) {
+        addField("reasonCodeDescription", reasonCodeDescription);
+        this.reasonCodeDescription = reasonCodeDescription;
+        return this;
+    }
+
+    public HyperwalletPayment clearReasonCodeDescription() {
+        clearField("reasonCodeDescription");
+        this.reasonCodeDescription = null;
         return this;
     }
 }
