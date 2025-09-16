@@ -238,7 +238,7 @@ public class HyperwalletEncryption {
         }
     }
 
-    private JWSSigner getJWSSigner(JWK jwk) {
+    protected JWSSigner getJWSSigner(JWK jwk) {
         try {
             KeyType kty = jwk.getKeyType();
             if (kty.equals(KeyType.RSA)) {
@@ -253,7 +253,7 @@ public class HyperwalletEncryption {
         }
     }
 
-    private JWEEncrypter getJWEEncrypter(JWK jwk) {
+    protected JWEEncrypter getJWEEncrypter(JWK jwk) {
         try {
             KeyType kty = jwk.getKeyType();
             if (kty.equals(KeyType.RSA)) {
@@ -268,7 +268,7 @@ public class HyperwalletEncryption {
         }
     }
 
-    private JWSVerifier getJWSVerifier(JWK jwk) {
+    protected JWSVerifier getJWSVerifier(JWK jwk) {
         try {
             KeyType kty = jwk.getKeyType();
             if (kty.equals(KeyType.RSA)) {
@@ -283,7 +283,7 @@ public class HyperwalletEncryption {
         }
     }
 
-    private JWEDecrypter getJWEDecrypter(JWK jwk) {
+    protected JWEDecrypter getJWEDecrypter(JWK jwk) {
         try {
             KeyType kty = jwk.getKeyType();
             if (kty.equals(KeyType.RSA)) {
