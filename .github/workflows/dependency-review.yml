@@ -1,10 +1,15 @@
-name: CodeQL Dependency Review - SCA
+name: Dependency Review
 
 on:
-  pull_request:
   push:
+    branches: ['master']
+    
+  pull_request:
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
   dependency-review:
-    uses: hyperwallet/public-security-workflows/commit-status@main
+    uses: hyperwallet/public-security-workflows/.github/workflows/dependency-review.yml@main
+    secrets:
+      DATADOG_API_KEY: ${{ secrets.DATADOG_PAYPAL_QA_TOKEN }}        
