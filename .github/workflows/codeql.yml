@@ -14,6 +14,4 @@ jobs:
       language: java
       build-command: 'none'
       timeout-minutes: 25
-    secrets:
-      DATADOG_API_KEY: ${{ secrets.DATADOG_PAYPAL_QA_TOKEN }} 
-
+      DATADOG_API_KEY: ${{ secrets.DATADOG_PAYPAL_QA_TOKEN }}
