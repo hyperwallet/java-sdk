@@ -9,7 +9,7 @@ jobs:
   codeql-java:
     strategy:
       fail-fast: false
-    uses: hyperwallet/public-security-workflows/.github/workflows/codeql-java.yml@datadog
+    uses: hyperwallet/public-security-workflows/.github/workflows/codeql-java.yml@main
     with:
       language: java
       build-command: 'none'
