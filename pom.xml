@@ -196,7 +196,7 @@
         <mockito.version>3.5.7</mockito.version>
         <protea.http.version>[0.2,)</protea.http.version>
         <jackson.jaxrs.json.provider.version>2.11.2</jackson.jaxrs.json.provider.version>
-        <org.apache.commons.commons-lang3.version>3.11</org.apache.commons.commons-lang3.version>
+        <org.apache.commons.commons-lang3.version>3.18.0</org.apache.commons.commons-lang3.version>
     </properties>
 
     <dependencies>
