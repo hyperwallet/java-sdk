@@ -1,8 +1,11 @@
 name: Dependency Review
 
 on:
-  pull_request:
   push:
+    branches: ['master']
+    
+  pull_request:
+    branches: [ master ]
   workflow_dispatch:
 
 jobs:
