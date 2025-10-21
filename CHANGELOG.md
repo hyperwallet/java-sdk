@@ -1,5 +1,9 @@
 Changelog
 =========
+3.0.3-SNAPSHOT
+-------------------
+- Practice version bump; no functional changes.
+
 3.0.0
 -------------------
 - Deprecate Double to String
