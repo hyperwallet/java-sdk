@@ -259,7 +259,7 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <scope>test</scope>
-            <version>20240205</version>
+            <version>20260719</version>
         </dependency>
     </dependencies>
 
